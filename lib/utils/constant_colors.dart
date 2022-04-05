@@ -13,8 +13,9 @@ class ConstantColors {
   final Color redColor = const Color(0xfff70808);
   // final Color deepPrimaryColor = const Color(0xff0a1a73);
   final Color secondaryColor = const Color(0xff64BA10);
-  final Color greyPrimary = const Color(0xff646464);
-  final Color greySecondary = const Color(0xffa3a3a3);
+  final Color greyPrimary = const Color(0xff101828);
+  final Color greySecondary = const Color(0xff667085);
+  final Color greyThree = const Color(0xffEAECF0);
   final Color dividerColor = const Color(0xffF0F0F0);
   // final Color pinkColor = const Color(0xffc9116d);
   final Color greenColor = const Color(0xff009d48);
