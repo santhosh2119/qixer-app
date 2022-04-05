@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/utils/constant_colors.dart';
+import 'package:qixer/view/utils/constant_colors.dart';
 
 class CommonHelper {
   ConstantColors cc = ConstantColors();

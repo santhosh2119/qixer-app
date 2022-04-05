@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/intro/intro_helper.dart';
-import 'package:qixer/utils/constant_colors.dart';
+import 'package:qixer/view/auth/login.dart';
+import 'package:qixer/view/intro/intro_helper.dart';
+import 'package:qixer/view/utils/constant_colors.dart';
 
 class IntroductionPage extends StatefulWidget {
   const IntroductionPage({Key? key}) : super(key: key);
@@ -142,9 +143,16 @@ class _IntroductionPageState extends State<IntroductionPage> {
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    _pageController.animateToPage(_selectedSlide + 1,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease);
+                    if (_selectedSlide == 2) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    } else {
+                      _pageController.animateToPage(_selectedSlide + 1,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease);
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
