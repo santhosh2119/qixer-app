@@ -6,7 +6,7 @@ class LoginHelper {
   commonButton(String icon, String title) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: cc.greyThree),
+          border: Border.all(color: cc.greyFive),
           borderRadius: BorderRadius.circular(6)),
       alignment: Alignment.center,
       height: 50,
@@ -27,7 +27,7 @@ class LoginHelper {
           ),
           Text(
             title,
-            style: TextStyle(color: cc.greyPrimary),
+            style: TextStyle(color: cc.greyFour),
           ),
         ],
       ),

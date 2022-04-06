@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/auth/login.dart';
 import 'package:qixer/view/intro/intro_helper.dart';
+import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 class IntroductionPage extends StatefulWidget {
@@ -64,15 +65,10 @@ class _IntroductionPageState extends State<IntroductionPage> {
                         const SizedBox(
                           height: 7,
                         ),
-                        Text(
-                          IntroHelper().geSubTitle(i),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: cc.greySecondary,
-                            height: 1.5,
-                            fontSize: 16,
-                          ),
-                        ),
+
+                        // Subtitle =============>
+                        CommonHelper().paragraphCommon(
+                            IntroHelper().geSubTitle(i), TextAlign.center)
                       ],
                     ),
                   );
@@ -123,7 +119,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 17),
+                        horizontal: 15, vertical: 16),
                     decoration: BoxDecoration(
                         border: Border.all(color: cc.primaryColor, width: 1.5),
                         borderRadius: BorderRadius.circular(7)),
@@ -154,21 +150,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
                           curve: Curves.ease);
                     }
                   },
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 17),
-                    decoration: BoxDecoration(
-                        color: cc.primaryColor,
-                        borderRadius: BorderRadius.circular(7)),
-                    child: const Text(
-                      'Continue',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
+                  child: CommonHelper().buttonOrange('Continue'),
                 ),
               ),
             ],

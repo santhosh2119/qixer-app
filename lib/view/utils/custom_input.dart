@@ -29,7 +29,6 @@ class CustomInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 50,
         margin: const EdgeInsets.only(bottom: 19),
         decoration: BoxDecoration(
             // color: const Color(0xfff2f2f2),
@@ -59,7 +58,7 @@ class CustomInput extends StatelessWidget {
                 ],
               ),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: ConstantColors().greyThree),
+                  borderSide: BorderSide(color: ConstantColors().greyFive),
                   borderRadius: BorderRadius.circular(9)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: ConstantColors().primaryColor)),
@@ -69,7 +68,7 @@ class CustomInput extends StatelessWidget {
                   borderSide: BorderSide(color: ConstantColors().primaryColor)),
               hintText: hintText,
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 15)),
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 18)),
         ));
   }
 }
