@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/auth/login_helper.dart';
+import 'package:qixer/view/auth/reset_password/reset_pass_otp_pass.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
 import '../../utils/constant_colors.dart';
@@ -91,14 +92,13 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
                       InkWell(
                         onTap: () {
                           if (_formKey.currentState!.validate()) {}
-
-                          // Navigator.pushReplacement<void, void>(
-                          //   context,
-                          //   MaterialPageRoute<void>(
-                          //     builder: (BuildContext context) =>
-                          //         const LandingPage(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const ResetPassOtpPage(),
+                            ),
+                          );
                         },
                         child: CommonHelper().buttonOrange('Send Instructions'),
                       ),

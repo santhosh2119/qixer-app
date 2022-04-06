@@ -17,7 +17,7 @@ class ConstantColors {
   final Color greyParagraph = const Color(0xff667085);
   final Color greyThree = const Color(0xff344054);
   final Color greyFour = const Color(0xff475467);
-  final Color greyFive = const Color(0xffEAECF0);
+  final Color greyFive = const Color(0xffD0D5DD);
   final Color dividerColor = const Color(0xffF0F0F0);
   // final Color pinkColor = const Color(0xffc9116d);
   final Color greenColor = const Color(0xff009d48);

@@ -219,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.pushReplacement<void, void>(
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(
                                   builder: (BuildContext context) =>
@@ -227,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               );
                             },
-                            child: Container(
+                            child: SizedBox(
                               width: 122,
                               child: Text(
                                 "Forgot Password?",
