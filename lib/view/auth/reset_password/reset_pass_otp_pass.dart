@@ -41,13 +41,7 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                 ),
               ),
             ),
-            Text(
-              "Enter the 4 digit code",
-              style: TextStyle(
-                  color: cc.greyPrimary,
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold),
-            ),
+            CommonHelper().titleCommon("Enter the 4 digit code"),
             const SizedBox(
               height: 13,
             ),

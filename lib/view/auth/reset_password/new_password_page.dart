@@ -61,13 +61,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                       const SizedBox(
                         height: 33,
                       ),
-                      Text(
-                        "Enter new password",
-                        style: TextStyle(
-                            color: cc.greyPrimary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      CommonHelper().titleCommon("Enter new password"),
                       const SizedBox(
                         height: 13,
                       ),

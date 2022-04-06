@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/auth/login_helper.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_email_page.dart';
+import 'package:qixer/view/auth/signup/signup.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
 import '../utils/constant_colors.dart';
@@ -275,11 +276,11 @@ class _LoginPageState extends State<LoginPage> {
                                 TextSpan(
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             const SignUpPage()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SignupPage()));
                                       },
                                     text: 'Register',
                                     style: TextStyle(

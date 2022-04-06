@@ -62,4 +62,12 @@ class CommonHelper {
       ),
     );
   }
+
+  titleCommon(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+          color: cc.greyPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+    );
+  }
 }
