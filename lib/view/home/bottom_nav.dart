@@ -13,7 +13,7 @@ class BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
-    return Container(
+    return SizedBox(
       height: 70,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

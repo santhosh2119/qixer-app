@@ -87,13 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 33,
                       ),
-                      Text(
-                        "Welcome back! Login",
-                        style: TextStyle(
-                            color: cc.greyPrimary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      CommonHelper().titleCommon("Welcome back! Login"),
 
                       const SizedBox(
                         height: 33,
