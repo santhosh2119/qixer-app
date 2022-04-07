@@ -36,7 +36,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
     return Scaffold(
-      appBar: CommonHelper().appbarCommon('Change password'),
+      appBar: CommonHelper().appbarCommon('Change password', context),
       backgroundColor: Colors.white,
       body: Listener(
         onPointerDown: (_) {

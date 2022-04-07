@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/signup/signup_email_name.dart';
-import 'package:qixer/view/auth/signup/signup_phone_pass.dart';
+import 'package:qixer/view/auth/signup/pages/signup_country_states.dart';
+import 'package:qixer/view/auth/signup/pages/signup_email_name.dart';
+import 'package:qixer/view/auth/signup/pages/signup_phone_pass.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
@@ -30,7 +31,7 @@ class _SignupPageState extends State<SignupPage> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarCommon(''),
+        appBar: CommonHelper().appbarCommon('', context),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const SizedBox(
             height: 5,
@@ -114,7 +115,7 @@ class _SignupPageState extends State<SignupPage> {
                       } else if (i == 1) {
                         return const SignupPhonePass();
                       } else {
-                        return const SignupEmailName();
+                        return const SignupCountryStates();
                       }
                     }),
               ),

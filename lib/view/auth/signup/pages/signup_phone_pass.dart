@@ -1,12 +1,9 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/login_helper.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:qixer/view/auth/reset_password/reset_pass_otp_pass.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
-
-import '../../utils/constant_colors.dart';
-import '../../utils/custom_input.dart';
-import '../reset_password/reset_pass_otp_pass.dart';
+import 'package:qixer/view/utils/constant_colors.dart';
 
 class SignupPhonePass extends StatefulWidget {
   const SignupPhonePass({Key? key}) : super(key: key);
@@ -43,7 +40,37 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-//New password =========================>
+            //Phone number field
+            CommonHelper().labelCommon("Phone"),
+            IntlPhoneField(
+              decoration: InputDecoration(
+                  labelText: 'Phone Number',
+                  labelStyle: TextStyle(color: cc.greyFour, fontSize: 14),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ConstantColors().greyFive),
+                      borderRadius: BorderRadius.circular(9)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: ConstantColors().primaryColor)),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: ConstantColors().redColor)),
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: ConstantColors().primaryColor)),
+                  hintText: 'Enter password',
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 18)),
+              initialCountryCode: 'IN',
+              onChanged: (phone) {
+                print(phone.completeNumber);
+              },
+            ),
+
+            const SizedBox(
+              height: 10,
+            ),
+
+            //New password =========================>
             CommonHelper().labelCommon("Password"),
 
             Container(
@@ -190,13 +217,15 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
             ),
             InkWell(
               onTap: () {
-                if (_formKey.currentState!.validate()) {}
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ResetPassOtpPage(),
-                  ),
-                );
+                if (_formKey.currentState!.validate()) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          const ResetPassOtpPage(),
+                    ),
+                  );
+                }
               },
               child: CommonHelper().buttonOrange('Continue'),
             ),

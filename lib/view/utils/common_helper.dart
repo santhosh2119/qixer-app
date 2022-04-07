@@ -4,7 +4,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 class CommonHelper {
   ConstantColors cc = ConstantColors();
   //common appbar
-  appbarCommon(String title) {
+  appbarCommon(String title, BuildContext context) {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
@@ -15,9 +15,14 @@ class CommonHelper {
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: const Icon(
-        Icons.arrow_back_ios,
-        size: 18,
+      leading: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Icon(
+          Icons.arrow_back_ios,
+          size: 18,
+        ),
       ),
     );
   }

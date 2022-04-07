@@ -1,13 +1,10 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/auth/login_helper.dart';
-import 'package:qixer/view/auth/reset_password/reset_pass_email_page.dart';
-import 'package:qixer/view/auth/signup/signup.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
+import 'package:qixer/view/utils/custom_input.dart';
 
-import '../../utils/constant_colors.dart';
-import '../../utils/custom_input.dart';
+import '../../../utils/constant_colors.dart';
 
 class SignupEmailName extends StatefulWidget {
   const SignupEmailName({Key? key}) : super(key: key);

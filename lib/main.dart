@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/intro/introduction_page.dart';
 
 void main() {
@@ -13,13 +15,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Qixer',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CountryStatesService()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Qixer',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const IntroductionPage(),
       ),
-      home: const IntroductionPage(),
     );
   }
 }
