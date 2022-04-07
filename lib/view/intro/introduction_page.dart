@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/login.dart';
+import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/intro/intro_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';

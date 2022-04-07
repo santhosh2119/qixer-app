@@ -1,12 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/login_helper.dart';
+import 'package:qixer/view/auth/login/login_helper.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_email_page.dart';
 import 'package:qixer/view/auth/signup/signup.dart';
 import 'package:qixer/view/utils/common_helper.dart';
+import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/custom_input.dart';
 
-import '../utils/constant_colors.dart';
-import '../utils/custom_input.dart';
+import '../../home/landing_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -250,13 +251,13 @@ class _LoginPageState extends State<LoginPage> {
                         onTap: () {
                           if (_formKey.currentState!.validate()) {}
 
-                          // Navigator.pushReplacement<void, void>(
-                          //   context,
-                          //   MaterialPageRoute<void>(
-                          //     builder: (BuildContext context) =>
-                          //         const LandingPage(),
-                          //   ),
-                          // );
+                          Navigator.pushReplacement<void, void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const LandingPage(),
+                            ),
+                          );
                         },
                         child: CommonHelper().buttonOrange("Login"),
                       ),

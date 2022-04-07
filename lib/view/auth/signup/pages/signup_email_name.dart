@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/signup_service.dart';
-import 'package:qixer/view/auth/login_helper.dart';
+import 'package:qixer/view/auth/login/login_helper.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/custom_input.dart';
