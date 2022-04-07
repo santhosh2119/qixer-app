@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/intro/introduction_page.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CountryStatesService()),
+        ChangeNotifierProvider(create: (_) => SignupService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

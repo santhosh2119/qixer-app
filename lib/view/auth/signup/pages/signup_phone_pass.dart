@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_otp_pass.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -215,19 +217,22 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
             const SizedBox(
               height: 13,
             ),
-            InkWell(
-              onTap: () {
-                if (_formKey.currentState!.validate()) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const ResetPassOtpPage(),
-                    ),
-                  );
-                }
-              },
-              child: CommonHelper().buttonOrange('Continue'),
+            Consumer<SignupService>(
+              builder: (context, provider, child) => InkWell(
+                onTap: () {
+                  // if (_formKey.currentState!.validate()) {
+                  //   provider.pagecontroller.animateToPage(
+                  //     provider.selectedPage + 1,
+                  //     duration: const Duration(milliseconds: 300),
+                  //     curve: Curves.ease);
+                  // }
+                  provider.pagecontroller.animateToPage(
+                      provider.selectedPage + 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease);
+                },
+                child: CommonHelper().buttonOrange('Continue'),
+              ),
             ),
 
             const SizedBox(

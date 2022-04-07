@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -240,16 +241,18 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
             const SizedBox(
               height: 17,
             ),
-            InkWell(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) => const ResetPassOtpPage(),
-                //   ),
-                // );
-              },
-              child: CommonHelper().buttonOrange('Sign Up'),
+            Consumer<SignupService>(
+              builder: (context, provider, child) => InkWell(
+                onTap: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute<void>(
+                  //     builder: (BuildContext context) => const ResetPassOtpPage(),
+                  //   ),
+                  // );
+                },
+                child: CommonHelper().buttonOrange('Sign Up'),
+              ),
             ),
 
             const SizedBox(
