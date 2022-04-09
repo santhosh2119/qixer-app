@@ -13,7 +13,7 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 5),
-      height: 130,
+      height: 125,
       child: ListView(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -57,7 +57,7 @@ class Categories extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: cc.greyFour,
-                        fontSize: 14,
+                        fontSize: 13,
                         height: 1.4,
                         fontWeight: FontWeight.w400,
                       ),

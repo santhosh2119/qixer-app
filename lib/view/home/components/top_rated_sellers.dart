@@ -67,7 +67,7 @@ class TopRatedSellers extends StatelessWidget {
                                       border: Border.all(
                                           color: Colors.white, width: 2),
                                       color: const Color(0xffFFC300),
-                                      borderRadius: BorderRadius.circular(3)),
+                                      borderRadius: BorderRadius.circular(4)),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 6, vertical: 4),
                                   child: Row(children: [
@@ -181,7 +181,7 @@ class TopRatedSellers extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: cc.greyFour,
-                                  fontSize: 20,
+                                  fontSize: 19,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

@@ -22,7 +22,7 @@ class SectionTitle extends StatelessWidget {
           title,
           style: TextStyle(
             color: cc.greyFour,
-            fontSize: 18,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
           ),
         ),

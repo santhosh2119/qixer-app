@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qixer/view/home/components/categories.dart';
+import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_sellers.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -147,6 +148,33 @@ class _HomepageState extends State<Homepage> {
                     ),
 
                     TopRatedSellers(cc: cc),
+
+                    //Discount images
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Discounts(cc: cc),
+
+                    //Top rated sellers ========>
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    SectionTitle(
+                      cc: cc,
+                      title: 'Recently listed',
+                      pressed: () {},
+                    ),
+
+                    const SizedBox(
+                      height: 18,
+                    ),
+
+                    TopRatedSellers(cc: cc),
+
+                    //Discount images
+                    const SizedBox(
+                      height: 25,
+                    ),
                   ],
                 ),
               ),
