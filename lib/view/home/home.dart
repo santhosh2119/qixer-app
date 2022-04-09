@@ -157,7 +157,7 @@ class _HomepageState extends State<Homepage> {
 
                     //Top rated sellers ========>
                     const SizedBox(
-                      height: 35,
+                      height: 30,
                     ),
                     SectionTitle(
                       cc: cc,

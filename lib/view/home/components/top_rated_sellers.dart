@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
@@ -26,7 +27,15 @@ class TopRatedSellers extends StatelessWidget {
             InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const ServiceDetailsPage(),
+                  ),
+                );
+              },
               child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width - 85,
