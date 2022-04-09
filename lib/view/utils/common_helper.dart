@@ -75,4 +75,12 @@ class CommonHelper {
           color: cc.greyPrimary, fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
+
+  dividerCommon() {
+    return Divider(
+      thickness: 1.3,
+      height: 2,
+      color: cc.borderColor,
+    );
+  }
 }

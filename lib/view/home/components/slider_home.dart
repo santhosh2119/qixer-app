@@ -75,7 +75,7 @@ class SliderHome extends StatelessWidget {
                               primary: cc.greyFour,
                               shadowColor: Colors.transparent),
                           onPressed: () {},
-                          child: Text('Get now'))
+                          child: const Text('Get now'))
                     ],
                   ),
                 ))

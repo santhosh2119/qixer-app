@@ -20,7 +20,7 @@ class SearchBar extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.only(bottom: 19),
         decoration: BoxDecoration(
-            color: const Color(0xfff2f2f2),
+            color: const Color(0xffF5F5F5),
             borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
           controller: searchController,
