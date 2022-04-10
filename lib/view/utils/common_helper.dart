@@ -81,7 +81,7 @@ class CommonHelper {
 
   dividerCommon() {
     return Divider(
-      thickness: 1.3,
+      thickness: 1,
       height: 2,
       color: cc.borderColor,
     );

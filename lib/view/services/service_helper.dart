@@ -26,4 +26,27 @@ class ServiceHelper {
       ),
     );
   }
+
+  serviceDetails(String title1, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: TextStyle(
+            color: cc.greyParagraph,
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Text(
+          value,
+          style: TextStyle(
+              color: cc.greyPrimary, fontSize: 17, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
 }

@@ -55,9 +55,13 @@ class OverviewTab extends StatelessWidget {
         for (int i = 0; i < 3; i++)
           ServiceHelper().checkListCommon('Face+Body massage free'),
 
-//Button
         const SizedBox(
           height: 20,
+        ),
+        CommonHelper().dividerCommon(),
+//Button
+        const SizedBox(
+          height: 30,
         ),
         CommonHelper().buttonOrange("Book Appointment", () {}),
       ]),
