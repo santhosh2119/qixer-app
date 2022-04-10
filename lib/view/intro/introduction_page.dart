@@ -150,7 +150,20 @@ class _IntroductionPageState extends State<IntroductionPage> {
                           curve: Curves.ease);
                     }
                   },
-                  child: CommonHelper().buttonOrange("Continue", () {}),
+                  child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      decoration: BoxDecoration(
+                          color: cc.primaryColor,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: const Text(
+                        'Continue',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                      )),
                 ),
               ),
             ],

@@ -241,20 +241,17 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      InkWell(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {}
+                      CommonHelper().buttonOrange("Login", () {
+                        if (_formKey.currentState!.validate()) {}
 
-                          Navigator.pushReplacement<void, void>(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const LandingPage(),
-                            ),
-                          );
-                        },
-                        child: CommonHelper().buttonOrange("Login", () {}),
-                      ),
+                        Navigator.pushReplacement<void, void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const LandingPage(),
+                          ),
+                        );
+                      }),
 
                       const SizedBox(
                         height: 25,

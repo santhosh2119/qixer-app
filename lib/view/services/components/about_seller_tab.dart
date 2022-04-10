@@ -51,9 +51,19 @@ class AboutSellerTab extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Order Completed (6)',
+                      'Order Completed',
                       style: TextStyle(
                         color: cc.primaryColor,
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '(6)',
+                      style: TextStyle(
+                        color: cc.greyParagraph,
                         fontSize: 12,
                       ),
                     ),
