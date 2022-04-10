@@ -98,7 +98,8 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
                             ),
                           );
                         },
-                        child: CommonHelper().buttonOrange('Send Instructions'),
+                        child: CommonHelper()
+                            .buttonOrange("Send Instructions", () {}),
                       ),
 
                       const SizedBox(

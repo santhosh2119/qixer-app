@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: CommonHelper().buttonOrange("Login"),
+                        child: CommonHelper().buttonOrange("Login", () {}),
                       ),
 
                       const SizedBox(

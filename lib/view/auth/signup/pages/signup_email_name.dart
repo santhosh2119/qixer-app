@@ -117,7 +117,7 @@ class _SignupEmailNameState extends State<SignupEmailName> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
                 },
-                child: CommonHelper().buttonOrange("Continue"),
+                child: CommonHelper().buttonOrange("Continue", () {}),
               ),
             ),
 

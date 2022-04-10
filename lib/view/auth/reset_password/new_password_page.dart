@@ -229,7 +229,8 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                             ),
                           );
                         },
-                        child: CommonHelper().buttonOrange('Change password'),
+                        child: CommonHelper()
+                            .buttonOrange("Change password", () {}),
                       ),
 
                       const SizedBox(

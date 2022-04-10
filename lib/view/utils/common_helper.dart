@@ -28,18 +28,21 @@ class CommonHelper {
   }
 
   //common orange button =======>
-  buttonOrange(String title) {
-    return Container(
-        width: double.infinity,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        decoration: BoxDecoration(
-            color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
-        child: Text(
-          title,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
-        ));
+  buttonOrange(String title, VoidCallback pressed) {
+    return InkWell(
+      onTap: pressed,
+      child: Container(
+          width: double.infinity,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          decoration: BoxDecoration(
+              color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
+          child: Text(
+            title,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+          )),
+    );
   }
 
   labelCommon(String title) {

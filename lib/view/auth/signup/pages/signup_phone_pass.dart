@@ -231,7 +231,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
                 },
-                child: CommonHelper().buttonOrange('Continue'),
+                child: CommonHelper().buttonOrange("Continue", () {}),
               ),
             ),
 

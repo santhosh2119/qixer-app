@@ -150,7 +150,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
                           curve: Curves.ease);
                     }
                   },
-                  child: CommonHelper().buttonOrange('Continue'),
+                  child: CommonHelper().buttonOrange("Continue", () {}),
                 ),
               ),
             ],

@@ -252,7 +252,7 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                     ),
                   );
                 },
-                child: CommonHelper().buttonOrange('Sign Up'),
+                child: CommonHelper().buttonOrange("Sign Up", () {}),
               ),
             ),
 
