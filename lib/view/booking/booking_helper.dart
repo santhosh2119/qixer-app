@@ -1,0 +1,3 @@
+class BookingHelper {
+  List stepTitle = [];
+}

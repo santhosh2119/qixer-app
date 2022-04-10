@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
+import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -41,52 +42,6 @@ class _BookingLocationPageState extends State<BookingLocationPage> {
                 //Circular Progress bar
                 Steps(cc: cc),
 
-                const SizedBox(
-                  height: 17,
-                ),
-
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                        placeholder: (context, url) {
-                          return Image.asset('assets/images/placeholder.png');
-                        },
-                        height: 60,
-                        width: 60,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Flexible(
-                      child: Text(
-                        'Women Beauty Care Service with Expert Beautician',
-                        style: TextStyle(
-                          color: cc.greyFour,
-                          fontSize: 18,
-                          height: 1.4,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                CommonHelper().dividerCommon(),
-
-                const SizedBox(
-                  height: 20,
-                ),
                 CommonHelper().titleCommon('Booking informations'),
 
                 const SizedBox(
@@ -286,10 +241,11 @@ class _BookingLocationPageState extends State<BookingLocationPage> {
                   height: 27,
                 ),
                 CommonHelper().buttonOrange("Next", () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const LandingPage(),
+                      builder: (BuildContext context) =>
+                          const ServicePersonalizationPage(),
                     ),
                   );
                 }),
