@@ -72,8 +72,7 @@ class SliderHome extends StatelessWidget {
                       ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: cc.greyFour,
-                              shadowColor: Colors.transparent),
+                              primary: cc.greyFour, elevation: 0),
                           onPressed: () {},
                           child: const Text('Get now'))
                     ],

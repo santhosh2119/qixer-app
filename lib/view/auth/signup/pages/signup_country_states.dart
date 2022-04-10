@@ -243,17 +243,15 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
               height: 17,
             ),
             Consumer<SignupService>(
-              builder: (context, provider, child) => InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const LandingPage(),
-                    ),
-                  );
-                },
-                child: CommonHelper().buttonOrange("Sign Up", () {}),
-              ),
+              builder: (context, provider, child) =>
+                  CommonHelper().buttonOrange("Sign Up", () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const LandingPage(),
+                  ),
+                );
+              }),
             ),
 
             const SizedBox(

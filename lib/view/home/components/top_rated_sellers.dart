@@ -212,8 +212,7 @@ class TopRatedSellers extends StatelessWidget {
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: cc.primaryColor,
-                                shadowColor: Colors.transparent),
+                                primary: cc.primaryColor, elevation: 0),
                             onPressed: () {},
                             child: const Text(
                               'Book Now',
