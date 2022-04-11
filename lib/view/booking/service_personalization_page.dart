@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/view/booking/components/extras.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -49,6 +50,12 @@ class _ServicePersonalizationPageState
                 ),
 
                 for (int i = 0; i < 2; i++) Quantity(cc: cc),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                Extras(cc: cc),
 
                 //Login button ==================>
                 const SizedBox(
