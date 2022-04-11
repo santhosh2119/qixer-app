@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/service_helper.dart';
 import '../../utils/common_helper.dart';
 import '../../utils/constant_colors.dart';
 
@@ -133,13 +134,22 @@ class _ExtrasState extends State<Extras> {
                                 Icons.check_circle,
                                 color: widget.cc.primaryColor,
                               ))
-                          : Container()
+                          : Container(),
                     ],
                   ),
-                )
+                ),
             ],
           ),
-        )
+        ),
+        const SizedBox(
+          height: 27,
+        ),
+        CommonHelper().titleCommon('Benifits of the Package:'),
+        const SizedBox(
+          height: 17,
+        ),
+        for (int i = 0; i < 3; i++)
+          ServiceHelper().checkListCommon('High Quality Products')
       ],
     );
   }

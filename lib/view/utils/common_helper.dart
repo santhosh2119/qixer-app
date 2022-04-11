@@ -75,7 +75,7 @@ class CommonHelper {
     return Text(
       title,
       style: TextStyle(
-          color: cc.greyPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+          color: cc.greyFour, fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 

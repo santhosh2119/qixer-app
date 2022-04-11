@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/booking/components/extras.dart';
+import 'package:qixer/view/booking/service_schedule_page.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -62,10 +63,11 @@ class _ServicePersonalizationPageState
                   height: 27,
                 ),
                 CommonHelper().buttonOrange("Next", () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const LandingPage(),
+                      builder: (BuildContext context) =>
+                          const ServiceSchedulePage(),
                     ),
                   );
                 }),

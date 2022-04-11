@@ -218,21 +218,18 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
               height: 13,
             ),
             Consumer<SignupService>(
-              builder: (context, provider, child) => InkWell(
-                onTap: () {
-                  // if (_formKey.currentState!.validate()) {
-                  //   provider.pagecontroller.animateToPage(
-                  //     provider.selectedPage + 1,
-                  //     duration: const Duration(milliseconds: 300),
-                  //     curve: Curves.ease);
-                  // }
-                  provider.pagecontroller.animateToPage(
-                      provider.selectedPage + 1,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.ease);
-                },
-                child: CommonHelper().buttonOrange("Continue", () {}),
-              ),
+              builder: (context, provider, child) =>
+                  CommonHelper().buttonOrange("Continue", () {
+                // if (_formKey.currentState!.validate()) {
+                //   provider.pagecontroller.animateToPage(
+                //     provider.selectedPage + 1,
+                //     duration: const Duration(milliseconds: 300),
+                //     curve: Curves.ease);
+                // }
+                provider.pagecontroller.animateToPage(provider.selectedPage + 1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.ease);
+              }),
             ),
 
             const SizedBox(
