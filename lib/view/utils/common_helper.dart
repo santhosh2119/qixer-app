@@ -34,13 +34,15 @@ class CommonHelper {
       child: Container(
           width: double.infinity,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 18),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
               color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
           child: Text(
             title,
             style: const TextStyle(
-                color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+              color: Colors.white,
+              fontSize: 14,
+            ),
           )),
     );
   }

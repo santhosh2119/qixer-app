@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:qixer/view/booking/book_confirmation_page.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -200,13 +201,14 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
 
                         //button ======>
                         CommonHelper().buttonOrange("Next", () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute<void>(
-                          //     builder: (BuildContext context) =>
-                          //         const BookingLocationPage(),
-                          //   ),
-                          // );
+                          if (_formKey.currentState!.validate()) {}
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const BookConfirmationPage(),
+                            ),
+                          );
                         }),
                         const SizedBox(
                           height: 25,
