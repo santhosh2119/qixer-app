@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
-import 'package:qixer/view/booking/components/order_details_panel.dart';
+import 'package:qixer/view/booking/payment_success_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'components/steps.dart';
 
 class PaymentChoosePage extends StatefulWidget {
   const PaymentChoosePage({Key? key}) : super(key: key);
@@ -45,7 +43,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
 
               //border
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 25),
+                margin: const EdgeInsets.only(top: 20),
                 child: CommonHelper().dividerCommon(),
               ),
 
@@ -137,7 +135,15 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
               const SizedBox(
                 height: 20,
               ),
-              CommonHelper().buttonOrange('Pay & Confirm order', () {})
+              CommonHelper().buttonOrange('Pay & Confirm order', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const PaymentSuccessPage(),
+                  ),
+                );
+              })
             ]),
           ),
         ));

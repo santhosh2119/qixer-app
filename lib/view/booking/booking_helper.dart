@@ -145,4 +145,31 @@ class BookingHelper {
       ],
     );
   }
+
+  colorCapsule(String title, String capsuleText, Color color) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: cc.greyFour,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 12),
+          padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 11),
+          decoration: BoxDecoration(
+              color: color.withOpacity(.1),
+              borderRadius: BorderRadius.circular(4)),
+          child: Text(
+            capsuleText,
+            style: TextStyle(color: color),
+          ),
+        )
+      ],
+    );
+  }
 }

@@ -7,7 +7,7 @@ class ConstantColors {
   final Color bgColor2 = const Color(0xffF1F4F7);
   final Color cardColor = const Color(0xffF9FAFC);
   final Color cardColor2 = const Color(0xffF8F8F8);
-  final Color yellowColor = const Color(0xffFFB319);
+  final Color yellowColor = const Color(0xffFFC300);
   // final Color primaryLightColor = const Color(0xffEF894E);
   // final Color primaryDeepColor = const Color(0xffc90a1c);
   // final Color bgWhite = const Color(0xffeef8f8);
