@@ -55,7 +55,8 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                       borderSide:
                           BorderSide(color: ConstantColors().primaryColor)),
                   errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: ConstantColors().redColor)),
+                      borderSide:
+                          BorderSide(color: ConstantColors().warningColor)),
                   focusedErrorBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: ConstantColors().primaryColor)),
@@ -133,7 +134,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                               BorderSide(color: ConstantColors().primaryColor)),
                       errorBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ConstantColors().redColor)),
+                              BorderSide(color: ConstantColors().warningColor)),
                       focusedErrorBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: ConstantColors().primaryColor)),
@@ -204,7 +205,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                               BorderSide(color: ConstantColors().primaryColor)),
                       errorBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: ConstantColors().redColor)),
+                              BorderSide(color: ConstantColors().warningColor)),
                       focusedErrorBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: ConstantColors().primaryColor)),

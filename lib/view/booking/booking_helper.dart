@@ -166,7 +166,8 @@ class BookingHelper {
               borderRadius: BorderRadius.circular(4)),
           child: Text(
             capsuleText,
-            style: TextStyle(color: color),
+            style: TextStyle(
+                color: color, fontWeight: FontWeight.w600, fontSize: 12),
           ),
         )
       ],

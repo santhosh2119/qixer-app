@@ -133,7 +133,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                                         color: ConstantColors().primaryColor)),
                                 errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: ConstantColors().redColor)),
+                                        color: ConstantColors().warningColor)),
                                 focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: ConstantColors().primaryColor)),
@@ -205,7 +205,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                                         color: ConstantColors().primaryColor)),
                                 errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: ConstantColors().redColor)),
+                                        color: ConstantColors().warningColor)),
                                 focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: ConstantColors().primaryColor)),

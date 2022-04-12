@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/home/home.dart';
+import 'package:qixer/view/tabs/orders_page.dart';
+import 'package:qixer/view/tabs/saved_page.dart';
 
 import 'bottom_nav.dart';
 
@@ -21,8 +23,8 @@ class _HomePageState extends State<LandingPage> {
   //Bottom nav pages
   final List<Widget> _children = [
     const Homepage(),
-    const Homepage(),
-    const Homepage(),
+    const OrdersPage(),
+    const SavedPage(),
     const Homepage(),
     const Homepage(),
   ];

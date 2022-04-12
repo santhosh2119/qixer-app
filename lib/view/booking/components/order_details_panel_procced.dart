@@ -40,7 +40,8 @@ class OrderDetailsPanelProceed extends StatelessWidget {
                       borderSide:
                           BorderSide(color: ConstantColors().primaryColor)),
                   errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: ConstantColors().redColor)),
+                      borderSide:
+                          BorderSide(color: ConstantColors().warningColor)),
                   focusedErrorBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: ConstantColors().primaryColor)),

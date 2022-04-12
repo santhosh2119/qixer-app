@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                                         color: ConstantColors().primaryColor)),
                                 errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: ConstantColors().redColor)),
+                                        color: ConstantColors().warningColor)),
                                 focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: ConstantColors().primaryColor)),
