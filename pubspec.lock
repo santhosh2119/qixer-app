@@ -184,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.9"
+  flutterzilla_fixed_grid:
+    dependency: "direct main"
+    description:
+      name: flutterzilla_fixed_grid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   http:
     dependency: transitive
     description:

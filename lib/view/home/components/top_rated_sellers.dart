@@ -6,6 +6,8 @@ import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
+import '../../booking/booking_location_page.dart';
+
 class TopRatedSellers extends StatelessWidget {
   const TopRatedSellers({
     Key? key,
@@ -213,7 +215,15 @@ class TopRatedSellers extends StatelessWidget {
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: cc.primaryColor, elevation: 0),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const BookingLocationPage(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               'Book Now',
                               style: TextStyle(

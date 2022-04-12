@@ -34,7 +34,7 @@ class CommonHelper {
       child: Container(
           width: double.infinity,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 18),
           decoration: BoxDecoration(
               color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
           child: Text(
@@ -86,6 +86,18 @@ class CommonHelper {
       thickness: 1,
       height: 2,
       color: cc.borderColor,
+    );
+  }
+
+  checkCircle() {
+    return Container(
+      padding: const EdgeInsets.all(3),
+      child: const Icon(
+        Icons.check,
+        size: 13,
+        color: Colors.white,
+      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: cc.primaryColor),
     );
   }
 }

@@ -43,12 +43,12 @@ class BookingHelper {
 
   bdetailsContainer(String iconLink, String title, String text) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      BookingHelper().rowLeftRight('assets/svg/location.svg', 'Date', ''),
+      BookingHelper().rowLeftRight(iconLink, title, ''),
       const SizedBox(
         height: 10,
       ),
       Text(
-        'Dhanmondi, Dhaka, Bangladesh',
+        text,
         style: TextStyle(
           color: cc.greyFour,
           fontSize: 14,

@@ -99,11 +99,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                                         ? Positioned(
                                             right: 10,
                                             top: -7,
-                                            child: Icon(
-                                              Icons.check_circle,
-                                              size: 19,
-                                              color: cc.primaryColor,
-                                            ))
+                                            child: CommonHelper().checkCircle())
                                         : Container()
                                   ],
                                 ),
@@ -168,11 +164,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                                         ? Positioned(
                                             right: 10,
                                             top: -7,
-                                            child: Icon(
-                                              Icons.check_circle,
-                                              size: 19,
-                                              color: cc.primaryColor,
-                                            ))
+                                            child: CommonHelper().checkCircle())
                                         : Container()
                                   ],
                                 ),

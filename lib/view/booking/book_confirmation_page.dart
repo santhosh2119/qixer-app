@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/booking/components/order_details_panel.dart';
+import 'package:qixer/view/booking/components/order_details_panel_procced.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -23,6 +24,8 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
     super.initState();
   }
 
+  bool isPanelOpened = false;
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -33,6 +36,15 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
         children: [
           SlidingUpPanel(
             panel: const OrderDetailsPanel(),
+            // collapsed: const OrderDetailsPanelProceed(),
+            onPanelOpened: () {
+              // isPanelOpened = true;
+              // setState(() {});
+            },
+            onPanelClosed: () {
+              // isPanelOpened = false;
+              // setState(() {});
+            },
             body: SingleChildScrollView(
               child: Container(
                   padding: EdgeInsets.symmetric(
@@ -82,6 +94,9 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
                                         'assets/svg/calendar.svg',
                                         'Date',
                                         'Friday, 18 March 2022'),
+                                  ),
+                                  const SizedBox(
+                                    width: 13,
                                   ),
                                   Expanded(
                                     child: BookingHelper().bdetailsContainer(
