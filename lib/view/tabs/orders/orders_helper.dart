@@ -6,9 +6,24 @@ class OrdersHelper {
   ConstantColors cc = ConstantColors();
   statusCapsule(String capsuleText, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 11),
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 11),
       decoration: BoxDecoration(
           color: color.withOpacity(.1), borderRadius: BorderRadius.circular(4)),
+      child: Text(
+        capsuleText,
+        style:
+            TextStyle(color: color, fontWeight: FontWeight.w600, fontSize: 12),
+      ),
+    );
+  }
+
+  statusCapsuleBordered(String capsuleText, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+      decoration: BoxDecoration(
+          border: Border.all(color: cc.borderColor),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4)),
       child: Text(
         capsuleText,
         style:

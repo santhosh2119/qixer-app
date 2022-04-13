@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/update_password_page.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
+import 'package:qixer/view/tabs/settings/supports/my_tickets_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -95,20 +96,27 @@ class _SettingsPageState extends State<SettingsPage> {
                         BookingHelper().bRow('null', 'Country', 'Bangladesh'),
                         BookingHelper().bRow('null', 'Post Code', '1230'),
                         BookingHelper().bRow('null', 'Address',
-                            'Dhanmondi 1230, Dhaka Bangladesh'),
+                            'Dhanmondi 1230, Dhaka Bangladesh',
+                            lastBorder: false),
                       ]),
                 ),
 
-                SettingsHelper().borderBold(20, 10),
+                SettingsHelper().borderBold(35, 8),
 
 //Other settings options ========>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(children: [
                     SettingsHelper().settingOption(
-                        'assets/svg/message-circle.svg',
-                        'Support Ticket',
-                        () {}),
+                        'assets/svg/message-circle.svg', 'Support Ticket', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const MyTicketsPage(),
+                        ),
+                      );
+                    }),
                     CommonHelper().dividerCommon(),
                     SettingsHelper().settingOption(
                         'assets/svg/lock-circle.svg', 'Change Password', () {
@@ -120,7 +128,14 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                       );
                     }),
-                    SettingsHelper().borderBold(12, 5),
+                  ]),
+                ),
+
+                // logout
+                SettingsHelper().borderBold(12, 5),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(children: [
                     SettingsHelper().settingOption(
                         'assets/svg/logout-circle.svg', 'Logout', () {}),
                     sizedBox20()

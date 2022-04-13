@@ -58,7 +58,7 @@ class BookingHelper {
     ]);
   }
 
-  bRow(String icon, String title, String text) {
+  bRow(String icon, String title, String text, {bool lastBorder = true}) {
     return Column(
       children: [
         Row(
@@ -103,10 +103,12 @@ class BookingHelper {
             )
           ],
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 14),
-          child: CommonHelper().dividerCommon(),
-        )
+        lastBorder == true
+            ? Container(
+                margin: const EdgeInsets.symmetric(vertical: 14),
+                child: CommonHelper().dividerCommon(),
+              )
+            : Container()
       ],
     );
   }
