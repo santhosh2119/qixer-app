@@ -64,16 +64,22 @@ class BookingHelper {
         Row(
           children: [
             //icon
-            Container(
+            SizedBox(
               width: 125,
               child: Row(children: [
-                SvgPicture.asset(
-                  icon,
-                  height: 19,
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
+                icon != 'null'
+                    ? Row(
+                        children: [
+                          SvgPicture.asset(
+                            icon,
+                            height: 19,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                        ],
+                      )
+                    : Container(),
                 Text(
                   title,
                   style: TextStyle(

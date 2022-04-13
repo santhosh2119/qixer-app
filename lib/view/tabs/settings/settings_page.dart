@@ -1,15 +1,11 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
-import 'package:qixer/view/home/components/search_bar.dart';
-import 'package:qixer/view/home/components/service_card.dart';
-import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+
+import '../../booking/booking_helper.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -32,7 +28,9 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: physicsCommon,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: screenPadding),
@@ -77,7 +75,48 @@ class _SettingsPageState extends State<SettingsPage> {
                         //
                       ]),
                 ),
-                SettingsHelper().borderBold(),
+                SettingsHelper().borderBold(30, 20),
+
+                // Personal information ==========>
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenPadding),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonHelper().titleCommon('Personal informations'),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        BookingHelper()
+                            .bRow('null', 'Email', 'leslialex@example.com'),
+                        BookingHelper().bRow('null', 'City', 'Dhaka'),
+                        BookingHelper().bRow('null', 'Area', 'Dhanmondi'),
+                        BookingHelper().bRow('null', 'Country', 'Bangladesh'),
+                        BookingHelper().bRow('null', 'Post Code', '1230'),
+                        BookingHelper().bRow('null', 'Address',
+                            'Dhanmondi 1230, Dhaka Bangladesh'),
+                      ]),
+                ),
+
+                SettingsHelper().borderBold(20, 10),
+
+//Other settings options ========>
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(children: [
+                    SettingsHelper().settingOption(
+                        'assets/svg/message-circle.svg',
+                        'Support Ticket',
+                        () {}),
+                    CommonHelper().dividerCommon(),
+                    SettingsHelper().settingOption(
+                        'assets/svg/lock-circle.svg', 'Change Password', () {}),
+                    SettingsHelper().borderBold(12, 5),
+                    SettingsHelper().settingOption(
+                        'assets/svg/logout-circle.svg', 'Logout', () {}),
+                    sizedBox20()
+                  ]),
+                )
               ],
             ),
           ),

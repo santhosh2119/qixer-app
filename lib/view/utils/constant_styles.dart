@@ -7,3 +7,5 @@ sizedBox20() {
     height: 20,
   );
 }
+
+var physicsCommon = const BouncingScrollPhysics();
