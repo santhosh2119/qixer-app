@@ -71,19 +71,10 @@ class _HomepageState extends State<Homepage> {
                     )),
 
                     //profile image
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                        placeholder: (context, url) {
-                          return Image.asset('assets/images/placeholder.png');
-                        },
-                        height: 52,
-                        width: 52,
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                    CommonHelper().profileImage(
+                        "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
+                        52,
+                        52)
                   ],
                 ),
               ),

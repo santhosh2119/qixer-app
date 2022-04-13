@@ -155,18 +155,7 @@ class ServiceCardContents extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: CachedNetworkImage(
-                imageUrl: imageLink,
-                placeholder: (context, url) {
-                  return Image.asset('assets/images/placeholder.png');
-                },
-                height: 75,
-                width: 78,
-                fit: BoxFit.cover,
-              ),
-            ),
+            CommonHelper().profileImage(imageLink, 75, 78),
             Positioned(
                 bottom: -13,
                 left: 12,

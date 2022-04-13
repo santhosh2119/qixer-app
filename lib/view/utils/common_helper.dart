@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
@@ -67,6 +68,7 @@ class CommonHelper {
       textAlign: textAlign,
       style: TextStyle(
         color: cc.greyParagraph,
+        height: 1.4,
         fontSize: 14,
         fontWeight: FontWeight.w400,
       ),
@@ -77,7 +79,7 @@ class CommonHelper {
     return Text(
       title,
       style: TextStyle(
-          color: cc.greyFour, fontSize: 18, fontWeight: FontWeight.bold),
+          color: cc.greyPrimary, fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
@@ -98,6 +100,21 @@ class CommonHelper {
         color: Colors.white,
       ),
       decoration: BoxDecoration(shape: BoxShape.circle, color: cc.primaryColor),
+    );
+  }
+
+  profileImage(String imageLink, double height, double width) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(6),
+      child: CachedNetworkImage(
+        imageUrl: imageLink,
+        placeholder: (context, url) {
+          return Image.asset('assets/images/placeholder.png');
+        },
+        height: height,
+        width: width,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
