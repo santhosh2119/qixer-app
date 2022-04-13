@@ -4,19 +4,16 @@ import 'package:flutter_svg/svg.dart';
 import '../../utils/constant_colors.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar(
-      {Key? key,
-      required this.searchController,
-      required this.cc,
-      required this.pressed})
-      : super(key: key);
+  const SearchBar({
+    Key? key,
+    required this.cc,
+  }) : super(key: key);
 
-  final TextEditingController searchController;
   final ConstantColors cc;
-  final VoidCallback pressed;
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
     return Container(
         margin: const EdgeInsets.only(bottom: 19),
         decoration: BoxDecoration(

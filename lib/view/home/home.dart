@@ -22,7 +22,6 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = TextEditingController();
     ConstantColors cc = ConstantColors();
     return Listener(
       onPointerDown: (_) {
@@ -96,7 +95,8 @@ class _HomepageState extends State<Homepage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: SearchBar(
-                    searchController: searchController, cc: cc, pressed: () {}),
+                  cc: cc,
+                ),
               ),
 
               const SizedBox(

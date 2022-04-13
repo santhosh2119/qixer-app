@@ -45,112 +45,13 @@ class ServiceCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(13, 15, 13, 8),
       child: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: CachedNetworkImage(
-                      imageUrl: imageLink,
-                      placeholder: (context, url) {
-                        return Image.asset('assets/images/placeholder.png');
-                      },
-                      height: 75,
-                      width: 78,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                      bottom: -13,
-                      left: 10,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 2),
-                            color: const Color(0xffFFC300),
-                            borderRadius: BorderRadius.circular(4)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 4),
-                        child: Row(children: [
-                          Icon(
-                            Icons.star_border,
-                            color: cc.greyFour,
-                            size: 14,
-                          ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          Text(
-                            rating,
-                            style: TextStyle(
-                                color: cc.greyFour,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13),
-                          )
-                        ]),
-                      )),
-                ],
-              ),
-              const SizedBox(
-                width: 13,
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    //service name ======>
-                    Text(
-                      title,
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 15,
-                        height: 1.4,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                    //Author name
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'by:',
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: cc.greyFour.withOpacity(.6),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          sellerName,
-                          textAlign: TextAlign.start,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: cc.greyFour,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
+          ServiceCardContents(
+              cc: cc,
+              imageLink: imageLink,
+              title: title,
+              sellerName: sellerName,
+              rating: rating,
+              price: price),
           const SizedBox(
             height: 28,
           ),
@@ -224,6 +125,135 @@ class ServiceCard extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class ServiceCardContents extends StatelessWidget {
+  const ServiceCardContents(
+      {Key? key,
+      required this.cc,
+      required this.imageLink,
+      required this.title,
+      required this.sellerName,
+      required this.rating,
+      required this.price})
+      : super(key: key);
+
+  final ConstantColors cc;
+  final imageLink;
+  final title;
+  final sellerName;
+  final rating;
+  final price;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: CachedNetworkImage(
+                imageUrl: imageLink,
+                placeholder: (context, url) {
+                  return Image.asset('assets/images/placeholder.png');
+                },
+                height: 75,
+                width: 78,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+                bottom: -13,
+                left: 12,
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 2),
+                      color: const Color(0xffFFC300),
+                      borderRadius: BorderRadius.circular(4)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Row(children: [
+                    Icon(
+                      Icons.star_border,
+                      color: cc.greyFour,
+                      size: 14,
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    Text(
+                      rating,
+                      style: TextStyle(
+                          color: cc.greyFour,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13),
+                    )
+                  ]),
+                )),
+          ],
+        ),
+        const SizedBox(
+          width: 13,
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              //service name ======>
+              Text(
+                title,
+                textAlign: TextAlign.start,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: cc.greyFour,
+                  fontSize: 15,
+                  height: 1.4,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              //Author name
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'by:',
+                    textAlign: TextAlign.start,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: cc.greyFour.withOpacity(.6),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 6,
+                  ),
+                  Text(
+                    sellerName,
+                    textAlign: TextAlign.start,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: cc.greyFour,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

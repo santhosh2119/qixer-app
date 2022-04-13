@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/home/home.dart';
-import 'package:qixer/view/tabs/orders_page.dart';
 import 'package:qixer/view/tabs/saved_page.dart';
+import 'package:qixer/view/tabs/search/search_page.dart';
 
+import '../tabs/orders/orders_page.dart';
 import 'bottom_nav.dart';
 
 class LandingPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _HomePageState extends State<LandingPage> {
     const Homepage(),
     const OrdersPage(),
     const SavedPage(),
-    const Homepage(),
+    const SearchPage(),
     const Homepage(),
   ];
   @override
