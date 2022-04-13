@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:qixer/view/auth/reset_password/new_password_page.dart';
+import 'package:qixer/view/auth/reset_password/reset_password_page.dart';
 
 import '../../utils/common_helper.dart';
 import '../../utils/constant_colors.dart';
@@ -88,7 +88,7 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                       context,
                       MaterialPageRoute<void>(
                         builder: (BuildContext context) =>
-                            const NewPasswordPage(),
+                            const ResetPasswordPage(),
                       ),
                     );
                   },

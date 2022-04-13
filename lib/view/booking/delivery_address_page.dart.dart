@@ -46,6 +46,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
         backgroundColor: Colors.white,
         appBar: CommonHelper().appbarCommon('Address', context),
         body: SingleChildScrollView(
+          physics: physicsCommon,
           child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: screenPadding,

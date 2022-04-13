@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_otp_pass.dart';
 import 'package:qixer/view/utils/common_helper.dart';
+import 'package:qixer/view/utils/constant_styles.dart';
 
 import '../../utils/constant_colors.dart';
 
-class NewPasswordPage extends StatefulWidget {
-  const NewPasswordPage({Key? key}) : super(key: key);
+class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _NewPasswordPageState createState() => _NewPasswordPageState();
+  _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
 
-class _NewPasswordPageState extends State<NewPasswordPage> {
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
   late bool _newpasswordVisible;
   late bool _repeatnewpasswordVisible;
 
@@ -43,6 +44,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
           }
         },
         child: SingleChildScrollView(
+          physics: physicsCommon,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             height: MediaQuery.of(context).size.height - 120,

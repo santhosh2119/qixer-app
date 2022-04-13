@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
+import 'package:qixer/view/tabs/settings/password/update_password_page.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -110,7 +111,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         () {}),
                     CommonHelper().dividerCommon(),
                     SettingsHelper().settingOption(
-                        'assets/svg/lock-circle.svg', 'Change Password', () {}),
+                        'assets/svg/lock-circle.svg', 'Change Password', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const UpdatePasswordPage(),
+                        ),
+                      );
+                    }),
                     SettingsHelper().borderBold(12, 5),
                     SettingsHelper().settingOption(
                         'assets/svg/logout-circle.svg', 'Logout', () {}),

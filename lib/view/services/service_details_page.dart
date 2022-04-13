@@ -8,7 +8,6 @@ import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
 import 'package:qixer/view/services/components/overview_tab.dart';
 import 'package:qixer/view/services/components/review_tab.dart';
-import 'package:qixer/view/services/service_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
@@ -32,6 +31,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
         children: [
           Expanded(
             child: SingleChildScrollView(
+              physics: physicsCommon,
               child: Column(
                 children: [
                   // Image big

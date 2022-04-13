@@ -9,6 +9,7 @@ import 'package:qixer/view/home/components/top_rated_sellers.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
+import '../utils/constant_styles.dart';
 import 'components/search_bar.dart';
 import 'components/section_title.dart';
 
@@ -34,6 +35,7 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: physicsCommon,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const SizedBox(

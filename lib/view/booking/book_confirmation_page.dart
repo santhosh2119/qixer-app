@@ -45,7 +45,9 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
               // isPanelOpened = false;
               // setState(() {});
             },
+
             body: SingleChildScrollView(
+              physics: physicsCommon,
               child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: screenPadding,

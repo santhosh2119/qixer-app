@@ -37,6 +37,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
         children: [
           Expanded(
             child: SingleChildScrollView(
+              physics: physicsCommon,
               child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: screenPadding,

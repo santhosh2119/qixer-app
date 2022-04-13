@@ -27,6 +27,7 @@ class _OrdersPageState extends State<OrdersPage> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: physicsCommon,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: screenPadding),
               clipBehavior: Clip.none,

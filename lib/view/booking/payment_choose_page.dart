@@ -29,6 +29,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
         backgroundColor: Colors.white,
         appBar: CommonHelper().appbarCommon('Payment', context),
         body: SingleChildScrollView(
+          physics: physicsCommon,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: screenPadding),
             clipBehavior: Clip.none,

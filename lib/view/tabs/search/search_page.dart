@@ -27,6 +27,7 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: physicsCommon,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: screenPadding),
               clipBehavior: Clip.none,

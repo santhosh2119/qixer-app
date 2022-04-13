@@ -34,6 +34,7 @@ class _ServicePersonalizationPageState
       backgroundColor: Colors.white,
       appBar: CommonHelper().appbarCommon('Personalize', context),
       body: SingleChildScrollView(
+        physics: physicsCommon,
         child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: screenPadding,

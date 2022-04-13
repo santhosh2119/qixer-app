@@ -8,6 +8,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/custom_input.dart';
 
 import '../../home/landing_page.dart';
+import '../../utils/constant_styles.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         child: SingleChildScrollView(
+          physics: physicsCommon,
           child: Column(
             children: [
               Stack(

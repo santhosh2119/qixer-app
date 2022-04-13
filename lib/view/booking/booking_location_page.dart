@@ -32,6 +32,7 @@ class _BookingLocationPageState extends State<BookingLocationPage> {
     return Scaffold(
       appBar: CommonHelper().appbarCommon('Location', context),
       body: SingleChildScrollView(
+        physics: physicsCommon,
         child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: screenPadding,
