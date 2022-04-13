@@ -14,10 +14,7 @@ class OrderDetailsPanelProceed extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //total ===>
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 20),
-          child: CommonHelper().dividerCommon(),
-        ),
+
         BookingHelper().detailsPanelRow('Total', 0, '237.6'),
         const SizedBox(
           height: 20,

@@ -6,6 +6,25 @@ import '../utils/common_helper.dart';
 
 class BookingHelper {
   ConstantColors cc = ConstantColors();
+
+  bottomSheetDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: const BorderRadius.only(
+        topRight: Radius.circular(20),
+        topLeft: Radius.circular(20),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 8,
+          blurRadius: 17,
+          offset: const Offset(0, 0), // changes position of shadow
+        ),
+      ],
+    );
+  }
+
   rowLeftRight(String iconLink, String title, String text) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

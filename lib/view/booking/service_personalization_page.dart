@@ -9,8 +9,10 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
+import 'booking_helper.dart';
 import 'components/quantity.dart';
 import 'components/steps.dart';
+import 'delivery_address_page.dart.dart';
 
 class ServicePersonalizationPage extends StatefulWidget {
   const ServicePersonalizationPage({Key? key}) : super(key: key);
@@ -59,25 +61,48 @@ class _ServicePersonalizationPageState
 
                 Extras(cc: cc),
 
-                //Login button ==================>
+                // button ==================>
                 const SizedBox(
                   height: 27,
                 ),
-                CommonHelper().buttonOrange("Next", () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const ServiceSchedulePage(),
-                    ),
-                  );
-                }),
+                // CommonHelper().buttonOrange("Next", () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute<void>(
+                //       builder: (BuildContext context) =>
+                //           const ServiceSchedulePage(),
+                //     ),
+                //   );
+                // }),
 
                 const SizedBox(
-                  height: 30,
+                  height: 147,
                 ),
               ],
             )),
+      ),
+      bottomSheet: Container(
+        height: 157,
+        padding:
+            EdgeInsets.only(left: screenPadding, top: 30, right: screenPadding),
+        decoration: BookingHelper().bottomSheetDecoration(),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          BookingHelper().detailsPanelRow('Total', 0, '237.6'),
+          const SizedBox(
+            height: 23,
+          ),
+          CommonHelper().buttonOrange("Next", () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const ServiceSchedulePage(),
+              ),
+            );
+          }),
+          const SizedBox(
+            height: 30,
+          ),
+        ]),
       ),
     );
   }

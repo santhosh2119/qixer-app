@@ -63,8 +63,23 @@ class _OrdersPageState extends State<OrdersPage> {
                             ),
                             Row(
                               children: [
-                                OrdersHelper()
-                                    .statusCapsule('Cancelled', cc.warningColor)
+                                OrdersHelper().statusCapsule(
+                                    'Cancelled', cc.warningColor),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 8),
+                                  child: PopupMenuButton(
+                                    // initialValue: 2,
+                                    child: Icon(Icons.more_vert),
+                                    itemBuilder: (context) {
+                                      return List.generate(3, (index) {
+                                        return PopupMenuItem(
+                                          value: index,
+                                          child: Text('button no $index'),
+                                        );
+                                      });
+                                    },
+                                  ),
+                                )
                               ],
                             )
                           ],

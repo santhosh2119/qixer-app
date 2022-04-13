@@ -128,12 +128,9 @@ class _ExtrasState extends State<Extras> {
                       ),
                       selectedExtra.contains(i)
                           ? Positioned(
-                              right: 10,
-                              top: -10,
-                              child: Icon(
-                                Icons.check_circle,
-                                color: widget.cc.primaryColor,
-                              ))
+                              right: 12,
+                              top: -8,
+                              child: CommonHelper().checkCircle())
                           : Container(),
                     ],
                   ),

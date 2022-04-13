@@ -32,7 +32,6 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
           physics: physicsCommon,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: screenPadding),
-            clipBehavior: Clip.none,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //border
@@ -65,6 +64,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                 itemCount: 5,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
+                clipBehavior: Clip.none,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
