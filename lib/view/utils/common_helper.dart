@@ -75,6 +75,26 @@ class CommonHelper {
     );
   }
 
+  borderButtonOrange(String title, VoidCallback pressed) {
+    return InkWell(
+      onTap: pressed,
+      child: Container(
+          width: double.infinity,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 17),
+          decoration: BoxDecoration(
+              border: Border.all(color: cc.primaryColor),
+              borderRadius: BorderRadius.circular(8)),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: cc.primaryColor,
+              fontSize: 14,
+            ),
+          )),
+    );
+  }
+
   labelCommon(String title) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),

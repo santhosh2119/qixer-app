@@ -137,7 +137,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(children: [
                     SettingsHelper().settingOption(
-                        'assets/svg/logout-circle.svg', 'Logout', () {}),
+                        'assets/svg/logout-circle.svg', 'Logout', () {
+                      SettingsHelper().logoutPopup(context);
+                    }),
                     sizedBox20()
                   ]),
                 )
