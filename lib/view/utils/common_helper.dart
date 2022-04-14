@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
+import '../../service/book_steps_service.dart';
+
 class CommonHelper {
   ConstantColors cc = ConstantColors();
   //common appbar
@@ -18,6 +20,33 @@ class CommonHelper {
       elevation: 0,
       leading: InkWell(
         onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Icon(
+          Icons.arrow_back_ios,
+          size: 18,
+        ),
+      ),
+    );
+  }
+
+  appbarForBookingPages(String title, BuildContext context,
+      {bool isLocPage = false}) {
+    return AppBar(
+      centerTitle: true,
+      iconTheme: IconThemeData(color: cc.greyPrimary),
+      title: Text(
+        title,
+        style: TextStyle(
+            color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: InkWell(
+        onTap: () {
+          if (isLocPage != true) {
+            BookStepsService().decreaseStep(context);
+          }
           Navigator.pop(context);
         },
         child: const Icon(
