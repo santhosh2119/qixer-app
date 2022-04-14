@@ -31,7 +31,9 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
         }
       },
       child: Scaffold(
-        appBar: CommonHelper().appbarCommon('Reset password', context),
+        appBar: CommonHelper().appbarCommon('Reset password', context, () {
+          Navigator.pop(context);
+        }),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(

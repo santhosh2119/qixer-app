@@ -20,7 +20,6 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Provider.of<SignupService>(context, listen: false)
         .setPageController(_pageController);
@@ -28,8 +27,6 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    // var screenWidth = MediaQuery.of(context).size.width;
-    var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return Listener(
       onPointerDown: (_) {
@@ -38,105 +35,126 @@ class _SignupPageState extends State<SignupPage> {
           currentFocus.focusedChild?.unfocus();
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarCommon('', context),
-        body: Consumer<SignupService>(
-          builder: (context, provider, child) =>
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(
-              height: 5,
-            ),
+      child: Consumer<SignupService>(
+        builder: (context, provider, child) => WillPopScope(
+          onWillPop: () {
+            if (provider.selectedPage == 0) {
+              return Future.value(true);
+            } else {
+              _pageController.animateToPage(provider.selectedPage - 1,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease);
+              return Future.value(false);
+            }
+            // return Future.value(false);
+          },
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: CommonHelper().appbarCommon('', context, () {
+              if (provider.selectedPage == 0) {
+                Navigator.pop(context);
+              } else {
+                _pageController.animateToPage(provider.selectedPage - 1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.ease);
+              }
+            }),
+            body:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(
+                height: 5,
+              ),
 
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: CommonHelper().titleCommon('Register to join us'),
-            ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: CommonHelper().titleCommon('Register to join us'),
+              ),
 
-            const SizedBox(
-              height: 35,
-            ),
+              const SizedBox(
+                height: 35,
+              ),
 
-            //Page steps show =======>
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (var i = 0; i < 3; i++)
-                  Row(
-                    children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: provider.selectedPage >= i
-                                ? cc.primaryColor
-                                : Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: provider.selectedPage >= i
-                                    ? Colors.transparent
-                                    : cc.greyFive)),
-                        child: provider.selectedPage - 1 < i
-                            ? Text(
-                                '${i + 1}',
-                                style: TextStyle(
-                                    color: provider.selectedPage >= i
-                                        ? Colors.white
-                                        : cc.greyPrimary,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : const Icon(
-                                Icons.check_outlined,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                      ),
-                      //line
-                      i > 1
-                          ? Container()
-                          : Container(
-                              height: 3,
-                              width: screenWidth / 2 - 85,
+              //Page steps show =======>
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (var i = 0; i < 3; i++)
+                    Row(
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 40,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
                               color: provider.selectedPage >= i
                                   ? cc.primaryColor
-                                  : cc.greyFive,
-                            )
-                    ],
+                                  : Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: provider.selectedPage >= i
+                                      ? Colors.transparent
+                                      : cc.greyFive)),
+                          child: provider.selectedPage - 1 < i
+                              ? Text(
+                                  '${i + 1}',
+                                  style: TextStyle(
+                                      color: provider.selectedPage >= i
+                                          ? Colors.white
+                                          : cc.greyPrimary,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : const Icon(
+                                  Icons.check_outlined,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                        ),
+                        //line
+                        i > 1
+                            ? Container()
+                            : Container(
+                                height: 3,
+                                width: screenWidth / 2 - 85,
+                                color: provider.selectedPage >= i
+                                    ? cc.primaryColor
+                                    : cc.greyFive,
+                              )
+                      ],
+                    ),
+                ],
+              ),
+
+              const SizedBox(
+                height: 35,
+              ),
+
+              //Slider =============>
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: SizedBox(
+                    height: 750,
+                    child: PageView.builder(
+                        controller: _pageController,
+                        onPageChanged: (value) {
+                          provider.setSelectedPage(value);
+                        },
+                        itemCount: 3,
+                        itemBuilder: (context, i) {
+                          if (i == 0) {
+                            return const SignupEmailName();
+                          } else if (i == 1) {
+                            return const SignupPhonePass();
+                          } else {
+                            return const SignupCountryStates();
+                          }
+                        }),
                   ),
-              ],
-            ),
-
-            const SizedBox(
-              height: 35,
-            ),
-
-            //Slider =============>
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: SizedBox(
-                  height: 750,
-                  child: PageView.builder(
-                      controller: _pageController,
-                      onPageChanged: (value) {
-                        provider.setSelectedPage(value);
-                      },
-                      itemCount: 3,
-                      itemBuilder: (context, i) {
-                        if (i == 0) {
-                          return const SignupEmailName();
-                        } else if (i == 1) {
-                          return const SignupPhonePass();
-                        } else {
-                          return const SignupCountryStates();
-                        }
-                      }),
                 ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );

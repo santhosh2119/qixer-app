@@ -1,13 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/tabs/orders/orders_helper.dart';
-import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
-import 'package:qixer/view/tabs/settings/password/update_password_page.dart';
-import 'package:qixer/view/tabs/settings/settings_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
-import 'package:qixer/view/utils/others_helper.dart';
 
 class MyTicketsPage extends StatefulWidget {
   const MyTicketsPage({Key? key}) : super(key: key);
@@ -28,7 +24,9 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarCommon('Support tickets', context),
+        appBar: CommonHelper().appbarCommon('Support tickets', context, () {
+          Navigator.pop(context);
+        }),
         body: SafeArea(
           child: SingleChildScrollView(
             physics: physicsCommon,

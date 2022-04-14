@@ -24,7 +24,9 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
     return Scaffold(
-      appBar: CommonHelper().appbarCommon('Reset password', context),
+      appBar: CommonHelper().appbarCommon('Reset password', context, () {
+        Navigator.pop(context);
+      }),
       backgroundColor: Colors.white,
       body: Listener(
         onPointerDown: (_) {

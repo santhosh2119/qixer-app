@@ -7,7 +7,7 @@ import '../../service/book_steps_service.dart';
 class CommonHelper {
   ConstantColors cc = ConstantColors();
   //common appbar
-  appbarCommon(String title, BuildContext context) {
+  appbarCommon(String title, BuildContext context, VoidCallback pressed) {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
@@ -19,9 +19,7 @@ class CommonHelper {
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: InkWell(
-        onTap: () {
-          Navigator.pop(context);
-        },
+        onTap: pressed,
         child: const Icon(
           Icons.arrow_back_ios,
           size: 18,

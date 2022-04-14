@@ -27,7 +27,9 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarCommon('Payment', context),
+        appBar: CommonHelper().appbarCommon('Payment', context, () {
+          Navigator.pop(context);
+        }),
         body: SingleChildScrollView(
           physics: physicsCommon,
           child: Container(

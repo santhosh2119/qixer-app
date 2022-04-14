@@ -12,7 +12,7 @@ class ImageBig extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-            height: 310,
+            height: 295,
             width: double.infinity,
             child: CachedNetworkImage(
               imageUrl: imageLink,
@@ -20,7 +20,7 @@ class ImageBig extends StatelessWidget {
               fit: BoxFit.cover,
             )),
         Container(
-          height: 310,
+          height: 295,
           decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,

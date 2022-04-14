@@ -16,4 +16,15 @@ class SignupService with ChangeNotifier {
     selectedPage = i;
     notifyListeners();
   }
+
+  // nextPage(){
+  //   pagecontroller.animateToPage(selectedPage + 1,
+  //                   duration: const Duration(milliseconds: 300),
+  //                   curve: Curves.ease);
+  // }
+
+  prevPage(int i) {
+    selectedPage = i;
+    notifyListeners();
+  }
 }
