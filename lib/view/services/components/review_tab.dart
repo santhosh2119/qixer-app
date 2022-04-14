@@ -8,10 +8,11 @@ class ReviewTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List reviewList = ['a', 'b', 'c'];
     ConstantColors cc = ConstantColors();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       //profile image, rating, feedback
-      for (int i = 0; i < 3; i++)
+      for (int i = 0; i < reviewList.length; i++)
         Container(
           margin: const EdgeInsets.only(top: 20),
           child: Column(
@@ -91,14 +92,12 @@ class ReviewTab extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              CommonHelper().dividerCommon(),
+              i != reviewList.length - 1
+                  ? CommonHelper().dividerCommon()
+                  : Container(),
             ],
           ),
         ),
-
-      const SizedBox(
-        height: 30,
-      ),
     ]);
   }
 }

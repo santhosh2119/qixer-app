@@ -21,7 +21,31 @@ class ServiceDetailsPage extends StatefulWidget {
   State<ServiceDetailsPage> createState() => _ServiceDetailsPageState();
 }
 
-class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
+class _ServiceDetailsPageState extends State<ServiceDetailsPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  int _tabIndex = 0;
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+    super.initState();
+  }
+
+  _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {
+        _tabIndex = _tabController.index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -30,55 +54,87 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage> {
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              physics: physicsCommon,
-              child: Column(
-                children: [
-                  // Image big
-                  const ImageBig(
-                    serviceName: 'Service Name',
-                    imageLink:
-                        'https://cdn.pixabay.com/photo/2018/10/01/13/53/droplet-3716288__340.jpg',
-                  ),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Column(
+                  children: [
+                    // Image big
+                    const ImageBig(
+                      serviceName: 'Service Name',
+                      imageLink:
+                          'https://cdn.pixabay.com/photo/2018/10/01/13/53/droplet-3716288__340.jpg',
+                    ),
 
-                  //package price
-                  ServiceDetailsTop(cc: cc),
+                    //package price
+                    ServiceDetailsTop(cc: cc),
 
-                  //Tab bar
-                  Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    margin: const EdgeInsets.only(top: 20),
-                    child: DefaultTabController(
-                        length: 3, // length of tabs
-                        initialIndex: 0,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              TabBar(
-                                labelColor: cc.primaryColor,
-                                unselectedLabelColor: cc.greyFour,
-                                indicatorColor: cc.primaryColor,
-                                unselectedLabelStyle: TextStyle(
-                                    color: cc.greyParagraph,
-                                    fontWeight: FontWeight.normal),
-                                tabs: const [
-                                  Tab(text: 'Overview'),
-                                  Tab(text: 'About seller'),
-                                  Tab(text: 'Review'),
-                                ],
-                              ),
-                              const SizedBox(
-                                  height: 500,
-                                  child: TabBarView(children: <Widget>[
-                                    OverviewTab(),
-                                    AboutSellerTab(),
-                                    ReviewTab(),
-                                  ]))
-                            ])),
+                    //Tab bar
+                    // Container(
+                    //   color: Colors.white,
+                    //   padding: const EdgeInsets.symmetric(horizontal: 25),
+                    //   margin: const EdgeInsets.only(top: 20),
+                    //   child: DefaultTabController(
+                    //       length: 3, // length of tabs
+                    //       initialIndex: 0,
+                    //       child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //           children: <Widget>[
+                    //             TabBar(
+                    //               labelColor: cc.primaryColor,
+                    //               unselectedLabelColor: cc.greyFour,
+                    //               indicatorColor: cc.primaryColor,
+                    //               unselectedLabelStyle: TextStyle(
+                    //                   color: cc.greyParagraph,
+                    //                   fontWeight: FontWeight.normal),
+                    //               tabs: const [
+                    //                 Tab(text: 'Overview'),
+                    //                 Tab(text: 'About seller'),
+                    //                 Tab(text: 'Review'),
+                    //               ],
+                    //             ),
+                    //             const SizedBox(
+                    //                 height: 500,
+                    //                 child: TabBarView(children: <Widget>[
+                    //                   OverviewTab(),
+                    //                   AboutSellerTab(),
+                    //                   ReviewTab(),
+                    //                 ]))
+                    //           ])),
+                    // ),
+                  ],
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  margin: const EdgeInsets.only(top: 20, bottom: 20),
+                  child: Column(
+                    children: <Widget>[
+                      TabBar(
+                        labelColor: cc.primaryColor,
+                        unselectedLabelColor: cc.greyFour,
+                        indicatorColor: cc.primaryColor,
+                        unselectedLabelStyle: TextStyle(
+                            color: cc.greyParagraph,
+                            fontWeight: FontWeight.normal),
+                        controller: _tabController,
+                        tabs: const [
+                          Tab(text: 'Overview'),
+                          Tab(text: 'About seller'),
+                          Tab(text: 'Review'),
+                        ],
+                      ),
+                      Container(
+                        child: [
+                          const OverviewTab(),
+                          const AboutSellerTab(),
+                          const ReviewTab(),
+                        ][_tabIndex],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           //Book now button
