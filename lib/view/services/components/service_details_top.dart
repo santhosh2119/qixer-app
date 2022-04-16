@@ -142,29 +142,27 @@ class ServiceDetailsTop extends StatelessWidget {
               color: cc.borderColor,
             ),
             //Sellers ratings ========>
-            Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    '98.6%',
-                    style: TextStyle(
-                        color: cc.primaryColor,
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  AutoSizeText(
-                    'Seller Ratings',
-                    maxLines: 1,
-                    style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                Text(
+                  '98.6%',
+                  style: TextStyle(
+                      color: cc.primaryColor,
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                AutoSizeText(
+                  'Seller Ratings',
+                  maxLines: 1,
+                  style: TextStyle(
+                      color: cc.greyFour,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400),
+                ),
+              ],
             ),
           ]),
         ),

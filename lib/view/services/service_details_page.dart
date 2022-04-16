@@ -1,8 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:measured_size/measured_size.dart';
 import 'package:qixer/view/booking/booking_location_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
@@ -68,40 +64,6 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
 
                     //package price
                     ServiceDetailsTop(cc: cc),
-
-                    //Tab bar
-                    // Container(
-                    //   color: Colors.white,
-                    //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                    //   margin: const EdgeInsets.only(top: 20),
-                    //   child: DefaultTabController(
-                    //       length: 3, // length of tabs
-                    //       initialIndex: 0,
-                    //       child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.stretch,
-                    //           children: <Widget>[
-                    //             TabBar(
-                    //               labelColor: cc.primaryColor,
-                    //               unselectedLabelColor: cc.greyFour,
-                    //               indicatorColor: cc.primaryColor,
-                    //               unselectedLabelStyle: TextStyle(
-                    //                   color: cc.greyParagraph,
-                    //                   fontWeight: FontWeight.normal),
-                    //               tabs: const [
-                    //                 Tab(text: 'Overview'),
-                    //                 Tab(text: 'About seller'),
-                    //                 Tab(text: 'Review'),
-                    //               ],
-                    //             ),
-                    //             const SizedBox(
-                    //                 height: 500,
-                    //                 child: TabBarView(children: <Widget>[
-                    //                   OverviewTab(),
-                    //                   AboutSellerTab(),
-                    //                   ReviewTab(),
-                    //                 ]))
-                    //           ])),
-                    // ),
                   ],
                 ),
                 Container(
