@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:qixer/view/auth/login/location_select_after_login.dart';
 import 'package:qixer/view/auth/login/login_helper.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_email_page.dart';
 import 'package:qixer/view/auth/signup/signup.dart';
@@ -250,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
-                                const LandingPage(),
+                                const LocationSelectAfterLoginPage(),
                           ),
                         );
                       }),

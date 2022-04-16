@@ -59,7 +59,10 @@ class SearchBar extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 10),
                       height: 35,
                       width: 35,
-                      child: SvgPicture.asset('assets/svg/filter.svg'),
+                      child: SvgPicture.asset(
+                        'assets/svg/filter.svg',
+                        color: cc.greyParagraph,
+                      ),
                     ),
                   ],
                 ),

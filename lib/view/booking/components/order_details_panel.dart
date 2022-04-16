@@ -211,12 +211,16 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                                         .borderButtonOrange('Apply coupon', () {
                                       widget.panelController.open();
                                       couponFocus.requestFocus();
-                                      _scrollController.animateTo(
-                                        155,
-                                        duration:
-                                            const Duration(milliseconds: 1200),
-                                        curve: Curves.fastOutSlowIn,
-                                      );
+                                      Future.delayed(
+                                          const Duration(milliseconds: 900),
+                                          () {
+                                        _scrollController.animateTo(
+                                          155,
+                                          duration:
+                                              const Duration(milliseconds: 600),
+                                          curve: Curves.fastOutSlowIn,
+                                        );
+                                      });
                                     }),
                                   )
                                 : Container(),

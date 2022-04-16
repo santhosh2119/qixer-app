@@ -1,9 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qixer/view/services/services_of_user.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
-import '../../utils/common_helper.dart';
 import '../service_helper.dart';
 
 class AboutSellerTab extends StatelessWidget {
@@ -16,62 +15,72 @@ class AboutSellerTab extends StatelessWidget {
       margin: const EdgeInsets.only(top: 20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         //profile image, name and completed orders
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: CachedNetworkImage(
-                imageUrl:
-                    "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                placeholder: (context, url) {
-                  return Image.asset('assets/images/placeholder.png');
-                },
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const ServicesOfUser(),
               ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Nazmul Hoque',
-                  style: TextStyle(
-                      color: cc.greyFour,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600),
+            );
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: CachedNetworkImage(
+                  imageUrl:
+                      "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
+                  placeholder: (context, url) {
+                    return Image.asset('assets/images/placeholder.png');
+                  },
+                  height: 60,
+                  width: 60,
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Order Completed',
-                      style: TextStyle(
-                        color: cc.primaryColor,
-                        fontSize: 12,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Nazmul Hoque',
+                    style: TextStyle(
+                        color: cc.greyFour,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 6,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Order Completed',
+                        style: TextStyle(
+                          color: cc.primaryColor,
+                          fontSize: 12,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '(6)',
-                      style: TextStyle(
-                        color: cc.greyParagraph,
-                        fontSize: 12,
+                      const SizedBox(
+                        width: 5,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      Text(
+                        '(6)',
+                        style: TextStyle(
+                          color: cc.greyParagraph,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         const SizedBox(
           height: 30,
