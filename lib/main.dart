@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/country_states_service.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SignupService()),
         ChangeNotifierProvider(create: (_) => BookConfirmationService()),
         ChangeNotifierProvider(create: (_) => BookStepsService()),
+        ChangeNotifierProvider(create: (_) => AllServicesService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

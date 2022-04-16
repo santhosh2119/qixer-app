@@ -6,6 +6,7 @@ import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_sellers.dart';
+import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
@@ -133,7 +134,15 @@ class _HomepageState extends State<Homepage> {
                     SectionTitle(
                       cc: cc,
                       title: 'Top rated sellers',
-                      pressed: () {},
+                      pressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const AllServicePage(),
+                          ),
+                        );
+                      },
                     ),
 
                     const SizedBox(
@@ -155,7 +164,15 @@ class _HomepageState extends State<Homepage> {
                     SectionTitle(
                       cc: cc,
                       title: 'Recently listed',
-                      pressed: () {},
+                      pressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const AllServicePage(),
+                          ),
+                        );
+                      },
                     ),
 
                     const SizedBox(

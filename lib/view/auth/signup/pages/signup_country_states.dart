@@ -47,13 +47,6 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: cc.greyFive),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.01),
-                                        spreadRadius: -2,
-                                        blurRadius: 13,
-                                        offset: const Offset(0, 13)),
-                                  ],
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: DropdownButtonHideUnderline(
@@ -96,7 +89,7 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                         const SizedBox(
                           height: 25,
                         ),
-                        // Country dropdown ===============>
+                        // States dropdown ===============>
                         CommonHelper().labelCommon("Choose states"),
                         provider.statesDropdown.isNotEmpty
                             ? Container(
@@ -105,13 +98,6 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: cc.greyFive),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.01),
-                                        spreadRadius: -2,
-                                        blurRadius: 13,
-                                        offset: const Offset(0, 13)),
-                                  ],
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: DropdownButtonHideUnderline(
@@ -155,7 +141,7 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                           height: 25,
                         ),
 
-                        // Country dropdown ===============>
+                        // Area dropdown ===============>
                         CommonHelper().labelCommon("Choose area"),
                         provider.areaDropdown.isNotEmpty
                             ? Container(
@@ -164,13 +150,6 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: cc.greyFive),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.01),
-                                        spreadRadius: -2,
-                                        blurRadius: 13,
-                                        offset: const Offset(0, 13)),
-                                  ],
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: DropdownButtonHideUnderline(
