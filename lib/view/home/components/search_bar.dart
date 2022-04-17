@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qixer/view/tabs/search/components/search_helper.dart';
 
 import '../../utils/constant_colors.dart';
 
@@ -44,27 +45,32 @@ class SearchBar extends StatelessWidget {
                   ),
                 ],
               ),
-              suffixIcon: SizedBox(
-                width: 57,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      height: 30,
-                      width: 1.5,
-                      color: cc.greyFive,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      height: 35,
-                      width: 35,
-                      child: SvgPicture.asset(
-                        'assets/svg/filter.svg',
-                        color: cc.greyParagraph,
+              suffixIcon: InkWell(
+                onTap: () {
+                  SearchHelper().searchFilterPopup(context);
+                },
+                child: SizedBox(
+                  width: 57,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        height: 30,
+                        width: 1.5,
+                        color: cc.greyFive,
                       ),
-                    ),
-                  ],
+                      Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        height: 35,
+                        width: 35,
+                        child: SvgPicture.asset(
+                          'assets/svg/filter.svg',
+                          color: cc.greyParagraph,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               enabledBorder: OutlineInputBorder(
