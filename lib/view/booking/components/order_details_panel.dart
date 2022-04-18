@@ -148,6 +148,7 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  sizedBox20(),
                                   CommonHelper().labelCommon("Coupon code"),
                                   Row(
                                     children: [

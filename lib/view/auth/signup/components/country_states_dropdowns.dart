@@ -3,9 +3,21 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
-class CountryStatesDropdowns extends StatelessWidget {
+class CountryStatesDropdowns extends StatefulWidget {
   const CountryStatesDropdowns({Key? key}) : super(key: key);
+
+  @override
+  State<CountryStatesDropdowns> createState() => _CountryStatesDropdownsState();
+}
+
+class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<CountryStatesService>(context, listen: false).fetchCountries();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +33,7 @@ class CountryStatesDropdowns extends StatelessWidget {
 
                 // Country dropdown ===============>
                 CommonHelper().labelCommon("Choose country"),
-                provider.countryDropdown.isNotEmpty
+                provider.countryDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -42,13 +54,15 @@ class CountryStatesDropdowns extends StatelessWidget {
                             onChanged: (newValue) {
                               provider.setCountryValue(newValue);
 
-                              //setting the id of selected value
-                              // provider.setId(
-                              //     provider.valueIndexList[
-                              //         provider.dropdown
-                              //             .indexOf(newValue)]);
+                              // setting the id of selected value
+                              provider.setSelectedCountryId(
+                                  provider.countryDropdownIndexList[provider
+                                      .countryDropdownList
+                                      .indexOf(newValue)]);
+
+                              print(provider.selectedCountryId);
                             },
-                            items: provider.countryDropdown
+                            items: provider.countryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,
@@ -62,7 +76,7 @@ class CountryStatesDropdowns extends StatelessWidget {
                           ),
                         ),
                       )
-                    : Container(),
+                    : OthersHelper().showLoading(cc.primaryColor),
 
                 const SizedBox(
                   height: 25,
