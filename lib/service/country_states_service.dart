@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:qixer/model/area_dropdown_model.dart';
 import 'package:qixer/model/country_dropdown_model.dart';
 import 'package:qixer/model/states_dropdown_model.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -16,8 +17,10 @@ class CountryStatesService with ChangeNotifier {
   var selectedState;
   var selectedStateId;
 
-  var areaDropdown = ['Block A', 'Block B', 'Block C'];
-  var selectedArea = 'Block A';
+  var areaDropdownList = [];
+  var areaDropdownIndexList = [];
+  var selectedArea;
+  var selectedAreaId;
 
   bool isLoading = false;
 
@@ -46,6 +49,11 @@ class CountryStatesService with ChangeNotifier {
     notifyListeners();
   }
 
+  setSelectedAreaId(value) {
+    selectedAreaId = value;
+    notifyListeners();
+  }
+
   setLoadingTrue() {
     isLoading = true;
     notifyListeners();
@@ -66,18 +74,24 @@ class CountryStatesService with ChangeNotifier {
         setLoadingTrue();
       });
       var response = await http.get(Uri.parse('$baseApi/country'));
-      var data = CountryDropdownModel.fromJson(jsonDecode(response.body));
-      for (int i = 0; i < data.countries.length; i++) {
-        countryDropdownList.add(data.countries[i].country);
-        countryDropdownIndexList.add(data.countries[i].id);
+      if (response.statusCode == 200) {
+        var data = CountryDropdownModel.fromJson(jsonDecode(response.body));
+        for (int i = 0; i < data.countries.length; i++) {
+          countryDropdownList.add(data.countries[i].country);
+          countryDropdownIndexList.add(data.countries[i].id);
+        }
+
+        selectedCountry = data.countries[0].country;
+        selectedCountryId = data.countries[0].id;
+
+        setLoadingFalse();
+        notifyListeners();
+        fetchStates(selectedCountryId);
+      } else {
+        //error fetching data
+        countryDropdownList = [];
+        notifyListeners();
       }
-
-      selectedCountry = data.countries[0].country;
-      selectedCountryId = data.countries[0].id;
-
-      setLoadingFalse();
-      notifyListeners();
-      fetchStates(selectedCountryId);
     } else {
       //country list already loaded from api
     }
@@ -90,14 +104,45 @@ class CountryStatesService with ChangeNotifier {
 
     var response =
         await http.get(Uri.parse('$baseApi/country/service-city/$countryId'));
-    var data = StatesDropdownModel.fromJson(jsonDecode(response.body));
-    for (int i = 0; i < data.serviceCities.length; i++) {
-      statesDropdownList.add(data.serviceCities[i].serviceCity);
-      statesDropdownIndexList.add(data.serviceCities[i].id);
-    }
+    if (response.statusCode == 200) {
+      var data = StatesDropdownModel.fromJson(jsonDecode(response.body));
+      for (int i = 0; i < data.serviceCities.length; i++) {
+        statesDropdownList.add(data.serviceCities[i].serviceCity);
+        statesDropdownIndexList.add(data.serviceCities[i].id);
+      }
 
-    selectedState = data.serviceCities[0].serviceCity;
-    selectedStateId = data.serviceCities[0].id;
+      selectedState = data.serviceCities[0].serviceCity;
+      selectedStateId = data.serviceCities[0].id;
+      notifyListeners();
+      fetchArea(countryId, selectedStateId);
+    } else {
+      //error fetching data
+      statesDropdownList = [];
+      notifyListeners();
+    }
+  }
+
+  fetchArea(countryId, stateId) async {
+    //make states list empty first
+    areaDropdownList = [];
     notifyListeners();
+
+    var response = await http.get(Uri.parse(
+        '$baseApi/country/service-city/service-area/$countryId/$stateId'));
+    if (response.statusCode == 200) {
+      var data = AreaDropdownModel.fromJson(jsonDecode(response.body));
+      for (int i = 0; i < data.serviceAreas.length; i++) {
+        areaDropdownList.add(data.serviceAreas[i].serviceArea);
+        areaDropdownIndexList.add(data.serviceAreas[i].id);
+      }
+
+      selectedArea = data.serviceAreas[0].serviceArea;
+      selectedAreaId = data.serviceAreas[0].id;
+      notifyListeners();
+    } else {
+      //error fetching data
+      areaDropdownList = [];
+      notifyListeners();
+    }
   }
 }

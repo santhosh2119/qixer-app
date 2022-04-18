@@ -62,7 +62,6 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
 
                               //fetch states based on selected country
                               provider.fetchStates(provider.selectedCountryId);
-                              // print(provider.selectedCountryId)
                             },
                             items: provider.countryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
@@ -114,6 +113,9 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                                   provider.statesDropdownIndexList[provider
                                       .statesDropdownList
                                       .indexOf(newValue)]);
+                              //fetch area based on selected country and state
+                              provider.fetchArea(provider.selectedCountryId,
+                                  provider.selectedStateId);
                             },
                             items: provider.statesDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
@@ -140,7 +142,7 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
 
                 // Area dropdown ===============>
                 CommonHelper().labelCommon("Choose area"),
-                provider.areaDropdown.isNotEmpty
+                provider.areaDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -162,12 +164,11 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                               provider.setAreaValue(newValue);
 
                               //setting the id of selected value
-                              // provider.setId(
-                              //     provider.valueIndexList[
-                              //         provider.dropdown
-                              //             .indexOf(newValue)]);
+                              provider.setSelectedAreaId(provider
+                                      .areaDropdownIndexList[
+                                  provider.areaDropdownList.indexOf(newValue)]);
                             },
-                            items: provider.areaDropdown
+                            items: provider.areaDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,
@@ -181,7 +182,10 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                           ),
                         ),
                       )
-                    : Container(),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
               ],
             ));
   }
