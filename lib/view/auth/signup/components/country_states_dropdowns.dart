@@ -60,7 +60,9 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                                       .countryDropdownList
                                       .indexOf(newValue)]);
 
-                              print(provider.selectedCountryId);
+                              //fetch states based on selected country
+                              provider.fetchStates(provider.selectedCountryId);
+                              // print(provider.selectedCountryId)
                             },
                             items: provider.countryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
@@ -76,14 +78,17 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                           ),
                         ),
                       )
-                    : OthersHelper().showLoading(cc.primaryColor),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
 
                 const SizedBox(
                   height: 25,
                 ),
                 // States dropdown ===============>
                 CommonHelper().labelCommon("Choose states"),
-                provider.statesDropdown.isNotEmpty
+                provider.statesDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -95,7 +100,7 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                           child: DropdownButton<String>(
                             // menuMaxHeight: 200,
                             // isExpanded: true,
-                            value: provider.selectedStates,
+                            value: provider.selectedState,
                             icon: Icon(Icons.keyboard_arrow_down_rounded,
                                 color: cc.greyFour),
                             iconSize: 26,
@@ -105,12 +110,12 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                               provider.setStatesValue(newValue);
 
                               //setting the id of selected value
-                              // provider.setId(
-                              //     provider.valueIndexList[
-                              //         provider.dropdown
-                              //             .indexOf(newValue)]);
+                              provider.setSelectedStatesId(
+                                  provider.statesDropdownIndexList[provider
+                                      .statesDropdownList
+                                      .indexOf(newValue)]);
                             },
-                            items: provider.statesDropdown
+                            items: provider.statesDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,
@@ -124,7 +129,10 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                           ),
                         ),
                       )
-                    : Container(),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
 
                 const SizedBox(
                   height: 25,

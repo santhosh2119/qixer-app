@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:qixer/model/country_dropdown_model.dart';
+import 'package:qixer/model/states_dropdown_model.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class CountryStatesService with ChangeNotifier {
@@ -10,8 +11,10 @@ class CountryStatesService with ChangeNotifier {
   var selectedCountry;
   var selectedCountryId;
 
-  var statesDropdown = ['New york', 'Banasree', 'Lalbag'];
-  var selectedStates = 'New york';
+  var statesDropdownList = [];
+  var statesDropdownIndexList = [];
+  var selectedState;
+  var selectedStateId;
 
   var areaDropdown = ['Block A', 'Block B', 'Block C'];
   var selectedArea = 'Block A';
@@ -23,18 +26,23 @@ class CountryStatesService with ChangeNotifier {
     notifyListeners();
   }
 
-  setSelectedCountryId(value) {
-    selectedCountryId = value;
-    notifyListeners();
-  }
-
   setStatesValue(value) {
-    selectedStates = value;
+    selectedState = value;
     notifyListeners();
   }
 
   setAreaValue(value) {
     selectedArea = value;
+    notifyListeners();
+  }
+
+  setSelectedCountryId(value) {
+    selectedCountryId = value;
+    notifyListeners();
+  }
+
+  setSelectedStatesId(value) {
+    selectedStateId = value;
     notifyListeners();
   }
 
@@ -48,20 +56,48 @@ class CountryStatesService with ChangeNotifier {
     notifyListeners();
   }
 
+  // makeAreaListEmpty(){
+
+  // }
+
   fetchCountries() async {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setLoadingTrue();
-    });
-    var response = await http.get(Uri.parse('$baseApi/country'));
-    var data = CountryDropdownModel.fromJson(jsonDecode(response.body));
-    for (int i = 0; i < data.countries.length; i++) {
-      countryDropdownList.add(data.countries[i].country);
-      countryDropdownIndexList.add(data.countries[i].id);
+    if (countryDropdownList.isEmpty) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setLoadingTrue();
+      });
+      var response = await http.get(Uri.parse('$baseApi/country'));
+      var data = CountryDropdownModel.fromJson(jsonDecode(response.body));
+      for (int i = 0; i < data.countries.length; i++) {
+        countryDropdownList.add(data.countries[i].country);
+        countryDropdownIndexList.add(data.countries[i].id);
+      }
+
+      selectedCountry = data.countries[0].country;
+      selectedCountryId = data.countries[0].id;
+
+      setLoadingFalse();
+      notifyListeners();
+      fetchStates(selectedCountryId);
+    } else {
+      //country list already loaded from api
+    }
+  }
+
+  fetchStates(countryId) async {
+    //make states list empty first
+    statesDropdownList = [];
+    notifyListeners();
+
+    var response =
+        await http.get(Uri.parse('$baseApi/country/service-city/$countryId'));
+    var data = StatesDropdownModel.fromJson(jsonDecode(response.body));
+    for (int i = 0; i < data.serviceCities.length; i++) {
+      statesDropdownList.add(data.serviceCities[i].serviceCity);
+      statesDropdownIndexList.add(data.serviceCities[i].id);
     }
 
-    selectedCountry = data.countries[0].country;
-    selectedCountryId = data.countries[0].id;
-
+    selectedState = data.serviceCities[0].serviceCity;
+    selectedStateId = data.serviceCities[0].id;
     notifyListeners();
   }
 }
