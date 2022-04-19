@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/login_service.dart';
 import 'package:qixer/view/auth/login/location_select_after_login.dart';
 import 'package:qixer/view/auth/login/login_helper.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_email_page.dart';
@@ -7,8 +9,6 @@ import 'package:qixer/view/auth/signup/signup.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/custom_input.dart';
-
-import '../../home/landing_page.dart';
 import '../../utils/constant_styles.dart';
 
 class LoginPage extends StatefulWidget {
@@ -97,17 +97,17 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       //Name ============>
-                      CommonHelper().labelCommon("Username"),
+                      CommonHelper().labelCommon("Email"),
 
                       CustomInput(
                         controller: emailController,
                         validation: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your username';
+                            return 'Please enter your email';
                           }
                           return null;
                         },
-                        hintText: "User Name",
+                        hintText: "Email",
                         icon: 'assets/icons/user.png',
                         textInputAction: TextInputAction.next,
                       ),
@@ -244,17 +244,23 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      CommonHelper().buttonOrange("Login", () {
-                        if (_formKey.currentState!.validate()) {}
 
-                        Navigator.pushReplacement<void, void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const LocationSelectAfterLoginPage(),
-                          ),
-                        );
-                      }),
+                      Consumer<LoginService>(
+                        builder: (context, provider, child) => CommonHelper()
+                            .buttonOrange("Login", () {
+                          if (_formKey.currentState!.validate()) {
+                            if (provider.isloading == false) {
+                              provider.login(
+                                  emailController.text.trim(),
+                                  passwordController.text,
+                                  context,
+                                  keepLoggedIn);
+                            }
+                          }
+                        },
+                                isloading:
+                                    provider.isloading == false ? false : true),
+                      ),
 
                       const SizedBox(
                         height: 25,

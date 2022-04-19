@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../service/book_steps_service.dart';
 
@@ -56,7 +57,7 @@ class CommonHelper {
   }
 
   //common orange button =======>
-  buttonOrange(String title, VoidCallback pressed) {
+  buttonOrange(String title, VoidCallback pressed, {isloading = false}) {
     return InkWell(
       onTap: pressed,
       child: Container(
@@ -65,13 +66,15 @@ class CommonHelper {
           padding: const EdgeInsets.symmetric(vertical: 18),
           decoration: BoxDecoration(
               color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
-          child: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          )),
+          child: isloading == false
+              ? Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                )
+              : OthersHelper().showLoading(Colors.white)),
     );
   }
 

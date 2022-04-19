@@ -18,6 +18,13 @@ class _SignupPageState extends State<SignupPage> {
   ConstantColors cc = ConstantColors();
   final PageController _pageController = PageController();
 
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController repeatNewPasswordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -143,11 +150,23 @@ class _SignupPageState extends State<SignupPage> {
                         itemCount: 3,
                         itemBuilder: (context, i) {
                           if (i == 0) {
-                            return const SignupEmailName();
+                            return SignupEmailName(
+                              fullNameController: fullNameController,
+                              userNameController: userNameController,
+                              emailController: emailController,
+                            );
                           } else if (i == 1) {
-                            return const SignupPhonePass();
+                            return SignupPhonePass(
+                              passController: newPasswordController,
+                              repeatPassController: repeatNewPasswordController,
+                            );
                           } else {
-                            return const SignupCountryStates();
+                            return SignupCountryStates(
+                              emailController: emailController,
+                              fullNameController: fullNameController,
+                              passController: newPasswordController,
+                              userNameController: userNameController,
+                            );
                           }
                         }),
                   ),

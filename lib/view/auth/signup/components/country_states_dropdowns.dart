@@ -3,9 +3,21 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
-class CountryStatesDropdowns extends StatelessWidget {
+class CountryStatesDropdowns extends StatefulWidget {
   const CountryStatesDropdowns({Key? key}) : super(key: key);
+
+  @override
+  State<CountryStatesDropdowns> createState() => _CountryStatesDropdownsState();
+}
+
+class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<CountryStatesService>(context, listen: false).fetchCountries();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +33,7 @@ class CountryStatesDropdowns extends StatelessWidget {
 
                 // Country dropdown ===============>
                 CommonHelper().labelCommon("Choose country"),
-                provider.countryDropdown.isNotEmpty
+                provider.countryDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -42,13 +54,16 @@ class CountryStatesDropdowns extends StatelessWidget {
                             onChanged: (newValue) {
                               provider.setCountryValue(newValue);
 
-                              //setting the id of selected value
-                              // provider.setId(
-                              //     provider.valueIndexList[
-                              //         provider.dropdown
-                              //             .indexOf(newValue)]);
+                              // setting the id of selected value
+                              provider.setSelectedCountryId(
+                                  provider.countryDropdownIndexList[provider
+                                      .countryDropdownList
+                                      .indexOf(newValue)]);
+
+                              //fetch states based on selected country
+                              provider.fetchStates(provider.selectedCountryId);
                             },
-                            items: provider.countryDropdown
+                            items: provider.countryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,
@@ -62,14 +77,17 @@ class CountryStatesDropdowns extends StatelessWidget {
                           ),
                         ),
                       )
-                    : Container(),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
 
                 const SizedBox(
                   height: 25,
                 ),
                 // States dropdown ===============>
                 CommonHelper().labelCommon("Choose states"),
-                provider.statesDropdown.isNotEmpty
+                provider.statesDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -81,7 +99,7 @@ class CountryStatesDropdowns extends StatelessWidget {
                           child: DropdownButton<String>(
                             // menuMaxHeight: 200,
                             // isExpanded: true,
-                            value: provider.selectedStates,
+                            value: provider.selectedState,
                             icon: Icon(Icons.keyboard_arrow_down_rounded,
                                 color: cc.greyFour),
                             iconSize: 26,
@@ -91,12 +109,20 @@ class CountryStatesDropdowns extends StatelessWidget {
                               provider.setStatesValue(newValue);
 
                               //setting the id of selected value
-                              // provider.setId(
-                              //     provider.valueIndexList[
-                              //         provider.dropdown
-                              //             .indexOf(newValue)]);
+                              provider.setSelectedStatesId(
+                                  provider.statesDropdownIndexList[provider
+                                      .statesDropdownList
+                                      .indexOf(newValue)]);
+                              // //fetch area based on selected country and state
+
+                              provider.fetchArea(provider.selectedCountryId,
+                                  provider.selectedStateId);
+
+                              // print(provider.statesDropdownIndexList[provider
+                              //     .statesDropdownList
+                              //     .indexOf(newValue)]);
                             },
-                            items: provider.statesDropdown
+                            items: provider.statesDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,
@@ -110,7 +136,10 @@ class CountryStatesDropdowns extends StatelessWidget {
                           ),
                         ),
                       )
-                    : Container(),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
 
                 const SizedBox(
                   height: 25,
@@ -118,7 +147,7 @@ class CountryStatesDropdowns extends StatelessWidget {
 
                 // Area dropdown ===============>
                 CommonHelper().labelCommon("Choose area"),
-                provider.areaDropdown.isNotEmpty
+                provider.areaDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -140,12 +169,11 @@ class CountryStatesDropdowns extends StatelessWidget {
                               provider.setAreaValue(newValue);
 
                               //setting the id of selected value
-                              // provider.setId(
-                              //     provider.valueIndexList[
-                              //         provider.dropdown
-                              //             .indexOf(newValue)]);
+                              provider.setSelectedAreaId(provider
+                                      .areaDropdownIndexList[
+                                  provider.areaDropdownList.indexOf(newValue)]);
                             },
-                            items: provider.areaDropdown
+                            items: provider.areaDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,
@@ -159,7 +187,10 @@ class CountryStatesDropdowns extends StatelessWidget {
                           ),
                         ),
                       )
-                    : Container(),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
               ],
             ));
   }

@@ -10,7 +10,7 @@ class OthersHelper with ChangeNotifier {
   showLoading(Color color) {
     return SpinKitThreeBounce(
       color: color,
-      size: 20.0,
+      size: 16.0,
     );
   }
 
@@ -36,3 +36,5 @@ class OthersHelper with ChangeNotifier {
         fontSize: 16.0);
   }
 }
+
+String baseApi = 'https://nazmul.xgenious.com/qixer_with_api/api/v1';
