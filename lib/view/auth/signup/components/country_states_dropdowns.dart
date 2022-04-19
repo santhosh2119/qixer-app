@@ -113,9 +113,14 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                                   provider.statesDropdownIndexList[provider
                                       .statesDropdownList
                                       .indexOf(newValue)]);
-                              //fetch area based on selected country and state
+                              // //fetch area based on selected country and state
+
                               provider.fetchArea(provider.selectedCountryId,
                                   provider.selectedStateId);
+
+                              // print(provider.statesDropdownIndexList[provider
+                              //     .statesDropdownList
+                              //     .indexOf(newValue)]);
                             },
                             items: provider.statesDropdownList
                                 .map<DropdownMenuItem<String>>((value) {

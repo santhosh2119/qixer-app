@@ -6,9 +6,15 @@ import 'package:qixer/view/auth/reset_password/reset_pass_otp_pass.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 class SignupPhonePass extends StatefulWidget {
-  const SignupPhonePass({Key? key}) : super(key: key);
+  const SignupPhonePass(
+      {Key? key, this.passController, this.repeatPassController})
+      : super(key: key);
+
+  final passController;
+  final repeatPassController;
 
   @override
   _SignupPhonePassState createState() => _SignupPhonePassState();
@@ -26,9 +32,6 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
-  TextEditingController repeatNewPasswordController = TextEditingController();
-  TextEditingController newPasswordController = TextEditingController();
 
   bool keepLoggedIn = true;
 
@@ -65,7 +68,8 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 18)),
               initialCountryCode: 'IN',
               onChanged: (phone) {
-                print(phone.completeNumber);
+                Provider.of<SignupService>(context, listen: false)
+                    .setPhone(phone.completeNumber);
               },
             ),
 
@@ -82,7 +86,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                     // color: const Color(0xfff2f2f2),
                     borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
-                  controller: newPasswordController,
+                  controller: widget.passController,
                   textInputAction: TextInputAction.next,
                   obscureText: !_newpasswordVisible,
                   style: const TextStyle(fontSize: 14),
@@ -152,7 +156,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                     // color: const Color(0xfff2f2f2),
                     borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
-                  controller: repeatNewPasswordController,
+                  controller: widget.repeatPassController,
                   textInputAction: TextInputAction.next,
                   obscureText: !_repeatnewpasswordVisible,
                   style: const TextStyle(fontSize: 14),
@@ -221,15 +225,16 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
             Consumer<SignupService>(
               builder: (context, provider, child) =>
                   CommonHelper().buttonOrange("Continue", () {
-                // if (_formKey.currentState!.validate()) {
-                //   provider.pagecontroller.animateToPage(
-                //     provider.selectedPage + 1,
-                //     duration: const Duration(milliseconds: 300),
-                //     curve: Curves.ease);
-                // }
-                provider.pagecontroller.animateToPage(provider.selectedPage + 1,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.ease);
+                if (widget.passController.text !=
+                    widget.repeatPassController.text) {
+                  OthersHelper()
+                      .showToast('Password didn\'t match', Colors.black);
+                } else if (_formKey.currentState!.validate()) {
+                  provider.pagecontroller.animateToPage(
+                      provider.selectedPage + 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease);
+                }
               }),
             ),
 

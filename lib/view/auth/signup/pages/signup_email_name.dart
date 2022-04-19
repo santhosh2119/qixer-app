@@ -9,7 +9,16 @@ import 'package:qixer/view/utils/custom_input.dart';
 import '../../../utils/constant_colors.dart';
 
 class SignupEmailName extends StatefulWidget {
-  const SignupEmailName({Key? key}) : super(key: key);
+  const SignupEmailName(
+      {Key? key,
+      this.fullNameController,
+      this.userNameController,
+      this.emailController})
+      : super(key: key);
+
+  final fullNameController;
+  final userNameController;
+  final emailController;
 
   @override
   _SignupEmailNameState createState() => _SignupEmailNameState();
@@ -25,10 +34,6 @@ class _SignupEmailNameState extends State<SignupEmailName> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
 
   bool keepLoggedIn = true;
 
@@ -46,7 +51,7 @@ class _SignupEmailNameState extends State<SignupEmailName> {
             CommonHelper().labelCommon("Full name"),
 
             CustomInput(
-              controller: fullNameController,
+              controller: widget.fullNameController,
               validation: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your full name';
@@ -65,7 +70,7 @@ class _SignupEmailNameState extends State<SignupEmailName> {
             CommonHelper().labelCommon("Username"),
 
             CustomInput(
-              controller: userNameController,
+              controller: widget.userNameController,
               validation: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your username';
@@ -84,7 +89,7 @@ class _SignupEmailNameState extends State<SignupEmailName> {
             CommonHelper().labelCommon("Email"),
 
             CustomInput(
-              controller: userNameController,
+              controller: widget.emailController,
               validation: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your email';
@@ -106,15 +111,12 @@ class _SignupEmailNameState extends State<SignupEmailName> {
             Consumer<SignupService>(
               builder: (context, provider, child) =>
                   CommonHelper().buttonOrange("Continue", () {
-                // if (_formKey.currentState!.validate()) {
-                //   provider.pagecontroller.animateToPage(
-                //       provider.selectedPage + 1,
-                //       duration: const Duration(milliseconds: 300),
-                //       curve: Curves.ease);
-                // }
-                provider.pagecontroller.animateToPage(provider.selectedPage + 1,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.ease);
+                if (_formKey.currentState!.validate()) {
+                  provider.pagecontroller.animateToPage(
+                      provider.selectedPage + 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.ease);
+                }
               }),
             ),
 

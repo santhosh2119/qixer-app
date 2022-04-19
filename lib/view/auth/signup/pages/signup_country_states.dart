@@ -7,9 +7,21 @@ import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 class SignupCountryStates extends StatefulWidget {
-  const SignupCountryStates({Key? key}) : super(key: key);
+  const SignupCountryStates(
+      {Key? key,
+      this.fullNameController,
+      this.userNameController,
+      this.emailController,
+      this.passController})
+      : super(key: key);
+
+  final fullNameController;
+  final userNameController;
+  final emailController;
+  final passController;
 
   @override
   _SignupCountryStatesState createState() => _SignupCountryStatesState();
@@ -64,13 +76,19 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
             Consumer<SignupService>(
               builder: (context, provider, child) =>
                   CommonHelper().buttonOrange("Sign Up", () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const LandingPage(),
-                  ),
-                );
-              }),
+                if (termsAgree == false) {
+                  OthersHelper().showToast(
+                      'You must agree with the terms and conditions to register',
+                      Colors.black);
+                } else {
+                  provider.signup(
+                      widget.fullNameController.text.trim(),
+                      widget.emailController.text.trim(),
+                      widget.userNameController.text.trim(),
+                      widget.passController.text.trim(),
+                      context);
+                }
+              }, isloading: provider.isloading == false ? false : true),
             ),
 
             const SizedBox(

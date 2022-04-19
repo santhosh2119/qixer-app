@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/service/login_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -12,6 +15,12 @@ class SignupService with ChangeNotifier {
   int selectedPage = 0;
   var pagecontroller;
   bool isloading = false;
+
+  String phoneNumber = '0';
+  setPhone(value) {
+    phoneNumber = value;
+    notifyListeners();
+  }
 
   setPageController(p) {
     pagecontroller = p;
@@ -40,8 +49,8 @@ class SignupService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> login(email, pass, BuildContext context, bool keepLoggedIn,
-      {isFromLoginPage = true}) async {
+  Future<bool> signup(String fullName, String email, String userName,
+      String password, BuildContext context) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       OthersHelper()
@@ -50,8 +59,20 @@ class SignupService with ChangeNotifier {
     } else {
       setLoadingTrue();
       var data = jsonEncode({
+        'name': fullName,
         'email': email,
-        'password': pass,
+        'username': userName,
+        'phone': phoneNumber,
+        'password': password,
+        'service_city':
+            Provider.of<CountryStatesService>(context, listen: false)
+                .selectedStateId,
+        'service_area':
+            Provider.of<CountryStatesService>(context, listen: false)
+                .selectedAreaId,
+        'country_id': Provider.of<CountryStatesService>(context, listen: false)
+            .selectedCountryId,
+        'terms_conditions': 1,
       });
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
@@ -59,14 +80,13 @@ class SignupService with ChangeNotifier {
         "Content-Type": "application/json"
       };
 
-      var response = await http.post(Uri.parse('$baseApi/login'),
+      var response = await http.post(Uri.parse('$baseApi/register'),
           body: data, headers: header);
 
       if (response.statusCode == 201) {
-        if (isFromLoginPage) {
-          OthersHelper()
-              .showToast("Login successful", ConstantColors().successColor);
-        }
+        OthersHelper().showToast(
+            "Registration successful", ConstantColors().successColor);
+
         setLoadingFalse();
 
         Navigator.pushReplacement<void, void>(
@@ -78,35 +98,28 @@ class SignupService with ChangeNotifier {
 
         String token = jsonDecode(response.body)['token'];
 
-        if (keepLoggedIn) {
-          saveDetails(email, pass, token);
-        } else {
-          setKeepLoggedInFalse();
-        }
+        LoginService().saveDetails(email, password, token);
 
         return true;
       } else {
-        //Login unsuccessful ==========>
-        if (isFromLoginPage) {
+        //Sign up unsuccessful ==========>
+
+        if (jsonDecode(response.body)['errors'].containsKey('email')) {
           OthersHelper().showToast(
-              "Invalid Email or Password", ConstantColors().warningColor);
+              jsonDecode(response.body)['errors']['email'][0], Colors.black);
+        } else if (jsonDecode(response.body)['errors']
+            .containsKey('username')) {
+          OthersHelper().showToast(
+              jsonDecode(response.body)['errors']['username'][0], Colors.black);
+        } else if (jsonDecode(response.body)['errors'].containsKey('phone')) {
+          OthersHelper().showToast(
+              jsonDecode(response.body)['errors']['phone'][0], Colors.black);
+        } else {
+          OthersHelper().showToast('Something went wrong', Colors.black);
         }
         setLoadingFalse();
         return false;
       }
     }
-  }
-
-  saveDetails(String email, pass, String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("email", email);
-    prefs.setBool('keepLoggedIn', true);
-    prefs.setString("pass", pass);
-    prefs.setString("token", token);
-  }
-
-  setKeepLoggedInFalse() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('keepLoggedIn', false);
   }
 }
