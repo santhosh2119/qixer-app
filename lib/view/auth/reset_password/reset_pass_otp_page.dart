@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/reset_pass_otp_service.dart';
-import 'package:qixer/view/auth/reset_password/reset_password_page.dart';
+import 'package:qixer/service/reset_password_service.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../utils/common_helper.dart';
 import '../../utils/constant_colors.dart';
 
 class ResetPassOtpPage extends StatefulWidget {
-  const ResetPassOtpPage({Key? key}) : super(key: key);
+  const ResetPassOtpPage({Key? key, this.email}) : super(key: key);
+
+  final email;
 
   @override
   _ResetPassOtpPageState createState() => _ResetPassOtpPageState();
@@ -88,7 +91,8 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                   errorAnimationController: errorController,
                   controller: textEditingController,
                   onCompleted: (otp) {
-                    ResetPasswordOtpService().checkOtp(otp, context);
+                    ResetPasswordOtpService()
+                        .checkOtp(otp, widget.email, context);
                   },
                   onChanged: (value) {
                     setState(() {
@@ -105,34 +109,35 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
               const SizedBox(
                 height: 13,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: 'Didn\'t receive?  ',
-                      style: const TextStyle(
-                          color: Color(0xff646464), fontSize: 14),
-                      children: <TextSpan>[
-                        TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const SignUpPage()));
-                              },
-                            text: 'Send again',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: cc.primaryColor,
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
+              Consumer<ResetPasswordService>(
+                builder: (context, provider, child) => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    provider.isloading == false
+                        ? RichText(
+                            text: TextSpan(
+                              text: 'Didn\'t receive?  ',
+                              style: const TextStyle(
+                                  color: Color(0xff646464), fontSize: 14),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        provider.sendOtp(widget.email, context,
+                                            isFromOtpPage: true);
+                                      },
+                                    text: 'Send again',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: cc.primaryColor,
+                                    )),
+                              ],
+                            ),
+                          )
+                        : OthersHelper().showLoading(cc.primaryColor),
+                  ],
+                ),
               ),
             ],
           ),

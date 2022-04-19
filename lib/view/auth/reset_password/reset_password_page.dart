@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/reset_password_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 import '../../utils/constant_colors.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({Key? key}) : super(key: key);
+  const ResetPasswordPage({Key? key, this.email}) : super(key: key);
+
+  final email;
 
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
@@ -25,8 +28,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController repeatNewPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
+  TextEditingController repeatNewPasswordController = TextEditingController();
 
   bool keepLoggedIn = true;
 
@@ -222,19 +225,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      InkWell(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {}
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const ResetPassOtpPage(),
-                            ),
-                          );
+                      Consumer<ResetPasswordService>(
+                        builder: (context, provider, child) => CommonHelper()
+                            .buttonOrange("Change password", () {
+                          if (provider.isloading == false) {
+                            if (_formKey.currentState!.validate()) {
+                              provider.resetPassword(
+                                  newPasswordController.text,
+                                  repeatNewPasswordController.text,
+                                  widget.email,
+                                  context);
+                            }
+                          }
                         },
-                        child: CommonHelper()
-                            .buttonOrange("Change password", () {}),
+                                isloading:
+                                    provider.isloading == false ? false : true),
                       ),
 
                       const SizedBox(

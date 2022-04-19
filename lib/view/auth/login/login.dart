@@ -248,8 +248,8 @@ class _LoginPageState extends State<LoginPage> {
                       Consumer<LoginService>(
                         builder: (context, provider, child) => CommonHelper()
                             .buttonOrange("Login", () {
-                          if (_formKey.currentState!.validate()) {
-                            if (provider.isloading == false) {
+                          if (provider.isloading == false) {
+                            if (_formKey.currentState!.validate()) {
                               provider.login(
                                   emailController.text.trim(),
                                   passwordController.text,
