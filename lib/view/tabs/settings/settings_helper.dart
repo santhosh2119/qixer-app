@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/logout_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -90,10 +92,12 @@ class SettingsHelper {
                   const SizedBox(
                     width: 16,
                   ),
-                  Expanded(
-                      child: CommonHelper().buttonOrange('Logout', () {
-                    Navigator.pop(context);
-                  })),
+                  Consumer<LogoutService>(
+                    builder: (context, provider, child) => Expanded(
+                        child: CommonHelper().buttonOrange('Logout', () {
+                      provider.logout(context);
+                    }, isloading: provider.isloading == false ? false : true)),
+                  ),
                 ],
               )
             ],

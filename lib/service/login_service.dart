@@ -62,7 +62,7 @@ class LoginService with ChangeNotifier {
         if (keepLoggedIn) {
           saveDetails(email, pass, token);
         } else {
-          setKeepLoggedInFalse();
+          setKeepLoggedInFalseSaveToken(token);
         }
 
         return true;
@@ -86,8 +86,9 @@ class LoginService with ChangeNotifier {
     prefs.setString("token", token);
   }
 
-  setKeepLoggedInFalse() async {
+  setKeepLoggedInFalseSaveToken(token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('keepLoggedIn', false);
+    prefs.setString("token", token);
   }
 }

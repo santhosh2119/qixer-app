@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/login_service.dart';
-import 'package:qixer/view/auth/login/location_select_after_login.dart';
 import 'package:qixer/view/auth/login/login_helper.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_email_page.dart';
 import 'package:qixer/view/auth/signup/signup.dart';
@@ -12,7 +11,9 @@ import 'package:qixer/view/utils/custom_input.dart';
 import '../../utils/constant_styles.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key, this.hasBackButton = true}) : super(key: key);
+
+  final hasBackButton;
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -62,22 +63,24 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  Positioned(
-                      top: 30,
-                      left: 10,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: cc.greyPrimary,
-                            size: 20,
-                          ),
-                        ),
-                      )),
+                  // widget.hasBackButton == true
+                  //     ? Positioned(
+                  //         top: 30,
+                  //         left: 10,
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             Navigator.pop(context);
+                  //           },
+                  //           child: Container(
+                  //             padding: const EdgeInsets.all(20),
+                  //             child: Icon(
+                  //               Icons.arrow_back_ios,
+                  //               color: cc.greyPrimary,
+                  //               size: 20,
+                  //             ),
+                  //           ),
+                  //         ))
+                  //     : Container(),
                 ],
               ),
               Container(
