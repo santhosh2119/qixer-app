@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/reset_pass_otp_service.dart';
 import 'package:qixer/view/auth/reset_password/reset_password_page.dart';
 
 import '../../utils/common_helper.dart';
@@ -85,23 +87,15 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                   // enableActiveFill: true,
                   errorAnimationController: errorController,
                   controller: textEditingController,
-                  onCompleted: (v) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const ResetPasswordPage(),
-                      ),
-                    );
+                  onCompleted: (otp) {
+                    ResetPasswordOtpService().checkOtp(otp, context);
                   },
                   onChanged: (value) {
-                    print(value);
                     setState(() {
                       currentText = value;
                     });
                   },
                   beforeTextPaste: (text) {
-                    print("Allowing to paste $text");
                     //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
                     //but you can show anything you want here, like your pop up saying wrong paste format or etc
                     return true;

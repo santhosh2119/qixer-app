@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/reset_password/reset_pass_otp_pass.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/reset_password_service.dart';
+import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
 import '../../utils/constant_colors.dart';
@@ -16,7 +18,6 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   bool keepLoggedIn = true;
 
@@ -89,19 +90,18 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      InkWell(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {}
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const ResetPassOtpPage(),
-                            ),
-                          );
+                      Consumer<ResetPasswordService>(
+                        builder: (context, provider, child) => CommonHelper()
+                            .buttonOrange("Send Instructions", () {
+                          if (provider.isloading == false) {
+                            if (_formKey.currentState!.validate()) {
+                              provider.sendOtp(
+                                  emailController.text.trim(), context);
+                            }
+                          }
                         },
-                        child: CommonHelper()
-                            .buttonOrange("Send Instructions", () {}),
+                                isloading:
+                                    provider.isloading == false ? false : true),
                       ),
 
                       const SizedBox(
