@@ -81,12 +81,14 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                       'You must agree with the terms and conditions to register',
                       Colors.black);
                 } else {
-                  provider.signup(
-                      widget.fullNameController.text.trim(),
-                      widget.emailController.text.trim(),
-                      widget.userNameController.text.trim(),
-                      widget.passController.text.trim(),
-                      context);
+                  if (provider.isloading == false) {
+                    provider.signup(
+                        widget.fullNameController.text.trim(),
+                        widget.emailController.text.trim(),
+                        widget.userNameController.text.trim(),
+                        widget.passController.text.trim(),
+                        context);
+                  }
                 }
               }, isloading: provider.isloading == false ? false : true),
             ),
