@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/book_steps_service.dart';
+import 'package:qixer/service/change_pass_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/login_service.dart';
 import 'package:qixer/service/logout_service.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginService()),
         ChangeNotifierProvider(create: (_) => ResetPasswordService()),
         ChangeNotifierProvider(create: (_) => LogoutService()),
+        ChangeNotifierProvider(create: (_) => ChangePassService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

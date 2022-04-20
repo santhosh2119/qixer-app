@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/change_pass_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
-class UpdatePasswordPage extends StatefulWidget {
-  const UpdatePasswordPage({Key? key}) : super(key: key);
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({Key? key}) : super(key: key);
 
   @override
-  _UpdatePasswordPageState createState() => _UpdatePasswordPageState();
+  _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
 
-class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
   late bool _newpasswordVisible;
   late bool _repeatnewpasswordVisible;
   late bool _oldpasswordVisible;
@@ -28,7 +29,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
 
   TextEditingController repeatNewPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
-  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController currentPasswordController = TextEditingController();
 
   bool keepLoggedIn = true;
 
@@ -70,7 +71,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                               // color: const Color(0xfff2f2f2),
                               borderRadius: BorderRadius.circular(10)),
                           child: TextFormField(
-                            controller: oldPasswordController,
+                            controller: currentPasswordController,
                             textInputAction: TextInputAction.next,
                             obscureText: !_oldpasswordVisible,
                             style: const TextStyle(fontSize: 14),
@@ -281,15 +282,20 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      CommonHelper().buttonOrange("Change password", () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute<void>(
-                        //     builder: (BuildContext context) =>
-                        //         const ResetPassOtpPage(),
-                        //   ),
-                        // );
-                      }),
+                      Consumer<ChangePassService>(
+                        builder: (context, provider, child) => CommonHelper()
+                            .buttonOrange("Change password", () {
+                          if (provider.isloading == false) {
+                            provider.changePassword(
+                                currentPasswordController.text,
+                                newPasswordController.text,
+                                repeatNewPasswordController.text,
+                                context);
+                          }
+                        },
+                                isloading:
+                                    provider.isloading == false ? false : true),
+                      ),
 
                       const SizedBox(
                         height: 30,
