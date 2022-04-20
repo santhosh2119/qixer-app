@@ -95,7 +95,9 @@ class SettingsHelper {
                   Consumer<LogoutService>(
                     builder: (context, provider, child) => Expanded(
                         child: CommonHelper().buttonOrange('Logout', () {
-                      provider.logout(context);
+                      if (provider.isloading == false) {
+                        provider.logout(context);
+                      }
                     }, isloading: provider.isloading == false ? false : true)),
                   ),
                 ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
-import 'package:qixer/view/tabs/settings/password/update_password_page.dart';
+import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
 import 'package:qixer/view/tabs/settings/supports/my_tickets_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -124,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         context,
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
-                              const UpdatePasswordPage(),
+                              const ChangePasswordPage(),
                         ),
                       );
                     }),
