@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
@@ -22,6 +21,12 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<SliderService>(context, listen: false).loadSlider();
+  }
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -102,7 +107,15 @@ class _HomepageState extends State<Homepage> {
               ),
 
               //Slider
-              SliderHome(cc: cc),
+              Consumer<SliderService>(
+                  builder: (context, provider, child) =>
+                      provider.sliderImageList.isNotEmpty
+                          ? SliderHome(
+                              cc: cc,
+                              sliderDetailsList: provider.sliderDetailsList,
+                              sliderImageList: provider.sliderImageList,
+                            )
+                          : Container()),
 
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),

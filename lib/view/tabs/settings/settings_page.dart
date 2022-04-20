@@ -82,11 +82,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        CommonHelper().paragraphCommon(
-                                            profileProvider.profileDetails
-                                                    .userDetails.about ??
-                                                '',
-                                            TextAlign.center),
+                                        profileProvider.profileDetails.userDetails
+                                                    .about !=
+                                                null
+                                            ? CommonHelper().paragraphCommon(
+                                                profileProvider.profileDetails
+                                                    .userDetails.about,
+                                                TextAlign.center)
+                                            : Container(),
 
                                         //Grid cards
                                         SettingsPageGrid(cc: cc),
