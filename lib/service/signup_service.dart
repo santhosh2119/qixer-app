@@ -104,22 +104,22 @@ class SignupService with ChangeNotifier {
       } else {
         //Sign up unsuccessful ==========>
 
-        if (jsonDecode(response.body)['errors'].containsKey('email')) {
-          OthersHelper().showToast(
-              jsonDecode(response.body)['errors']['email'][0], Colors.black);
-        } else if (jsonDecode(response.body)['errors']
-            .containsKey('username')) {
-          OthersHelper().showToast(
-              jsonDecode(response.body)['errors']['username'][0], Colors.black);
-        } else if (jsonDecode(response.body)['errors'].containsKey('phone')) {
-          OthersHelper().showToast(
-              jsonDecode(response.body)['errors']['phone'][0], Colors.black);
-        } else {
-          OthersHelper().showToast('Something went wrong', Colors.black);
-        }
+        showError(jsonDecode(response.body)['errors']);
         setLoadingFalse();
         return false;
       }
+    }
+  }
+
+  showError(error) {
+    if (error.containsKey('email')) {
+      OthersHelper().showToast(error['email'][0], Colors.black);
+    } else if (error.containsKey('username')) {
+      OthersHelper().showToast(error['username'][0], Colors.black);
+    } else if (error.containsKey('phone')) {
+      OthersHelper().showToast(error['phone'][0], Colors.black);
+    } else {
+      OthersHelper().showToast('Something went wrong', Colors.black);
     }
   }
 }

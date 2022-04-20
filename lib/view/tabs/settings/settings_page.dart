@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
@@ -6,6 +8,7 @@ import 'package:qixer/view/tabs/settings/supports/my_tickets_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../booking/booking_helper.dart';
 
@@ -20,6 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<ProfileService>(context, listen: false).getProfileDetails();
   }
 
   @override
@@ -31,119 +35,179 @@ class _SettingsPageState extends State<SettingsPage> {
         body: SafeArea(
           child: SingleChildScrollView(
             physics: physicsCommon,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenPadding),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //profile image, name ,desc
-                        Column(
+            child: Consumer<ProfileService>(
+              builder: (context, profileProvider, child) => profileProvider
+                          .profileDetails !=
+                      null
+                  ? profileProvider.profileDetails != 'error'
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            CommonHelper().profileImage(
-                                "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                                62,
-                                62),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenPadding),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //profile image, name ,desc
+                                    Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 30,
+                                        ),
+                                        CommonHelper().profileImage(
+                                            profileProvider.profileImage ??
+                                                "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2hpdGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+                                            62,
+                                            62),
 
-                            const SizedBox(
-                              height: 12,
+                                        const SizedBox(
+                                          height: 12,
+                                        ),
+
+                                        //user name
+                                        CommonHelper().titleCommon(
+                                            profileProvider.profileDetails
+                                                    .userDetails.name ??
+                                                ''),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        //phone
+                                        CommonHelper().paragraphCommon(
+                                            profileProvider.profileDetails
+                                                    .userDetails.phone ??
+                                                '',
+                                            TextAlign.center),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        profileProvider.profileDetails.userDetails
+                                                    .about !=
+                                                null
+                                            ? CommonHelper().paragraphCommon(
+                                                profileProvider.profileDetails
+                                                    .userDetails.about,
+                                                TextAlign.center)
+                                            : Container(),
+
+                                        //Grid cards
+                                        SettingsPageGrid(cc: cc),
+                                      ],
+                                    ),
+
+                                    //
+                                  ]),
+                            ),
+                            SettingsHelper().borderBold(30, 20),
+
+                            // Personal information ==========>
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: screenPadding),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CommonHelper()
+                                        .titleCommon('Personal informations'),
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    BookingHelper().bRow(
+                                        'null',
+                                        'Email',
+                                        profileProvider.profileDetails
+                                                .userDetails.email ??
+                                            ''),
+                                    BookingHelper().bRow(
+                                        'null',
+                                        'City',
+                                        profileProvider.profileDetails
+                                                .userDetails.city.serviceCity ??
+                                            ''),
+                                    BookingHelper().bRow(
+                                        'null',
+                                        'Area',
+                                        profileProvider.profileDetails
+                                                .userDetails.area.serviceArea ??
+                                            ''),
+                                    BookingHelper().bRow(
+                                        'null',
+                                        'Country',
+                                        profileProvider.profileDetails
+                                                .userDetails.country.country ??
+                                            ''),
+                                    BookingHelper().bRow(
+                                        'null',
+                                        'Post Code',
+                                        profileProvider.profileDetails
+                                                .userDetails.postCode ??
+                                            ''),
+                                    BookingHelper().bRow(
+                                        'null',
+                                        'Address',
+                                        profileProvider.profileDetails
+                                                .userDetails.address ??
+                                            '',
+                                        lastBorder: false),
+                                  ]),
                             ),
 
-                            //user name
-                            CommonHelper().titleCommon('Leslie Alexander'),
-                            const SizedBox(
-                              height: 5,
-                            ),
-//phone
-                            CommonHelper().paragraphCommon(
-                                '(208) 555-0112', TextAlign.center),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CommonHelper().paragraphCommon(
-                                'It is a long established fact that a reader will be distracted by the readable content of a page when',
-                                TextAlign.center),
+                            SettingsHelper().borderBold(35, 8),
 
-                            //Grid cards
-                            SettingsPageGrid(cc: cc),
+                            //Other settings options ========>
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(children: [
+                                SettingsHelper().settingOption(
+                                    'assets/svg/message-circle.svg',
+                                    'Support Ticket', () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          const MyTicketsPage(),
+                                    ),
+                                  );
+                                }),
+                                CommonHelper().dividerCommon(),
+                                SettingsHelper().settingOption(
+                                    'assets/svg/lock-circle.svg',
+                                    'Change Password', () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          const ChangePasswordPage(),
+                                    ),
+                                  );
+                                }),
+                              ]),
+                            ),
+
+                            // logout
+                            SettingsHelper().borderBold(12, 5),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Column(children: [
+                                SettingsHelper().settingOption(
+                                    'assets/svg/logout-circle.svg', 'Logout',
+                                    () {
+                                  SettingsHelper().logoutPopup(context);
+                                }),
+                                sizedBox20()
+                              ]),
+                            )
                           ],
-                        ),
-
-                        //
-                      ]),
-                ),
-                SettingsHelper().borderBold(30, 20),
-
-                // Personal information ==========>
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenPadding),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonHelper().titleCommon('Personal informations'),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        BookingHelper()
-                            .bRow('null', 'Email', 'leslialex@example.com'),
-                        BookingHelper().bRow('null', 'City', 'Dhaka'),
-                        BookingHelper().bRow('null', 'Area', 'Dhanmondi'),
-                        BookingHelper().bRow('null', 'Country', 'Bangladesh'),
-                        BookingHelper().bRow('null', 'Post Code', '1230'),
-                        BookingHelper().bRow('null', 'Address',
-                            'Dhanmondi 1230, Dhaka Bangladesh',
-                            lastBorder: false),
-                      ]),
-                ),
-
-                SettingsHelper().borderBold(35, 8),
-
-//Other settings options ========>
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(children: [
-                    SettingsHelper().settingOption(
-                        'assets/svg/message-circle.svg', 'Support Ticket', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const MyTicketsPage(),
-                        ),
-                      );
-                    }),
-                    CommonHelper().dividerCommon(),
-                    SettingsHelper().settingOption(
-                        'assets/svg/lock-circle.svg', 'Change Password', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const ChangePasswordPage(),
-                        ),
-                      );
-                    }),
-                  ]),
-                ),
-
-                // logout
-                SettingsHelper().borderBold(12, 5),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(children: [
-                    SettingsHelper().settingOption(
-                        'assets/svg/logout-circle.svg', 'Logout', () {
-                      SettingsHelper().logoutPopup(context);
-                    }),
-                    sizedBox20()
-                  ]),
-                )
-              ],
+                        )
+                      : OthersHelper().showError(context)
+                  : Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height - 150,
+                      child: OthersHelper().showLoading(cc.primaryColor),
+                    ),
             ),
           ),
         ));
