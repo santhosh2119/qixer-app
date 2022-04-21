@@ -68,14 +68,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: pickedImage == null
-                                  ? CommonHelper().profileImage(
-                                      "https://cdn.pixabay.com/photo/2022/03/23/10/50/sea-7086932__340.jpg",
-                                      82,
-                                      82)
+                                  ? Image.asset(
+                                      'assets/images/avatar.png',
+                                      height: 85,
+                                      width: 85,
+                                      fit: BoxFit.cover,
+                                    )
                                   : Image.file(
                                       File(pickedImage!.path),
-                                      height: 90,
-                                      width: 90,
+                                      height: 85,
+                                      width: 85,
                                       fit: BoxFit.cover,
                                     )),
                         ),
@@ -156,7 +158,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: 22,
+                      height: 25,
                     ),
                     CommonHelper().labelCommon("Your Address"),
                     TextareaField(
