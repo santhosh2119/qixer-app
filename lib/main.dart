@@ -8,6 +8,7 @@ import 'package:qixer/service/change_pass_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
+import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/login_service.dart';
 import 'package:qixer/service/logout_service.dart';
 import 'package:qixer/service/profile_service.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileService()),
         ChangeNotifierProvider(create: (_) => SliderService()),
         ChangeNotifierProvider(create: (_) => CategoryService()),
+        ChangeNotifierProvider(create: (_) => TopRatedServicesSerivce()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

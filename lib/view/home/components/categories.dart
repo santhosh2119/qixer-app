@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
