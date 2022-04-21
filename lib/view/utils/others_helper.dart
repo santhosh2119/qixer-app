@@ -45,3 +45,22 @@ class OthersHelper with ChangeNotifier {
 }
 
 String baseApi = 'https://nazmul.xgenious.com/qixer_with_api/api/v1';
+
+List colors = [
+  const Color(0xffFF6B2C),
+  const Color(0xff65C18C),
+  const Color(0xffFFC300),
+  const Color(0xff64BA10)
+];
+
+getCategoryIconColor(int i) {}
+
+getLineAwsome(String lineIcon) {
+  var a = lineIcon.split(' ');
+  var splitLa = a[1].substring(3);
+  var b = 'LineAwesomeIcons.$splitLa';
+  print(b);
+
+  // print(b);
+  // print(LineAwesomeIcons.accessible_icon.codePoint);
+}

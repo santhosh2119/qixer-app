@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
@@ -25,6 +26,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     Provider.of<SliderService>(context, listen: false).loadSlider();
+    Provider.of<CategoryService>(context, listen: false).fetchCategory();
   }
 
   @override
