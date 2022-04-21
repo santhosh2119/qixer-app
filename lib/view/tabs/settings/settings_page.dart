@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
+import 'package:qixer/view/tabs/settings/profile_edit.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
 import 'package:qixer/view/tabs/settings/supports/my_tickets_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -53,8 +54,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                     Column(
                                       children: [
                                         const SizedBox(
-                                          height: 30,
+                                          height: 20,
                                         ),
+
                                         CommonHelper().profileImage(
                                             profileProvider.profileImage ??
                                                 "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8d2hpdGV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
@@ -168,6 +170,18 @@ class _SettingsPageState extends State<SettingsPage> {
                                     MaterialPageRoute<void>(
                                       builder: (BuildContext context) =>
                                           const MyTicketsPage(),
+                                    ),
+                                  );
+                                }),
+                                CommonHelper().dividerCommon(),
+                                SettingsHelper().settingOption(
+                                    'assets/svg/profile-edit.svg',
+                                    'Edit Profile', () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          ProfileEditPage(),
                                     ),
                                   );
                                 }),

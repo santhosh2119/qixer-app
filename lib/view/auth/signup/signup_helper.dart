@@ -34,4 +34,23 @@ class SignupHelper {
       ],
     );
   }
+
+  //
+  phoneFieldDecoration() {
+    return InputDecoration(
+        labelText: 'Phone Number',
+        labelStyle: TextStyle(color: cc.greyFour, fontSize: 14),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ConstantColors().greyFive),
+            borderRadius: BorderRadius.circular(9)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ConstantColors().primaryColor)),
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ConstantColors().warningColor)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: ConstantColors().primaryColor)),
+        hintText: 'Enter phone number',
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 8, vertical: 18));
+  }
 }

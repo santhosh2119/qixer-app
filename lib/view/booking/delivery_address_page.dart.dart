@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/booking/book_confirmation_page.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
+import 'package:qixer/view/booking/components/textarea_field.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -115,29 +117,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                             //Phone number field
                             CommonHelper().labelCommon("Phone"),
                             IntlPhoneField(
-                              decoration: InputDecoration(
-                                  labelText: 'Phone Number',
-                                  labelStyle: TextStyle(
-                                      color: cc.greyFour, fontSize: 14),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: ConstantColors().greyFive),
-                                      borderRadius: BorderRadius.circular(9)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              ConstantColors().primaryColor)),
-                                  errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              ConstantColors().warningColor)),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              ConstantColors().primaryColor)),
-                                  hintText: 'Enter password',
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 18)),
+                              decoration: SignupHelper().phoneFieldDecoration(),
                               initialCountryCode: 'IN',
                               onChanged: (phone) {
                                 print(phone.completeNumber);
@@ -184,30 +164,10 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                             ),
                             CommonHelper().labelCommon("Order note"),
 
-                            TextField(
-                                controller: notesController,
-                                maxLines: 6,
-                                textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: ConstantColors().greyFive),
-                                        borderRadius: BorderRadius.circular(9)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                ConstantColors().primaryColor)),
-                                    errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                ConstantColors().warningColor)),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color:
-                                                ConstantColors().primaryColor)),
-                                    hintText: 'e.g. come with ideal brushes...',
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 18, vertical: 18))),
+                            TextareaField(
+                              hintText: 'e.g. come with ideal brushes...',
+                              notesController: notesController,
+                            ),
                             const SizedBox(
                               height: 135,
                             ),
