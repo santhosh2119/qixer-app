@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/auth/login/login_helper.dart';
+import 'package:qixer/view/auth/signup/components/email_name_fields.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/custom_input.dart';
@@ -47,59 +48,10 @@ class _SignupEmailNameState extends State<SignupEmailName> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //Name ============>
-            CommonHelper().labelCommon("Full name"),
-
-            CustomInput(
-              controller: widget.fullNameController,
-              validation: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your full name';
-                }
-                return null;
-              },
-              hintText: "Enter your full name",
-              icon: 'assets/icons/user.png',
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-
-            //User name ============>
-            CommonHelper().labelCommon("Username"),
-
-            CustomInput(
-              controller: widget.userNameController,
-              validation: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your username';
-                }
-                return null;
-              },
-              hintText: "Enter your username",
-              icon: 'assets/icons/user.png',
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-
-            //Email ============>
-            CommonHelper().labelCommon("Email"),
-
-            CustomInput(
-              controller: widget.emailController,
-              validation: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                return null;
-              },
-              hintText: "Enter your email",
-              icon: 'assets/icons/email-grey.png',
-              textInputAction: TextInputAction.next,
-            ),
+            EmailNameFields(
+                emailController: widget.emailController,
+                fullNameController: widget.fullNameController,
+                userNameController: widget.userNameController),
             const SizedBox(
               height: 8,
             ),

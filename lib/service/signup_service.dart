@@ -118,6 +118,8 @@ class SignupService with ChangeNotifier {
       OthersHelper().showToast(error['username'][0], Colors.black);
     } else if (error.containsKey('phone')) {
       OthersHelper().showToast(error['phone'][0], Colors.black);
+    } else if (error.containsKey('password')) {
+      OthersHelper().showToast(error['password'][0], Colors.black);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }

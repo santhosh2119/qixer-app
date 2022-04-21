@@ -38,7 +38,9 @@ dependencies:
   flutter_svg: ^1.0.3
   fluttertoast: ^8.0.9
   flutterzilla_fixed_grid: ^0.0.4
+  image_picker: ^0.8.5
   intl_phone_field: ^3.1.0
+  line_awesome_flutter: ^2.0.0
   page_transition: ^2.0.5
   pin_code_fields: ^7.4.0
   provider: ^6.0.2

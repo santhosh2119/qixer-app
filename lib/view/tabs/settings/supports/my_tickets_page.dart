@@ -27,85 +27,82 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
         appBar: CommonHelper().appbarCommon('Support tickets', context, () {
           Navigator.pop(context);
         }),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            physics: physicsCommon,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: screenPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (int i = 0; i < 2; i++)
-                    Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.only(
-                        top: 20,
-                        bottom: 3,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 15),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: cc.borderColor),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AutoSizeText(
-                                  '#812466',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: cc.primaryColor,
-                                  ),
+        body: SingleChildScrollView(
+          physics: physicsCommon,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: screenPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (int i = 0; i < 2; i++)
+                  Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(
+                      top: 20,
+                      bottom: 3,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: cc.borderColor),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AutoSizeText(
+                                '#812466',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: cc.primaryColor,
                                 ),
-                                // put the hamburger icon here
-                                PopupMenuButton(
-                                  // initialValue: 2,
-                                  child: Icon(Icons.more_vert),
-                                  itemBuilder: (context) {
-                                    return List.generate(3, (index) {
-                                      return PopupMenuItem(
-                                        value: index,
-                                        child: Text('button no $index'),
-                                      );
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
+                              ),
+                              // put the hamburger icon here
+                              PopupMenuButton(
+                                // initialValue: 2,
+                                child: Icon(Icons.more_vert),
+                                itemBuilder: (context) {
+                                  return List.generate(3, (index) {
+                                    return PopupMenuItem(
+                                      value: index,
+                                      child: Text('button no $index'),
+                                    );
+                                  });
+                                },
+                              )
+                            ],
+                          ),
 
-                            //Ticket title
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            CommonHelper()
-                                .titleCommon('Emergency Service Needed'),
+                          //Ticket title
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          CommonHelper()
+                              .titleCommon('Emergency Service Needed'),
 
-                            //Divider
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 17, bottom: 12),
-                              child: CommonHelper().dividerCommon(),
-                            ),
-                            //Capsules
-                            Row(
-                              children: [
-                                OrdersHelper()
-                                    .statusCapsule('High', cc.warningColor),
-                                const SizedBox(
-                                  width: 11,
-                                ),
-                                OrdersHelper().statusCapsuleBordered(
-                                    'Open', cc.greyParagraph),
-                              ],
-                            )
-                          ]),
-                    )
-                ],
-              ),
+                          //Divider
+                          Container(
+                            margin: const EdgeInsets.only(top: 17, bottom: 12),
+                            child: CommonHelper().dividerCommon(),
+                          ),
+                          //Capsules
+                          Row(
+                            children: [
+                              OrdersHelper()
+                                  .statusCapsule('High', cc.warningColor),
+                              const SizedBox(
+                                width: 11,
+                              ),
+                              OrdersHelper().statusCapsuleBordered(
+                                  'Open', cc.greyParagraph),
+                            ],
+                          )
+                        ]),
+                  )
+              ],
             ),
           ),
         ));

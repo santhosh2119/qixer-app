@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
+import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
-import 'package:qixer/view/home/components/top_rated_sellers.dart';
+import 'package:qixer/view/home/components/top_rated_services.dart';
 import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -25,6 +27,9 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     Provider.of<SliderService>(context, listen: false).loadSlider();
+    Provider.of<CategoryService>(context, listen: false).fetchCategory();
+    Provider.of<TopRatedServicesSerivce>(context, listen: false)
+        .fetchTopService();
   }
 
   @override
@@ -146,7 +151,7 @@ class _HomepageState extends State<Homepage> {
                     ),
                     SectionTitle(
                       cc: cc,
-                      title: 'Top rated sellers',
+                      title: 'Top rated services',
                       pressed: () {
                         Navigator.push(
                           context,
@@ -162,7 +167,7 @@ class _HomepageState extends State<Homepage> {
                       height: 18,
                     ),
 
-                    TopRatedSellers(cc: cc),
+                    TopRatedServices(cc: cc),
 
                     //Discount images
                     const SizedBox(
@@ -192,7 +197,7 @@ class _HomepageState extends State<Homepage> {
                       height: 18,
                     ),
 
-                    TopRatedSellers(cc: cc),
+                    TopRatedServices(cc: cc),
 
                     //Discount images
                     const SizedBox(
