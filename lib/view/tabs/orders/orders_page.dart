@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:qixer/view/home/home.dart';
+import 'package:qixer/view/tabs/orders/order_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -30,7 +32,6 @@ class _OrdersPageState extends State<OrdersPage> {
             physics: physicsCommon,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: screenPadding),
-              clipBehavior: Clip.none,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -69,12 +70,24 @@ class _OrdersPageState extends State<OrdersPage> {
                                   margin: const EdgeInsets.only(left: 8),
                                   child: PopupMenuButton(
                                     // initialValue: 2,
-                                    child: Icon(Icons.more_vert),
-                                    itemBuilder: (context) {
-                                      return List.generate(3, (index) {
+                                    child: const Icon(Icons.more_vert),
+                                    itemBuilder: (c) {
+                                      return List.generate(1, (index) {
                                         return PopupMenuItem(
                                           value: index,
-                                          child: Text('button no $index'),
+                                          onTap: () async {
+                                            //without the below line, navigation won't work
+                                            await Future.delayed(Duration.zero);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    const OrderDetailsPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: const Text('Details'),
                                         );
                                       });
                                     },

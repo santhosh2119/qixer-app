@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ConstantColors {
   final Color primaryColor = const Color(0xffFF6B2C);
-  final Color bgColor = const Color(0xffF6F6F6);
+  final Color bgColor = const Color(0xffFAFAFA);
   final Color successColor = const Color(0xff65C18C);
   final Color bgColor2 = const Color(0xffF1F4F7);
   final Color cardColor = const Color(0xffF9FAFC);

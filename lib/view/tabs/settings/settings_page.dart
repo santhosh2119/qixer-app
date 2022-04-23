@@ -24,7 +24,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProfileService>(context, listen: false).getProfileDetails();
   }
 
   @override
