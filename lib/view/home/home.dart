@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/home_services/category_service.dart';
+import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
+import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
 import 'package:qixer/view/services/all_services_page.dart';
@@ -30,6 +32,8 @@ class _HomepageState extends State<Homepage> {
     Provider.of<CategoryService>(context, listen: false).fetchCategory();
     Provider.of<TopRatedServicesSerivce>(context, listen: false)
         .fetchTopService();
+    Provider.of<RecentServicesService>(context, listen: false)
+        .fetchRecentService();
   }
 
   @override
@@ -197,7 +201,7 @@ class _HomepageState extends State<Homepage> {
                       height: 18,
                     ),
 
-                    TopRatedServices(cc: cc),
+                    RecentServices(cc: cc),
 
                     //Discount images
                     const SizedBox(
