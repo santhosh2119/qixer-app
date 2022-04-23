@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/tabs/orders/orders_helper.dart';
+import 'package:qixer/view/tabs/settings/supports/ticket_chat_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -63,12 +64,22 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                               // put the hamburger icon here
                               PopupMenuButton(
                                 // initialValue: 2,
-                                child: Icon(Icons.more_vert),
+                                child: const Icon(Icons.more_vert),
                                 itemBuilder: (context) {
-                                  return List.generate(3, (index) {
+                                  return List.generate(1, (index) {
                                     return PopupMenuItem(
+                                      onTap: () async {
+                                        await Future.delayed(Duration.zero);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                const TicketChatPage(),
+                                          ),
+                                        );
+                                      },
                                       value: index,
-                                      child: Text('button no $index'),
+                                      child: const Text('Chat'),
                                     );
                                   });
                                 },

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/home_services/category_service.dart';
+import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
+import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
 import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import '../utils/constant_styles.dart';
 import 'components/search_bar.dart';
@@ -30,6 +34,9 @@ class _HomepageState extends State<Homepage> {
     Provider.of<CategoryService>(context, listen: false).fetchCategory();
     Provider.of<TopRatedServicesSerivce>(context, listen: false)
         .fetchTopService();
+    Provider.of<RecentServicesService>(context, listen: false)
+        .fetchRecentService();
+    Provider.of<ProfileService>(context, listen: false).getProfileDetails();
   }
 
   @override
@@ -53,43 +60,61 @@ class _HomepageState extends State<Homepage> {
                 height: 20,
               ),
               //name and profile image
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  children: [
-                    //name
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome!',
-                          style: TextStyle(
-                            color: cc.greyParagraph,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Lesile Alexander',
-                          style: TextStyle(
-                            color: cc.greyFour,
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    )),
+              Consumer<ProfileService>(
+                builder: (context, profileProvider, child) => profileProvider
+                            .profileDetails !=
+                        null
+                    ? profileProvider.profileDetails != 'error'
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: Row(
+                              children: [
+                                //name
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Welcome!',
+                                      style: TextStyle(
+                                        color: cc.greyParagraph,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      profileProvider.profileDetails.userDetails
+                                              .name ??
+                                          '',
+                                      style: TextStyle(
+                                        color: cc.greyFour,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                )),
 
-                    //profile image
-                    CommonHelper().profileImage(
-                        "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                        52,
-                        52)
-                  ],
-                ),
+                                //profile image
+                                profileProvider.profileImage != null
+                                    ? CommonHelper().profileImage(
+                                        profileProvider.profileImage, 52, 52)
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.asset(
+                                          'assets/images/avatar.png',
+                                          height: 52,
+                                          width: 52,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          )
+                        : const Text('Couldn\'t load user profile info')
+                    : Container(),
               ),
 
               //Search bar ========>
@@ -197,7 +222,7 @@ class _HomepageState extends State<Homepage> {
                       height: 18,
                     ),
 
-                    TopRatedServices(cc: cc),
+                    RecentServices(cc: cc),
 
                     //Discount images
                     const SizedBox(
