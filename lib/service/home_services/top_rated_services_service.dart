@@ -97,4 +97,30 @@ class TopRatedServicesSerivce with ChangeNotifier {
     topServiceMap = newListMap;
     notifyListeners();
   }
+
+  topServiceSaveUnsaveFromOtherPage(
+    int serviceId,
+    String title,
+    String sellerName,
+  ) async {
+    int? index;
+    for (int i = 0; i < topServiceMap.length; i++) {
+      if (topServiceMap[i]['serviceId'] == serviceId &&
+          topServiceMap[i]['title'] == title &&
+          topServiceMap[i]['sellerName'] == sellerName) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index != null) {
+      //if that product exist in other page then change the saved button accordingly
+      var newListMap = topServiceMap;
+      alreadySaved =
+          await DbService().checkIfSaved(serviceId, title, sellerName);
+      newListMap[index]['isSaved'] = alreadySaved;
+      topServiceMap = newListMap;
+      notifyListeners();
+    }
+  }
 }

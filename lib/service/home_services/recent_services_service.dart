@@ -99,4 +99,30 @@ class RecentServicesService with ChangeNotifier {
     recentServiceMap = newListMap;
     notifyListeners();
   }
+
+  recentServiceSaveUnsaveFromOtherPage(
+    int serviceId,
+    String title,
+    String sellerName,
+  ) async {
+    int? index;
+    for (int i = 0; i < recentServiceMap.length; i++) {
+      if (recentServiceMap[i]['serviceId'] == serviceId &&
+          recentServiceMap[i]['title'] == title &&
+          recentServiceMap[i]['sellerName'] == sellerName) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index != null) {
+      //if that product exist in other page then change the fav button accordingly
+      var newListMap = recentServiceMap;
+      alreadySaved =
+          await DbService().checkIfSaved(serviceId, title, sellerName);
+      newListMap[index]['isSaved'] = alreadySaved;
+      recentServiceMap = newListMap;
+      notifyListeners();
+    }
+  }
 }

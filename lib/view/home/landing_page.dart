@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/home/home.dart';
-import 'package:qixer/view/tabs/saved_page.dart';
+import 'package:qixer/view/tabs/saved_item_page.dart';
 import 'package:qixer/view/tabs/search/search_page.dart';
 import 'package:qixer/view/tabs/settings/settings_page.dart';
 
@@ -26,7 +26,7 @@ class _HomePageState extends State<LandingPage> {
   final List<Widget> _children = [
     const Homepage(),
     const OrdersPage(),
-    const SavedPage(),
+    const SavedItemPage(),
     const SearchPage(),
     const SettingsPage(),
   ];

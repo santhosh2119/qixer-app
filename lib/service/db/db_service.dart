@@ -74,4 +74,10 @@ class DbService {
       return false;
     }
   }
+
+//get all saved item ======>
+  getAllSaveditem() async {
+    var connection = await getdatabase;
+    return await connection.query('savedItem_table');
+  }
 }
