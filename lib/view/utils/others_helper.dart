@@ -59,8 +59,9 @@ getLineAwsome(String lineIcon) {
   var a = lineIcon.split(' ');
   var splitLa = a[1].substring(3);
   var b = 'LineAwesomeIcons.$splitLa';
-  print(b);
 
   // print(b);
   // print(LineAwesomeIcons.accessible_icon.codePoint);
 }
+
+String placeHolderUrl = 'https://i.postimg.cc/3RKkSRDb/placeholder.png';

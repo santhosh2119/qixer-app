@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,7 +18,8 @@ class ServiceCard extends StatelessWidget {
       required this.price,
       required this.width,
       required this.marginRight,
-      required this.pressed})
+      required this.pressed,
+      required this.isSaved})
       : super(key: key);
 
   final ConstantColors cc;
@@ -32,6 +32,7 @@ class ServiceCard extends StatelessWidget {
   final width;
   final marginRight;
   final VoidCallback pressed;
+  final bool isSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +97,8 @@ class ServiceCard extends StatelessWidget {
               ),
               InkWell(
                 onTap: pressed,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Container(
                   margin: const EdgeInsets.only(right: 12),
                   padding: const EdgeInsets.all(7),
@@ -103,8 +106,10 @@ class ServiceCard extends StatelessWidget {
                       border: Border.all(width: 1, color: cc.borderColor),
                       borderRadius: BorderRadius.circular(5)),
                   child: SvgPicture.asset(
-                    'assets/svg/saved-icon.svg',
-                    color: cc.greyFour,
+                    isSaved
+                        ? 'assets/svg/saved-fill-icon.svg'
+                        : 'assets/svg/saved-icon.svg',
+                    color: isSaved ? cc.primaryColor : cc.greyFour,
                     height: 21,
                   ),
                 ),

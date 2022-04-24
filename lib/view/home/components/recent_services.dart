@@ -55,6 +55,7 @@ class RecentServices extends StatelessWidget {
                             width: MediaQuery.of(context).size.width - 85,
                             marginRight: 17.0,
                             pressed: () {},
+                            isSaved: false,
                           ),
                         )
                     ],

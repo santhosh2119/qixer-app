@@ -56,6 +56,7 @@ class _SavedPageState extends State<SavedPage> {
                               width: double.infinity,
                               marginRight: 0.0,
                               pressed: () {},
+                              isSaved: false,
                             ),
                           ),
                       ],

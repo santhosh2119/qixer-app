@@ -43,7 +43,7 @@ class TopRatedServices extends StatelessWidget {
                           child: ServiceCard(
                             cc: cc,
                             imageLink: provider.topServiceMap[i]['image'] ??
-                                'https://i.postimg.cc/3RKkSRDb/placeholder.png',
+                                placeHolderUrl,
                             rating:
                                 twoDouble(provider.topServiceMap[i]['rating']),
                             title: provider.topServiceMap[i]['title'],
@@ -64,6 +64,10 @@ class TopRatedServices extends StatelessWidget {
                                   i,
                                   context);
                             },
+                            isSaved:
+                                provider.topServiceMap[i]['isSaved'] == true
+                                    ? true
+                                    : false,
                           ),
                         )
                     ],
