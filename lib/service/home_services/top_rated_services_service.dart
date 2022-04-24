@@ -4,55 +4,97 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/model/top_service_model.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
 
 class TopRatedServicesSerivce with ChangeNotifier {
-  var topService;
-
-  List imageList = [];
-  List ratingList = [];
-  // List reviewerImgList = [];
+  var topServiceMap = [];
+  bool alreadySaved = false;
 
   fetchTopService() async {
-    if (topService == null) {
+    if (topServiceMap.isEmpty) {
       var connection = await checkConnection();
       if (connection) {
         //if connection is ok
         var response = await http.get(Uri.parse('$baseApi/top-services'));
 
         if (response.statusCode == 201) {
-          topService = TopServiceModel.fromJson(jsonDecode(response.body));
+          var data = TopServiceModel.fromJson(jsonDecode(response.body));
 
-          for (int i = 0; i < topService.serviceImage.length; i++) {
-            imageList.add(topService.serviceImage[i].imgUrl);
-            // reviewerImgList.add(topService.reviewerImage[i].imgUrl);
+          for (int i = 0; i < data.topServices.length; i++) {
+            var serviceImage;
+
+            if (data.serviceImage.length > i) {
+              serviceImage = data.serviceImage[i].imgUrl;
+            } else {
+              serviceImage = null;
+            }
+
             int totalRating = 0;
             for (int j = 0;
-                j < topService.topServices[i].reviewsForMobile.length;
+                j < data.topServices[i].reviewsForMobile.length;
                 j++) {
               totalRating = totalRating +
-                  topService.topServices[i].reviewsForMobile[j].rating as int;
+                  data.topServices[i].reviewsForMobile[j].rating!.toInt();
             }
             double averageRate = 0;
 
-            if (topService.topServices[i].reviewsForMobile.isNotEmpty) {
-              averageRate = (totalRating /
-                  topService.topServices[i].reviewsForMobile.length);
+            if (data.topServices[i].reviewsForMobile.isNotEmpty) {
+              averageRate =
+                  (totalRating / data.topServices[i].reviewsForMobile.length);
             }
-
-            ratingList.add(averageRate);
-
-            // print(averageRate);
+            setServiceList(
+                data.topServices[i].id,
+                data.topServices[i].title,
+                data.topServices[i].sellerForMobile.name,
+                data.topServices[i].price,
+                averageRate,
+                serviceImage,
+                i);
           }
+
           notifyListeners();
         } else {
           //Something went wrong
-          topService == 'error';
+          topServiceMap.add('error');
+          notifyListeners();
         }
       }
     } else {
       //already loaded from api
     }
+  }
+
+  setServiceList(serviceId, title, sellerName, price, rating, image, index) {
+    topServiceMap.add({
+      'serviceId': serviceId,
+      'title': title,
+      'sellerName': sellerName,
+      'price': price,
+      'rating': rating,
+      'image': image,
+      'isSaved': false,
+    });
+
+    checkIfAlreadySaved(serviceId, title, sellerName, index);
+  }
+
+  checkIfAlreadySaved(serviceId, title, sellerName, index) async {
+    var newListMap = topServiceMap;
+    alreadySaved = await DbService().checkIfSaved(serviceId, title, sellerName);
+    newListMap[index]['isSaved'] = alreadySaved;
+    topServiceMap = newListMap;
+    notifyListeners();
+  }
+
+  saveOrUnsave(int serviceId, String title, String image, int price,
+      String sellerName, double rating, int index, BuildContext context) async {
+    var newListMap = topServiceMap;
+    alreadySaved = await DbService().saveOrUnsave(
+        serviceId, title, image, price, sellerName, rating, context);
+    newListMap[index]['isSaved'] = alreadySaved;
+    topServiceMap = newListMap;
+    notifyListeners();
   }
 }

@@ -12,3 +12,7 @@ Future<bool> checkConnection() async {
     return true;
   }
 }
+
+twoDouble(double value) {
+  return double.parse(value.toStringAsFixed(1));
+}

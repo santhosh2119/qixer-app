@@ -55,6 +55,7 @@ class _SavedPageState extends State<SavedPage> {
                               buttonText: 'Book Now',
                               width: double.infinity,
                               marginRight: 0.0,
+                              pressed: () {},
                             ),
                           ),
                       ],

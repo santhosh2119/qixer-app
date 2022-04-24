@@ -61,6 +61,7 @@ class AllServicePage extends StatelessWidget {
                         buttonText: 'Book Now',
                         width: double.infinity,
                         marginRight: 0.0,
+                        pressed: () {},
                       ),
                     ),
                     const SizedBox(

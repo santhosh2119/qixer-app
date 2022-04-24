@@ -54,6 +54,7 @@ class RecentServices extends StatelessWidget {
                             buttonText: 'Book Now',
                             width: MediaQuery.of(context).size.width - 85,
                             marginRight: 17.0,
+                            pressed: () {},
                           ),
                         )
                     ],

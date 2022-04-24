@@ -18,7 +18,8 @@ class ServiceCard extends StatelessWidget {
       required this.rating,
       required this.price,
       required this.width,
-      required this.marginRight})
+      required this.marginRight,
+      required this.pressed})
       : super(key: key);
 
   final ConstantColors cc;
@@ -30,6 +31,7 @@ class ServiceCard extends StatelessWidget {
   final price;
   final width;
   final marginRight;
+  final VoidCallback pressed;
 
   @override
   Widget build(BuildContext context) {
@@ -92,16 +94,19 @@ class ServiceCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.all(7),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: cc.borderColor),
-                    borderRadius: BorderRadius.circular(5)),
-                child: SvgPicture.asset(
-                  'assets/svg/saved-icon.svg',
-                  color: cc.greyFour,
-                  height: 21,
+              InkWell(
+                onTap: pressed,
+                child: Container(
+                  margin: const EdgeInsets.only(right: 12),
+                  padding: const EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: cc.borderColor),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: SvgPicture.asset(
+                    'assets/svg/saved-icon.svg',
+                    color: cc.greyFour,
+                    height: 21,
+                  ),
                 ),
               ),
               ElevatedButton(
@@ -155,6 +160,7 @@ class ServiceCardContents extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
+            //service image
             CommonHelper().profileImage(imageLink, 75, 78),
             Positioned(
                 bottom: -13,
@@ -176,7 +182,7 @@ class ServiceCardContents extends StatelessWidget {
                       width: 3,
                     ),
                     Text(
-                      rating,
+                      rating.toString(),
                       style: TextStyle(
                           color: cc.greyFour,
                           fontWeight: FontWeight.w600,
