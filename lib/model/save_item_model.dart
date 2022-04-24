@@ -4,7 +4,7 @@ class SaveItemModel {
   late String image;
   late int price;
   late String sellerName;
-  late int rating;
+  late double rating;
 
   itemMap() {
     // ignore: unused_local_variable, prefer_collection_literals

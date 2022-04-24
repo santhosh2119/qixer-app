@@ -17,7 +17,7 @@ class DbService {
 
   _dbOnCreate(Database database, int version) async {
     await database.execute(
-        "CREATE TABLE savedItem_table(id INTEGER PRIMARY KEY AUTOINCREMENT, serviceId INTEGER, title TEXT, image TEXT, price INTEGER, sellerName TEXT, rating INTEGER, )");
+        "CREATE TABLE savedItem_table(id INTEGER PRIMARY KEY AUTOINCREMENT, serviceId INTEGER, title TEXT, image TEXT, price INTEGER, sellerName TEXT, rating REAL)");
   }
 
   Future<Database> get getdatabase async {
@@ -31,7 +31,7 @@ class DbService {
     }
   }
 
-  checkIfaddedToCart(serviceId, title, sellerName) async {
+  checkIfSaved(serviceId, title, sellerName) async {
     var connection = await getdatabase;
     var result = await connection.rawQuery(
         "SELECT * FROM savedItem_table WHERE serviceId=? and title =? and sellerName=?",
@@ -44,8 +44,8 @@ class DbService {
     }
   }
 
-  insertData(int serviceId, String title, String image, int price,
-      String sellerName, int rating, BuildContext context) async {
+  saveOrUnsave(int serviceId, String title, String image, int price,
+      String sellerName, double rating, BuildContext context) async {
     var connection = await getdatabase;
     var result = await connection.rawQuery(
         "SELECT * FROM savedItem_table WHERE serviceId=? and title =? and sellerName=?",
@@ -54,17 +54,30 @@ class DbService {
       //if not already added to cart
       var itemObj = SaveItemModel();
       itemObj.serviceId = serviceId;
+      itemObj.title = title;
       itemObj.image = image;
       itemObj.price = price;
       itemObj.sellerName = sellerName;
       itemObj.rating = rating;
 
       await connection.insert('savedItem_table', itemObj.itemMap());
+      print('data inserted');
 
       return true;
     } else {
       //else, already saved, so remove it
+      await connection.rawDelete(
+          "DELETE FROM savedItem_table WHERE serviceId=? and title =? and sellerName=?",
+          [serviceId, title, sellerName]);
 
+      print('data removed');
+      return false;
     }
+  }
+
+//get all saved item ======>
+  getAllSaveditem() async {
+    var connection = await getdatabase;
+    return await connection.query('savedItem_table');
   }
 }

@@ -13,14 +13,14 @@ class Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getLineAwsome("las la-charging-station");
+    // getLineAwsome("las la-charging-station");
     return Consumer<CategoryService>(
       builder: (context, provider, child) {
         return provider.categories != null
             ? provider.categories != 'error'
                 ? Container(
                     margin: const EdgeInsets.only(top: 5),
-                    height: 105,
+                    height: 100,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
@@ -56,10 +56,16 @@ class Categories extends StatelessWidget {
                                   //           const Icon(Icons.error),
                                   //       fit: BoxFit.fitHeight,
                                   //     )),
+                                  // Icon(
+                                  //   IconData(int.parse('0xf2a7'),
+                                  //       fontFamily: 'LineAwesomeIcons',
+                                  //       fontPackage: 'line_awesome_flutter'),
+                                  //   color: cc.primaryColor,
+                                  //   size: 33,
+                                  // ),
+
                                   Icon(
-                                    IconData(int.parse('0xf2a7'),
-                                        fontFamily: 'LineAwesomeIcons',
-                                        fontPackage: 'line_awesome_flutter'),
+                                    categoryIconList(i),
                                     color: cc.primaryColor,
                                     size: 33,
                                   ),

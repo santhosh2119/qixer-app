@@ -53,6 +53,8 @@ class ServicesOfUser extends StatelessWidget {
                         buttonText: 'Book Now',
                         width: double.infinity,
                         marginRight: 0.0,
+                        pressed: () {},
+                        isSaved: false,
                       ),
                     ),
                     const SizedBox(

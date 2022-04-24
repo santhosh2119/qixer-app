@@ -51,7 +51,6 @@ class ProfileService with ChangeNotifier {
             await http.get(Uri.parse('$baseApi/user/profile'), headers: header);
 
         if (response.statusCode == 201) {
-          print(response.body);
           profileDetails = ProfileModel.fromJson(jsonDecode(response.body));
 
           ordersList.add(profileDetails.pendingOrder);
@@ -69,7 +68,6 @@ class ProfileService with ChangeNotifier {
           setLoadingFalse();
           notifyListeners();
         } else {
-          print(response.body);
           profileDetails == 'error';
           setLoadingFalse();
           OthersHelper().showToast('Something went wrong', Colors.black);
