@@ -4,6 +4,7 @@ import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
 import 'package:qixer/view/services/components/overview_tab.dart';
 import 'package:qixer/view/services/components/review_tab.dart';
+import 'package:qixer/view/services/review/write_review_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
@@ -42,6 +43,8 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
     }
   }
 
+  int currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -73,6 +76,11 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                   child: Column(
                     children: <Widget>[
                       TabBar(
+                        onTap: (value) {
+                          setState(() {
+                            currentTab = value;
+                          });
+                        },
                         labelColor: cc.primaryColor,
                         unselectedLabelColor: cc.greyFour,
                         indicatorColor: cc.primaryColor,
@@ -102,21 +110,42 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
           //Book now button
           CommonHelper().dividerCommon(),
 //Button
-          const SizedBox(
-            height: 20,
-          ),
+          sizedBox20(),
+
           Container(
-            padding: EdgeInsets.symmetric(horizontal: screenPadding),
-            child: CommonHelper().buttonOrange("Book Appointment", () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) =>
-                      const BookingLocationPage(),
-                ),
-              );
-            }),
-          ),
+              padding: EdgeInsets.symmetric(horizontal: screenPadding),
+              child: Column(
+                children: [
+                  currentTab == 2
+                      ? Column(
+                          children: [
+                            CommonHelper().borderButtonOrange("Write a review",
+                                () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const WriteReviewPage(),
+                                ),
+                              );
+                            }),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                  CommonHelper().buttonOrange("Book Appointment", () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const BookingLocationPage(),
+                      ),
+                    );
+                  }),
+                ],
+              )),
           const SizedBox(
             height: 30,
           ),

@@ -23,45 +23,12 @@ class ServiceDetailsTop extends StatelessWidget {
           margin: const EdgeInsets.only(top: 20),
           padding: EdgeInsets.symmetric(horizontal: screenPadding),
           child: Column(children: [
-            Text(
-              'Women Beauty Care Service with Expert Beautician',
-              style: TextStyle(
-                color: cc.greyFour,
-                fontSize: 19,
-                height: 1.4,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            //profile image and name
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                    placeholder: (context, url) {
-                      return Image.asset('assets/images/placeholder.png');
-                    },
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Jane Cooper',
-                  style: TextStyle(
-                    color: cc.greyFour,
-                    fontSize: 15,
-                  ),
-                ),
-              ],
+            ServiceTitleAndUser(
+              cc: cc,
+              title: 'Women Beauty Care Service with Expert Beautician',
+              userImg:
+                  "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
+              userName: 'Jane cooper',
             ),
 
             //package price
@@ -165,6 +132,67 @@ class ServiceDetailsTop extends StatelessWidget {
               ],
             ),
           ]),
+        ),
+      ],
+    );
+  }
+}
+
+class ServiceTitleAndUser extends StatelessWidget {
+  const ServiceTitleAndUser(
+      {Key? key,
+      required this.cc,
+      required this.title,
+      required this.userImg,
+      required this.userName})
+      : super(key: key);
+  final ConstantColors cc;
+  final String title;
+  final String userImg;
+  final String userName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            color: cc.greyFour,
+            fontSize: 19,
+            height: 1.4,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        //profile image and name
+        Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: CachedNetworkImage(
+                imageUrl: userImg,
+                placeholder: (context, url) {
+                  return Image.asset('assets/images/placeholder.png');
+                },
+                height: 40,
+                width: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              userName,
+              style: TextStyle(
+                color: cc.greyFour,
+                fontSize: 15,
+              ),
+            ),
+          ],
         ),
       ],
     );
