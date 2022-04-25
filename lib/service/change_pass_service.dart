@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/login_service.dart';
 import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -30,13 +31,8 @@ class ChangePassService with ChangeNotifier {
           'Make sure you repeated new password correctly', Colors.black);
     } else {
       //check internet connection
-      var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
-        //internet off
-        OthersHelper()
-            .showToast("Please turn on your internet connection", Colors.black);
-        return false;
-      } else {
+      var connection = await checkConnection();
+      if (connection) {
         //internet connection is on
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var token = prefs.getString('token');

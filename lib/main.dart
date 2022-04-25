@@ -16,6 +16,7 @@ import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/reset_password_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
+import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/intro/splash.dart';
 
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileEditService()),
         ChangeNotifierProvider(create: (_) => RecentServicesService()),
         ChangeNotifierProvider(create: (_) => SavedItemService()),
+        ChangeNotifierProvider(create: (_) => ServiceDetailsService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

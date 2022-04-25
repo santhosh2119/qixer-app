@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,12 +24,8 @@ class LoginService with ChangeNotifier {
 
   Future<bool> login(email, pass, BuildContext context, bool keepLoggedIn,
       {isFromLoginPage = true}) async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      OthersHelper()
-          .showToast("Please turn on your internet connection", Colors.black);
-      return false;
-    } else {
+    var connection = await checkConnection();
+    if (connection) {
       setLoadingTrue();
       var data = jsonEncode({
         'email': email,
@@ -75,6 +72,9 @@ class LoginService with ChangeNotifier {
         setLoadingFalse();
         return false;
       }
+    } else {
+      //internet off
+      return false;
     }
   }
 
