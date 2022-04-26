@@ -10,6 +10,7 @@ import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
+import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/login_service.dart';
 import 'package:qixer/service/logout_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RecentServicesService()),
         ChangeNotifierProvider(create: (_) => SavedItemService()),
         ChangeNotifierProvider(create: (_) => ServiceDetailsService()),
+        ChangeNotifierProvider(create: (_) => LeaveFeedbackService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

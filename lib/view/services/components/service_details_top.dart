@@ -150,12 +150,12 @@ class ServiceTitleAndUser extends StatelessWidget {
       {Key? key,
       required this.cc,
       required this.title,
-      required this.userImg,
+      this.userImg,
       required this.userName})
       : super(key: key);
   final ConstantColors cc;
   final String title;
-  final String userImg;
+  final userImg;
   final String userName;
 
   @override
@@ -177,18 +177,28 @@ class ServiceTitleAndUser extends StatelessWidget {
         //profile image and name
         Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: CachedNetworkImage(
-                imageUrl: userImg,
-                placeholder: (context, url) {
-                  return Image.asset('assets/images/placeholder.png');
-                },
-                height: 40,
-                width: 40,
-                fit: BoxFit.cover,
-              ),
-            ),
+            userImg != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: CachedNetworkImage(
+                      imageUrl: userImg,
+                      placeholder: (context, url) {
+                        return Image.asset('assets/images/placeholder.png');
+                      },
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/images/avatar.png',
+                      height: 40,
+                      width: 40,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
             const SizedBox(
               width: 10,
             ),
