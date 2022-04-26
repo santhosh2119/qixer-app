@@ -1,4 +1,4 @@
-package com.example.qixer
+package com.qixer.app
 
 import io.flutter.embedding.android.FlutterActivity
 

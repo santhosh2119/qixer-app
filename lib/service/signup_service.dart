@@ -1,15 +1,13 @@
 import 'dart:convert';
-
-import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/auth_services/login_service.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/country_states_service.dart';
-import 'package:qixer/service/login_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupService with ChangeNotifier {
   int selectedPage = 0;
@@ -51,12 +49,8 @@ class SignupService with ChangeNotifier {
 
   Future<bool> signup(String fullName, String email, String userName,
       String password, BuildContext context) async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      OthersHelper()
-          .showToast("Please turn on your internet connection", Colors.black);
-      return false;
-    } else {
+    var connection = await checkConnection();
+    if (connection) {
       setLoadingTrue();
       var data = jsonEncode({
         'name': fullName,
@@ -108,6 +102,9 @@ class SignupService with ChangeNotifier {
         setLoadingFalse();
         return false;
       }
+    } else {
+      //internet connection off
+      return false;
     }
   }
 

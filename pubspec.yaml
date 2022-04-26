@@ -32,13 +32,18 @@ dependencies:
   carousel_slider: ^4.0.0
   connectivity: ^3.0.6
   cupertino_icons: ^1.0.2
+  firebase_auth: ^3.3.15
+  firebase_core: ^1.15.0
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.0
   flutter_spinkit: ^5.1.0
   flutter_svg: ^1.0.3
   fluttertoast: ^8.0.9
   flutterzilla_fixed_grid: ^0.0.4
+  google_sign_in: ^5.3.0
   image_picker: ^0.8.5
+  intl: ^0.17.0
   intl_phone_field: ^3.1.0
   line_awesome_flutter: ^2.0.0
   page_transition: ^2.0.5

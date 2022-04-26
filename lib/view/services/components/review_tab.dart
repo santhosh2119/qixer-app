@@ -4,15 +4,15 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 class ReviewTab extends StatelessWidget {
-  const ReviewTab({Key? key}) : super(key: key);
-
+  const ReviewTab({Key? key, required this.provider}) : super(key: key);
+  final provider;
   @override
   Widget build(BuildContext context) {
     List reviewList = ['a', 'b', 'c'];
     ConstantColors cc = ConstantColors();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       //profile image, rating, feedback
-      for (int i = 0; i < reviewList.length; i++)
+      for (int i = 0; i < provider.serviceAllDetails.serviceReviews.length; i++)
         Container(
           margin: const EdgeInsets.only(top: 20),
           child: Column(

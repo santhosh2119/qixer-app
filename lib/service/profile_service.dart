@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/model/profile_model.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -27,13 +28,8 @@ class ProfileService with ChangeNotifier {
 
   getProfileDetails() async {
     if (profileDetails == null) {
-      var connectivityResult = await (Connectivity().checkConnectivity());
-      if (connectivityResult == ConnectivityResult.none) {
-        //internet off
-        OthersHelper()
-            .showToast("Please turn on your internet connection", Colors.black);
-        return false;
-      } else {
+      var connection = await checkConnection();
+      if (connection) {
         //internet connection is on
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var token = prefs.getString('token');

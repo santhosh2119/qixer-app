@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/login_service.dart';
+import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/intro/introduction_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';

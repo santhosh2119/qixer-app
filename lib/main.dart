@@ -1,25 +1,31 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
+import 'package:qixer/service/auth_services/change_pass_service.dart';
+import 'package:qixer/service/auth_services/google_sign_service.dart';
+import 'package:qixer/service/auth_services/login_service.dart';
+import 'package:qixer/service/auth_services/logout_service.dart';
+import 'package:qixer/service/auth_services/reset_password_service.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/book_steps_service.dart';
-import 'package:qixer/service/change_pass_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
-import 'package:qixer/service/login_service.dart';
-import 'package:qixer/service/logout_service.dart';
+import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/service/reset_password_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
+import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/intro/splash.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -48,6 +54,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileEditService()),
         ChangeNotifierProvider(create: (_) => RecentServicesService()),
         ChangeNotifierProvider(create: (_) => SavedItemService()),
+        ChangeNotifierProvider(create: (_) => ServiceDetailsService()),
+        ChangeNotifierProvider(create: (_) => LeaveFeedbackService()),
+        ChangeNotifierProvider(create: (_) => GoogleSignInService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
