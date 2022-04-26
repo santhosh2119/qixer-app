@@ -39,7 +39,7 @@ class ServiceDetailsModel {
   List<ServiceInclude> serviceIncludes;
   List<ServiceBenifit> serviceBenifits;
   List<ServiceReview> serviceReviews;
-  List<Image> reviewerImage;
+  List<dynamic> reviewerImage;
 
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) =>
       ServiceDetailsModel(
@@ -58,8 +58,7 @@ class ServiceDetailsModel {
             json["service_benifits"].map((x) => ServiceBenifit.fromJson(x))),
         serviceReviews: List<ServiceReview>.from(
             json["service_reviews"].map((x) => ServiceReview.fromJson(x))),
-        reviewerImage: List<Image>.from(
-            json["reviewer_image"].map((x) => Image.fromJson(x))),
+        reviewerImage: List<dynamic>.from(json["reviewer_image"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,8 +77,7 @@ class ServiceDetailsModel {
             List<dynamic>.from(serviceBenifits.map((x) => x.toJson())),
         "service_reviews":
             List<dynamic>.from(serviceReviews.map((x) => x.toJson())),
-        "reviewer_image":
-            List<dynamic>.from(reviewerImage.map((x) => x.toJson())),
+        "reviewer_image": List<dynamic>.from(reviewerImage.map((x) => x)),
       };
 }
 
@@ -284,12 +282,12 @@ class BuyerForMobile {
 
   factory BuyerForMobile.fromJson(Map<String, dynamic> json) => BuyerForMobile(
         id: json["id"],
-        image: json["image"],
+        image: json["image"] == null ? null : json["image"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "image": image,
+        "image": image == null ? null : image,
       };
 }
 

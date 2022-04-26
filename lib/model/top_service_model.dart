@@ -19,7 +19,7 @@ class TopServiceModel {
 
   List<TopService> topServices;
   List<Image> serviceImage;
-  List<Image> reviewerImage;
+  List<dynamic> reviewerImage;
 
   factory TopServiceModel.fromJson(Map<String, dynamic> json) =>
       TopServiceModel(
@@ -27,16 +27,14 @@ class TopServiceModel {
             json["top_services"].map((x) => TopService.fromJson(x))),
         serviceImage: List<Image>.from(
             json["service_image"].map((x) => Image.fromJson(x))),
-        reviewerImage: List<Image>.from(
-            json["reviewer_image"].map((x) => Image.fromJson(x))),
+        reviewerImage: List<dynamic>.from(json["reviewer_image"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "top_services": List<dynamic>.from(topServices.map((x) => x.toJson())),
         "service_image":
             List<dynamic>.from(serviceImage.map((x) => x.toJson())),
-        "reviewer_image":
-            List<dynamic>.from(reviewerImage.map((x) => x.toJson())),
+        "reviewer_image": List<dynamic>.from(reviewerImage.map((x) => x)),
       };
 }
 
@@ -158,12 +156,12 @@ class BuyerForMobile {
 
   factory BuyerForMobile.fromJson(Map<String, dynamic> json) => BuyerForMobile(
         id: json["id"],
-        image: json["image"],
+        image: json["image"] == null ? null : json["image"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "image": image,
+        "image": image == null ? null : image,
       };
 }
 
@@ -171,19 +169,27 @@ class SellerForMobile {
   SellerForMobile({
     this.id,
     this.name,
+    this.image,
+    this.countryId,
   });
 
   int? id;
   String? name;
+  String? image;
+  int? countryId;
 
   factory SellerForMobile.fromJson(Map<String, dynamic> json) =>
       SellerForMobile(
         id: json["id"],
         name: json["name"],
+        image: json["image"],
+        countryId: json["country_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
+        "image": image,
+        "country_id": countryId,
       };
 }
