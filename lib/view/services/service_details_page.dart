@@ -54,8 +54,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
     return Scaffold(
       backgroundColor: Colors.white,
       body: Consumer<ServiceDetailsService>(
-        builder: (context, provider, child) => provider.serviceAllDetails !=
-                null
+        builder: (context, provider, child) => provider.isloading == false
             ? provider.serviceAllDetails != 'error'
                 ? Column(
                     children: [
