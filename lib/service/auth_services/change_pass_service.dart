@@ -1,10 +1,8 @@
 import 'dart:convert';
-
-import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/service/common_service.dart';
-import 'package:qixer/service/login_service.dart';
 import 'package:qixer/service/signup_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/reset_password_service.dart';
-import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
+import 'package:qixer/service/auth_services/reset_password_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
 import '../../utils/constant_colors.dart';

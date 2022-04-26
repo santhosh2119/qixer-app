@@ -4,8 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/reset_pass_otp_service.dart';
-import 'package:qixer/service/reset_password_service.dart';
+import 'package:qixer/service/auth_services/reset_pass_otp_service.dart';
+import 'package:qixer/service/auth_services/reset_password_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../utils/common_helper.dart';

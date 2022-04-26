@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
+import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../view/utils/constant_colors.dart';
-import '../view/utils/others_helper.dart';
 
 class LoginService with ChangeNotifier {
   bool isloading = false;
