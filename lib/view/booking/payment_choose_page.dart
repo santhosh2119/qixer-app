@@ -63,7 +63,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                     crossAxisSpacing: 15,
                     height: 60),
                 padding: const EdgeInsets.only(top: 30),
-                itemCount: 5,
+                itemCount: BookingHelper().paymentImages.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.none,
@@ -87,9 +87,10 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                     : cc.borderColor),
                           ),
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage('assets/icons/paypal.png'),
+                                image: AssetImage(
+                                    BookingHelper().paymentImages[index]),
                                 fit: BoxFit.fitWidth,
                               ),
                             ),

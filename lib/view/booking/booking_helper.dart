@@ -7,6 +7,21 @@ import '../utils/common_helper.dart';
 class BookingHelper {
   ConstantColors cc = ConstantColors();
 
+  List paymentImages = [
+    'assets/icons/payment/paypal.png',
+    'assets/icons/payment/cashfree.png',
+    'assets/icons/payment/flutterwave.png',
+    'assets/icons/payment/instamojo.png',
+    'assets/icons/payment/mercado.png',
+    'assets/icons/payment/midtrans.png',
+    'assets/icons/payment/mollie.png',
+    'assets/icons/payment/payfast.png',
+    'assets/icons/payment/paystack.png',
+    'assets/icons/payment/paytm.png',
+    'assets/icons/payment/razorpay.png',
+    'assets/icons/payment/stripe.png',
+  ];
+
   bottomSheetDecoration() {
     return BoxDecoration(
       color: Colors.white,
