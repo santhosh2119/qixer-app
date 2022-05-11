@@ -30,6 +30,7 @@ dependencies:
   auto_size_text: ^3.0.0
   cached_network_image: ^3.2.0
   carousel_slider: ^4.0.0
+  cashfree_pg: ^2.0.10+30
   connectivity: ^3.0.6
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.3.15

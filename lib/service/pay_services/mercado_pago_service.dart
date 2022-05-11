@@ -1,0 +1,5 @@
+
+
+class MercadoPagoService {
+  mercadoPay() async {}
+}

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
+import 'package:qixer/service/pay_services/cashfree_service.dart';
+import 'package:qixer/service/payment_constants.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/booking/payment_success_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -45,12 +47,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
 
               //border
               Container(
-                margin: const EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20, bottom: 20),
                 child: CommonHelper().dividerCommon(),
-              ),
-
-              const SizedBox(
-                height: 5,
               ),
 
               CommonHelper().titleCommon('Choose payment method'),
@@ -63,7 +61,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                     crossAxisSpacing: 15,
                     height: 60),
                 padding: const EdgeInsets.only(top: 30),
-                itemCount: BookingHelper().paymentImages.length,
+                itemCount: paymentList.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 clipBehavior: Clip.none,
@@ -73,6 +71,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                       setState(() {
                         selectedMethod = index;
                       });
+                      payAction(paymentList[index].methodName);
                     },
                     child: Stack(
                       clipBehavior: Clip.none,
@@ -89,8 +88,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(
-                                    BookingHelper().paymentImages[index]),
+                                image: AssetImage(paymentList[index].image),
                                 fit: BoxFit.fitWidth,
                               ),
                             ),
