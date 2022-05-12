@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
+import 'package:qixer/service/pay_services/razorpay_service.dart';
 
 randomOrderId() {
   var rng = Random();
@@ -19,11 +20,35 @@ payAction(String method, BuildContext context) {
     case 'cashfree':
       CashfreeService().getTokenAndPay();
       break;
+    case 'flutterwave':
+      // CashfreeService().getTokenAndPay();
+      break;
+    case 'instamojo':
+      // CashfreeService().getTokenAndPay();
+      break;
     case 'mercado':
-      MercadoPagoService().mercadoPay();
+      // CashfreeService().getTokenAndPay();
       break;
     case 'midtrans':
-      MercadoPagoService().mercadoPay();
+      // CashfreeService().getTokenAndPay();
+      break;
+    case 'mollie':
+      // CashfreeService().getTokenAndPay();
+      break;
+    case 'payfast':
+      // MercadoPagoService().mercadoPay();
+      break;
+    case 'paystack':
+      // MercadoPagoService().mercadoPay();
+      break;
+    case 'paytm':
+      // MercadoPagoService().mercadoPay();
+      break;
+    case 'razorpay':
+      RazorpayService().payByRazorpay(context);
+      break;
+    case 'stripe':
+      // MercadoPagoService().mercadoPay();
       break;
     default:
       {
