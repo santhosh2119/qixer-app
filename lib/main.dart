@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/auth_services/change_pass_service.dart';
@@ -17,6 +18,7 @@ import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/pay_services/payment_service.dart';
+import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
@@ -26,6 +28,8 @@ import 'package:qixer/view/intro/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Stripe.publishableKey = StripeService().publishableKey;
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -59,6 +63,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LeaveFeedbackService()),
         ChangeNotifierProvider(create: (_) => GoogleSignInService()),
         ChangeNotifierProvider(create: (_) => PaymentService()),
+        ChangeNotifierProvider(create: (_) => StripeService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

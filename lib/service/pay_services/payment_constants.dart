@@ -9,6 +9,7 @@ import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/paystack_service.dart';
 import 'package:qixer/service/pay_services/razorpay_service.dart';
+import 'package:qixer/service/pay_services/stripe_service.dart';
 
 randomOrderId() {
   var rng = Random();
@@ -51,7 +52,7 @@ payAction(String method, BuildContext context) {
       RazorpayService().payByRazorpay(context);
       break;
     case 'stripe':
-      // MercadoPagoService().mercadoPay();
+      StripeService().makePayment(context);
       break;
     default:
       {
