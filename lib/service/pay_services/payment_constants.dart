@@ -7,6 +7,7 @@ import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
+import 'package:qixer/service/pay_services/paystack_service.dart';
 import 'package:qixer/service/pay_services/razorpay_service.dart';
 
 randomOrderId() {
@@ -41,7 +42,7 @@ payAction(String method, BuildContext context) {
       // MercadoPagoService().mercadoPay();
       break;
     case 'paystack':
-      // MercadoPagoService().mercadoPay();
+      PaystackService().payByPaystack(context);
       break;
     case 'paytm':
       // MercadoPagoService().mercadoPay();

@@ -5,8 +5,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
-import 'package:qixer/view/utils/others_helper.dart';
-
 class InstamojoPaymentPage extends StatefulWidget {
   @override
   _InstamojoPaymentPageState createState() => _InstamojoPaymentPageState();
