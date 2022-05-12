@@ -43,7 +43,7 @@ class Categories extends StatelessWidget {
                                   border: Border.all(color: cc.borderColor),
                                   borderRadius: BorderRadius.circular(9)),
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 13, vertical: 15),
+                                  horizontal: 13, vertical: 12),
                               child: Column(
                                 children: [
                                   // Container(
@@ -70,7 +70,7 @@ class Categories extends StatelessWidget {
                                     size: 33,
                                   ),
                                   const SizedBox(
-                                    height: 8,
+                                    height: 5,
                                   ),
                                   Text(
                                     provider.categories.category[i].name,
@@ -91,7 +91,7 @@ class Categories extends StatelessWidget {
                       ],
                     ),
                   )
-                : Text("Something went wrong")
+                : const Text("Something went wrong")
             : OthersHelper().showLoading(cc.primaryColor);
       },
     );

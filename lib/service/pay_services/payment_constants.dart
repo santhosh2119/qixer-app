@@ -1,16 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
+import 'package:qixer/service/pay_services/paypal_service.dart';
 
 randomOrderId() {
   var rng = Random();
   return rng.nextInt(100).toString();
 }
 
-payAction(String method) {
+payAction(String method, BuildContext context) {
   switch (method) {
+    case 'paypal':
+      PaypalService().payByPaypal(context);
+      break;
     case 'cashfree':
       CashfreeService().getTokenAndPay();
       break;

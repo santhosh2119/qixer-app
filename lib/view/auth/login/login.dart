@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +10,6 @@ import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/custom_input.dart';
-import 'package:qixer/view/utils/others_helper.dart';
 import '../../utils/constant_styles.dart';
 
 class LoginPage extends StatefulWidget {
@@ -283,11 +281,19 @@ class _LoginPageState extends State<LoginPage> {
                             .buttonOrange("Login", () {
                           if (provider.isloading == false) {
                             if (_formKey.currentState!.validate()) {
-                              provider.login(
-                                  emailController.text.trim(),
-                                  passwordController.text,
-                                  context,
-                                  keepLoggedIn);
+                              // provider.login(
+                              //     emailController.text.trim(),
+                              //     passwordController.text,
+                              //     context,
+                              //     keepLoggedIn);
+
+                              Navigator.pushReplacement<void, void>(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const LandingPage(),
+                                ),
+                              );
                             }
                           }
                         },

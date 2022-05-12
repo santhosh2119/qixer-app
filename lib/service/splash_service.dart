@@ -31,9 +31,10 @@ class SplashService {
       });
     } else {
       //Try to login with the saved email and password
+      debugPrint('trying to log in with email pass');
       String? email = prefs.getString('email');
       String? pass = prefs.getString('pass');
-      var result = Provider.of<LoginService>(context, listen: false)
+      var result = await Provider.of<LoginService>(context, listen: false)
           .login(email, pass, context, true, isFromLoginPage: false);
 
       if (result == false) {

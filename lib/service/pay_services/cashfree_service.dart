@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cashfree_pg/cashfree_pg.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:qixer/service/payment_constants.dart';
+import 'package:qixer/service/pay_services/payment_constants.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class CashfreeService {
