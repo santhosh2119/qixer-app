@@ -74,7 +74,7 @@ class FlutterwaveService {
         paymentOptions: "card, payattitude",
         customization: Customization(title: "Test Payment"),
         redirectUrl: "https://www.google.com",
-        isTestMode: true);
+        isTestMode: false);
     var response = await flutterwave.charge();
     if (response != null) {
       showLoading(response.status!, context);
