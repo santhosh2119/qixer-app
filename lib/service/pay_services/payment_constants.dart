@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
+import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/razorpay_service.dart';
@@ -21,7 +22,7 @@ payAction(String method, BuildContext context) {
       CashfreeService().getTokenAndPay();
       break;
     case 'flutterwave':
-      // CashfreeService().getTokenAndPay();
+      FlutterwaveService().payByFlutterwave(context);
       break;
     case 'instamojo':
       // CashfreeService().getTokenAndPay();
