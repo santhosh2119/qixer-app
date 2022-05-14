@@ -75,8 +75,6 @@ class CountryStatesService with ChangeNotifier {
       });
       var response = await http.get(Uri.parse('$baseApi/country'));
 
-      print(response.statusCode);
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = CountryDropdownModel.fromJson(jsonDecode(response.body));
         for (int i = 0; i < data.countries.length; i++) {

@@ -17,6 +17,7 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
+import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/payment_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GoogleSignInService()),
         ChangeNotifierProvider(create: (_) => PaymentService()),
         ChangeNotifierProvider(create: (_) => StripeService()),
+        ChangeNotifierProvider(create: (_) => BankTransferService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

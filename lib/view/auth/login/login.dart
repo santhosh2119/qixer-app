@@ -281,19 +281,19 @@ class _LoginPageState extends State<LoginPage> {
                             .buttonOrange("Login", () {
                           if (provider.isloading == false) {
                             if (_formKey.currentState!.validate()) {
-                              // provider.login(
-                              //     emailController.text.trim(),
-                              //     passwordController.text,
-                              //     context,
-                              //     keepLoggedIn);
+                              provider.login(
+                                  emailController.text.trim(),
+                                  passwordController.text,
+                                  context,
+                                  keepLoggedIn);
 
-                              Navigator.pushReplacement<void, void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      const LandingPage(),
-                                ),
-                              );
+                              // Navigator.pushReplacement<void, void>(
+                              //   context,
+                              //   MaterialPageRoute<void>(
+                              //     builder: (BuildContext context) =>
+                              //         const LandingPage(),
+                              //   ),
+                              // );
                             }
                           }
                         },

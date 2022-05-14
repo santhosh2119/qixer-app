@@ -54,6 +54,12 @@ payAction(String method, BuildContext context) {
     case 'stripe':
       StripeService().makePayment(context);
       break;
+    case 'bank_transfer':
+      // StripeService().makePayment(context);
+      break;
+    case 'cash_on_delivery':
+      // StripeService().makePayment(context);
+      break;
     default:
       {
         debugPrint('not method found');
@@ -74,6 +80,8 @@ List paymentList = [
   PayMethods('paytm', 'assets/icons/payment/paytm.png'),
   PayMethods('razorpay', 'assets/icons/payment/razorpay.png'),
   PayMethods('stripe', 'assets/icons/payment/stripe.png'),
+  PayMethods('bank_transfer', 'assets/icons/payment/bank_transfer.png'),
+  PayMethods('cash_on_delivery', 'assets/icons/payment/cash_on_delivery.png'),
 ];
 
 class PayMethods {

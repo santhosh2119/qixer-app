@@ -1,11 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/pay_services/cashfree_service.dart';
+import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
 import 'package:qixer/service/pay_services/payment_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
-import 'package:qixer/view/booking/payment_success_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -111,6 +112,77 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         );
                       },
                     ),
+
+                    paymentList[selectedMethod].methodName == 'bank_transfer'
+                        ?
+//pick image ==========>
+                        Consumer<BankTransferService>(
+                            builder: (context, btProvider, child) => Column(
+                                  children: [
+                                    //pick image button =====>
+                                    Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 30,
+                                        ),
+                                        CommonHelper()
+                                            .buttonOrange('Choose images', () {
+                                          btProvider.pickImage(context);
+                                        }),
+                                      ],
+                                    ),
+                                    btProvider.images != null
+                                        ? Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 30,
+                                              ),
+                                              SizedBox(
+                                                height: 80,
+                                                child: ListView(
+                                                  clipBehavior: Clip.none,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  shrinkWrap: true,
+                                                  children: [
+                                                    for (int i = 0;
+                                                        i <
+                                                            btProvider
+                                                                .images!.length;
+                                                        i++)
+                                                      InkWell(
+                                                        onTap: () {},
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      right:
+                                                                          10),
+                                                              child: Image.file(
+                                                                // File(provider.images[i].path),
+                                                                File(btProvider
+                                                                    .images![i]
+                                                                    .path),
+                                                                height: 80,
+                                                                width: 80,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : Container(),
+                                  ],
+                                ))
+                        : Container(),
 
                     //Agreement checkbox ===========>
                     const SizedBox(
