@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/signup_service.dart';
+import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/view/auth/login/login_helper.dart';
 import 'package:qixer/view/auth/signup/components/email_name_fields.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';

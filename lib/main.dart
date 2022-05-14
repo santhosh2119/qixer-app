@@ -24,7 +24,8 @@ import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
 import 'package:qixer/service/service_details_service.dart';
-import 'package:qixer/service/signup_service.dart';
+import 'package:qixer/service/auth_services/signup_service.dart';
+import 'package:qixer/service/serviceby_category_service.dart';
 import 'package:qixer/view/intro/splash.dart';
 
 void main() async {
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PaymentService()),
         ChangeNotifierProvider(create: (_) => StripeService()),
         ChangeNotifierProvider(create: (_) => BankTransferService()),
+        ChangeNotifierProvider(create: (_) => ServiceByCategoryService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

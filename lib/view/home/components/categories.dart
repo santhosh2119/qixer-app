@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/home_services/category_service.dart';
+import 'package:qixer/view/services/service_by_category_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -32,7 +33,20 @@ class Categories extends StatelessWidget {
                           InkWell(
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      ServicebyCategoryPage(
+                                    categoryName:
+                                        provider.categories.category[i].name,
+                                    categoryId:
+                                        provider.categories.category[i].id,
+                                  ),
+                                ),
+                              );
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               width: 100,

@@ -46,7 +46,7 @@ class AllServicePage extends StatelessWidget {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
-                                const ServiceDetailsPage(),
+                                ServiceDetailsPage(),
                           ),
                         );
                       },

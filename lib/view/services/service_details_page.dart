@@ -15,7 +15,11 @@ import '../utils/common_helper.dart';
 import 'components/service_details_top.dart';
 
 class ServiceDetailsPage extends StatefulWidget {
-  const ServiceDetailsPage({Key? key}) : super(key: key);
+  const ServiceDetailsPage({
+    Key? key,
+  }) : super(key: key);
+
+  // final serviceId;
 
   @override
   State<ServiceDetailsPage> createState() => _ServiceDetailsPageState();
@@ -35,6 +39,9 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
+
+    // Provider.of<ServiceDetailsService>(context, listen: false)
+    //     .fetchServiceDetails(widget.serviceId);
     super.initState();
   }
 
