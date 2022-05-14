@@ -74,7 +74,7 @@ class StripeService with ChangeNotifier {
           body: body,
           headers: {
             'Authorization':
-                'Bearer sk_test_51JvKkxKm0DZBLg4f76iW8aF3ClxLENxlaHdoJ8qFtcvCA4ukgqDrbSSC3PvLdmxUowIiFrvkUSJismMrVMQR1JHa00YvuWxpQX',
+                'Bearer sk_test_51GwS1SEmGOuJLTMs2vhSliTwAGkOt4fKJMBrxzTXeCJoLrRu8HFf4I0C5QuyE3l3bQHBJm3c0qFmeVjd0V9nFb6Z00VrWDJ9Uw',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       // print('Create Intent reponse ===> ${response.body.toString()}');

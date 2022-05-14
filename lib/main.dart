@@ -28,8 +28,9 @@ import 'package:qixer/view/intro/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   Stripe.publishableKey = StripeService().publishableKey;
+  await Stripe.instance.applySettings();
+
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
