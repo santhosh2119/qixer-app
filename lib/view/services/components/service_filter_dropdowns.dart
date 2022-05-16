@@ -108,10 +108,13 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                   provider.setSubcatValue(newValue);
 
                                   //setting the id of selected value
-                                  // provider.setId(
-                                  //     provider.valueIndexList[
-                                  //         provider.dropdown
-                                  //             .indexOf(newValue)]);
+                                  provider.setSelectedSubcatsId(
+                                      provider.subcatDropdownIndexList[provider
+                                          .subcatDropdownList
+                                          .indexOf(newValue)]);
+
+                                  //fetch service
+                                  provider.fetchServiceByFilter();
                                 },
                                 items: provider.subcatDropdownList
                                     .map<DropdownMenuItem<String>>((value) {

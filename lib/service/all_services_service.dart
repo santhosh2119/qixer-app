@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/model/service_by_filter_model.dart';
 import 'package:qixer/model/sub_category_model.dart';
+import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer/view/utils/others_helper.dart';
@@ -80,10 +83,12 @@ class AllServicesService with ChangeNotifier {
     notifyListeners();
   }
 
+  var serviceMap = [];
+  bool alreadySaved = false;
   fetchCategories(BuildContext context) async {
     var categoriesList = Provider.of<CategoryService>(context, listen: false)
         .categoriesDropdownList;
-    if (categoriesList.isNotEmpty) {
+    if (categoriesList.isNotEmpty && categoryDropdownList.isEmpty) {
       for (int i = 0; i < categoriesList.length; i++) {
         categoryDropdownList.add(categoriesList[i].name);
         categoryDropdownIndexList.add(categoriesList[i].id);
@@ -96,9 +101,10 @@ class AllServicesService with ChangeNotifier {
       });
       fetchSubcategory(selectedCategoryId);
     } else {
-      //error fetching data
-      categoryDropdownList = [];
-      notifyListeners();
+      //already showed in dropdown. no need to do anything
+
+      // categoryDropdownList = [];
+      // notifyListeners();
     }
   }
 
@@ -128,5 +134,91 @@ class AllServicesService with ChangeNotifier {
       subcatDropdownList = [];
       notifyListeners();
     }
+  }
+
+  fetchServiceByFilter() async {
+    serviceMap = [];
+    Future.delayed(const Duration(microseconds: 500), () {
+      notifyListeners();
+    });
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+      var response = await http.get(Uri.parse(
+          '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId'));
+
+      if (response.statusCode == 201) {
+        var data = ServiceByFilterModel.fromJson(jsonDecode(response.body));
+
+        for (int i = 0; i < data.allServices.length; i++) {
+          var serviceImage;
+
+          if (data.serviceImage.length > i) {
+            serviceImage = data.serviceImage[i].imgUrl;
+          } else {
+            serviceImage = null;
+          }
+
+          int totalRating = 0;
+          for (int j = 0;
+              j < data.allServices[i].reviewsForMobile.length;
+              j++) {
+            totalRating = totalRating +
+                data.allServices[i].reviewsForMobile[j].rating!.toInt();
+          }
+          double averageRate = 0;
+
+          if (data.allServices[i].reviewsForMobile.isNotEmpty) {
+            averageRate =
+                (totalRating / data.allServices[i].reviewsForMobile.length);
+          }
+          setServiceList(
+              data.allServices[i].id,
+              data.allServices[i].title,
+              data.allServices[i].sellerForMobile.name,
+              data.allServices[i].price,
+              averageRate,
+              serviceImage,
+              i);
+        }
+
+        notifyListeners();
+      } else {
+        //Something went wrong
+        serviceMap.add('error');
+        notifyListeners();
+      }
+    }
+  }
+
+  setServiceList(serviceId, title, sellerName, price, rating, image, index) {
+    serviceMap.add({
+      'serviceId': serviceId,
+      'title': title,
+      'sellerName': sellerName,
+      'price': price,
+      'rating': rating,
+      'image': image,
+      'isSaved': false,
+    });
+    checkIfAlreadySaved(serviceId, title, sellerName, index);
+  }
+
+  checkIfAlreadySaved(serviceId, title, sellerName, index) async {
+    var newListMap = serviceMap;
+    alreadySaved = await DbService().checkIfSaved(serviceId, title, sellerName);
+    newListMap[index]['isSaved'] = alreadySaved;
+    serviceMap = newListMap;
+    notifyListeners();
+  }
+
+  saveOrUnsave(int serviceId, String title, String image, int price,
+      String sellerName, double rating, int index, BuildContext context) async {
+    var newListMap = serviceMap;
+    alreadySaved = await DbService().saveOrUnsave(
+        serviceId, title, image, price, sellerName, rating, context);
+    newListMap[index]['isSaved'] = alreadySaved;
+    serviceMap = newListMap;
+    notifyListeners();
   }
 }
