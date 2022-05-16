@@ -37,7 +37,7 @@ class TopRatedServices extends StatelessWidget {
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    ServiceDetailsPage(),
+                                    const ServiceDetailsPage(),
                               ),
                             );
                             Provider.of<ServiceDetailsService>(context,

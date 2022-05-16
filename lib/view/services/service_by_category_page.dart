@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/serviceby_category_service.dart';
 import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -70,9 +71,14 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
                                       context,
                                       MaterialPageRoute<void>(
                                         builder: (BuildContext context) =>
-                                            ServiceDetailsPage(),
+                                            const ServiceDetailsPage(),
                                       ),
                                     );
+                                    Provider.of<ServiceDetailsService>(context,
+                                            listen: false)
+                                        .fetchServiceDetails(
+                                            provider.categoryServiceMap[i]
+                                                ['serviceId']);
                                   },
                                   child: ServiceCard(
                                     cc: cc,
@@ -121,7 +127,11 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
                             )
                         ])
                       : const Text("Something went wrong")
-                  : OthersHelper().showLoading(cc.primaryColor),
+                  : Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height - 140,
+                      child: OthersHelper().showLoading(cc.primaryColor),
+                    ),
             ),
           ),
         ),
