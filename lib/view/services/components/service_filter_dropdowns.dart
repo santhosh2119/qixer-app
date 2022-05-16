@@ -54,6 +54,9 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                 //fetch states based on selected country
                                 provider.fetchSubcategory(
                                     provider.selectedCategoryId);
+
+                                //fetch service
+                                provider.fetchServiceByFilter();
                               },
                               items: provider.categoryDropdownList
                                   .map<DropdownMenuItem<String>>((value) {

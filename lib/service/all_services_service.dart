@@ -165,13 +165,12 @@ class AllServicesService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      var response = await http.get(Uri.parse(
-          '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId'));
+      var response = await http.get(Uri.parse("${getApiLink()}?page=1"));
 
       if (response.statusCode == 201) {
         var data = ServiceByFilterModel.fromJson(jsonDecode(response.body));
 
-        for (int i = 0; i < data.allServices.length; i++) {
+        for (int i = 0; i < data.allServices.data.length; i++) {
           var serviceImage;
 
           if (data.serviceImage.length > i) {
@@ -182,22 +181,22 @@ class AllServicesService with ChangeNotifier {
 
           int totalRating = 0;
           for (int j = 0;
-              j < data.allServices[i].reviewsForMobile.length;
+              j < data.allServices.data[i].reviewsForMobile.length;
               j++) {
             totalRating = totalRating +
-                data.allServices[i].reviewsForMobile[j].rating!.toInt();
+                data.allServices.data[i].reviewsForMobile[j].rating!.toInt();
           }
           double averageRate = 0;
 
-          if (data.allServices[i].reviewsForMobile.isNotEmpty) {
-            averageRate =
-                (totalRating / data.allServices[i].reviewsForMobile.length);
+          if (data.allServices.data[i].reviewsForMobile.isNotEmpty) {
+            averageRate = (totalRating /
+                data.allServices.data[i].reviewsForMobile.length);
           }
           setServiceList(
-              data.allServices[i].id,
-              data.allServices[i].title,
-              data.allServices[i].sellerForMobile.name,
-              data.allServices[i].price,
+              data.allServices.data[i].id,
+              data.allServices.data[i].title,
+              data.allServices.data[i].sellerForMobile.name,
+              data.allServices.data[i].price,
               averageRate,
               serviceImage,
               i);
@@ -241,5 +240,18 @@ class AllServicesService with ChangeNotifier {
     newListMap[index]['isSaved'] = alreadySaved;
     serviceMap = newListMap;
     notifyListeners();
+  }
+
+  getApiLink() {
+    if (selectedCategoryId == -1 && selectedSubcatId == -1) {
+      //when no option is selected from dropdown
+      return '$baseApi/service-list/all-services';
+    } else if (selectedCategoryId != -1 && selectedSubcatId == -1) {
+      //if only category is selected
+      return '$baseApi/service-list/search-by-category/$selectedCategoryId/';
+    } else {
+      //else category and subcategory both is selected
+      return '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId/';
+    }
   }
 }
