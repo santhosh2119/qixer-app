@@ -11,25 +11,25 @@ import 'package:http/http.dart' as http;
 import 'package:qixer/view/utils/others_helper.dart';
 
 class AllServicesService with ChangeNotifier {
-  var categoryDropdownList = [];
-  var categoryDropdownIndexList = [];
-  var selectedCategory;
-  var selectedCategoryId;
+  var categoryDropdownList = ['All'];
+  var categoryDropdownIndexList = [-1];
+  var selectedCategory = 'All';
+  var selectedCategoryId = -1;
 
-  var subcatDropdownList = [];
-  var subcatDropdownIndexList = [];
-  var selectedSubcat;
-  var selectedSubcatId;
+  var subcatDropdownList = ['All'];
+  var subcatDropdownIndexList = [-1];
+  var selectedSubcat = 'All';
+  var selectedSubcatId = -1;
 
   var ratingDropdownList = ['5 Star', '4 Star', '3 Star', '2 Star', '1 Star'];
-  var ratingDropdownIndexList = ['5', '4', '3', '2', '1'];
+  var ratingDropdownIndexList = [5, 4, 3, 2, 1];
   var selectedRating = '5 Star';
   var selectedRatingId = '5';
 
   var sortbyDropdownList = ['Newest', 'Oldest'];
-  var sortbyDropdownIndexList = ['1', '2'];
+  var sortbyDropdownIndexList = [1, 2];
   var selectedSortby = 'Newest';
-  var selectedSortbyId = '1';
+  var selectedSortbyId = 1;
 
   bool isLoading = false;
 
@@ -73,6 +73,14 @@ class AllServicesService with ChangeNotifier {
     notifyListeners();
   }
 
+  defaultSubcategory() {
+    subcatDropdownList = ['All'];
+    subcatDropdownIndexList = [-1];
+    selectedSubcat = 'All';
+    selectedSubcatId = -1;
+    notifyListeners();
+  }
+
   setLoadingTrue() {
     isLoading = true;
     notifyListeners();
@@ -88,18 +96,22 @@ class AllServicesService with ChangeNotifier {
   fetchCategories(BuildContext context) async {
     var categoriesList = Provider.of<CategoryService>(context, listen: false)
         .categoriesDropdownList;
-    if (categoriesList.isNotEmpty && categoryDropdownList.isEmpty) {
+    if (categoriesList.isNotEmpty && categoryDropdownList.length == 1) {
       for (int i = 0; i < categoriesList.length; i++) {
         categoryDropdownList.add(categoriesList[i].name);
         categoryDropdownIndexList.add(categoriesList[i].id);
       }
-
-      selectedCategory = categoriesList[0].name;
-      selectedCategoryId = categoriesList[0].id;
       Future.delayed(const Duration(microseconds: 500), () {
         notifyListeners();
       });
-      fetchSubcategory(selectedCategoryId);
+
+      // selectedCategory = categoriesList[0].name;
+      // selectedCategoryId = categoriesList[0].id;
+
+      //if all category is selected then don't load sub category
+      if (categoryDropdownList.length != 1 && selectedCategoryId != -1) {
+        fetchSubcategory(selectedCategoryId);
+      }
     } else {
       //already showed in dropdown. no need to do anything
 
@@ -109,30 +121,39 @@ class AllServicesService with ChangeNotifier {
   }
 
   fetchSubcategory(categoryId) async {
-    //make states list empty first
-    subcatDropdownList = [];
-    subcatDropdownIndexList = [];
-    Future.delayed(const Duration(microseconds: 500), () {
-      notifyListeners();
-    });
+    //make sub category list to default first
+    if (selectedCategoryId == -1) {
+      defaultSubcategory();
+    } else {
+      // defaultSubcategory();
 
-    var response =
-        await http.get(Uri.parse('$baseApi/category/sub-category/$categoryId'));
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      var data = SubcategoryModel.fromJson(jsonDecode(response.body));
-      for (int i = 0; i < data.subCategories.length; i++) {
-        subcatDropdownList.add(data.subCategories[i].name);
-        subcatDropdownIndexList.add(data.subCategories[i].id);
+      if (selectedCategoryId != -1) {
+        //this trick is only to show loading when category other than 'All' is selected
+        subcatDropdownList = [];
+        selectedSubcat = '';
+        notifyListeners();
       }
 
-      selectedSubcat = data.subCategories[0].name;
-      selectedSubcatId = data.subCategories[0].id;
-      notifyListeners();
-    } else {
-      //error fetching data
-      subcatDropdownList = [];
-      notifyListeners();
+      var response = await http
+          .get(Uri.parse('$baseApi/category/sub-category/$categoryId'));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        defaultSubcategory();
+        var data = SubcategoryModel.fromJson(jsonDecode(response.body));
+        for (int i = 0; i < data.subCategories.length; i++) {
+          subcatDropdownList.add(data.subCategories[i].name!);
+          subcatDropdownIndexList.add(data.subCategories[i].id!);
+        }
+
+        // selectedSubcat = data.subCategories[0].name!;
+        // selectedSubcatId = data.subCategories[0].id!;
+        notifyListeners();
+      } else {
+        //error fetching data // no data found
+        // subcatDropdownList = [];
+        // notifyListeners();
+        defaultSubcategory();
+      }
     }
   }
 

@@ -49,7 +49,7 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                 provider.setSelectedCategoryId(
                                     provider.categoryDropdownIndexList[provider
                                         .categoryDropdownList
-                                        .indexOf(newValue)]);
+                                        .indexOf(newValue!)]);
 
                                 //fetch states based on selected country
                                 provider.fetchSubcategory(
@@ -111,7 +111,7 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                   provider.setSelectedSubcatsId(
                                       provider.subcatDropdownIndexList[provider
                                           .subcatDropdownList
-                                          .indexOf(newValue)]);
+                                          .indexOf(newValue!)]);
 
                                   //fetch service
                                   provider.fetchServiceByFilter();
