@@ -9,8 +9,20 @@ import 'package:qixer/view/utils/constant_styles.dart';
 
 import '../home/components/service_card.dart';
 
-class AllServicePage extends StatelessWidget {
+class AllServicePage extends StatefulWidget {
   const AllServicePage({Key? key}) : super(key: key);
+
+  @override
+  State<AllServicePage> createState() => _AllServicePageState();
+}
+
+class _AllServicePageState extends State<AllServicePage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<AllServicesService>(context, listen: false)
+        .fetchCategories(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +58,7 @@ class AllServicePage extends StatelessWidget {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
-                                ServiceDetailsPage(),
+                                const ServiceDetailsPage(),
                           ),
                         );
                       },

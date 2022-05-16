@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../utils/common_helper.dart';
 
@@ -19,7 +19,7 @@ class ServiceFilterDropdowns extends StatelessWidget {
           Row(
             children: [
               // Category dropdown
-              provider.categoryDropdown.isNotEmpty
+              provider.categoryDropdownList.isNotEmpty
                   ? Expanded(
                       child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +46,16 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                 provider.setCategoryValue(newValue);
 
                                 //setting the id of selected value
-                                // provider.setId(
-                                //     provider.valueIndexList[
-                                //         provider.dropdown
-                                //             .indexOf(newValue)]);
+                                provider.setSelectedCategoryId(
+                                    provider.categoryDropdownIndexList[provider
+                                        .categoryDropdownList
+                                        .indexOf(newValue)]);
+
+                                //fetch states based on selected country
+                                provider.fetchSubcategory(
+                                    provider.selectedCategoryId);
                               },
-                              items: provider.categoryDropdown
+                              items: provider.categoryDropdownList
                                   .map<DropdownMenuItem<String>>((value) {
                                 return DropdownMenuItem(
                                   value: value,
@@ -67,124 +71,137 @@ class ServiceFilterDropdowns extends StatelessWidget {
                         )
                       ],
                     ))
-                  : Container(),
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [OthersHelper().showLoading(cc.primaryColor)],
+                    ),
 
               // ====================>
               const SizedBox(
                 width: 20,
               ),
               // Sub Category dropdown
-              provider.subCategoryDropdown.isNotEmpty
-                  ? Expanded(
-                      child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonHelper().labelCommon("Sub Category"),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: cc.greyFive),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              // menuMaxHeight: 200,
-                              // isExpanded: true,
-                              value: provider.selectedSubCategory,
-                              icon: Icon(Icons.keyboard_arrow_down_rounded,
-                                  color: cc.greyFour),
-                              iconSize: 26,
-                              elevation: 17,
-                              style: TextStyle(color: cc.greyFour),
-                              onChanged: (newValue) {
-                                provider.setSubCategoryValue(newValue);
-
-                                //setting the id of selected value
-                                // provider.setId(
-                                //     provider.valueIndexList[
-                                //         provider.dropdown
-                                //             .indexOf(newValue)]);
-                              },
-                              items: provider.subCategoryDropdown
-                                  .map<DropdownMenuItem<String>>((value) {
-                                return DropdownMenuItem(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: cc.greyPrimary.withOpacity(.8)),
-                                  ),
-                                );
-                              }).toList(),
+              Expanded(
+                child: provider.subcatDropdownList.isNotEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CommonHelper().labelCommon("Sub Category"),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: cc.greyFive),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                          ),
-                        )
-                      ],
-                    ))
-                  : Container()
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                // menuMaxHeight: 200,
+                                // isExpanded: true,
+                                value: provider.selectedSubcat,
+                                icon: Icon(Icons.keyboard_arrow_down_rounded,
+                                    color: cc.greyFour),
+                                iconSize: 26,
+                                elevation: 17,
+                                style: TextStyle(color: cc.greyFour),
+                                onChanged: (newValue) {
+                                  provider.setSubcatValue(newValue);
+
+                                  //setting the id of selected value
+                                  // provider.setId(
+                                  //     provider.valueIndexList[
+                                  //         provider.dropdown
+                                  //             .indexOf(newValue)]);
+                                },
+                                items: provider.subcatDropdownList
+                                    .map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color:
+                                              cc.greyPrimary.withOpacity(.8)),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
+              )
             ],
           ),
           sizedBox20(),
           Row(
             children: [
               // Ratings dropdown
-              provider.ratingsDropdown.isNotEmpty
-                  ? Expanded(
-                      child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonHelper().labelCommon("Ratings"),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: cc.greyFive),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              // menuMaxHeight: 200,
-                              // isExpanded: true,
-                              value: provider.selectedRatings,
-                              icon: Icon(Icons.keyboard_arrow_down_rounded,
-                                  color: cc.greyFour),
-                              iconSize: 26,
-                              elevation: 17,
-                              style: TextStyle(color: cc.greyFour),
-                              onChanged: (newValue) {
-                                provider.setRatingsValue(newValue);
-
-                                //setting the id of selected value
-                                // provider.setId(
-                                //     provider.valueIndexList[
-                                //         provider.dropdown
-                                //             .indexOf(newValue)]);
-                              },
-                              items: provider.ratingsDropdown
-                                  .map<DropdownMenuItem<String>>((value) {
-                                return DropdownMenuItem(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: cc.greyPrimary.withOpacity(.8)),
-                                  ),
-                                );
-                              }).toList(),
+              Expanded(
+                child: provider.ratingDropdownList.isNotEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CommonHelper().labelCommon("Ratings"),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: cc.greyFive),
+                              borderRadius: BorderRadius.circular(6),
                             ),
-                          ),
-                        )
-                      ],
-                    ))
-                  : Container(),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                // menuMaxHeight: 200,
+                                // isExpanded: true,
+                                value: provider.selectedRating,
+                                icon: Icon(Icons.keyboard_arrow_down_rounded,
+                                    color: cc.greyFour),
+                                iconSize: 26,
+                                elevation: 17,
+                                style: TextStyle(color: cc.greyFour),
+                                onChanged: (newValue) {
+                                  provider.setRatingValue(newValue);
+
+                                  //setting the id of selected value
+                                  // provider.setId(
+                                  //     provider.valueIndexList[
+                                  //         provider.dropdown
+                                  //             .indexOf(newValue)]);
+                                },
+                                items: provider.ratingDropdownList
+                                    .map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color:
+                                              cc.greyPrimary.withOpacity(.8)),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [OthersHelper().showLoading(cc.primaryColor)],
+                      ),
+              ),
 
               // ====================>
               const SizedBox(
                 width: 20,
               ),
               // Sort by dropdown
-              provider.sortByDropdown.isNotEmpty
+              provider.sortbyDropdownList.isNotEmpty
                   ? Expanded(
                       child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,14 +218,14 @@ class ServiceFilterDropdowns extends StatelessWidget {
                             child: DropdownButton<String>(
                               // menuMaxHeight: 200,
                               // isExpanded: true,
-                              value: provider.selectedSortBy,
+                              value: provider.selectedSortby,
                               icon: Icon(Icons.keyboard_arrow_down_rounded,
                                   color: cc.greyFour),
                               iconSize: 26,
                               elevation: 17,
                               style: TextStyle(color: cc.greyFour),
                               onChanged: (newValue) {
-                                provider.setSortByValue(newValue);
+                                provider.setSortbyValue(newValue);
 
                                 //setting the id of selected value
                                 // provider.setId(
@@ -216,7 +233,7 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                 //         provider.dropdown
                                 //             .indexOf(newValue)]);
                               },
-                              items: provider.sortByDropdown
+                              items: provider.sortbyDropdownList
                                   .map<DropdownMenuItem<String>>((value) {
                                 return DropdownMenuItem(
                                   value: value,

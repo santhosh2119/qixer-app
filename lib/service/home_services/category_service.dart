@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:qixer/model/categoryModel.dart';
@@ -10,6 +8,8 @@ import 'package:qixer/view/utils/others_helper.dart';
 class CategoryService with ChangeNotifier {
   var categories;
 
+  var categoriesDropdownList = [];
+
   fetchCategory() async {
     if (categories == null) {
       var connection = await checkConnection();
@@ -18,6 +18,8 @@ class CategoryService with ChangeNotifier {
 
         if (response.statusCode == 201) {
           categories = CategoryModel.fromJson(jsonDecode(response.body));
+
+          categoriesDropdownList = categories.category;
 
           notifyListeners();
         } else {
