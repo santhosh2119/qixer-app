@@ -21,10 +21,17 @@ class AllServicesService with ChangeNotifier {
   var selectedSubcat = 'All';
   var selectedSubcatId = -1;
 
-  var ratingDropdownList = ['5 Star', '4 Star', '3 Star', '2 Star', '1 Star'];
+  var ratingDropdownList = [
+    'All',
+    '5 Star',
+    '4 Star',
+    '3 Star',
+    '2 Star',
+    '1 Star'
+  ];
   var ratingDropdownIndexList = [5, 4, 3, 2, 1];
-  var selectedRating = '5 Star';
-  var selectedRatingId = '5';
+  var selectedRating = 'All';
+  var selectedRatingId = -1;
 
   var sortbyDropdownList = ['Newest', 'Oldest'];
   var sortbyDropdownIndexList = [1, 2];
@@ -328,8 +335,23 @@ class AllServicesService with ChangeNotifier {
     } else if (selectedCategoryId != -1 && selectedSubcatId == -1) {
       //if only category is selected
       return '$baseApi/service-list/search-by-category/$selectedCategoryId/';
-    } else {
-      //else category and subcategory both is selected
+    } else if (selectedCategoryId == -1 &&
+        selectedSubcatId == -1 &&
+        selectedSortby == 'Sort by' &&
+        selectedRatingId != -1) {
+      //if nothing is selected, only rating is selected
+      // return '$baseApi/service-list/category-subcategory-rating-search/$categoryid/3/4';
+    } else if (selectedCategoryId != -1 &&
+        selectedSubcatId != -1 &&
+        selectedRatingId != -1 &&
+        selectedSortby == 'Sort by') {
+      //if category subcategory and rating selected, sort by not selected
+
+    } else if (selectedCategoryId != -1 &&
+        selectedSubcatId != -1 &&
+        selectedRatingId == -1 &&
+        selectedSortby == 'Sort by') {
+      //if only category and subcategory both is selected , nothing else
       return '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId/';
     }
   }

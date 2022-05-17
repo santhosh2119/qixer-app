@@ -38,6 +38,7 @@ class ServiceDetailsService with ChangeNotifier {
       if (response.statusCode == 201) {
         serviceAllDetails =
             ServiceDetailsModel.fromJson(jsonDecode(response.body));
+        // var data = ServiceDetailsModel.fromJson(jsonDecode(response.body));
 
         notifyListeners();
         setLoadingFalse();

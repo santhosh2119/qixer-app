@@ -82,6 +82,7 @@ class LoginService with ChangeNotifier {
     prefs.setBool('keepLoggedIn', true);
     prefs.setString("pass", pass);
     prefs.setString("token", token);
+    print('token is $token');
   }
 
   setKeepLoggedInFalseSaveToken(token) async {
