@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/booking/components/order_details_panel.dart';
-import 'package:qixer/view/booking/components/order_details_panel_procced.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../utils/custom_input.dart';
 import 'components/steps.dart';
 
 class BookConfirmationPage extends StatefulWidget {

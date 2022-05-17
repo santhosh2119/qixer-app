@@ -105,7 +105,7 @@ class _ServicePersonalizationPageState
                           ))
                       : const Text("Something went wrong")
                   : Container(
-                      height: MediaQuery.of(context).size.height - 200,
+                      height: MediaQuery.of(context).size.height - 250,
                       alignment: Alignment.center,
                       child: OthersHelper().showLoading(cc.primaryColor),
                     )),
