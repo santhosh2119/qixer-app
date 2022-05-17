@@ -93,6 +93,39 @@ class AllServicesService with ChangeNotifier {
 
   var serviceMap = [];
   bool alreadySaved = false;
+
+  late int totalPages;
+
+  int currentPage = 1;
+  var alreadyAddedtoFav = false;
+
+  setCurrentPage(newValue) {
+    currentPage = newValue;
+    notifyListeners();
+  }
+
+  setTotalPage(newPageNumber) {
+    totalPages = newPageNumber;
+    notifyListeners();
+  }
+
+  // var refreshController;
+
+  // setRefreshController(value) {
+  //   refreshController = value;
+  // }
+
+  List averageRateList = [];
+  List imageList = [];
+
+  setEverythingToDefault() {
+    serviceMap = [];
+    currentPage = 1;
+    averageRateList = [];
+    imageList = [];
+    notifyListeners();
+  }
+
   fetchCategories(BuildContext context) async {
     var categoriesList = Provider.of<CategoryService>(context, listen: false)
         .categoriesDropdownList;
@@ -157,18 +190,36 @@ class AllServicesService with ChangeNotifier {
     }
   }
 
-  fetchServiceByFilter() async {
-    serviceMap = [];
-    Future.delayed(const Duration(microseconds: 500), () {
+  fetchServiceByFilter(context, {bool isrefresh = false}) async {
+    if (isrefresh) {
+      //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
+      //we are make the list empty when the sub category or brand is selected because then the refresh is true
+      serviceMap = [];
       notifyListeners();
-    });
+
+      Provider.of<AllServicesService>(context, listen: false)
+          .setCurrentPage(currentPage);
+    } else {
+      // if (currentPage > 2) {
+      //   refreshController.loadNoData();
+      //   return false;
+      // }
+    }
+
+    // serviceMap = [];
+    // Future.delayed(const Duration(microseconds: 500), () {
+    //   notifyListeners();
+    // });
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      var response = await http.get(Uri.parse("${getApiLink()}?page=1"));
+      var response =
+          await http.get(Uri.parse("${getApiLink()}?page=$currentPage"));
 
       if (response.statusCode == 201) {
         var data = ServiceByFilterModel.fromJson(jsonDecode(response.body));
+
+        setTotalPage(data.allServices.lastPage);
 
         for (int i = 0; i < data.allServices.data.length; i++) {
           var serviceImage;
@@ -192,36 +243,64 @@ class AllServicesService with ChangeNotifier {
             averageRate = (totalRating /
                 data.allServices.data[i].reviewsForMobile.length);
           }
-          setServiceList(
-              data.allServices.data[i].id,
-              data.allServices.data[i].title,
-              data.allServices.data[i].sellerForMobile.name,
-              data.allServices.data[i].price,
-              averageRate,
-              serviceImage,
-              i);
+          averageRateList.add(averageRate);
+          imageList.add(serviceImage);
+          // setServiceList(
+          //     data.allServices.data[i].id,
+          //     data.allServices.data[i].title,
+          //     data.allServices.data[i].sellerForMobile.name,
+          //     data.allServices.data[i].price,
+          //     averageRate,
+          //     serviceImage,
+          //     i);
         }
 
-        notifyListeners();
+        if (isrefresh) {
+          print('refresh true');
+          //if refreshed, then remove all service from list and insert new data
+          setServiceList(
+              data.allServices.data, averageRateList, imageList, false);
+        } else {
+          print('add new data');
+
+          //else add new data
+          setServiceList(
+              data.allServices.data, averageRateList, imageList, true);
+        }
+
+        currentPage++;
+        setCurrentPage(currentPage);
+        return true;
       } else {
+        //No more data
         //Something went wrong
-        serviceMap.add('error');
-        notifyListeners();
+        // serviceMap.add('error');
+        // notifyListeners();
+        return false;
       }
     }
   }
 
-  setServiceList(serviceId, title, sellerName, price, rating, image, index) {
-    serviceMap.add({
-      'serviceId': serviceId,
-      'title': title,
-      'sellerName': sellerName,
-      'price': price,
-      'rating': rating,
-      'image': image,
-      'isSaved': false,
-    });
-    checkIfAlreadySaved(serviceId, title, sellerName, index);
+  setServiceList(data, averageRateList, imageList, bool addnewData) {
+    if (addnewData == false) {
+      //make the list empty first so that existing data doesn't stay
+      serviceMap = [];
+      notifyListeners();
+    }
+
+    for (int i = 0; i < data.length; i++) {
+      serviceMap.add({
+        'serviceId': data[i].id,
+        'title': data[i].title,
+        'sellerName': data[i].sellerForMobile.name,
+        'price': data[i].price,
+        'rating': averageRateList[i],
+        'image': imageList[i],
+        'isSaved': false,
+      });
+      checkIfAlreadySaved(data[i].id, data[i].title,
+          data[i].sellerForMobile.name, serviceMap.length - 1);
+    }
   }
 
   checkIfAlreadySaved(serviceId, title, sellerName, index) async {

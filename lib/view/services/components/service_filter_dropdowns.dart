@@ -52,11 +52,11 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                         .indexOf(newValue!)]);
 
                                 //fetch states based on selected country
+                                provider.setEverythingToDefault();
                                 provider.fetchSubcategory(
                                     provider.selectedCategoryId);
-
                                 //fetch service
-                                provider.fetchServiceByFilter();
+                                provider.fetchServiceByFilter(context);
                               },
                               items: provider.categoryDropdownList
                                   .map<DropdownMenuItem<String>>((value) {
@@ -117,7 +117,8 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                           .indexOf(newValue!)]);
 
                                   //fetch service
-                                  provider.fetchServiceByFilter();
+                                  provider.setEverythingToDefault();
+                                  provider.fetchServiceByFilter(context);
                                 },
                                 items: provider.subcatDropdownList
                                     .map<DropdownMenuItem<String>>((value) {
