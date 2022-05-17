@@ -20,7 +20,7 @@ class LeaveFeedbackService with ChangeNotifier {
   }
 
   Future<bool> leaveFeedback(
-      rating, name, email, message, BuildContext context) async {
+      rating, name, email, message, serviceId, BuildContext context) async {
     var connection = await checkConnection();
     if (connection) {
       setLoadingTrue();
@@ -42,7 +42,7 @@ class LeaveFeedbackService with ChangeNotifier {
       };
 
       var response = await http.post(
-          Uri.parse('$baseApi/user/add-service-rating/1'),
+          Uri.parse('$baseApi/user/add-service-rating/$serviceId'),
           body: data,
           headers: header);
 

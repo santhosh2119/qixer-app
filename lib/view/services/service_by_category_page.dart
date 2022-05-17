@@ -118,6 +118,8 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
                                             true
                                         ? true
                                         : false,
+                                    serviceId: provider.categoryServiceMap[i]
+                                        ['serviceId'],
                                   ),
                                 ),
                                 const SizedBox(

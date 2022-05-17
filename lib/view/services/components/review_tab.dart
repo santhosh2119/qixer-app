@@ -64,6 +64,8 @@ class ReviewTab extends StatelessWidget {
                       // const SizedBox(
                       //   height: 10,
                       // ),
+
+                      // if one star rating then show one star else loop and show
                       provider.serviceAllDetails.serviceReviews[i].rating == 0
                           ? Icon(
                               Icons.star,

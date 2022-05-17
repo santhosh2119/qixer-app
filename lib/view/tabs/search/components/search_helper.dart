@@ -23,11 +23,11 @@ class SearchHelper {
             animationDuration: const Duration(milliseconds: 500)),
         content: Column(
           children: const [
-            CountryStatesDropdowns(),
+            // CountryStatesDropdowns(),
             SizedBox(
               height: 23,
             ),
-            ServiceFilterDropdowns(),
+            // ServiceFilterDropdowns(),
           ],
         )).show();
   }

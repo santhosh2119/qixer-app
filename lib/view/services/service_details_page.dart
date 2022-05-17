@@ -147,7 +147,12 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                             context,
                                             MaterialPageRoute<void>(
                                               builder: (BuildContext context) =>
-                                                  const WriteReviewPage(),
+                                                  WriteReviewPage(
+                                                serviceId: provider
+                                                    .serviceAllDetails
+                                                    .serviceDetails
+                                                    .id,
+                                              ),
                                             ),
                                           );
                                         }),
@@ -163,7 +168,10 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                        const BookingLocationPage(),
+                                        BookingLocationPage(
+                                      serviceId: provider
+                                          .serviceAllDetails.serviceDetails.id,
+                                    ),
                                   ),
                                 );
                               }),

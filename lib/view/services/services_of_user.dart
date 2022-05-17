@@ -55,6 +55,7 @@ class ServicesOfUser extends StatelessWidget {
                         marginRight: 0.0,
                         pressed: () {},
                         isSaved: false,
+                        serviceId: 1,
                       ),
                     ),
                     const SizedBox(

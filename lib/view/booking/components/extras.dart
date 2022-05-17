@@ -6,8 +6,15 @@ import '../../utils/common_helper.dart';
 import '../../utils/constant_colors.dart';
 
 class Extras extends StatefulWidget {
-  const Extras({Key? key, required this.cc}) : super(key: key);
+  const Extras(
+      {Key? key,
+      required this.cc,
+      required this.additionalServices,
+      required this.serviceBenefits})
+      : super(key: key);
   final ConstantColors cc;
+  final additionalServices;
+  final serviceBenefits;
 
   @override
   State<Extras> createState() => _ExtrasState();
@@ -32,7 +39,7 @@ class _ExtrasState extends State<Extras> {
             shrinkWrap: true,
             clipBehavior: Clip.none,
             children: [
-              for (int i = 0; i < 8; i++)
+              for (int i = 0; i < widget.additionalServices.length; i++)
                 InkWell(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
@@ -68,7 +75,8 @@ class _ExtrasState extends State<Extras> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Full Face Wash With Natural Cream',
+                              widget
+                                  .additionalServices[i].additionalServiceTitle,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -81,7 +89,7 @@ class _ExtrasState extends State<Extras> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$100 x',
+                                  '\$${widget.additionalServices[i].additionalServicePrice} x',
                                   style: TextStyle(
                                     color: widget.cc.greyPrimary,
                                     fontSize: 15,
@@ -145,8 +153,8 @@ class _ExtrasState extends State<Extras> {
         const SizedBox(
           height: 17,
         ),
-        for (int i = 0; i < 3; i++)
-          ServiceHelper().checkListCommon('High Quality Products')
+        for (int i = 0; i < widget.serviceBenefits.length; i++)
+          ServiceHelper().checkListCommon(widget.serviceBenefits[i].benifits)
       ],
     );
   }

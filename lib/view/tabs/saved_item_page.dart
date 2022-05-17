@@ -83,6 +83,8 @@ class _SavedItemPageState extends State<SavedItemPage> {
                                           context);
                                     },
                                     isSaved: true,
+                                    serviceId: provider.savedItemList[i]
+                                        ['serviceId'],
                                   ),
                                 ),
                             ],

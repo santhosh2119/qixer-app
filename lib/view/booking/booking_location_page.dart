@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer/view/booking/service_personalization_page.dart';
@@ -12,7 +13,10 @@ import 'package:qixer/view/utils/constant_styles.dart';
 import 'components/steps.dart';
 
 class BookingLocationPage extends StatefulWidget {
-  const BookingLocationPage({Key? key}) : super(key: key);
+  const BookingLocationPage({Key? key, required this.serviceId})
+      : super(key: key);
+
+  final serviceId;
 
   @override
   _BookingLocationPageState createState() => _BookingLocationPageState();
@@ -60,11 +64,15 @@ class _BookingLocationPageState extends State<BookingLocationPage> {
                   CommonHelper().buttonOrange("Next", () {
                     //increase page steps by one
                     BookStepsService().onNext(context);
+                    Provider.of<PersonalizationService>(context, listen: false)
+                        .fetchServiceExtra(widget.serviceId);
                     Navigator.push(
                         context,
                         PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: const ServicePersonalizationPage()));
+                            child: ServicePersonalizationPage(
+                              serviceId: widget.serviceId,
+                            )));
                   }),
 
                   const SizedBox(

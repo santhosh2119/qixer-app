@@ -19,10 +19,12 @@ class ServiceCard extends StatelessWidget {
       required this.width,
       required this.marginRight,
       required this.pressed,
-      required this.isSaved})
+      required this.isSaved,
+      required this.serviceId})
       : super(key: key);
 
   final ConstantColors cc;
+  final serviceId;
   final imageLink;
   final title;
   final sellerName;
@@ -121,8 +123,9 @@ class ServiceCard extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const BookingLocationPage(),
+                        builder: (BuildContext context) => BookingLocationPage(
+                          serviceId: serviceId,
+                        ),
                       ),
                     );
                   },

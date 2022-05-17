@@ -153,6 +153,8 @@ class _AllServicePageState extends State<AllServicePage> {
                                                       true
                                                   ? true
                                                   : false,
+                                              serviceId: provider.serviceMap[i]
+                                                  ['serviceId'],
                                             ),
                                           ),
                                           const SizedBox(

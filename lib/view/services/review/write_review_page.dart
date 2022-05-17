@@ -10,8 +10,9 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 class WriteReviewPage extends StatefulWidget {
-  const WriteReviewPage({Key? key}) : super(key: key);
+  const WriteReviewPage({Key? key, required this.serviceId}) : super(key: key);
 
+  final serviceId;
   @override
   State<WriteReviewPage> createState() => _WriteReviewPageState();
 }
@@ -91,6 +92,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
                         profileProvider.profileDetails.userDetails.name ?? '',
                         profileProvider.profileDetails.userDetails.email ?? '',
                         reviewController.text,
+                        widget.serviceId,
                         context);
                   }
                 }, isloading: lfProvider.isloading == false ? false : true),

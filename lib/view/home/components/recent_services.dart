@@ -71,6 +71,8 @@ class RecentServices extends StatelessWidget {
                                 provider.recentServiceMap[i]['isSaved'] == true
                                     ? true
                                     : false,
+                            serviceId: provider.recentServiceMap[i]
+                                ['serviceId'],
                           ),
                         )
                     ],
