@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/booking_location_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
@@ -164,6 +165,15 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                   : Container(),
                               CommonHelper().buttonOrange("Book Appointment",
                                   () {
+                                Provider.of<BookService>(context, listen: false)
+                                    .setData(
+                                        provider.serviceAllDetails
+                                            .serviceDetails.id,
+                                        provider.serviceAllDetails
+                                            .serviceDetails.title,
+                                        provider.serviceAllDetails.serviceImage
+                                            .imgUrl);
+                                //=============>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(

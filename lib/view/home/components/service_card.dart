@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 
 import '../../booking/booking_location_page.dart';
 import '../../utils/common_helper.dart';
@@ -120,6 +122,9 @@ class ServiceCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: cc.primaryColor, elevation: 0),
                   onPressed: () {
+                    Provider.of<BookService>(context, listen: false)
+                        .setData(serviceId, title, imageLink);
+                    //==========>
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(

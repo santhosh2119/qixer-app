@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../utils/common_helper.dart';
@@ -110,37 +112,38 @@ class Steps extends StatelessWidget {
         const SizedBox(
           height: 17,
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: CachedNetworkImage(
-                imageUrl:
-                    "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                placeholder: (context, url) {
-                  return Image.asset('assets/images/placeholder.png');
-                },
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(
-              width: 14,
-            ),
-            Flexible(
-              child: Text(
-                'Women Beauty Care Service with Expert Beautician',
-                style: TextStyle(
-                  color: cc.greyFour,
-                  fontSize: 18,
-                  height: 1.4,
-                  fontWeight: FontWeight.bold,
+        Consumer<BookService>(
+          builder: (context, sProvider, child) => Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: CachedNetworkImage(
+                  imageUrl: sProvider.serviceImage ?? placeHolderUrl,
+                  placeholder: (context, url) {
+                    return Image.asset('assets/images/placeholder.png');
+                  },
+                  height: 60,
+                  width: 60,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(
+                width: 14,
+              ),
+              Flexible(
+                child: Text(
+                  sProvider.serviceTitle ?? '',
+                  style: TextStyle(
+                    color: cc.greyFour,
+                    fontSize: 18,
+                    height: 1.4,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(
           height: 20,

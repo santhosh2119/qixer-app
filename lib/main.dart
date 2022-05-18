@@ -73,6 +73,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ServiceByCategoryService()),
         ChangeNotifierProvider(create: (_) => PersonalizationService()),
         ChangeNotifierProvider(create: (_) => BookService()),
+        ChangeNotifierProvider(create: (_) => BookService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
