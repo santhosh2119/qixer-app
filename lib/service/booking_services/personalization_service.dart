@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer/model/service_extra_model.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
@@ -24,28 +26,75 @@ class PersonalizationService with ChangeNotifier {
     notifyListeners();
   }
 
-  increaseIncludedQty(index) {
+  increaseIncludedQty(index, BuildContext context) {
     includedList[index]['qty'] = includedList[index]['qty'] + 1;
     notifyListeners();
+    //increase price
+    Provider.of<BookService>(context, listen: false).setTotalPrice(
+        Provider.of<BookService>(context, listen: false).totalPrice +
+            includedList[index]['price'] as int);
   }
 
-  decreaseIncludedQty(index) {
+  decreaseIncludedQty(index, BuildContext context) {
     if (includedList[index]['qty'] != 1) {
       includedList[index]['qty'] = includedList[index]['qty'] - 1;
       notifyListeners();
+      //decrease price
+      Provider.of<BookService>(context, listen: false).setTotalPrice(
+          Provider.of<BookService>(context, listen: false).totalPrice -
+              includedList[index]['price'] as int);
     }
   }
 
-  increaseExtrasQty(index) {
+  increaseExtrasQty(index, bool selected, BuildContext context) {
     extrasList[index]['qty'] = extrasList[index]['qty'] + 1;
+
     notifyListeners();
+
+    //if the item is selected only then increase the price
+    if (selected) {
+      var price = Provider.of<BookService>(context, listen: false).totalPrice;
+      var itemPrice = extrasList[index]['price'];
+      Provider.of<BookService>(context, listen: false)
+          .setTotalPrice(price + itemPrice);
+    }
   }
 
-  decreaseExtrasQty(index) {
+  decreaseExtrasQty(index, bool selected, BuildContext context) {
     if (extrasList[index]['qty'] != 1) {
       extrasList[index]['qty'] = extrasList[index]['qty'] - 1;
       notifyListeners();
+
+      //if the item is selected only then decrease the price
+      if (selected) {
+        var price = Provider.of<BookService>(context, listen: false).totalPrice;
+        var itemPrice = extrasList[index]['price'];
+        Provider.of<BookService>(context, listen: false)
+            .setTotalPrice(price - itemPrice);
+      }
     }
+  }
+
+  //if any extra item selected then increase the price based on quantity
+  increaseExtraItemPrice(
+    BuildContext context,
+    index,
+  ) {
+    var price = Provider.of<BookService>(context, listen: false).totalPrice;
+    var itemPrice = extrasList[index]['price'] * extrasList[index]['qty'];
+    Provider.of<BookService>(context, listen: false)
+        .setTotalPrice(price + itemPrice);
+  }
+
+  //if any extra item deselected then decrease the price based on quantity
+  decreaseExtraItemPrice(
+    BuildContext context,
+    index,
+  ) {
+    var price = Provider.of<BookService>(context, listen: false).totalPrice;
+    var itemPrice = extrasList[index]['price'] * extrasList[index]['qty'];
+    Provider.of<BookService>(context, listen: false)
+        .setTotalPrice(price - itemPrice);
   }
 
   fetchServiceExtra(serviceId) async {

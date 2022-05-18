@@ -22,7 +22,7 @@ class Extras extends StatefulWidget {
 }
 
 class _ExtrasState extends State<Extras> {
-  List<int> selectedExtra = [0];
+  List<int> selectedExtra = [-1];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,14 +45,21 @@ class _ExtrasState extends State<Extras> {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () {
-                    setState(() {
-                      if (selectedExtra.contains(i)) {
-                        //if already added then remove
-                        selectedExtra.remove(i);
-                      } else {
-                        selectedExtra.add(i);
-                      }
-                    });
+                    if (selectedExtra.contains(i)) {
+                      //if already added then remove
+                      selectedExtra.remove(i);
+
+                      Provider.of<PersonalizationService>(context,
+                              listen: false)
+                          .decreaseExtraItemPrice(context, i);
+                    } else {
+                      selectedExtra.add(i);
+                      Provider.of<PersonalizationService>(context,
+                              listen: false)
+                          .increaseExtraItemPrice(context, i);
+                    }
+
+                    setState(() {});
                   },
                   child: Stack(
                     clipBehavior: Clip.none,
@@ -117,7 +124,12 @@ class _ExtrasState extends State<Extras> {
                                           Provider.of<PersonalizationService>(
                                                   context,
                                                   listen: false)
-                                              .decreaseExtrasQty(i);
+                                              .decreaseExtrasQty(
+                                                  i,
+                                                  selectedExtra.contains(i)
+                                                      ? true
+                                                      : false,
+                                                  context);
                                         },
                                         child: Container(
                                           height: 25,
@@ -157,7 +169,12 @@ class _ExtrasState extends State<Extras> {
                                           Provider.of<PersonalizationService>(
                                                   context,
                                                   listen: false)
-                                              .increaseExtrasQty(i);
+                                              .increaseExtrasQty(
+                                                  i,
+                                                  selectedExtra.contains(i)
+                                                      ? true
+                                                      : false,
+                                                  context);
                                         },
                                         child: Container(
                                           height: 25,

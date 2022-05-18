@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/components/extras.dart';
@@ -108,30 +109,33 @@ class _ServicePersonalizationPageState
                       child: OthersHelper().showLoading(cc.primaryColor),
                     )),
         ),
-        bottomSheet: Container(
-          height: 157,
-          padding: EdgeInsets.only(
-              left: screenPadding, top: 30, right: screenPadding),
-          decoration: BookingHelper().bottomSheetDecoration(),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            BookingHelper().detailsPanelRow('Total', 0, '237.6'),
-            const SizedBox(
-              height: 23,
-            ),
-            CommonHelper().buttonOrange("Next", () {
-              //increase page steps by one
-              BookStepsService().onNext(context);
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: const ServiceSchedulePage()));
-            }),
-            const SizedBox(
-              height: 30,
-            ),
-          ]),
+        bottomSheet: Consumer<BookService>(
+          builder: (context, provider, child) => Container(
+            height: 157,
+            padding: EdgeInsets.only(
+                left: screenPadding, top: 30, right: screenPadding),
+            decoration: BookingHelper().bottomSheetDecoration(),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              BookingHelper()
+                  .detailsPanelRow('Total', 0, '${provider.totalPrice}'),
+              const SizedBox(
+                height: 23,
+              ),
+              CommonHelper().buttonOrange("Next", () {
+                //increase page steps by one
+                BookStepsService().onNext(context);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: const ServiceSchedulePage()));
+              }),
+              const SizedBox(
+                height: 30,
+              ),
+            ]),
+          ),
         ),
       ),
     );

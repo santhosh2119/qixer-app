@@ -172,7 +172,9 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                         provider.serviceAllDetails
                                             .serviceDetails.title,
                                         provider.serviceAllDetails.serviceImage
-                                            .imgUrl);
+                                            .imgUrl,
+                                        provider.serviceAllDetails
+                                            .serviceDetails.price);
                                 //=============>
                                 Navigator.push(
                                   context,

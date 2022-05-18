@@ -123,7 +123,7 @@ class ServiceCard extends StatelessWidget {
                       primary: cc.primaryColor, elevation: 0),
                   onPressed: () {
                     Provider.of<BookService>(context, listen: false)
-                        .setData(serviceId, title, imageLink);
+                        .setData(serviceId, title, imageLink, price);
                     //==========>
                     Navigator.push(
                       context,
