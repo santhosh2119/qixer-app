@@ -57,7 +57,7 @@ class _ExtrasState extends State<Extras> {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        alignment: Alignment.center,
+                        alignment: Alignment.topLeft,
                         width: 200,
                         margin: const EdgeInsets.only(
                           right: 17,
@@ -96,39 +96,107 @@ class _ExtrasState extends State<Extras> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 17, vertical: 6),
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: widget.cc.borderColor),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      child: Text(
-                                        'Add',
-                                        style: TextStyle(
-                                          color: widget.cc.greyFour,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
+
+                                //increase decrease button =======>
+                                Container(
+                                  width: 120,
+                                  height: 40,
+                                  margin: const EdgeInsets.only(top: 3),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    // border: Border.all(
+                                    //     color: widget.cc.borderColor, width: 1),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          child: InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                          height: 25,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                            color: Colors.red.withOpacity(.12),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: const Icon(
+                                            Icons.remove,
+                                            color: Colors.red,
+                                            size: 19,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          'https://cdn.pixabay.com/photo/2013/07/12/17/41/lemon-152227_960_720.png',
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
-                                      fit: BoxFit.fitHeight,
-                                      height: 30,
-                                      width: 40,
-                                    )
-                                  ],
+                                      )),
+                                      Expanded(
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "1",
+                                                style: TextStyle(
+                                                    color:
+                                                        widget.cc.greyPrimary,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ))),
+                                      Expanded(
+                                          child: InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                          height: 25,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                            color: widget.cc.successColor
+                                                .withOpacity(.12),
+                                          ),
+                                          alignment: Alignment.center,
+                                          child: Icon(
+                                            Icons.add,
+                                            color: widget.cc.successColor,
+                                            size: 19,
+                                          ),
+                                        ),
+                                      )),
+                                    ],
+                                  ),
                                 )
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Container(
+                                //       margin: const EdgeInsets.only(top: 10),
+                                //       padding: const EdgeInsets.symmetric(
+                                //           horizontal: 17, vertical: 6),
+                                //       decoration: BoxDecoration(
+                                //           border: Border.all(
+                                //               color: widget.cc.borderColor),
+                                //           borderRadius:
+                                //               BorderRadius.circular(5)),
+                                //       child: Text(
+                                //         'Add',
+                                //         style: TextStyle(
+                                //           color: widget.cc.greyFour,
+                                //           fontSize: 15,
+                                //           fontWeight: FontWeight.bold,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //     CachedNetworkImage(
+                                //       imageUrl:
+                                //           'https://cdn.pixabay.com/photo/2013/07/12/17/41/lemon-152227_960_720.png',
+                                //       errorWidget: (context, url, error) =>
+                                //           const Icon(Icons.error),
+                                //       fit: BoxFit.fitHeight,
+                                //       height: 30,
+                                //       width: 40,
+                                //     )
+                                //   ],
+                                // )
                               ],
                             ),
                           ],

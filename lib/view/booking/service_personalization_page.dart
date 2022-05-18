@@ -68,8 +68,7 @@ class _ServicePersonalizationPageState
                               // for (int i = 0; i < 2; i++)
                               Included(
                                 cc: cc,
-                                data: provider
-                                    .serviceExtraData.service.serviceInclude,
+                                data: provider.includedList,
                               ),
 
                               const SizedBox(

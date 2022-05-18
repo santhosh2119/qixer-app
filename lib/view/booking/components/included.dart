@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 class Included extends StatelessWidget {
@@ -23,7 +25,7 @@ class Included extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    data[i].includeServiceTitle,
+                    data[i]['title'],
                     style: TextStyle(
                       color: cc.greyParagraph,
                       fontSize: 14,
@@ -36,7 +38,7 @@ class Included extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '\$${data[i].includeServicePrice} x',
+                        '\$${data[i]['price']} x',
                         style: TextStyle(
                           color: cc.greyPrimary,
                           fontSize: 15,
@@ -55,9 +57,14 @@ class Included extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
+                            //decrease quanityt
                             Expanded(
                                 child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Provider.of<PersonalizationService>(context,
+                                        listen: false)
+                                    .decreaseQuantity(i);
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(3),
@@ -75,15 +82,21 @@ class Included extends StatelessWidget {
                                 child: Container(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "1",
+                                      '${data[i]['qty']}',
                                       style: TextStyle(
                                           color: cc.greyPrimary,
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold),
                                     ))),
+
+                            //increase quantity
                             Expanded(
                                 child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Provider.of<PersonalizationService>(context,
+                                        listen: false)
+                                    .increaseQuantity(i);
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(3),

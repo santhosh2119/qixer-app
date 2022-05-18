@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 class PersonalizationService with ChangeNotifier {
   var serviceExtraData;
 
+  List includedList = [];
+
   bool isloading = true;
 
   setLoadingTrue() {
@@ -19,6 +21,18 @@ class PersonalizationService with ChangeNotifier {
   setLoadingFalse() {
     isloading = false;
     notifyListeners();
+  }
+
+  increaseQuantity(index) {
+    includedList[index]['qty'] = includedList[index]['qty'] + 1;
+    notifyListeners();
+  }
+
+  decreaseQuantity(index) {
+    if (includedList[index]['qty'] != 1) {
+      includedList[index]['qty'] = includedList[index]['qty'] - 1;
+      notifyListeners();
+    }
   }
 
   fetchServiceExtra(serviceId) async {
@@ -33,12 +47,21 @@ class PersonalizationService with ChangeNotifier {
       };
 
       var response = await http.get(
-          Uri.parse('$baseApi/service-list/service-book/7'),
+          Uri.parse('$baseApi/service-list/service-book/$serviceId'),
           headers: header);
 
       if (response.statusCode == 201) {
-        serviceExtraData =
-            ServiceExtraModel.fromJson(jsonDecode(response.body));
+        var data = ServiceExtraModel.fromJson(jsonDecode(response.body));
+
+        //adding included list
+        for (int i = 0; i < data.service.serviceInclude.length; i++) {
+          includedList.add({
+            'title': data.service.serviceInclude[i].includeServiceTitle,
+            'price': data.service.serviceInclude[i].includeServicePrice,
+            'qty': 1
+          });
+        }
+        serviceExtraData = data;
         // var data = ServiceDetailsModel.fromJson(jsonDecode(response.body));
 
         notifyListeners();
