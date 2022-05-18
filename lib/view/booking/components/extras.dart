@@ -1,6 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../service/booking_services/personalization_service.dart';
 import '../../services/service_helper.dart';
 import '../../utils/common_helper.dart';
 import '../../utils/constant_colors.dart';
@@ -75,8 +76,7 @@ class _ExtrasState extends State<Extras> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              widget
-                                  .additionalServices[i].additionalServiceTitle,
+                              widget.additionalServices[i]['title'],
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -89,7 +89,7 @@ class _ExtrasState extends State<Extras> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '\$${widget.additionalServices[i].additionalServicePrice} x',
+                                  '\$${widget.additionalServices[i]['price']} x',
                                   style: TextStyle(
                                     color: widget.cc.greyPrimary,
                                     fontSize: 15,
@@ -110,9 +110,15 @@ class _ExtrasState extends State<Extras> {
                                   ),
                                   child: Row(
                                     children: [
+                                      //decrease button
                                       Expanded(
                                           child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Provider.of<PersonalizationService>(
+                                                  context,
+                                                  listen: false)
+                                              .decreaseExtrasQty(i);
+                                        },
                                         child: Container(
                                           height: 25,
                                           width: 20,
@@ -133,7 +139,9 @@ class _ExtrasState extends State<Extras> {
                                           child: Container(
                                               alignment: Alignment.center,
                                               child: Text(
-                                                "1",
+                                                widget.additionalServices[i]
+                                                        ['qty']
+                                                    .toString(),
                                                 style: TextStyle(
                                                     color:
                                                         widget.cc.greyPrimary,
@@ -141,9 +149,16 @@ class _ExtrasState extends State<Extras> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ))),
+
+                                      //increase button
                                       Expanded(
                                           child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Provider.of<PersonalizationService>(
+                                                  context,
+                                                  listen: false)
+                                              .increaseExtrasQty(i);
+                                        },
                                         child: Container(
                                           height: 25,
                                           width: 20,

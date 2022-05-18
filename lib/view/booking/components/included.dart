@@ -63,7 +63,7 @@ class Included extends StatelessWidget {
                               onTap: () {
                                 Provider.of<PersonalizationService>(context,
                                         listen: false)
-                                    .decreaseQuantity(i);
+                                    .decreaseIncludedQty(i);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -95,7 +95,7 @@ class Included extends StatelessWidget {
                               onTap: () {
                                 Provider.of<PersonalizationService>(context,
                                         listen: false)
-                                    .increaseQuantity(i);
+                                    .increaseIncludedQty(i);
                               },
                               child: Container(
                                 decoration: BoxDecoration(

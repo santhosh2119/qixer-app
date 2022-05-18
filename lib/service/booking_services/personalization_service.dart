@@ -10,6 +10,7 @@ class PersonalizationService with ChangeNotifier {
   var serviceExtraData;
 
   List includedList = [];
+  List extrasList = [];
 
   bool isloading = true;
 
@@ -23,14 +24,26 @@ class PersonalizationService with ChangeNotifier {
     notifyListeners();
   }
 
-  increaseQuantity(index) {
+  increaseIncludedQty(index) {
     includedList[index]['qty'] = includedList[index]['qty'] + 1;
     notifyListeners();
   }
 
-  decreaseQuantity(index) {
+  decreaseIncludedQty(index) {
     if (includedList[index]['qty'] != 1) {
       includedList[index]['qty'] = includedList[index]['qty'] - 1;
+      notifyListeners();
+    }
+  }
+
+  increaseExtrasQty(index) {
+    extrasList[index]['qty'] = extrasList[index]['qty'] + 1;
+    notifyListeners();
+  }
+
+  decreaseExtrasQty(index) {
+    if (extrasList[index]['qty'] != 1) {
+      extrasList[index]['qty'] = extrasList[index]['qty'] - 1;
       notifyListeners();
     }
   }
@@ -58,6 +71,15 @@ class PersonalizationService with ChangeNotifier {
           includedList.add({
             'title': data.service.serviceInclude[i].includeServiceTitle,
             'price': data.service.serviceInclude[i].includeServicePrice,
+            'qty': 1
+          });
+        }
+
+        //adding extras list
+        for (int i = 0; i < data.service.serviceAdditional.length; i++) {
+          extrasList.add({
+            'title': data.service.serviceAdditional[i].additionalServiceTitle,
+            'price': data.service.serviceAdditional[i].additionalServicePrice,
             'qty': 1
           });
         }

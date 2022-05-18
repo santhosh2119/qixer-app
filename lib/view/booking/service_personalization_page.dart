@@ -77,8 +77,7 @@ class _ServicePersonalizationPageState
 
                               Extras(
                                 cc: cc,
-                                additionalServices: provider
-                                    .serviceExtraData.service.serviceAdditional,
+                                additionalServices: provider.extrasList,
                                 serviceBenefits: provider
                                     .serviceExtraData.service.serviceBenifit,
                               ),
