@@ -59,7 +59,8 @@ class ServiceByCategoryService with ChangeNotifier {
                 data.allServices[i].price,
                 averageRate,
                 serviceImage,
-                i);
+                i,
+                data.allServices[i].sellerId);
 
             // print(averageRate);
           }
@@ -75,7 +76,8 @@ class ServiceByCategoryService with ChangeNotifier {
     }
   }
 
-  setServiceList(serviceId, title, sellerName, price, rating, image, index) {
+  setServiceList(
+      serviceId, title, sellerName, price, rating, image, index, sellerId) {
     categoryServiceMap.add({
       'serviceId': serviceId,
       'title': title,
@@ -84,6 +86,7 @@ class ServiceByCategoryService with ChangeNotifier {
       'rating': rating,
       'image': image,
       'isSaved': false,
+      'sellerId': sellerId,
     });
 
     checkIfAlreadySaved(serviceId, title, sellerName, index);
@@ -97,11 +100,19 @@ class ServiceByCategoryService with ChangeNotifier {
     notifyListeners();
   }
 
-  saveOrUnsave(int serviceId, String title, String image, int price,
-      String sellerName, double rating, int index, BuildContext context) async {
+  saveOrUnsave(
+      int serviceId,
+      String title,
+      String image,
+      int price,
+      String sellerName,
+      double rating,
+      int index,
+      BuildContext context,
+      sellerId) async {
     var newListMap = categoryServiceMap;
     alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context);
+        serviceId, title, image, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     categoryServiceMap = newListMap;
     notifyListeners();

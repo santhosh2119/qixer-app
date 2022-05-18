@@ -65,7 +65,8 @@ class RecentServices extends StatelessWidget {
                                   twoDouble(
                                       provider.recentServiceMap[i]['rating']),
                                   i,
-                                  context);
+                                  context,
+                                  provider.recentServiceMap[i]['sellerId']);
                             },
                             isSaved:
                                 provider.recentServiceMap[i]['isSaved'] == true
@@ -73,6 +74,7 @@ class RecentServices extends StatelessWidget {
                                     : false,
                             serviceId: provider.recentServiceMap[i]
                                 ['serviceId'],
+                            sellerId: provider.recentServiceMap[i]['sellerId'],
                           ),
                         )
                     ],

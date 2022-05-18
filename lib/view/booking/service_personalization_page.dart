@@ -3,6 +3,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/booking_services/shedule_service.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/components/extras.dart';
 import 'package:qixer/view/booking/service_schedule_page.dart';
@@ -17,10 +19,9 @@ import 'components/included.dart';
 import 'components/steps.dart';
 
 class ServicePersonalizationPage extends StatefulWidget {
-  const ServicePersonalizationPage({Key? key, required this.serviceId})
-      : super(key: key);
-
-  final serviceId;
+  const ServicePersonalizationPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ServicePersonalizationPageState createState() =>
@@ -44,7 +45,13 @@ class _ServicePersonalizationPageState
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarForBookingPages('Personalize', context),
+        appBar: CommonHelper().appbarForBookingPages('Personalize', context,
+            extraFunction: () {
+          //Whatever quanity or other extra user has selected.. set the totalprice to the default service price again
+          Provider.of<BookService>(context, listen: false).setTotalPrice(
+              Provider.of<PersonalizationService>(context, listen: false)
+                  .defaultprice);
+        }),
         body: SingleChildScrollView(
           physics: physicsCommon,
           child: Consumer<PersonalizationService>(
@@ -125,6 +132,11 @@ class _ServicePersonalizationPageState
               CommonHelper().buttonOrange("Next", () {
                 //increase page steps by one
                 BookStepsService().onNext(context);
+                //fetch shedule
+                Provider.of<SheduleService>(context, listen: false)
+                    .fetchShedule(
+                        provider.sellerId, firstThreeLetter(DateTime.now()));
+                //go to shedule page
                 Navigator.push(
                     context,
                     PageTransition(

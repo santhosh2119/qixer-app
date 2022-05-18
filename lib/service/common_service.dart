@@ -29,3 +29,8 @@ getTime(value) {
   var d = f.format(value);
   return d;
 }
+
+firstThreeLetter(value) {
+  var weekDayName = DateFormat('EEEE').format(value).toString();
+  return weekDayName.substring(0, 3);
+}

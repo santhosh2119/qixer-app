@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
@@ -64,15 +65,19 @@ class _BookingLocationPageState extends State<BookingLocationPage> {
                   CommonHelper().buttonOrange("Next", () {
                     //increase page steps by one
                     BookStepsService().onNext(context);
+                    //setDefaultPrice ==> Before the user did any quantity increase decrease...etc
                     Provider.of<PersonalizationService>(context, listen: false)
-                        .fetchServiceExtra(widget.serviceId);
+                        .setDefaultPrice(
+                            Provider.of<BookService>(context, listen: false)
+                                .totalPrice);
+                    //fetch service extra
+                    Provider.of<PersonalizationService>(context, listen: false)
+                        .fetchServiceExtra(widget.serviceId, context);
                     Navigator.push(
                         context,
                         PageTransition(
                             type: PageTransitionType.rightToLeft,
-                            child: ServicePersonalizationPage(
-                              serviceId: widget.serviceId,
-                            )));
+                            child: const ServicePersonalizationPage()));
                   }),
 
                   const SizedBox(

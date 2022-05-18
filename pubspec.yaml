@@ -34,10 +34,12 @@ dependencies:
   colorlizer: ^0.0.4
   connectivity: ^3.0.6
   cupertino_icons: ^1.0.2
+  date_picker_timeline: ^1.2.3
   firebase_auth: ^3.3.15
   firebase_core: ^1.15.0
   flutter:
     sdk: flutter
+  flutter_date_pickers: ^0.3.0
   flutter_inappwebview: ^5.4.3+7
   flutter_paystack: ^1.0.5+1
   flutter_rating_bar: ^4.0.0

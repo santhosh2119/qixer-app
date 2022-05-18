@@ -22,7 +22,8 @@ class ServiceCard extends StatelessWidget {
       required this.marginRight,
       required this.pressed,
       required this.isSaved,
-      required this.serviceId})
+      required this.serviceId,
+      required this.sellerId})
       : super(key: key);
 
   final ConstantColors cc;
@@ -37,6 +38,7 @@ class ServiceCard extends StatelessWidget {
   final marginRight;
   final VoidCallback pressed;
   final bool isSaved;
+  final sellerId;
 
   @override
   Widget build(BuildContext context) {
@@ -122,8 +124,9 @@ class ServiceCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: cc.primaryColor, elevation: 0),
                   onPressed: () {
+                    //set some data of the service which is clicked, these datas may be needed
                     Provider.of<BookService>(context, listen: false)
-                        .setData(serviceId, title, imageLink, price);
+                        .setData(serviceId, title, imageLink, price, sellerId);
                     //==========>
                     Navigator.push(
                       context,

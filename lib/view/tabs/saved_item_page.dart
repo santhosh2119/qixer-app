@@ -80,11 +80,15 @@ class _SavedItemPageState extends State<SavedItemPage> {
                                           twoDouble(provider.savedItemList[i]
                                               ['rating']),
                                           i,
-                                          context);
+                                          context,
+                                          provider.savedItemList[i]
+                                              ['sellerId']);
                                     },
                                     isSaved: true,
                                     serviceId: provider.savedItemList[i]
                                         ['serviceId'],
+                                    sellerId: provider.savedItemList[i]
+                                        ['sellerId'],
                                   ),
                                 ),
                             ],

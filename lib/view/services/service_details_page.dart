@@ -174,7 +174,8 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                         provider.serviceAllDetails.serviceImage
                                             .imgUrl,
                                         provider.serviceAllDetails
-                                            .serviceDetails.price);
+                                            .serviceDetails.price,
+                                        provider.serviceAllDetails.sellerId);
                                 //=============>
                                 Navigator.push(
                                   context,

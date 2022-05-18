@@ -146,7 +146,9 @@ class _AllServicePageState extends State<AllServicePage> {
                                                         provider.serviceMap[i]
                                                             ['rating']),
                                                     i,
-                                                    context);
+                                                    context,
+                                                    provider.serviceMap[i]
+                                                        ['sellerId']);
                                               },
                                               isSaved: provider.serviceMap[i]
                                                           ['isSaved'] ==
@@ -155,6 +157,8 @@ class _AllServicePageState extends State<AllServicePage> {
                                                   : false,
                                               serviceId: provider.serviceMap[i]
                                                   ['serviceId'],
+                                              sellerId: provider.serviceMap[i]
+                                                  ['sellerId'],
                                             ),
                                           ),
                                           const SizedBox(

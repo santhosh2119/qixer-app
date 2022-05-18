@@ -1,5 +1,6 @@
 class SaveItemModel {
   late int serviceId;
+  late int sellerId;
   late String title;
   late String image;
   late int price;
@@ -15,6 +16,7 @@ class SaveItemModel {
     mapping['price'] = price;
     mapping['sellerName'] = sellerName;
     mapping['rating'] = rating;
+    mapping['sellerId'] = sellerId;
     return mapping;
   }
 }

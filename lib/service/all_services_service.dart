@@ -304,6 +304,7 @@ class AllServicesService with ChangeNotifier {
         'rating': averageRateList[i],
         'image': imageList[i],
         'isSaved': false,
+        'sellerId': data[i].sellerId,
       });
       checkIfAlreadySaved(data[i].id, data[i].title,
           data[i].sellerForMobile.name, serviceMap.length - 1);
@@ -318,11 +319,19 @@ class AllServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  saveOrUnsave(int serviceId, String title, String image, int price,
-      String sellerName, double rating, int index, BuildContext context) async {
+  saveOrUnsave(
+      int serviceId,
+      String title,
+      String image,
+      int price,
+      String sellerName,
+      double rating,
+      int index,
+      BuildContext context,
+      sellerId) async {
     var newListMap = serviceMap;
     alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context);
+        serviceId, title, image, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     serviceMap = newListMap;
     notifyListeners();

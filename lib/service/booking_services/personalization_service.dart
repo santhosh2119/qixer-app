@@ -14,6 +14,15 @@ class PersonalizationService with ChangeNotifier {
   List includedList = [];
   List extrasList = [];
 
+  int defaultprice = 0;
+  setDefaultPrice(price) {
+    defaultprice = price;
+    notifyListeners();
+  }
+
+  // List defaultIncludedList = [];
+  // List defaultExtrasList = [];
+
   bool isloading = true;
 
   setLoadingTrue() {
@@ -24,6 +33,15 @@ class PersonalizationService with ChangeNotifier {
   setLoadingFalse() {
     isloading = false;
     notifyListeners();
+  }
+
+  //when user exits, set everything to default again
+  setToDefault(BuildContext context) {
+    includedList = [];
+    extrasList = [];
+    notifyListeners();
+    //make total price to default
+    // Provider.of<BookService>(context, listen: false).defaultTotalPrice();
   }
 
   increaseIncludedQty(index, BuildContext context) {
@@ -97,8 +115,9 @@ class PersonalizationService with ChangeNotifier {
         .setTotalPrice(price - itemPrice);
   }
 
-  fetchServiceExtra(serviceId) async {
+  fetchServiceExtra(serviceId, BuildContext context) async {
     setLoadingTrue();
+    setToDefault(context);
     var connection = await checkConnection();
     if (connection) {
       //internet connection is on

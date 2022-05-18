@@ -111,7 +111,9 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
                                           twoDouble(provider
                                               .categoryServiceMap[i]['rating']),
                                           i,
-                                          context);
+                                          context,
+                                          provider.categoryServiceMap[i]
+                                              ['sellerId']);
                                     },
                                     isSaved: provider.categoryServiceMap[i]
                                                 ['isSaved'] ==
@@ -120,6 +122,8 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
                                         : false,
                                     serviceId: provider.categoryServiceMap[i]
                                         ['serviceId'],
+                                    sellerId: provider.categoryServiceMap[i]
+                                        ['sellerId'],
                                   ),
                                 ),
                                 const SizedBox(
