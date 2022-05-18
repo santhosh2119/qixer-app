@@ -30,6 +30,18 @@ getTime(value) {
   return d;
 }
 
+getDate(value) {
+  final f = DateFormat('yyyy-MM-dd');
+  var d = f.format(value);
+  return d;
+}
+
+getMonthAndDate(value) {
+  final f = DateFormat("MMMM dd");
+  var d = f.format(value);
+  return d;
+}
+
 firstThreeLetter(value) {
   var weekDayName = DateFormat('EEEE').format(value).toString();
   return weekDayName.substring(0, 3);

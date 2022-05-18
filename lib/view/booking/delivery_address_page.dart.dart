@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/booking/book_confirmation_page.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
@@ -126,6 +128,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   initialCountryCode: 'IN',
                                   onChanged: (phone) {
                                     print(phone.completeNumber);
+                                    phoneController.text = phone.completeNumber;
                                   },
                                 ),
 
@@ -197,6 +200,15 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                         if (_formKey.currentState!.validate()) {}
                         //increase page steps by one
                         BookStepsService().onNext(context);
+                        //set delivery address informations so that we can use it later
+                        Provider.of<BookService>(context, listen: false)
+                            .setAddress(
+                                userNameController.text,
+                                emailController.text,
+                                phoneController.text,
+                                postCodeController.text,
+                                addressController.text,
+                                notesController.text);
                         Navigator.push(
                             context,
                             PageTransition(
