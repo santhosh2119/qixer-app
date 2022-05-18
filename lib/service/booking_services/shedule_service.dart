@@ -8,6 +8,8 @@ import 'package:qixer/view/utils/others_helper.dart';
 class SheduleService with ChangeNotifier {
   var schedules;
 
+  int totalDay = 0;
+
   bool isloading = true;
 
   setLoadingTrue() {
@@ -32,13 +34,15 @@ class SheduleService with ChangeNotifier {
       };
 
       var response = await http.get(
-          Uri.parse('$baseApi/service-list/service-schedule/$selectedWeek/2'),
+          Uri.parse(
+              '$baseApi/service-list/service-schedule/$selectedWeek/$sellerId'),
           headers: header);
 
       if (response.statusCode == 200 && response.body.contains('day')) {
         var data = SheduleModel.fromJson(jsonDecode(response.body));
-
+        totalDay = data.day.totalDay ?? 0;
         schedules = data;
+
         // var data = ServiceDetailsModel.fromJson(jsonDecode(response.body));
 
         notifyListeners();

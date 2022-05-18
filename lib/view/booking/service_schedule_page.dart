@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/shedule_service.dart';
 import 'package:qixer/service/common_service.dart';
 
@@ -61,6 +62,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                           DatePicker(
                             DateTime.now(),
                             initialSelectedDate: DateTime.now(),
+                            daysCount: provider.totalDay,
                             selectionColor: cc.primaryColor,
                             selectedTextColor: Colors.white,
                             onDateChange: (value) {
@@ -71,9 +73,11 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
 
                               print(_selectedWeekday);
                               //fetch shedule
-                              Provider.of<SheduleService>(context,
-                                      listen: false)
-                                  .fetchShedule(2, _selectedWeekday);
+                              provider.fetchShedule(
+                                  Provider.of<BookService>(context,
+                                          listen: false)
+                                      .sellerId,
+                                  _selectedWeekday);
                             },
                           ),
 
