@@ -12,14 +12,14 @@ import 'package:qixer/view/utils/others_helper.dart';
 
 class AllServicesService with ChangeNotifier {
   var categoryDropdownList = ['All'];
-  var categoryDropdownIndexList = [-1];
+  var categoryDropdownIndexList = [0];
   var selectedCategory = 'All';
-  var selectedCategoryId = -1;
+  var selectedCategoryId = 0;
 
   var subcatDropdownList = ['All'];
-  var subcatDropdownIndexList = [-1];
+  var subcatDropdownIndexList = [0];
   var selectedSubcat = 'All';
-  var selectedSubcatId = -1;
+  var selectedSubcatId = 0;
 
   var ratingDropdownList = [
     'All',
@@ -29,14 +29,24 @@ class AllServicesService with ChangeNotifier {
     '2 Star',
     '1 Star'
   ];
-  var ratingDropdownIndexList = [5, 4, 3, 2, 1];
+  var ratingDropdownIndexList = [0, 5, 4, 3, 2, 1];
   var selectedRating = 'All';
-  var selectedRatingId = -1;
+  var selectedRatingId = 0;
 
-  var sortbyDropdownList = ['Newest', 'Oldest'];
-  var sortbyDropdownIndexList = [1, 2];
-  var selectedSortby = 'Newest';
-  var selectedSortbyId = 1;
+  var sortbyDropdownList = [
+    'All',
+    'Highest Price',
+    'Lowest Price',
+    'Latest Service'
+  ];
+  var sortbyDropdownIndexList = [
+    '',
+    'highest_price',
+    'lowest_price',
+    'latest_service'
+  ];
+  var selectedSortby = 'All';
+  var selectedSortbyId = '';
 
   bool isLoading = false;
 
@@ -62,29 +72,33 @@ class AllServicesService with ChangeNotifier {
 
   setSelectedCategoryId(value) {
     selectedCategoryId = value;
+    print('selected category id $selectedCategoryId');
     notifyListeners();
   }
 
   setSelectedSubcatsId(value) {
     selectedSubcatId = value;
+    print('selected subcategory id $selectedSubcatId');
     notifyListeners();
   }
 
   setSelectedRatingId(value) {
     selectedRatingId = value;
+    print('selected rating id $selectedRatingId');
     notifyListeners();
   }
 
   setSelectedSortbyId(value) {
     selectedSortbyId = value;
+    print('selected sort by id $selectedSortbyId');
     notifyListeners();
   }
 
   defaultSubcategory() {
     subcatDropdownList = ['All'];
-    subcatDropdownIndexList = [-1];
+    subcatDropdownIndexList = [0];
     selectedSubcat = 'All';
-    selectedSubcatId = -1;
+    selectedSubcatId = 0;
     notifyListeners();
   }
 
@@ -149,7 +163,7 @@ class AllServicesService with ChangeNotifier {
       // selectedCategoryId = categoriesList[0].id;
 
       //if all category is selected then don't load sub category
-      if (categoryDropdownList.length != 1 && selectedCategoryId != -1) {
+      if (categoryDropdownList.length != 1 && selectedCategoryId != 0) {
         fetchSubcategory(selectedCategoryId);
       }
     } else {
@@ -162,12 +176,12 @@ class AllServicesService with ChangeNotifier {
 
   fetchSubcategory(categoryId) async {
     //make sub category list to default first
-    if (selectedCategoryId == -1) {
+    if (selectedCategoryId == 0) {
       defaultSubcategory();
     } else {
       // defaultSubcategory();
 
-      if (selectedCategoryId != -1) {
+      if (selectedCategoryId != 0) {
         //this trick is only to show loading when category other than 'All' is selected
         subcatDropdownList = [];
         selectedSubcat = '';
@@ -212,7 +226,6 @@ class AllServicesService with ChangeNotifier {
       //   return false;
       // }
     }
-
     // serviceMap = [];
     // Future.delayed(const Duration(microseconds: 500), () {
     //   notifyListeners();
@@ -220,8 +233,8 @@ class AllServicesService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      var response =
-          await http.get(Uri.parse("${getApiLink()}?page=$currentPage"));
+      var response = await http.get(Uri.parse(
+          "$baseApi/service-list/category-subcategory-rating-sort-by-search/?cat=$selectedCategoryId&subcat=$selectedSubcatId&rating=$selectedRatingId&sortby=$selectedSortbyId&page=$currentPage"));
 
       if (response.statusCode == 201) {
         var data = ServiceByFilterModel.fromJson(jsonDecode(response.body));
@@ -279,6 +292,9 @@ class AllServicesService with ChangeNotifier {
         setCurrentPage(currentPage);
         return true;
       } else {
+        print(response.body);
+        // serviceMap = [];
+        serviceMap.add('error');
         //No more data
         //Something went wrong
         // serviceMap.add('error');
@@ -337,31 +353,31 @@ class AllServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  getApiLink() {
-    if (selectedCategoryId == -1 && selectedSubcatId == -1) {
-      //when no option is selected from dropdown
-      return '$baseApi/service-list/all-services';
-    } else if (selectedCategoryId != -1 && selectedSubcatId == -1) {
-      //if only category is selected
-      return '$baseApi/service-list/search-by-category/$selectedCategoryId/';
-    } else if (selectedCategoryId == -1 &&
-        selectedSubcatId == -1 &&
-        selectedSortby == 'Sort by' &&
-        selectedRatingId != -1) {
-      //if nothing is selected, only rating is selected
-      // return '$baseApi/service-list/category-subcategory-rating-search/$categoryid/3/4';
-    } else if (selectedCategoryId != -1 &&
-        selectedSubcatId != -1 &&
-        selectedRatingId != -1 &&
-        selectedSortby == 'Sort by') {
-      //if category subcategory and rating selected, sort by not selected
+  // getApiLink() {
+  //   if (selectedCategoryId == 0 && selectedSubcatId == 0) {
+  //     //when no option is selected from dropdown
+  //     return '$baseApi/service-list/all-services';
+  //   } else if (selectedCategoryId != 0 && selectedSubcatId == 0) {
+  //     //if only category is selected
+  //     return '$baseApi/service-list/search-by-category/$selectedCategoryId/';
+  //   } else if (selectedCategoryId == 0 &&
+  //       selectedSubcatId == 0 &&
+  //       selectedSortby == 'Sort by' &&
+  //       selectedRatingId != 0) {
+  //     //if nothing is selected, only rating is selected
+  //     // return '$baseApi/service-list/category-subcategory-rating-search/$categoryid/3/4';
+  //   } else if (selectedCategoryId != 0 &&
+  //       selectedSubcatId != 0 &&
+  //       selectedRatingId != 0 &&
+  //       selectedSortby == 'Sort by') {
+  //     //if category subcategory and rating selected, sort by not selected
 
-    } else if (selectedCategoryId != -1 &&
-        selectedSubcatId != -1 &&
-        selectedRatingId == -1 &&
-        selectedSortby == 'Sort by') {
-      //if only category and subcategory both is selected , nothing else
-      return '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId/';
-    }
-  }
+  //   } else if (selectedCategoryId != 0 &&
+  //       selectedSubcatId != 0 &&
+  //       selectedRatingId == 0 &&
+  //       selectedSortby == 'Sort by') {
+  //     //if only category and subcategory both is selected , nothing else
+  //     return '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId/';
+  //   }
+  // }
 }

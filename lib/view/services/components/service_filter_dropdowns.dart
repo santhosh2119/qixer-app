@@ -175,10 +175,15 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                   provider.setRatingValue(newValue);
 
                                   //setting the id of selected value
-                                  // provider.setId(
-                                  //     provider.valueIndexList[
-                                  //         provider.dropdown
-                                  //             .indexOf(newValue)]);
+                                  provider.setSelectedRatingId(
+                                      provider.ratingDropdownIndexList[provider
+                                          .ratingDropdownList
+                                          .indexOf(newValue!)]);
+
+                                  //fetch states based on selected country
+                                  provider.setEverythingToDefault();
+                                  //fetch service
+                                  provider.fetchServiceByFilter(context);
                                 },
                                 items: provider.ratingDropdownList
                                     .map<DropdownMenuItem<String>>((value) {
@@ -235,10 +240,15 @@ class ServiceFilterDropdowns extends StatelessWidget {
                                 provider.setSortbyValue(newValue);
 
                                 //setting the id of selected value
-                                // provider.setId(
-                                //     provider.valueIndexList[
-                                //         provider.dropdown
-                                //             .indexOf(newValue)]);
+                                provider.setSelectedSortbyId(
+                                    provider.sortbyDropdownIndexList[provider
+                                        .sortbyDropdownList
+                                        .indexOf(newValue!)]);
+
+                                //fetch states based on selected country
+                                provider.setEverythingToDefault();
+                                //fetch service
+                                provider.fetchServiceByFilter(context);
                               },
                               items: provider.sortbyDropdownList
                                   .map<DropdownMenuItem<String>>((value) {

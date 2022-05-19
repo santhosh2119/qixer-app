@@ -150,15 +150,20 @@ class _HomepageState extends State<Homepage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //see all ============>
                     const SizedBox(
                       height: 25,
                     ),
-                    SectionTitle(
-                      cc: cc,
-                      title: 'Browse categories',
-                      pressed: () {},
+
+                    Text(
+                      'Browse categories',
+                      style: TextStyle(
+                        color: cc.greyFour,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
 
                     const SizedBox(
