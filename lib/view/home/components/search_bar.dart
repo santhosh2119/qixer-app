@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qixer/view/search/search_page.dart';
 import 'package:qixer/view/tabs/search/components/search_helper.dart';
+import 'package:qixer/view/tabs/search/search_tab.dart';
 
 import '../../utils/constant_colors.dart';
 
@@ -8,7 +10,10 @@ class SearchBar extends StatelessWidget {
   const SearchBar({
     Key? key,
     required this.cc,
+    required this.isHomePage,
   }) : super(key: key);
+
+  final bool isHomePage;
 
   final ConstantColors cc;
 
@@ -24,11 +29,15 @@ class SearchBar extends StatelessWidget {
           controller: searchController,
           textInputAction: TextInputAction.next,
           style: const TextStyle(fontSize: 14),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your password';
+          onFieldSubmitted: (value) {
+            if (value.isNotEmpty && isHomePage == true) {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const SearchPage(),
+                ),
+              );
             }
-            return null;
           },
           decoration: InputDecoration(
               prefixIcon: Column(

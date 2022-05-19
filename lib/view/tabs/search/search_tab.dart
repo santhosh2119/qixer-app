@@ -6,14 +6,14 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class SearchTab extends StatefulWidget {
+  const SearchTab({Key? key}) : super(key: key);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _SearchTabState createState() => _SearchTabState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchTabState extends State<SearchTab> {
   @override
   void initState() {
     super.initState();
@@ -49,6 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                       //Search input field ============>
                       SearchBar(
                         cc: cc,
+                        isHomePage: false,
                       ),
                       Text(
                         'Best matched:',

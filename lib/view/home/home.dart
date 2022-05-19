@@ -125,6 +125,7 @@ class _HomepageState extends State<Homepage> {
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: SearchBar(
                   cc: cc,
+                  isHomePage: true,
                 ),
               ),
 
