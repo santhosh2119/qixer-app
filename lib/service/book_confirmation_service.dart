@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 class BookConfirmationService with ChangeNotifier {
   bool isPanelOpened = false;
 
+  double totalPriceAfterAllcalculation = 0;
+
   setPanelOpenedTrue() {
     isPanelOpened = true;
     notifyListeners();
@@ -40,16 +42,29 @@ class BookConfirmationService with ChangeNotifier {
     return includedTotal + extraTotal;
   }
 
-  calculateTax(taxPercent, List includedList, List extrasList) {
+  calculateTax(
+    taxPercent,
+    List includedList,
+    List extrasList,
+  ) {
     var subTotal = calculateSubtotal(includedList, extrasList);
     var tax = (subTotal * taxPercent) / 100;
+
     return tax;
   }
 
   calculateTotal(taxPercent, List includedList, List extrasList) {
     var subTotal = calculateSubtotal(includedList, extrasList);
     var tax = calculateTax(taxPercent, includedList, extrasList);
-    var total = subTotal + tax;
-    return total;
+    totalPriceAfterAllcalculation = subTotal + tax;
+    Future.delayed(Duration(microseconds: 500), () {
+      notifyListeners();
+    });
+  }
+
+  caculateTotalAfterCouponApplied(couponDiscount) {
+    totalPriceAfterAllcalculation =
+        totalPriceAfterAllcalculation = couponDiscount;
+    notifyListeners();
   }
 }

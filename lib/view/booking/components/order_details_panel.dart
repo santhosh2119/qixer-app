@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/booking/components/order_details_panel_procced.dart';
@@ -23,72 +24,86 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
   ConstantColors cc = ConstantColors();
   FocusNode couponFocus = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  bool loadingFirstTime = true;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<BookConfirmationService>(
-      builder: (context, bcProvider, child) => Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 17, bottom: 6),
-            child: InkWell(
-              onTap: () {
-                if (widget.panelController.isPanelOpen) {
-                  widget.panelController.close();
-                } else {
-                  widget.panelController.open();
-                }
-              },
-              child: Column(
-                children: [
-                  bcProvider.isPanelOpened == false
-                      ? Text(
-                          'Swipe up for details',
-                          style: TextStyle(
-                            color: cc.primaryColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+      builder: (context, bcProvider, child) {
+        if (loadingFirstTime) {
+          bcProvider.calculateTotal(
+              Provider.of<PersonalizationService>(context, listen: false).tax,
+              Provider.of<PersonalizationService>(context, listen: false)
+                  .includedList,
+              Provider.of<PersonalizationService>(context, listen: false)
+                  .extrasList);
+          loadingFirstTime = false;
+          Future.delayed(const Duration(microseconds: 500), () {
+            setState(() {});
+          });
+        }
+
+        return Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 17, bottom: 6),
+              child: InkWell(
+                onTap: () {
+                  if (widget.panelController.isPanelOpen) {
+                    widget.panelController.close();
+                  } else {
+                    widget.panelController.open();
+                  }
+                },
+                child: Column(
+                  children: [
+                    bcProvider.isPanelOpened == false
+                        ? Text(
+                            'Swipe up for details',
+                            style: TextStyle(
+                              color: cc.primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
+                        : Text(
+                            'Collapse details',
+                            style: TextStyle(
+                              color: cc.primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        )
-                      : Text(
-                          'Collapse details',
-                          style: TextStyle(
+                    bcProvider.isPanelOpened == false
+                        ? Icon(
+                            Icons.keyboard_arrow_up_rounded,
                             color: cc.primaryColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                          )
+                        : Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: cc.primaryColor,
                           ),
-                        ),
-                  bcProvider.isPanelOpened == false
-                      ? Icon(
-                          Icons.keyboard_arrow_up_rounded,
-                          color: cc.primaryColor,
-                        )
-                      : Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: cc.primaryColor,
-                        ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Listener(
-              onPointerDown: (_) {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.focusedChild?.unfocus();
-                }
-              },
-              child: SingleChildScrollView(
-                physics: physicsCommon,
-                controller: _scrollController,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: AnimatedSize(
-                    duration: const Duration(milliseconds: 250),
-                    child: Consumer<PersonalizationService>(
-                      builder: (context, pProvider, child) => Column(
+            Expanded(
+              child: Listener(
+                onPointerDown: (_) {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.focusedChild?.unfocus();
+                  }
+                },
+                child: SingleChildScrollView(
+                  physics: physicsCommon,
+                  controller: _scrollController,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: AnimatedSize(
+                      duration: const Duration(milliseconds: 250),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
@@ -98,123 +113,133 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
 
                           //service list ===================>
                           bcProvider.isPanelOpened == true
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CommonHelper().labelCommon(
-                                        'Appointment package service'),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-
-                                    //Service included list =============>
-                                    for (int i = 0;
-                                        i < pProvider.includedList.length;
-                                        i++)
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 15),
-                                        child: BookingHelper().detailsPanelRow(
-                                            pProvider.includedList[i]['title'],
-                                            pProvider.includedList[i]['qty'],
-                                            pProvider.includedList[i]['price']
-                                                .toString()),
+                              ? Consumer<PersonalizationService>(
+                                  builder: (context, pProvider, child) =>
+                                      Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CommonHelper().labelCommon(
+                                          'Appointment package service'),
+                                      const SizedBox(
+                                        height: 5,
                                       ),
 
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 3, bottom: 15),
-                                      child: CommonHelper().dividerCommon(),
-                                    ),
-                                    //Package fee
-                                    BookingHelper().detailsPanelRow(
-                                        'Package Fee',
-                                        0,
-                                        BookConfirmationService()
-                                            .includedTotalPrice(
-                                                pProvider.includedList)
-                                            .toString()),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
+                                      //Service included list =============>
+                                      for (int i = 0;
+                                          i < pProvider.includedList.length;
+                                          i++)
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 15),
+                                          child: BookingHelper()
+                                              .detailsPanelRow(
+                                                  pProvider.includedList[i]
+                                                      ['title'],
+                                                  pProvider.includedList[i]
+                                                      ['qty'],
+                                                  pProvider.includedList[i]
+                                                          ['price']
+                                                      .toString()),
+                                        ),
 
-                                    //Extra service =============>
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 3, bottom: 15),
+                                        child: CommonHelper().dividerCommon(),
+                                      ),
+                                      //Package fee
+                                      BookingHelper().detailsPanelRow(
+                                          'Package Fee',
+                                          0,
+                                          bcProvider
+                                              .includedTotalPrice(
+                                                  pProvider.includedList)
+                                              .toString()),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
 
-                                    CommonHelper().labelCommon('Extra service'),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    for (int i = 0;
-                                        i < pProvider.extrasList.length;
-                                        i++)
-                                      pProvider.extrasList[i]['selected'] ==
-                                              true
-                                          ? Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 15),
-                                              child: BookingHelper()
-                                                  .detailsPanelRow(
-                                                      pProvider.extrasList[i]
-                                                          ['title'],
-                                                      pProvider.extrasList[i]
-                                                          ['qty'],
-                                                      pProvider.extrasList[i]
-                                                              ['price']
-                                                          .toString()),
-                                            )
-                                          : Container(),
+                                      //Extra service =============>
 
-                                    //==================>
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 3, bottom: 15),
-                                      child: CommonHelper().dividerCommon(),
-                                    ),
+                                      CommonHelper()
+                                          .labelCommon('Extra service'),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      for (int i = 0;
+                                          i < pProvider.extrasList.length;
+                                          i++)
+                                        pProvider.extrasList[i]['selected'] ==
+                                                true
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 15),
+                                                child: BookingHelper()
+                                                    .detailsPanelRow(
+                                                        pProvider.extrasList[i]
+                                                            ['title'],
+                                                        pProvider.extrasList[i]
+                                                            ['qty'],
+                                                        pProvider.extrasList[i]
+                                                                ['price']
+                                                            .toString()),
+                                              )
+                                            : Container(),
 
-                                    //total of extras
-                                    BookingHelper().detailsPanelRow(
-                                        'Extra Service Fee',
-                                        0,
-                                        BookConfirmationService()
-                                            .extrasTotalPrice(
-                                                pProvider.extrasList)
-                                            .toString()),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 15, bottom: 15),
-                                      child: CommonHelper().dividerCommon(),
-                                    ),
+                                      //==================>
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 3, bottom: 15),
+                                        child: CommonHelper().dividerCommon(),
+                                      ),
 
-                                    //Sub total and tax ============>
-                                    //Sub total
-                                    BookingHelper().detailsPanelRow(
-                                        'Subtotal',
-                                        0,
-                                        BookConfirmationService()
-                                            .calculateSubtotal(
-                                                pProvider.includedList,
-                                                pProvider.extrasList)
-                                            .toString()),
+                                      //total of extras
+                                      BookingHelper().detailsPanelRow(
+                                          'Extra Service Fee',
+                                          0,
+                                          bcProvider
+                                              .extrasTotalPrice(
+                                                  pProvider.extrasList)
+                                              .toString()),
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 15, bottom: 15),
+                                        child: CommonHelper().dividerCommon(),
+                                      ),
 
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    //tax
-                                    BookingHelper().detailsPanelRow(
-                                        'Tax(+) ${pProvider.tax}%',
-                                        0,
-                                        BookConfirmationService()
-                                            .calculateTax(
+                                      //Sub total and tax ============>
+                                      //Sub total
+                                      BookingHelper().detailsPanelRow(
+                                          'Subtotal',
+                                          0,
+                                          bcProvider
+                                              .calculateSubtotal(
+                                                  pProvider.includedList,
+                                                  pProvider.extrasList)
+                                              .toString()),
+
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      //tax
+                                      BookingHelper().detailsPanelRow(
+                                          'Tax(+) ${pProvider.tax}%',
+                                          0,
+                                          bcProvider
+                                              .calculateTax(
                                                 pProvider.tax,
                                                 pProvider.includedList,
-                                                pProvider.extrasList)
-                                            .toString()),
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      child: CommonHelper().dividerCommon(),
-                                    ),
-                                  ],
+                                                pProvider.extrasList,
+                                              )
+                                              .toString()),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 20),
+                                        child: CommonHelper().dividerCommon(),
+                                      ),
+                                    ],
+                                  ),
                                 )
                               : Container(),
 
@@ -223,11 +248,7 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                           BookingHelper().detailsPanelRow(
                               'Total',
                               0,
-                              BookConfirmationService()
-                                  .calculateTotal(
-                                      pProvider.tax,
-                                      pProvider.includedList,
-                                      pProvider.extrasList)
+                              bcProvider.totalPriceAfterAllcalculation
                                   .toString()),
 
                           bcProvider.isPanelOpened == true
@@ -342,9 +363,9 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
