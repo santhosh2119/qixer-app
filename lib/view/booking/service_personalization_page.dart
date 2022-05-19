@@ -5,7 +5,6 @@ import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/shedule_service.dart';
 import 'package:qixer/service/common_service.dart';
-import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/components/extras.dart';
 import 'package:qixer/view/booking/service_schedule_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';

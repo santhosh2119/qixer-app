@@ -52,7 +52,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                 provider.schedules != 'nothing' &&
                 _selectedTime == null) {
               _selectedTime = provider.schedules.schedules[0].schedule;
-              Future.delayed(Duration(milliseconds: 500), () {
+              Future.delayed(const Duration(milliseconds: 500), () {
                 setState(() {});
               });
             }

@@ -137,6 +137,7 @@ class BookingHelper {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
+          flex: 3,
           child: Text(
             title,
             style: TextStyle(
@@ -148,19 +149,21 @@ class BookingHelper {
         ),
         quantity != 0
             ? Expanded(
+                flex: 1,
                 child: Text(
-                'x1',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: cc.greyFour,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ))
+                  'x$quantity',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: cc.greyFour,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ))
             : Container(),
         Expanded(
+          flex: 1,
           child: Text(
-            '\$ $price',
+            "\$ $price",
             textAlign: TextAlign.right,
             style: TextStyle(
               color: cc.greyFour,

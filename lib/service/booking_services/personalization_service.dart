@@ -13,6 +13,7 @@ class PersonalizationService with ChangeNotifier {
 
   List includedList = [];
   List extrasList = [];
+  int tax = 0;
 
   int defaultprice = 0;
   setDefaultPrice(price) {
@@ -64,6 +65,7 @@ class PersonalizationService with ChangeNotifier {
     }
   }
 
+//when an extra item is selected and quantity is increased
   increaseExtrasQty(index, bool selected, BuildContext context) {
     extrasList[index]['qty'] = extrasList[index]['qty'] + 1;
 
@@ -78,6 +80,7 @@ class PersonalizationService with ChangeNotifier {
     }
   }
 
+//when an extra item is selected and quantity is decreased
   decreaseExtrasQty(index, bool selected, BuildContext context) {
     if (extrasList[index]['qty'] != 1) {
       extrasList[index]['qty'] = extrasList[index]['qty'] - 1;
@@ -102,6 +105,8 @@ class PersonalizationService with ChangeNotifier {
     var itemPrice = extrasList[index]['price'] * extrasList[index]['qty'];
     Provider.of<BookService>(context, listen: false)
         .setTotalPrice(price + itemPrice);
+    //set selected to true
+    extrasList[index]['selected'] = true;
   }
 
   //if any extra item deselected then decrease the price based on quantity
@@ -113,6 +118,9 @@ class PersonalizationService with ChangeNotifier {
     var itemPrice = extrasList[index]['price'] * extrasList[index]['qty'];
     Provider.of<BookService>(context, listen: false)
         .setTotalPrice(price - itemPrice);
+
+    //set selected to false
+    extrasList[index]['selected'] = false;
   }
 
   fetchServiceExtra(serviceId, BuildContext context) async {
@@ -134,6 +142,8 @@ class PersonalizationService with ChangeNotifier {
       if (response.statusCode == 201) {
         var data = ServiceExtraModel.fromJson(jsonDecode(response.body));
 
+        tax = data.service.tax ?? 0;
+
         //adding included list
         for (int i = 0; i < data.service.serviceInclude.length; i++) {
           includedList.add({
@@ -148,7 +158,8 @@ class PersonalizationService with ChangeNotifier {
           extrasList.add({
             'title': data.service.serviceAdditional[i].additionalServiceTitle,
             'price': data.service.serviceAdditional[i].additionalServicePrice,
-            'qty': 1
+            'qty': 1,
+            'selected': false
           });
         }
         serviceExtraData = data;
