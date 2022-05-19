@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
+import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -38,9 +39,13 @@ class RecentServices extends StatelessWidget {
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    ServiceDetailsPage(),
+                                    const ServiceDetailsPage(),
                               ),
                             );
+                            Provider.of<ServiceDetailsService>(context,
+                                    listen: false)
+                                .fetchServiceDetails(
+                                    provider.recentServiceMap[i]['serviceId']);
                           },
                           child: ServiceCard(
                             cc: cc,

@@ -32,7 +32,8 @@ class ServiceDetailsService with ChangeNotifier {
         // "Content-Type": "application/json"
       };
 
-      var response = await http.get(Uri.parse('$baseApi/service-details/1'),
+      var response = await http.get(
+          Uri.parse('$baseApi/service-details/$serviceId'),
           headers: header);
 
       if (response.statusCode == 201) {

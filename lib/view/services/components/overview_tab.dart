@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:qixer/view/services/components/desc_from_html.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 import '../service_helper.dart';
@@ -14,13 +15,16 @@ class OverviewTab extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          provider.serviceAllDetails.serviceDetails.description,
-          style: TextStyle(
-            color: cc.greyParagraph,
-            fontSize: 14,
-            height: 1.4,
-          ),
+        // Text(
+        //   provider.serviceAllDetails.serviceDetails.description,
+        //   style: TextStyle(
+        //     color: cc.greyParagraph,
+        //     fontSize: 14,
+        //     height: 1.4,
+        //   ),
+        // ),
+        DescInHtml(
+          desc: provider.serviceAllDetails.serviceDetails.description,
         ),
         const SizedBox(
           height: 20,

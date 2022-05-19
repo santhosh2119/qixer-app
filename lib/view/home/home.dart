@@ -200,10 +200,10 @@ class _HomepageState extends State<Homepage> {
                     TopRatedServices(cc: cc),
 
                     //Discount images
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Discounts(cc: cc),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // Discounts(cc: cc),
 
                     //Top rated sellers ========>
                     const SizedBox(
