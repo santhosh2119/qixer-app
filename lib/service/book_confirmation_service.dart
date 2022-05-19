@@ -64,7 +64,7 @@ class BookConfirmationService with ChangeNotifier {
 
   caculateTotalAfterCouponApplied(couponDiscount) {
     totalPriceAfterAllcalculation =
-        totalPriceAfterAllcalculation = couponDiscount;
+        totalPriceAfterAllcalculation - couponDiscount;
     notifyListeners();
   }
 }

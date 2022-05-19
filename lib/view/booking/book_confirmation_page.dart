@@ -36,6 +36,7 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
     return WillPopScope(
       onWillPop: () {
         BookStepsService().decreaseStep(context);
+
         return Future.value(true);
       },
       child: Scaffold(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/booking/components/order_details_panel_procced.dart';
@@ -24,6 +25,7 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
   ConstantColors cc = ConstantColors();
   FocusNode couponFocus = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  TextEditingController couponController = TextEditingController();
   bool loadingFirstTime = true;
 
   @override
@@ -249,62 +251,91 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                               'Total',
                               0,
                               bcProvider.totalPriceAfterAllcalculation
-                                  .toString()),
+                                  .toStringAsFixed(1)),
 
                           bcProvider.isPanelOpened == true
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    sizedBox20(),
-                                    CommonHelper().labelCommon("Coupon code"),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  // color: const Color(0xfff2f2f2),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: TextFormField(
-                                                // controller: controller,
-
-                                                style: const TextStyle(
-                                                    fontSize: 14),
-                                                focusNode: couponFocus,
-                                                decoration: InputDecoration(
-                                                    enabledBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: ConstantColors()
-                                                                .greyFive),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                7)),
-                                                    focusedBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: ConstantColors()
-                                                                .primaryColor)),
-                                                    errorBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: ConstantColors()
-                                                                .warningColor)),
-                                                    focusedErrorBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: ConstantColors().primaryColor)),
-                                                    hintText: 'Enter coupon code',
-                                                    contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18)),
-                                              )),
-                                        ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 15),
-                                          width: 100,
-                                          child: CommonHelper()
-                                              .buttonOrange('Apply', () {}),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                              ? Consumer<CouponService>(
+                                  builder: (context, couponProvider, child) =>
+                                      Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      sizedBox20(),
+                                      CommonHelper().labelCommon("Coupon code"),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    // color: const Color(0xfff2f2f2),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: TextFormField(
+                                                  controller: couponController,
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                  focusNode: couponFocus,
+                                                  decoration: InputDecoration(
+                                                      enabledBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: ConstantColors()
+                                                                  .greyFive),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  7)),
+                                                      focusedBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: ConstantColors()
+                                                                  .primaryColor)),
+                                                      errorBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: ConstantColors()
+                                                                  .warningColor)),
+                                                      focusedErrorBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: ConstantColors().primaryColor)),
+                                                      hintText: 'Enter coupon code',
+                                                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18)),
+                                                )),
+                                          ),
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 15),
+                                            width: 100,
+                                            child: CommonHelper().buttonOrange(
+                                                'Apply', () {
+                                              if (couponController
+                                                  .text.isNotEmpty) {
+                                                if (couponProvider.isloading ==
+                                                    false) {
+                                                  couponController.clear();
+                                                  couponProvider
+                                                      .getCouponDiscount(
+                                                          couponController.text,
+                                                          //total amount
+                                                          bcProvider
+                                                              .totalPriceAfterAllcalculation,
+                                                          //seller id
+                                                          Provider.of<BookService>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .sellerId,
+                                                          //context
+                                                          context);
+                                                }
+                                              }
+                                            },
+                                                isloading:
+                                                    couponProvider.isloading ==
+                                                            false
+                                                        ? false
+                                                        : true),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 )
                               : Container(),
 
@@ -315,30 +346,30 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                           //TODO uncomment this to make the panel work again
                           Row(
                             children: [
-                              // widget.panelController.isPanelClosed
-                              //     ? Expanded(
-                              //         child: CommonHelper()
-                              //             .borderButtonOrange('Apply coupon', () {
-                              //           widget.panelController.open();
-                              //           couponFocus.requestFocus();
-                              //           Future.delayed(
-                              //               const Duration(milliseconds: 900),
-                              //               () {
-                              //             _scrollController.animateTo(
-                              //               155,
-                              //               duration:
-                              //                   const Duration(milliseconds: 600),
-                              //               curve: Curves.fastOutSlowIn,
-                              //             );
-                              //           });
-                              //         }),
-                              //       )
-                              //     : Container(),
-                              // widget.panelController.isPanelClosed
-                              //     ? const SizedBox(
-                              //         width: 20,
-                              //       )
-                              //     : Container(),
+                              widget.panelController.isPanelClosed
+                                  ? Expanded(
+                                      child: CommonHelper().borderButtonOrange(
+                                          'Apply coupon', () {
+                                        widget.panelController.open();
+                                        couponFocus.requestFocus();
+                                        Future.delayed(
+                                            const Duration(milliseconds: 900),
+                                            () {
+                                          _scrollController.animateTo(
+                                            355,
+                                            duration: const Duration(
+                                                milliseconds: 600),
+                                            curve: Curves.fastOutSlowIn,
+                                          );
+                                        });
+                                      }),
+                                    )
+                                  : Container(),
+                              widget.panelController.isPanelClosed
+                                  ? const SizedBox(
+                                      width: 20,
+                                    )
+                                  : Container(),
                               Expanded(
                                 child: CommonHelper()
                                     .buttonOrange('Proceed to payment', () {

@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/shedule_service.dart';
 import 'package:qixer/service/common_service.dart';
 
@@ -40,11 +41,17 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
     return WillPopScope(
       onWillPop: () {
         BookStepsService().decreaseStep(context);
+        //set coupon value to default again
+        Provider.of<CouponService>(context, listen: false).setCouponDefault();
         return Future.value(true);
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarForBookingPages('Schedule', context),
+        appBar: CommonHelper().appbarForBookingPages('Schedule', context,
+            extraFunction: () {
+          //set coupon value to default again
+          Provider.of<CouponService>(context, listen: false).setCouponDefault();
+        }),
         body: Consumer<SheduleService>(
           builder: (context, provider, child) {
             //if user didnt select anything then go with the default value
