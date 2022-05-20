@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 
 import '../../booking/booking_location_page.dart';
 import '../../utils/common_helper.dart';
@@ -19,10 +21,13 @@ class ServiceCard extends StatelessWidget {
       required this.width,
       required this.marginRight,
       required this.pressed,
-      required this.isSaved})
+      required this.isSaved,
+      required this.serviceId,
+      required this.sellerId})
       : super(key: key);
 
   final ConstantColors cc;
+  final serviceId;
   final imageLink;
   final title;
   final sellerName;
@@ -33,6 +38,7 @@ class ServiceCard extends StatelessWidget {
   final marginRight;
   final VoidCallback pressed;
   final bool isSaved;
+  final sellerId;
 
   @override
   Widget build(BuildContext context) {
@@ -118,11 +124,16 @@ class ServiceCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: cc.primaryColor, elevation: 0),
                   onPressed: () {
+                    //set some data of the service which is clicked, these datas may be needed
+                    Provider.of<BookService>(context, listen: false)
+                        .setData(serviceId, title, imageLink, price, sellerId);
+                    //==========>
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const BookingLocationPage(),
+                        builder: (BuildContext context) => BookingLocationPage(
+                          serviceId: serviceId,
+                        ),
                       ),
                     );
                   },

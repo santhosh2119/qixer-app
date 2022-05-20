@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/signup_service.dart';
+import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';

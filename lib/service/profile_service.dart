@@ -71,6 +71,7 @@ class ProfileService with ChangeNotifier {
         }
       }
     } else {
+      print('profile data already loaded');
       //data already loaded from server. no need to load again
     }
   }

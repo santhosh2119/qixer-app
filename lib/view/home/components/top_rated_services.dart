@@ -67,12 +67,15 @@ class TopRatedServices extends StatelessWidget {
                                   twoDouble(
                                       provider.topServiceMap[i]['rating']),
                                   i,
-                                  context);
+                                  context,
+                                  provider.topServiceMap[i]['sellerId']);
                             },
                             isSaved:
                                 provider.topServiceMap[i]['isSaved'] == true
                                     ? true
                                     : false,
+                            serviceId: provider.topServiceMap[i]['serviceId'],
+                            sellerId: provider.topServiceMap[i]['sellerId'],
                           ),
                         )
                     ],

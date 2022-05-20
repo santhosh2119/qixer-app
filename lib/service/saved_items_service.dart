@@ -13,10 +13,18 @@ class SavedItemService with ChangeNotifier {
     notifyListeners();
   }
 
-  remove(int serviceId, String title, String image, int price,
-      String sellerName, double rating, int index, BuildContext context) async {
+  remove(
+      int serviceId,
+      String title,
+      String image,
+      int price,
+      String sellerName,
+      double rating,
+      int index,
+      BuildContext context,
+      sellerId) async {
     await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context);
+        serviceId, title, image, price, sellerName, rating, context, sellerId);
     fetchSavedItem();
     Provider.of<TopRatedServicesSerivce>(context, listen: false)
         .topServiceSaveUnsaveFromOtherPage(serviceId, title, sellerName);

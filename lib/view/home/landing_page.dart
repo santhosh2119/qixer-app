@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/home/home.dart';
 import 'package:qixer/view/tabs/saved_item_page.dart';
-import 'package:qixer/view/tabs/search/search_page.dart';
+import 'package:qixer/view/tabs/search/search_tab.dart';
 import 'package:qixer/view/tabs/settings/settings_page.dart';
 
 import '../tabs/orders/orders_page.dart';
@@ -27,7 +27,7 @@ class _HomePageState extends State<LandingPage> {
     const Homepage(),
     const OrdersPage(),
     const SavedItemPage(),
-    const SearchPage(),
+    const SearchTab(),
     const SettingsPage(),
   ];
   @override

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:colorlizer/colorlizer.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -8,6 +9,8 @@ class ReviewTab extends StatelessWidget {
   final provider;
   @override
   Widget build(BuildContext context) {
+    // create a instance of colorlizer
+    ColorLizer colorlizer = ColorLizer();
     List reviewList = ['a', 'b', 'c'];
     ConstantColors cc = ConstantColors();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -20,51 +23,75 @@ class ReviewTab extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(6),
+                  //   child: CachedNetworkImage(
+                  //     imageUrl:
+                  //         "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
+                  //     placeholder: (context, url) {
+                  //       return Image.asset('assets/images/placeholder.png');
+                  //     },
+                  //     height: 60,
+                  //     width: 60,
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                      placeholder: (context, url) {
-                        return Image.asset('assets/images/placeholder.png');
-                      },
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(6),
+                      child: Container(
+                        color: colorlizer.getRandomColors(),
+                        height: 60,
+                        width: 60,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Q',
+                          style: TextStyle(color: Colors.white, fontSize: 28),
+                        ),
+                      )),
                   const SizedBox(
                     width: 10,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Nazmul Hoque',
-                        style: TextStyle(
-                            color: cc.greyFour,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          for (int i = 0; i < 5; i++)
-                            Icon(
+                      // Text(
+                      //   provider.serviceAllDetails.serviceReviews[i].,
+                      //   style: TextStyle(
+                      //       color: cc.greyFour,
+                      //       fontSize: 17,
+                      //       fontWeight: FontWeight.w600),
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+
+                      // if one star rating then show one star else loop and show
+                      provider.serviceAllDetails.serviceReviews[i].rating == 0
+                          ? Icon(
                               Icons.star,
                               color: cc.primaryColor,
                               size: 16,
                             )
-                        ],
-                      ),
+                          : Row(
+                              children: [
+                                for (int j = 0;
+                                    j <
+                                        provider.serviceAllDetails
+                                            .serviceReviews[i].rating;
+                                    j++)
+                                  Icon(
+                                    Icons.star,
+                                    color: cc.primaryColor,
+                                    size: 16,
+                                  )
+                              ],
+                            ),
                       const SizedBox(
                         height: 10,
                       ),
                       //feedback
                       Text(
-                        'Good quality Service',
+                        provider.serviceAllDetails.serviceReviews[i].message,
                         style: TextStyle(
                           color: cc.greyParagraph,
                           fontSize: 14,

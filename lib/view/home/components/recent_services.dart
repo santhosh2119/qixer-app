@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
+import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -41,6 +42,10 @@ class RecentServices extends StatelessWidget {
                                     const ServiceDetailsPage(),
                               ),
                             );
+                            Provider.of<ServiceDetailsService>(context,
+                                    listen: false)
+                                .fetchServiceDetails(
+                                    provider.recentServiceMap[i]['serviceId']);
                           },
                           child: ServiceCard(
                             cc: cc,
@@ -65,12 +70,16 @@ class RecentServices extends StatelessWidget {
                                   twoDouble(
                                       provider.recentServiceMap[i]['rating']),
                                   i,
-                                  context);
+                                  context,
+                                  provider.recentServiceMap[i]['sellerId']);
                             },
                             isSaved:
                                 provider.recentServiceMap[i]['isSaved'] == true
                                     ? true
                                     : false,
+                            serviceId: provider.recentServiceMap[i]
+                                ['serviceId'],
+                            sellerId: provider.recentServiceMap[i]['sellerId'],
                           ),
                         )
                     ],

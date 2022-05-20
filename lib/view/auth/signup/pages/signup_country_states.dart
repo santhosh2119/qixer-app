@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
-import 'package:qixer/service/signup_service.dart';
+import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/home/landing_page.dart';

@@ -7,21 +7,6 @@ import '../utils/common_helper.dart';
 class BookingHelper {
   ConstantColors cc = ConstantColors();
 
-  List paymentImages = [
-    'assets/icons/payment/paypal.png',
-    'assets/icons/payment/cashfree.png',
-    'assets/icons/payment/flutterwave.png',
-    'assets/icons/payment/instamojo.png',
-    'assets/icons/payment/mercado.png',
-    'assets/icons/payment/midtrans.png',
-    'assets/icons/payment/mollie.png',
-    'assets/icons/payment/payfast.png',
-    'assets/icons/payment/paystack.png',
-    'assets/icons/payment/paytm.png',
-    'assets/icons/payment/razorpay.png',
-    'assets/icons/payment/stripe.png',
-  ];
-
   bottomSheetDecoration() {
     return BoxDecoration(
       color: Colors.white,
@@ -152,6 +137,7 @@ class BookingHelper {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
+          flex: 3,
           child: Text(
             title,
             style: TextStyle(
@@ -163,19 +149,21 @@ class BookingHelper {
         ),
         quantity != 0
             ? Expanded(
+                flex: 1,
                 child: Text(
-                'x1',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: cc.greyFour,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ))
+                  'x$quantity',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: cc.greyFour,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ))
             : Container(),
         Expanded(
+          flex: 1,
           child: Text(
-            '\$ $price',
+            "\$ $price",
             textAlign: TextAlign.right,
             style: TextStyle(
               color: cc.greyFour,

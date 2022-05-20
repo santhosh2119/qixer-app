@@ -30,7 +30,7 @@ class CommonHelper {
   }
 
   appbarForBookingPages(String title, BuildContext context,
-      {bool isLocPage = false}) {
+      {bool isLocPage = false, VoidCallback? extraFunction}) {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
@@ -47,6 +47,9 @@ class CommonHelper {
             BookStepsService().decreaseStep(context);
           }
           Navigator.pop(context);
+          if (extraFunction != null) {
+            extraFunction.call();
+          }
         },
         child: const Icon(
           Icons.arrow_back_ios,

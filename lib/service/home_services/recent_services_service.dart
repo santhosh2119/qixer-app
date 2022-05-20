@@ -52,7 +52,8 @@ class RecentServicesService with ChangeNotifier {
                 data.latestServices[i].price,
                 averageRate,
                 serviceImage,
-                i);
+                i,
+                data.latestServices[i].sellerId);
 
             // print(averageRate);
           }
@@ -68,7 +69,8 @@ class RecentServicesService with ChangeNotifier {
     }
   }
 
-  setServiceList(serviceId, title, sellerName, price, rating, image, index) {
+  setServiceList(
+      serviceId, title, sellerName, price, rating, image, index, sellerId) {
     recentServiceMap.add({
       'serviceId': serviceId,
       'title': title,
@@ -77,6 +79,7 @@ class RecentServicesService with ChangeNotifier {
       'rating': rating,
       'image': image,
       'isSaved': false,
+      'sellerId': sellerId
     });
 
     checkIfAlreadySaved(serviceId, title, sellerName, index);
@@ -90,11 +93,19 @@ class RecentServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  saveOrUnsave(int serviceId, String title, String image, int price,
-      String sellerName, double rating, int index, BuildContext context) async {
+  saveOrUnsave(
+      int serviceId,
+      String title,
+      String image,
+      int price,
+      String sellerName,
+      double rating,
+      int index,
+      BuildContext context,
+      sellerId) async {
     var newListMap = recentServiceMap;
     alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context);
+        serviceId, title, image, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     recentServiceMap = newListMap;
     notifyListeners();

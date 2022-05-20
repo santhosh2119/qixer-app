@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/booking_location_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
@@ -15,7 +16,11 @@ import '../utils/common_helper.dart';
 import 'components/service_details_top.dart';
 
 class ServiceDetailsPage extends StatefulWidget {
-  const ServiceDetailsPage({Key? key}) : super(key: key);
+  const ServiceDetailsPage({
+    Key? key,
+  }) : super(key: key);
+
+  // final serviceId;
 
   @override
   State<ServiceDetailsPage> createState() => _ServiceDetailsPageState();
@@ -35,6 +40,9 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
+
+    // Provider.of<ServiceDetailsService>(context, listen: false)
+    //     .fetchServiceDetails(widget.serviceId);
     super.initState();
   }
 
@@ -140,7 +148,12 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                             context,
                                             MaterialPageRoute<void>(
                                               builder: (BuildContext context) =>
-                                                  const WriteReviewPage(),
+                                                  WriteReviewPage(
+                                                serviceId: provider
+                                                    .serviceAllDetails
+                                                    .serviceDetails
+                                                    .id,
+                                              ),
                                             ),
                                           );
                                         }),
@@ -152,11 +165,26 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                   : Container(),
                               CommonHelper().buttonOrange("Book Appointment",
                                   () {
+                                Provider.of<BookService>(context, listen: false)
+                                    .setData(
+                                        provider.serviceAllDetails
+                                            .serviceDetails.id,
+                                        provider.serviceAllDetails
+                                            .serviceDetails.title,
+                                        provider.serviceAllDetails.serviceImage
+                                            .imgUrl,
+                                        provider.serviceAllDetails
+                                            .serviceDetails.price,
+                                        provider.serviceAllDetails.sellerId);
+                                //=============>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                        const BookingLocationPage(),
+                                        BookingLocationPage(
+                                      serviceId: provider
+                                          .serviceAllDetails.serviceDetails.id,
+                                    ),
                                   ),
                                 );
                               }),

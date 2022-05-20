@@ -74,8 +74,8 @@ class CountryStatesService with ChangeNotifier {
         setLoadingTrue();
       });
       var response = await http.get(Uri.parse('$baseApi/country'));
-      print(response.body);
-      if (response.statusCode == 200) {
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         var data = CountryDropdownModel.fromJson(jsonDecode(response.body));
         for (int i = 0; i < data.countries.length; i++) {
           countryDropdownList.add(data.countries[i].country);
@@ -104,8 +104,8 @@ class CountryStatesService with ChangeNotifier {
 
     var response =
         await http.get(Uri.parse('$baseApi/country/service-city/$countryId'));
-    print(response.body);
-    if (response.statusCode == 200) {
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var data = StatesDropdownModel.fromJson(jsonDecode(response.body));
       for (int i = 0; i < data.serviceCities.length; i++) {
         statesDropdownList.add(data.serviceCities[i].serviceCity);
@@ -124,8 +124,6 @@ class CountryStatesService with ChangeNotifier {
   }
 
   fetchArea(countryId, stateId) async {
-    print('country id $countryId');
-    print('states id $stateId');
     //make states list empty first
     areaDropdownList = [];
     areaDropdownIndexList = [];
@@ -133,8 +131,8 @@ class CountryStatesService with ChangeNotifier {
 
     var response = await http.get(Uri.parse(
         '$baseApi/country/service-city/service-area/$countryId/$stateId'));
-    print(response.body);
-    if (response.statusCode == 200) {
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
       var data = AreaDropdownModel.fromJson(jsonDecode(response.body));
       for (int i = 0; i < data.serviceAreas.length; i++) {
         areaDropdownList.add(data.serviceAreas[i].serviceArea);
