@@ -265,14 +265,6 @@ class AllServicesService with ChangeNotifier {
           }
           averageRateList.add(averageRate);
           imageList.add(serviceImage);
-          // setServiceList(
-          //     data.allServices.data[i].id,
-          //     data.allServices.data[i].title,
-          //     data.allServices.data[i].sellerForMobile.name,
-          //     data.allServices.data[i].price,
-          //     averageRate,
-          //     serviceImage,
-          //     i);
         }
 
         if (isrefresh) {

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/search/search_page.dart';
 import 'package:qixer/view/tabs/search/components/search_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
+import '../../../service/common_service.dart';
 import '../../utils/constant_colors.dart';
 
 class SearchBarWithDropdown extends StatelessWidget {
@@ -33,12 +36,13 @@ class SearchBarWithDropdown extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             margin: const EdgeInsets.only(top: 25),
-            child: Column(
-              children: [
-                Consumer<SearchBarWithDropdownService>(
-                  builder: (context, provider, child) => Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    child: Row(
+            child: Consumer<SearchBarWithDropdownService>(
+              builder: (context, provider, child) => Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                  children: [
+                    //Search bar and dropdown
+                    Row(
                       children: [
                         Expanded(
                             // flex: 1,
@@ -128,9 +132,111 @@ class SearchBarWithDropdown extends StatelessWidget {
                             : Container(),
                       ],
                     ),
-                  ),
+
+                    //Services
+                    // provider.isLoading == false
+                    //             ? provider.serviceMap.isNotEmpty
+                    //                 ?
+
+                    // Column(
+                    //   children: [
+                    //     for (int i = 0;
+                    //                     i < 4;
+                    //                     i++)
+                    //     Column(
+                    //       children: [
+                    //         InkWell(
+                    //           splashColor: Colors.transparent,
+                    //           highlightColor: Colors.transparent,
+                    //           onTap: () {
+                    //             //run search function here ===>
+                    //             // Navigator.push(
+                    //             //   context,
+                    //             //   MaterialPageRoute<void>(
+                    //             //     builder: (BuildContext
+                    //             //             context) =>
+                    //             //         const ServiceDetailsPage(),
+                    //             //   ),
+                    //             // );
+                    //             // Provider.of<ServiceDetailsService>(
+                    //             //         context,
+                    //             //         listen: false)
+                    //             //     .fetchServiceDetails(
+                    //             //         provider.serviceMap[i]
+                    //             //             ['serviceId']);
+                    //           },
+                    //           child: ServiceCard(
+                    //             cc: cc,
+                    //             imageLink: provider.serviceMap[i]
+                    //                     ['image'] ??
+                    //                 placeHolderUrl,
+                    //             rating: twoDouble(provider
+                    //                 .serviceMap[i]['rating']),
+                    //             title: provider.serviceMap[i]
+                    //                 ['title'],
+                    //             sellerName: provider.serviceMap[i]
+                    //                 ['sellerName'],
+                    //             price: provider.serviceMap[i]
+                    //                 ['price'],
+                    //             buttonText: 'Book Now',
+                    //             width: double.infinity,
+                    //             marginRight: 0.0,
+                    //             pressed: () {
+                    //               provider.saveOrUnsave(
+                    //                   provider.serviceMap[i]
+                    //                       ['serviceId'],
+                    //                   provider.serviceMap[i]
+                    //                       ['title'],
+                    //                   provider.serviceMap[i]
+                    //                       ['image'],
+                    //                   provider.serviceMap[i]
+                    //                       ['price'],
+                    //                   provider.serviceMap[i]
+                    //                       ['sellerName'],
+                    //                   twoDouble(
+                    //                       provider.serviceMap[i]
+                    //                           ['rating']),
+                    //                   i,
+                    //                   context,
+                    //                   provider.serviceMap[i]
+                    //                       ['sellerId']);
+                    //             },
+                    //             isSaved: provider.serviceMap[i]
+                    //                         ['isSaved'] ==
+                    //                     true
+                    //                 ? true
+                    //                 : false,
+                    //             serviceId: provider.serviceMap[i]
+                    //                 ['serviceId'],
+                    //             sellerId: provider.serviceMap[i]
+                    //                 ['sellerId'],
+                    //           ),
+                    //         ),
+                    //         const SizedBox(
+                    //           height: 25,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ],
+                    // ) : Row(
+                    //         mainAxisAlignment:
+                    //             MainAxisAlignment.center,
+                    //         children: [
+                    //           Container(
+                    //             margin:
+                    //                 const EdgeInsets.only(top: 20),
+                    //             child: Text(
+                    //               'No result found',
+                    //               style: TextStyle(
+                    //                   color: cc.greyPrimary),
+                    //             ),
+                    //           )
+                    //         ],
+                    //       )
+                    // : OthersHelper().showLoading(cc.primaryColor),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],
