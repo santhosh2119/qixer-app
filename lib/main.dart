@@ -27,6 +27,7 @@ import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
+import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/service/serviceby_category_service.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BookService()),
         ChangeNotifierProvider(create: (_) => SheduleService()),
         ChangeNotifierProvider(create: (_) => CouponService()),
+        ChangeNotifierProvider(create: (_) => SearchBarWithDropdownService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

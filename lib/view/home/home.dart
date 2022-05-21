@@ -5,9 +5,11 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
+import 'package:qixer/view/home/components/search_bar_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
 import 'package:qixer/view/services/all_services_page.dart';
@@ -37,6 +39,8 @@ class _HomepageState extends State<Homepage> {
     Provider.of<RecentServicesService>(context, listen: false)
         .fetchRecentService();
     Provider.of<ProfileService>(context, listen: false).getProfileDetails();
+    Provider.of<SearchBarWithDropdownService>(context, listen: false)
+        .fetchCountries();
   }
 
   @override
@@ -121,9 +125,17 @@ class _HomepageState extends State<Homepage> {
               const SizedBox(
                 height: 30,
               ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(horizontal: 25),
+              //   child: SearchBar(
+              //     cc: cc,
+              //     isHomePage: true,
+              //   ),
+              // ),
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: SearchBar(
+                child: SearchBarWithDropdown(
                   cc: cc,
                   isHomePage: true,
                 ),

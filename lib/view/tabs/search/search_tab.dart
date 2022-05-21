@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/home/components/search_bar.dart';
+import 'package:qixer/view/home/components/search_bar_with_dropdown.dart';
 import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -47,7 +48,11 @@ class _SearchTabState extends State<SearchTab> {
                       CommonHelper().titleCommon('Search services'),
                       sizedBox20(),
                       //Search input field ============>
-                      SearchBar(
+                      // SearchBar(
+                      //   cc: cc,
+                      //   isHomePage: false,
+                      // ),
+                      SearchBarWithDropdown(
                         cc: cc,
                         isHomePage: false,
                       ),
