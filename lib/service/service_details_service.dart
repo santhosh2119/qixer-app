@@ -11,6 +11,8 @@ class ServiceDetailsService with ChangeNotifier {
 
   bool isloading = false;
 
+  // List reviewList = [];
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -25,6 +27,7 @@ class ServiceDetailsService with ChangeNotifier {
     setLoadingTrue();
     var connection = await checkConnection();
     if (connection) {
+      // reviewList = [];
       //internet connection is on
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
@@ -37,10 +40,14 @@ class ServiceDetailsService with ChangeNotifier {
           headers: header);
 
       if (response.statusCode == 201) {
-        serviceAllDetails =
-            ServiceDetailsModel.fromJson(jsonDecode(response.body));
-        // var data = ServiceDetailsModel.fromJson(jsonDecode(response.body));
+        // serviceAllDetails =
+        //     ServiceDetailsModel.fromJson(jsonDecode(response.body));
+        var data = ServiceDetailsModel.fromJson(jsonDecode(response.body));
 
+        serviceAllDetails = data;
+        // for (int i = 0; i < data.serviceReviews.length; i++) {
+        //   reviewList.add({'rating': data.serviceReviews[i].rating, 'message':data.serviceReviews[i].message,});
+        // }
         notifyListeners();
         setLoadingFalse();
       } else {

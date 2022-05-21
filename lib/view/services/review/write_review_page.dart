@@ -10,9 +10,18 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 class WriteReviewPage extends StatefulWidget {
-  const WriteReviewPage({Key? key, required this.serviceId}) : super(key: key);
+  const WriteReviewPage(
+      {Key? key,
+      required this.serviceId,
+      required this.title,
+      required this.userImg,
+      required this.userName})
+      : super(key: key);
 
   final serviceId;
+  final String title;
+  final String userImg;
+  final String userName;
   @override
   State<WriteReviewPage> createState() => _WriteReviewPageState();
 }
@@ -40,10 +49,8 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
               ),
               ServiceTitleAndUser(
                 cc: cc,
-                title: 'Women Beauty Care Service with Expert Beautician',
-                userImg: profileProvider.profileImage != null
-                    ? "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg"
-                    : null,
+                title: widget.title,
+                userImg: widget.userImg,
                 userName: 'Jane cooper',
               ),
               const SizedBox(
