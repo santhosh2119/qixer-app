@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
@@ -12,6 +13,7 @@ import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/home/components/search_bar_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
+import 'package:qixer/view/home/homepage_helper.dart';
 import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -125,6 +127,21 @@ class _HomepageState extends State<Homepage> {
               const SizedBox(
                 height: 30,
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                margin: const EdgeInsets.only(bottom: 15),
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: SearchBarWithDropdown(
+                                cc: cc,
+                              )));
+                    },
+                    child: HomepageHelper().searchbar(context)),
+              ),
               // Container(
               //   padding: const EdgeInsets.symmetric(horizontal: 25),
               //   child: SearchBar(
@@ -132,14 +149,13 @@ class _HomepageState extends State<Homepage> {
               //     isHomePage: true,
               //   ),
               // ),
-
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: SearchBarWithDropdown(
-                  cc: cc,
-                  isHomePage: true,
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(horizontal: 25),
+              //   child: SearchBarWithDropdown(
+              //     cc: cc,
+              //     isHomePage: true,
+              //   ),
+              // ),
 
               const SizedBox(
                 height: 10,
