@@ -96,26 +96,7 @@ class _SavedItemPageState extends State<SavedItemPage> {
 
                           //
                         ])
-                  : Container(
-                      height: MediaQuery.of(context).size.height - 180,
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            LineAwesomeIcons.hourglass,
-                            size: 26,
-                            color: cc.greyFour,
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          Text(
-                            "No service saved",
-                            style: TextStyle(color: cc.greyFour),
-                          ),
-                        ],
-                      )),
+                  : CommonHelper().nothingfound(context, "No service saved"),
             ),
           ),
         ),

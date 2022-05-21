@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -169,5 +170,29 @@ class CommonHelper {
         fit: BoxFit.cover,
       ),
     );
+  }
+
+  //no order found
+  nothingfound(BuildContext context, String title) {
+    return Container(
+        height: MediaQuery.of(context).size.height - 180,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LineAwesomeIcons.hourglass,
+              size: 26,
+              color: cc.greyFour,
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            Text(
+              title,
+              style: TextStyle(color: cc.greyFour),
+            ),
+          ],
+        ));
   }
 }

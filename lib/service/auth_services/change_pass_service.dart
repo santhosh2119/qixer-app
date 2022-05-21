@@ -55,7 +55,7 @@ class ChangePassService with ChangeNotifier {
               .showToast("Password changed successfully", Colors.black);
           setLoadingFalse();
 
-          LoginService().saveDetails(email ?? '', newPass, token ?? '');
+          // LoginService().saveDetails(email ?? '', newPass, token ?? '');
 
           Navigator.pop(context);
         } else {

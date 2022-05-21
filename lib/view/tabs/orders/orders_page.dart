@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:qixer/view/home/home.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/my_orders_service.dart';
+
 import 'package:qixer/view/tabs/orders/order_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import 'orders_helper.dart';
 
@@ -19,6 +22,7 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<MyOrdersService>(context, listen: false).fetchMyOrders();
   }
 
   @override
@@ -30,108 +34,149 @@ class _OrdersPageState extends State<OrdersPage> {
         body: SafeArea(
           child: SingleChildScrollView(
             physics: physicsCommon,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: screenPadding),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    CommonHelper().titleCommon('My Orders'),
-                    Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.only(
-                        top: 20,
-                        bottom: 10,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 18),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: cc.borderColor),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AutoSizeText(
-                              '#812466',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: cc.primaryColor,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                OrdersHelper().statusCapsule(
-                                    'Cancelled', cc.warningColor),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 8),
-                                  child: PopupMenuButton(
-                                    // initialValue: 2,
-                                    child: const Icon(Icons.more_vert),
-                                    itemBuilder: (c) {
-                                      return List.generate(1, (index) {
-                                        return PopupMenuItem(
-                                          value: index,
-                                          onTap: () async {
-                                            //without the below line, navigation won't work
-                                            await Future.delayed(Duration.zero);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    const OrderDetailsPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: const Text('Details'),
-                                        );
-                                      });
-                                    },
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
+            child: Consumer<MyOrdersService>(
+              builder: (context, provider, child) => Container(
+                padding: EdgeInsets.symmetric(horizontal: screenPadding),
+                child: provider.myServices != null
+                    ? provider.myServices != 'error'
+                        ? provider.myServices.isNotEmpty
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    CommonHelper().titleCommon('My Orders'),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    for (int i = 0;
+                                        i < provider.myServices.length;
+                                        i++)
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                          top: 20,
+                                          bottom: 10,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 18),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: cc.borderColor),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Column(children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              // AutoSizeText(
+                                              //   '#812466',
+                                              //   maxLines: 1,
+                                              //   overflow: TextOverflow.ellipsis,
+                                              //   style: TextStyle(
+                                              //     color: cc.primaryColor,
+                                              //   ),
+                                              // ),
+                                              Row(
+                                                children: [
+                                                  OrdersHelper().statusCapsule(
+                                                      provider.myServices[i]
+                                                          .paymentStatus,
+                                                      cc.greyFour),
 
-                        //Divider
-                        Container(
-                          margin: const EdgeInsets.only(top: 17, bottom: 20),
-                          child: CommonHelper().dividerCommon(),
-                        ),
+                                                  //popup button
+                                                  // Container(
+                                                  //   margin:
+                                                  //       const EdgeInsets.only(
+                                                  //           left: 8),
+                                                  //   child: PopupMenuButton(
+                                                  //     // initialValue: 2,
+                                                  //     child: const Icon(
+                                                  //         Icons.more_vert),
+                                                  //     itemBuilder: (c) {
+                                                  //       return List.generate(1,
+                                                  //           (index) {
+                                                  //         return PopupMenuItem(
+                                                  //           value: index,
+                                                  //           onTap: () async {
+                                                  //             //without the below line, navigation won't work
+                                                  //             await Future
+                                                  //                 .delayed(
+                                                  //                     Duration
+                                                  //                         .zero);
+                                                  //             Navigator.push(
+                                                  //               context,
+                                                  //               MaterialPageRoute<
+                                                  //                   void>(
+                                                  //                 builder: (BuildContext
+                                                  //                         context) =>
+                                                  //                     const OrderDetailsPage(),
+                                                  //               ),
+                                                  //             );
+                                                  //           },
+                                                  //           child: const Text(
+                                                  //               'Details'),
+                                                  //         );
+                                                  //       });
+                                                  //     },
+                                                  //   ),
+                                                  // )
+                                                ],
+                                              )
+                                            ],
+                                          ),
 
-                        OrdersHelper().orderRow(
-                          'assets/svg/calendar.svg',
-                          'Date',
-                          'Friday, 18 March 2022',
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 14),
-                          child: CommonHelper().dividerCommon(),
-                        ),
-                        OrdersHelper().orderRow(
-                          'assets/svg/clock.svg',
-                          'Time',
-                          '02:00 PM - 03:00 PM',
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 14),
-                          child: CommonHelper().dividerCommon(),
-                        ),
-                        OrdersHelper().orderRow(
-                          'assets/svg/bill.svg',
-                          'Billed',
-                          '\$239.36',
-                        ),
-                      ]),
-                    ),
+                                          //Divider
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 17, bottom: 20),
+                                            child:
+                                                CommonHelper().dividerCommon(),
+                                          ),
 
-                    //
-                  ]),
+                                          OrdersHelper().orderRow(
+                                            'assets/svg/calendar.svg',
+                                            'Date',
+                                            provider.myServices[i].date,
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 14),
+                                            child:
+                                                CommonHelper().dividerCommon(),
+                                          ),
+                                          OrdersHelper().orderRow(
+                                            'assets/svg/clock.svg',
+                                            'Schedule',
+                                            provider.myServices[i].schedule,
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 14),
+                                            child:
+                                                CommonHelper().dividerCommon(),
+                                          ),
+                                          OrdersHelper().orderRow(
+                                            'assets/svg/bill.svg',
+                                            'Billed',
+                                            '\$${provider.myServices[i].total.toStringAsFixed(2)}',
+                                          ),
+                                        ]),
+                                      ),
+
+                                    //
+                                  ])
+                            : CommonHelper()
+                                .nothingfound(context, "No active order")
+                        : CommonHelper()
+                            .nothingfound(context, "No active order")
+                    : Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height - 120,
+                        child: OthersHelper().showLoading(cc.primaryColor)),
+              ),
             ),
           ),
         ));
