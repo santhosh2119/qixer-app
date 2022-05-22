@@ -84,94 +84,83 @@ class _AllServicePageState extends State<AllServicePage> {
                         const ServiceFilterDropdowns(),
 
                         provider.serviceMap.isNotEmpty
-                            ? provider.serviceMap[0] != 'error'
-                                ? Column(children: [
-                                    // Service List ===============>
-                                    const SizedBox(
-                                      height: 35,
-                                    ),
-                                    for (int i = 0;
-                                        i < provider.serviceMap.length;
-                                        i++)
-                                      Column(
-                                        children: [
-                                          InkWell(
-                                            splashColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute<void>(
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      const ServiceDetailsPage(),
-                                                ),
-                                              );
-                                              Provider.of<ServiceDetailsService>(
-                                                      context,
-                                                      listen: false)
-                                                  .fetchServiceDetails(
-                                                      provider.serviceMap[i]
-                                                          ['serviceId']);
-                                            },
-                                            child: ServiceCard(
-                                              cc: cc,
-                                              imageLink: provider.serviceMap[i]
-                                                      ['image'] ??
-                                                  placeHolderUrl,
-                                              rating: twoDouble(provider
-                                                  .serviceMap[i]['rating']),
-                                              title: provider.serviceMap[i]
-                                                  ['title'],
-                                              sellerName: provider.serviceMap[i]
-                                                  ['sellerName'],
-                                              price: provider.serviceMap[i]
-                                                  ['price'],
-                                              buttonText: 'Book Now',
-                                              width: double.infinity,
-                                              marginRight: 0.0,
-                                              pressed: () {
-                                                provider.saveOrUnsave(
-                                                    provider.serviceMap[i]
-                                                        ['serviceId'],
-                                                    provider.serviceMap[i]
-                                                        ['title'],
-                                                    provider.serviceMap[i]
-                                                        ['image'],
-                                                    provider.serviceMap[i]
-                                                        ['price'],
-                                                    provider.serviceMap[i]
-                                                        ['sellerName'],
-                                                    twoDouble(
-                                                        provider.serviceMap[i]
-                                                            ['rating']),
-                                                    i,
-                                                    context,
-                                                    provider.serviceMap[i]
-                                                        ['sellerId']);
-                                              },
-                                              isSaved: provider.serviceMap[i]
-                                                          ['isSaved'] ==
-                                                      true
-                                                  ? true
-                                                  : false,
-                                              serviceId: provider.serviceMap[i]
-                                                  ['serviceId'],
-                                              sellerId: provider.serviceMap[i]
-                                                  ['sellerId'],
+                            ? Column(children: [
+                                // Service List ===============>
+                                const SizedBox(
+                                  height: 35,
+                                ),
+                                for (int i = 0;
+                                    i < provider.serviceMap.length;
+                                    i++)
+                                  Column(
+                                    children: [
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  const ServiceDetailsPage(),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 25,
-                                          ),
-                                        ],
-                                      )
-                                  ])
-                                : Container(
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(top: 60),
-                                    child: const Text("No service found"),
+                                          );
+                                          Provider.of<ServiceDetailsService>(
+                                                  context,
+                                                  listen: false)
+                                              .fetchServiceDetails(provider
+                                                  .serviceMap[i]['serviceId']);
+                                        },
+                                        child: ServiceCard(
+                                          cc: cc,
+                                          imageLink: provider.serviceMap[i]
+                                                  ['image'] ??
+                                              placeHolderUrl,
+                                          rating: twoDouble(
+                                              provider.serviceMap[i]['rating']),
+                                          title: provider.serviceMap[i]
+                                              ['title'],
+                                          sellerName: provider.serviceMap[i]
+                                              ['sellerName'],
+                                          price: provider.serviceMap[i]
+                                              ['price'],
+                                          buttonText: 'Book Now',
+                                          width: double.infinity,
+                                          marginRight: 0.0,
+                                          pressed: () {
+                                            provider.saveOrUnsave(
+                                                provider.serviceMap[i]
+                                                    ['serviceId'],
+                                                provider.serviceMap[i]['title'],
+                                                provider.serviceMap[i]['image'],
+                                                provider.serviceMap[i]['price']
+                                                    .round(),
+                                                provider.serviceMap[i]
+                                                    ['sellerName'],
+                                                twoDouble(provider.serviceMap[i]
+                                                    ['rating']),
+                                                i,
+                                                context,
+                                                provider.serviceMap[i]
+                                                    ['sellerId']);
+                                          },
+                                          isSaved: provider.serviceMap[i]
+                                                      ['isSaved'] ==
+                                                  true
+                                              ? true
+                                              : false,
+                                          serviceId: provider.serviceMap[i]
+                                              ['serviceId'],
+                                          sellerId: provider.serviceMap[i]
+                                              ['sellerId'],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                    ],
                                   )
+                              ])
                             : Container(
                                 alignment: Alignment.center,
                                 margin: const EdgeInsets.only(top: 60),

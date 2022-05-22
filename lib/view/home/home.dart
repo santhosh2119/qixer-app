@@ -8,7 +8,6 @@ import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
-import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
@@ -17,10 +16,8 @@ import 'package:qixer/view/home/homepage_helper.dart';
 import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
-import 'package:qixer/view/utils/others_helper.dart';
 
 import '../utils/constant_styles.dart';
-import 'components/search_bar.dart';
 import 'components/section_title.dart';
 
 class Homepage extends StatefulWidget {
