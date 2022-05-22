@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:flutterwave_standard/models/subaccount.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:uuid/uuid.dart';
 
 class FlutterwaveService {
@@ -78,7 +80,10 @@ class FlutterwaveService {
     var response = await flutterwave.charge();
     if (response != null) {
       showLoading(response.status!, context);
-      print("${response.toJson()}");
+      print('flutterwave payment successfull');
+      Provider.of<PlaceOrderService>(context, listen: false)
+          .placeOrder(context);
+      // print("${response.toJson()}");
     } else {
       //User cancelled the payment
       // showLoading("No Response!");

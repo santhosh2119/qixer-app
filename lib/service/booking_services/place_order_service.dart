@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
@@ -12,7 +11,20 @@ import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlaceOrderService with ChangeNotifier {
+  bool isloading = false;
+
+  setLoadingTrue() {
+    isloading = true;
+    notifyListeners();
+  }
+
+  setLoadingFalse() {
+    isloading = false;
+    notifyListeners();
+  }
+
   placeOrder(BuildContext context) async {
+    setLoadingTrue();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List includesList = [];
@@ -96,9 +108,11 @@ class PlaceOrderService with ChangeNotifier {
         body: data, headers: header);
 
     if (response.statusCode == 201) {
+      setLoadingFalse();
       OthersHelper().showToast('Order Placed', Colors.black);
     } else {
       print(response.body);
+      setLoadingFalse();
     }
 
     //

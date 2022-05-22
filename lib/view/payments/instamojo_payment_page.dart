@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:async';
+
+import '../../service/booking_services/place_order_service.dart';
 
 class InstamojoPaymentPage extends StatefulWidget {
   @override
@@ -94,10 +97,11 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
     print(realResponse);
     if (realResponse['success'] == true) {
       if (realResponse["payment"]['status'] == 'Credit') {
-        print('sucesssssssssssful');
-        // Navigator.of(context).pushReplacement(
-        //     MaterialPageRoute(
-        //         builder: (context) => ()));
+        print('instamojo payment successfull');
+
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .placeOrder(context);
+
 //payment is successful.
       } else {
         print('failed');

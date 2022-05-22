@@ -247,6 +247,7 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
     if (response.verify) {
       _verifyOnServer(reference);
     } else {
+      print('payment successfull');
       setState(() => _inProgress = false);
       _updateStatus(reference, response.message);
     }

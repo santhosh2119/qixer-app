@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class StripeService with ChangeNotifier {
@@ -23,7 +25,7 @@ class StripeService with ChangeNotifier {
 
   Map<String, dynamic>? paymentIntentData;
 
-  displayPaymentSheet() async {
+  displayPaymentSheet(BuildContext context) async {
     try {
       await Stripe.instance
           .presentPaymentSheet(
@@ -32,6 +34,9 @@ class StripeService with ChangeNotifier {
         confirmPayment: true,
       ))
           .then((newValue) async {
+        print('stripe payment successfull');
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .placeOrder(context);
         // print('payment id' + paymentIntentData!['id'].toString());
         // print('payment client secret' +
         //     paymentIntentData!['client_secret'].toString());
@@ -102,7 +107,7 @@ class StripeService with ChangeNotifier {
           .then((value) {});
 
       ///now finally display payment sheeet
-      displayPaymentSheet();
+      displayPaymentSheet(context);
     } catch (e, s) {
       debugPrint('exception:$e$s');
     }

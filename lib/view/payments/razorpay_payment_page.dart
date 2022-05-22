@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+
+import '../../service/book_confirmation_service.dart';
+import '../../service/booking_services/place_order_service.dart';
 
 class RazorpayPaymentPage extends StatefulWidget {
   const RazorpayPaymentPage({Key? key}) : super(key: key);
@@ -16,7 +20,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   // final TextEditingController description = TextEditingController();
   // final TextEditingController amount = TextEditingController();
 
-  String amount = '200';
+  late String amount;
   String name = 'saleheen';
   String phone = '54545133511';
   String email = 'test@test.com';
@@ -26,6 +30,9 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   @override
   void initState() {
     super.initState();
+    amount = Provider.of<BookConfirmationService>(context, listen: false)
+        .totalPriceAfterAllcalculation
+        .toString();
     initializeRazorPay();
   }
 
@@ -57,6 +64,8 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print("Payment Sucessfull");
+
+    Provider.of<PlaceOrderService>(context, listen: false).placeOrder(context);
 
     // print(
     //     "${response.orderId} \n${response.paymentId} \n${response.signature}");

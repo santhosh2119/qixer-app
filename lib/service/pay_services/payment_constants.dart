@@ -2,10 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
-import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/paystack_service.dart';
 import 'package:qixer/service/pay_services/razorpay_service.dart';
@@ -22,7 +23,7 @@ payAction(String method, BuildContext context) {
       PaypalService().payByPaypal(context);
       break;
     case 'cashfree':
-      CashfreeService().getTokenAndPay();
+      CashfreeService().getTokenAndPay(context);
       break;
     case 'flutterwave':
       FlutterwaveService().payByFlutterwave(context);
@@ -58,7 +59,8 @@ payAction(String method, BuildContext context) {
       // StripeService().makePayment(context);
       break;
     case 'cash_on_delivery':
-      // StripeService().makePayment(context);
+      Provider.of<PlaceOrderService>(context, listen: false)
+          .placeOrder(context);
       break;
     default:
       {
