@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
 import 'package:qixer/service/pay_services/payment_service.dart';
@@ -223,8 +225,14 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                       } else {
                         // provider.setLoadingTrue();
 
+                        Provider.of<BookService>(context, listen: false)
+                            .setSelectedPayment(
+                                paymentList[selectedMethod].methodName);
+
                         payAction(
                             paymentList[selectedMethod].methodName, context);
+                        Provider.of<PlaceOrderService>(context, listen: false)
+                            .placeOrder(context);
                       }
 
                       // Navigator.push(

@@ -242,17 +242,20 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                         //   height: 23,
                         // ),
                         CommonHelper().buttonOrange("Next", () {
-                          //increase page steps by one
-                          BookStepsService().onNext(context);
-                          //set selected shedule so that we can use it later
-                          Provider.of<BookService>(context, listen: false)
-                              .setDateTime(_monthAndDate, _selectedTime,
-                                  _selectedWeekday);
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: const DeliveryAddressPage()));
+                          if (_selectedTime != null &&
+                              _selectedWeekday != null) {
+                            //increase page steps by one
+                            BookStepsService().onNext(context);
+                            //set selected shedule so that we can use it later
+                            Provider.of<BookService>(context, listen: false)
+                                .setDateTime(_monthAndDate, _selectedTime,
+                                    _selectedWeekday);
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: const DeliveryAddressPage()));
+                          }
                         }),
                         const SizedBox(
                           height: 30,

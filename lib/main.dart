@@ -14,6 +14,7 @@ import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/booking_services/shedule_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CouponService()),
         ChangeNotifierProvider(create: (_) => SearchBarWithDropdownService()),
         ChangeNotifierProvider(create: (_) => MyOrdersService()),
+        ChangeNotifierProvider(create: (_) => PlaceOrderService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
