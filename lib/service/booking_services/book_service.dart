@@ -24,7 +24,7 @@ class BookService with ChangeNotifier {
     serviceId = id;
     serviceTitle = title;
     serviceImage = image;
-    totalPrice = newPrice;
+    totalPrice = newPrice.round();
     sellerId = sellerNewId;
     notifyListeners();
   }

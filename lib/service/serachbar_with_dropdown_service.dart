@@ -102,10 +102,6 @@ class SearchBarWithDropdownService with ChangeNotifier {
         "Content-Type": "application/json"
       };
 
-      print('ran');
-
-      print('search text $searchText city id is $cityId');
-
       setLoadingTrue();
 
       //if connection is ok

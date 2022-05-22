@@ -10,7 +10,7 @@ import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
-import 'package:qixer/view/home/components/search_bar_with_dropdown.dart';
+import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
 import 'package:qixer/view/home/homepage_helper.dart';
@@ -136,7 +136,7 @@ class _HomepageState extends State<Homepage> {
                           context,
                           PageTransition(
                               type: PageTransitionType.rightToLeft,
-                              child: SearchBarWithDropdown(
+                              child: SearchBarPageWithDropdown(
                                 cc: cc,
                               )));
                     },

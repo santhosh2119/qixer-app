@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/home/components/search_bar.dart';
-import 'package:qixer/view/home/components/search_bar_with_dropdown.dart';
+import 'package:qixer/view/search/components/search_bar.dart';
+import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -52,56 +53,53 @@ class _SearchTabState extends State<SearchTab> {
                       //   cc: cc,
                       //   isHomePage: false,
                       // ),
-                      SearchBarWithDropdown(
-                        cc: cc,
-                        isHomePage: false,
-                      ),
-                      Text(
-                        'Best matched:',
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: cc.greyFour,
-                          fontSize: 14,
-                        ),
-                      ),
+                      const SearchBar(),
+                      // Text(
+                      //   'Best matched:',
+                      //   textAlign: TextAlign.start,
+                      //   maxLines: 1,
+                      //   overflow: TextOverflow.ellipsis,
+                      //   style: TextStyle(
+                      //     color: cc.greyFour,
+                      //     fontSize: 14,
+                      //   ),
+                      // ),
 
-                      sizedBox20(),
+                      // sizedBox20(),
 
-                      for (int i = 0; i < 3; i++)
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    const ServiceDetailsPage(),
-                              ),
-                            );
-                          },
-                          child: Column(
-                            children: [
-                              ServiceCardContents(
-                                cc: cc,
-                                imageLink:
-                                    "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
-                                rating: '4.5',
-                                title:
-                                    'Hair cutting service at low price Hair cutting',
-                                sellerName: 'Jane Cooper',
-                                price: '30',
-                              ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: 28, bottom: 20),
-                                child: CommonHelper().dividerCommon(),
-                              )
-                            ],
-                          ),
-                        )
+                      // for (int i = 0; i < 3; i++)
+                      //   InkWell(
+                      //     splashColor: Colors.transparent,
+                      //     highlightColor: Colors.transparent,
+                      //     onTap: () {
+                      //       Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute<void>(
+                      //           builder: (BuildContext context) =>
+                      //               const ServiceDetailsPage(),
+                      //         ),
+                      //       );
+                      //     },
+                      //     child: Column(
+                      //       children: [
+                      //         ServiceCardContents(
+                      //           cc: cc,
+                      //           imageLink:
+                      //               "https://cdn.pixabay.com/photo/2021/09/14/11/33/tree-6623764__340.jpg",
+                      //           rating: '4.5',
+                      //           title:
+                      //               'Hair cutting service at low price Hair cutting',
+                      //           sellerName: 'Jane Cooper',
+                      //           price: '30',
+                      //         ),
+                      //         Container(
+                      //           margin:
+                      //               const EdgeInsets.only(top: 28, bottom: 20),
+                      //           child: CommonHelper().dividerCommon(),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   )
 
                       //
                     ]),
