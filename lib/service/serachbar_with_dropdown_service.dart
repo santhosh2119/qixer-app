@@ -16,7 +16,7 @@ class SearchBarWithDropdownService with ChangeNotifier {
     'Select City',
   ];
   var selectedCity = 'Select City';
-  var cityDropdownIndexList = [0];
+  List cityDropdownIndexList = [0];
   var selectedCityId = 0;
 
   bool isLoading = false;
@@ -85,15 +85,26 @@ class SearchBarWithDropdownService with ChangeNotifier {
   fetchService(context, String searchText, cityId) async {
     var connection = await checkConnection();
     if (connection) {
-      var data = jsonEncode({
-        'service_city_id': cityId,
-        'search_text': searchText,
-      });
+      var data;
+      if (selectedCityId == 0) {
+        data = jsonEncode({
+          'search_text': searchText,
+        });
+      } else {
+        data = jsonEncode({
+          'service_city_id': cityId,
+          'search_text': searchText,
+        });
+      }
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",
         "Content-Type": "application/json"
       };
+
+      print('ran');
+
+      print('search text $searchText city id is $cityId');
 
       setLoadingTrue();
 
