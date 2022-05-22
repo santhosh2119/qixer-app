@@ -82,139 +82,117 @@ class SearchBarWithDropdownService with ChangeNotifier {
     }
   }
 
-  // fetchService(context, {bool isrefresh = false}) async{
-  //    if (isrefresh) {
-  //     //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
-  //     //we are make the list empty when the sub category or brand is selected because then the refresh is true
-  //     serviceMap = [];
-  //     notifyListeners();
+  fetchService(context, String searchText, cityId) async {
+    var connection = await checkConnection();
+    if (connection) {
+      var data = jsonEncode({
+        'service_city_id': cityId,
+        'search_text': searchText,
+      });
+      var header = {
+        //if header type is application/json then the data should be in jsonEncode method
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      };
 
-  //     Provider.of<SearchBarWithDropdownService>(context, listen: false)
-  //         .setCurrentPage(currentPage);
-  //   } else {
-  //     // if (currentPage > 2) {
-  //     //   refreshController.loadNoData();
-  //     //   return false;
-  //     // }
-  //   }
-  //   // serviceMap = [];
-  //   // Future.delayed(const Duration(microseconds: 500), () {
-  //   //   notifyListeners();
-  //   // });
-  //   var connection = await checkConnection();
-  //   if (connection) {
-  //     //if connection is ok
-  //     var response = await http.get(Uri.parse(
-  //         "$baseApi/home/home-search"));
+      setLoadingTrue();
 
-  //     if (response.statusCode == 201) {
-  //       var data = SearchBarWithDropdownServiceModel.fromJson(jsonDecode(response.body));
+      //if connection is ok
+      var response = await http.post(Uri.parse("$baseApi/home/home-search"),
+          body: data, headers: header);
 
-  //       setTotalPage(data.allServices.lastPage);
+      if (response.statusCode == 201) {
+        serviceMap = [];
+        var data = SearchBarWithDropdownServiceModel.fromJson(
+            jsonDecode(response.body));
+        print(data.serviceImage);
 
-  //       for (int i = 0; i < data.allServices.data.length; i++) {
-  //         var serviceImage;
+        for (int i = 0; i < data.services.length; i++) {
+          var serviceImage;
 
-  //         if (data.serviceImage.length > i) {
-  //           serviceImage = data.serviceImage[i].imgUrl;
-  //         } else {
-  //           serviceImage = null;
-  //         }
+          if (data.serviceImage.length > i) {
+            serviceImage = data.serviceImage[i].imgUrl;
+          } else {
+            serviceImage = null;
+          }
 
-  //         int totalRating = 0;
-  //         for (int j = 0;
-  //             j < data.allServices.data[i].reviewsForMobile.length;
-  //             j++) {
-  //           totalRating = totalRating +
-  //               data.allServices.data[i].reviewsForMobile[j].rating!.toInt();
-  //         }
-  //         double averageRate = 0;
+          int totalRating = 0;
+          for (int j = 0; j < data.services[i].reviewsForMobile.length; j++) {
+            totalRating = totalRating +
+                data.services[i].reviewsForMobile[j].rating!.toInt();
+          }
+          double averageRate = 0;
 
-  //         if (data.allServices.data[i].reviewsForMobile.isNotEmpty) {
-  //           averageRate = (totalRating /
-  //               data.allServices.data[i].reviewsForMobile.length);
-  //         }
-  //         averageRateList.add(averageRate);
-  //         imageList.add(serviceImage);
+          if (data.services[i].reviewsForMobile.isNotEmpty) {
+            averageRate =
+                (totalRating / data.services[i].reviewsForMobile.length);
+          }
+          setServiceList(
+              data.services[i].id,
+              data.services[i].title,
+              data.services[i].sellerForMobile.name,
+              data.services[i].price,
+              averageRate,
+              serviceImage,
+              i,
+              data.services[i].sellerId);
+        }
+        setLoadingFalse();
+        notifyListeners();
+      } else {
+        setLoadingFalse();
+        serviceMap = [];
+        print(response.body);
+        // serviceMap = [];
+        serviceMap.add('error');
+        //No more data
+        //Something went wrong
+        // serviceMap.add('error');
+        notifyListeners();
+        return false;
+      }
+    }
+  }
 
-  //       }
+  saveOrUnsave(
+      int serviceId,
+      String title,
+      String image,
+      int price,
+      String sellerName,
+      double rating,
+      int index,
+      BuildContext context,
+      sellerId) async {
+    var newListMap = serviceMap;
+    alreadySaved = await DbService().saveOrUnsave(
+        serviceId, title, image, price, sellerName, rating, context, sellerId);
+    newListMap[index]['isSaved'] = alreadySaved;
+    serviceMap = newListMap;
+    notifyListeners();
+  }
 
-  //       if (isrefresh) {
-  //         print('refresh true');
-  //         //if refreshed, then remove all service from list and insert new data
-  //         setServiceList(
-  //             data.allServices.data, averageRateList, imageList, false);
-  //       } else {
-  //         print('add new data');
+  setServiceList(
+      serviceId, title, sellerName, price, rating, image, index, sellerId) {
+    serviceMap.add({
+      'serviceId': serviceId,
+      'title': title,
+      'sellerName': sellerName,
+      'price': price,
+      'rating': rating,
+      'image': image,
+      'isSaved': false,
+      'sellerId': sellerId,
+    });
 
-  //         //else add new data
-  //         setServiceList(
-  //             data.allServices.data, averageRateList, imageList, true);
-  //       }
+    checkIfAlreadySaved(serviceId, title, sellerName, index);
+  }
 
-  //       currentPage++;
-  //       setCurrentPage(currentPage);
-  //       return true;
-  //     } else {
-  //       print(response.body);
-  //       // serviceMap = [];
-  //       serviceMap.add('error');
-  //       //No more data
-  //       //Something went wrong
-  //       // serviceMap.add('error');
-  //       // notifyListeners();
-  //       return false;
-  //     }
-  //   }
-  // }
-
-  //   saveOrUnsave(
-  //     int serviceId,
-  //     String title,
-  //     String image,
-  //     int price,
-  //     String sellerName,
-  //     double rating,
-  //     int index,
-  //     BuildContext context,
-  //     sellerId) async {
-  //   var newListMap = serviceMap;
-  //   alreadySaved = await DbService().saveOrUnsave(
-  //       serviceId, title, image, price, sellerName, rating, context, sellerId);
-  //   newListMap[index]['isSaved'] = alreadySaved;
-  //   serviceMap = newListMap;
-  //   notifyListeners();
-  // }
-
-  //   setServiceList(data, averageRateList, imageList, bool addnewData) {
-  //   if (addnewData == false) {
-  //     //make the list empty first so that existing data doesn't stay
-  //     serviceMap = [];
-  //     notifyListeners();
-  //   }
-
-  //   for (int i = 0; i < data.length; i++) {
-  //     serviceMap.add({
-  //       'serviceId': data[i].id,
-  //       'title': data[i].title,
-  //       'sellerName': data[i].sellerForMobile.name,
-  //       'price': data[i].price,
-  //       'rating': averageRateList[i],
-  //       'image': imageList[i],
-  //       'isSaved': false,
-  //       'sellerId': data[i].sellerId,
-  //     });
-  //     checkIfAlreadySaved(data[i].id, data[i].title,
-  //         data[i].sellerForMobile.name, serviceMap.length - 1);
-  //   }
-  // }
-
-  //   checkIfAlreadySaved(serviceId, title, sellerName, index) async {
-  //   var newListMap = serviceMap;
-  //   alreadySaved = await DbService().checkIfSaved(serviceId, title, sellerName);
-  //   newListMap[index]['isSaved'] = alreadySaved;
-  //   serviceMap = newListMap;
-  //   notifyListeners();
-  // }
-
+  checkIfAlreadySaved(serviceId, title, sellerName, index) async {
+    var newListMap = serviceMap;
+    alreadySaved = await DbService().checkIfSaved(serviceId, title, sellerName);
+    newListMap[index]['isSaved'] = alreadySaved;
+    serviceMap = newListMap;
+    notifyListeners();
+  }
 }
