@@ -7,6 +7,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer/view/auth/signup/components/email_name_fields.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
@@ -34,6 +35,46 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    fullNameController.text =
+        Provider.of<ProfileService>(context, listen: false)
+                .profileDetails
+                .userDetails
+                .name ??
+            '';
+    emailController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        '';
+
+    phoneController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '';
+    postCodeController.text =
+        Provider.of<ProfileService>(context, listen: false)
+                .profileDetails
+                .userDetails
+                .postCode ??
+            '';
+    addressController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .address ??
+        '';
+
+    addressController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .address ??
+        '';
+  }
 
   late AnimationController localAnimationController;
   XFile? pickedImage;
@@ -66,26 +107,34 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     height: 105,
                     child: Stack(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(5),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: pickedImage == null
-                                  ? Image.asset(
-                                      'assets/images/avatar.png',
-                                      height: 85,
-                                      width: 85,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Image.file(
-                                      File(pickedImage!.path),
-                                      height: 85,
-                                      width: 85,
-                                      fit: BoxFit.cover,
-                                    )),
+                        Consumer<ProfileService>(
+                          builder: (context, profileProvider, child) =>
+                              Container(
+                            width: 100,
+                            height: 100,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(5),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: pickedImage == null
+                                    ? profileProvider.profileImage != null
+                                        ? CommonHelper().profileImage(
+                                            profileProvider.profileImage,
+                                            85,
+                                            85)
+                                        : Image.asset(
+                                            'assets/images/avatar.png',
+                                            height: 85,
+                                            width: 85,
+                                            fit: BoxFit.cover,
+                                          )
+                                    : Image.file(
+                                        File(pickedImage!.path),
+                                        height: 85,
+                                        width: 85,
+                                        fit: BoxFit.cover,
+                                      )),
+                          ),
                         ),
                         Positioned(
                           bottom: 9,
@@ -114,43 +163,48 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 ),
 
                 //Email, name
-                //Name ============>
-                CommonHelper().labelCommon("Full name"),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //Name ============>
+                    CommonHelper().labelCommon("Full name"),
 
-                CustomInput(
-                  controller: fullNameController,
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your full name';
-                    }
-                    return null;
-                  },
-                  hintText: "Enter your full name",
-                  icon: 'assets/icons/user.png',
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                    CustomInput(
+                      controller: fullNameController,
+                      validation: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your full name';
+                        }
+                        return null;
+                      },
+                      hintText: "Enter your full name",
+                      icon: 'assets/icons/user.png',
+                      textInputAction: TextInputAction.next,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
 
-                //Email ============>
-                CommonHelper().labelCommon("Email"),
+                    //Email ============>
+                    CommonHelper().labelCommon("Email"),
 
-                CustomInput(
-                  controller: emailController,
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    return null;
-                  },
-                  hintText: "Enter your email",
-                  icon: 'assets/icons/email-grey.png',
-                  textInputAction: TextInputAction.next,
-                ),
+                    CustomInput(
+                      controller: emailController,
+                      validation: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
+                      hintText: "Enter your email",
+                      icon: 'assets/icons/email-grey.png',
+                      textInputAction: TextInputAction.next,
+                    ),
 
-                const SizedBox(
-                  height: 8,
+                    const SizedBox(
+                      height: 8,
+                    ),
+                  ],
                 ),
 
                 //phone
@@ -250,7 +304,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       postCodeController.text,
                       addressController.text,
                       aboutController.text,
-                      pickedImage!.path,
+                      pickedImage?.path,
                       context,
                     );
                     if (result == true || result == false) {
