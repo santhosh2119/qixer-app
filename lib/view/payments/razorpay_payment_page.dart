@@ -20,7 +20,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   // final TextEditingController description = TextEditingController();
   // final TextEditingController amount = TextEditingController();
 
-  late String amount;
+  String amount = '200';
   String name = 'saleheen';
   String phone = '54545133511';
   String email = 'test@test.com';
@@ -30,9 +30,9 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   @override
   void initState() {
     super.initState();
-    amount = Provider.of<BookConfirmationService>(context, listen: false)
-        .totalPriceAfterAllcalculation
-        .toString();
+    // amount = Provider.of<BookConfirmationService>(context, listen: false)
+    //     .totalPriceAfterAllcalculation
+    //     .toString();
     initializeRazorPay();
   }
 

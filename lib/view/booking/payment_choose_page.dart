@@ -145,7 +145,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                         }),
                                       ],
                                     ),
-                                    btProvider.images != null
+                                    btProvider.pickedImage != null
                                         ? Column(
                                             children: [
                                               const SizedBox(
@@ -159,35 +159,33 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                                       Axis.horizontal,
                                                   shrinkWrap: true,
                                                   children: [
-                                                    for (int i = 0;
-                                                        i <
-                                                            btProvider
-                                                                .images!.length;
-                                                        i++)
-                                                      InkWell(
-                                                        onTap: () {},
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          10),
-                                                              child: Image.file(
-                                                                // File(provider.images[i].path),
-                                                                File(btProvider
-                                                                    .images![i]
-                                                                    .path),
-                                                                height: 80,
-                                                                width: 80,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
+                                                    // for (int i = 0;
+                                                    //     i <
+                                                    //         btProvider
+                                                    //             .images!.length;
+                                                    //     i++)
+                                                    InkWell(
+                                                      onTap: () {},
+                                                      child: Column(
+                                                        children: [
+                                                          Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 10),
+                                                            child: Image.file(
+                                                              // File(provider.images[i].path),
+                                                              File(btProvider
+                                                                  .pickedImage
+                                                                  .path),
+                                                              height: 80,
+                                                              width: 80,
+                                                              fit: BoxFit.cover,
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -242,13 +240,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                             paymentList[selectedMethod].methodName ==
                                     'bank_transfer'
                                 ? Provider.of<BankTransferService>(context,
-                                                listen: false)
-                                            .images !=
-                                        null
-                                    ? Provider.of<BankTransferService>(context,
-                                            listen: false)
-                                        .images[0]
-                                    : null
+                                        listen: false)
+                                    .pickedImage
                                 : null);
                       }
                     }, isloading: provider.isloading == false ? false : true)

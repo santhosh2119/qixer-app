@@ -24,10 +24,7 @@ class CashfreeService {
     String orderCurrency = "INR";
     var data = jsonEncode({
       'orderId': orderId,
-      'orderAmount':
-          Provider.of<BookConfirmationService>(context, listen: false)
-              .totalPriceAfterAllcalculation
-              .toString(),
+      'orderAmount': '6000',
       'orderCurrency': orderCurrency
     });
 
@@ -85,9 +82,7 @@ class CashfreeService {
     CashfreePGSDK.doPayment(
       inputParams,
     ).then((value) {
-      print('cashfree payment successfull');
-      Provider.of<PlaceOrderService>(context, listen: false)
-          .placeOrder(context, null);
+      print('cashfree payment result $value');
     });
   }
 }

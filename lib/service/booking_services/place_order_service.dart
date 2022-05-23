@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/view/booking/payment_success_page.dart';
 import 'package:qixer/view/home/home.dart';
+import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -140,12 +143,23 @@ class PlaceOrderService with ChangeNotifier {
     if (response.statusCode == 201) {
       OthersHelper().showToast('Order placed successfully', Colors.black);
       print(response.data);
+
       Navigator.pushReplacement<void, void>(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => const Homepage(),
+          builder: (BuildContext context) => const LandingPage(),
         ),
       );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const PaymentSuccessPage(),
+        ),
+      );
+
+      //reset steps
+      Provider.of<BookStepsService>(context, listen: false).setStepsToDefault();
     } else {
       print(response.data);
       OthersHelper().showToast('Something went wrong', Colors.black);

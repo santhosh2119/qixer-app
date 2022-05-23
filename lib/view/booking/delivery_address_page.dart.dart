@@ -167,15 +167,15 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   icon: 'assets/icons/email-grey.png',
                                   textInputAction: TextInputAction.next,
                                 ),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                CommonHelper().labelCommon("Order note"),
+                                // const SizedBox(
+                                //   height: 2,
+                                // ),
+                                // CommonHelper().labelCommon("Order note"),
 
-                                TextareaField(
-                                  hintText: 'e.g. come with ideal brushes...',
-                                  notesController: notesController,
-                                ),
+                                // TextareaField(
+                                //   hintText: 'e.g. come with ideal brushes...',
+                                //   notesController: notesController,
+                                // ),
                                 const SizedBox(
                                   height: 135,
                                 ),
