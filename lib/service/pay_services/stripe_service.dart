@@ -36,7 +36,7 @@ class StripeService with ChangeNotifier {
           .then((newValue) async {
         print('stripe payment successfull');
         Provider.of<PlaceOrderService>(context, listen: false)
-            .placeOrder(context);
+            .placeOrder(context, null);
         // print('payment id' + paymentIntentData!['id'].toString());
         // print('payment client secret' +
         //     paymentIntentData!['client_secret'].toString());

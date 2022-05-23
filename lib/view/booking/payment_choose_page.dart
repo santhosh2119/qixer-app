@@ -236,7 +236,20 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                             Colors.black);
                       } else {
                         payAction(
-                            paymentList[selectedMethod].methodName, context);
+                            paymentList[selectedMethod].methodName,
+                            context,
+                            //if user selected bank transfer
+                            paymentList[selectedMethod].methodName ==
+                                    'bank_transfer'
+                                ? Provider.of<BankTransferService>(context,
+                                                listen: false)
+                                            .images !=
+                                        null
+                                    ? Provider.of<BankTransferService>(context,
+                                            listen: false)
+                                        .images[0]
+                                    : null
+                                : null);
                       }
                     }, isloading: provider.isloading == false ? false : true)
                   ]),

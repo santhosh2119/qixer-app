@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
@@ -7,6 +8,7 @@ import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/view/home/home.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,7 +25,7 @@ class PlaceOrderService with ChangeNotifier {
     notifyListeners();
   }
 
-  placeOrder(BuildContext context) async {
+  placeOrder(BuildContext context, String? imagePath) async {
     setLoadingTrue();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -78,41 +80,75 @@ class PlaceOrderService with ChangeNotifier {
       });
     }
 
-    var data = jsonEncode({
-      'service_id': serviceId,
-      'seller_id': sellerId,
-      'buyer_id': buyerId,
-      'name': name,
-      'email': email,
-      'phone': phone, //amount he paid in bkash ucash etc
-      'post_code': post,
-      'address': address,
-      'choose_service_city': city,
-      'choose_service_area': area,
-      'choose_service_country': country,
-      'date': selectedDate,
-      'schedule': schedule,
-      'include_services': includesList,
-      'additional_services': extrasList,
-      'coupon_code': coupon,
-      'selected_payment_gateway': selectedPaymentGateway,
-    });
+    var formData;
+    var dio = Dio();
+    dio.options.headers['Content-Type'] = 'multipart/form-data';
+    dio.options.headers['Accept'] = 'application/json';
 
-    var header = {
-      //if header type is application/json then the data should be in jsonEncode method
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    };
-
-    var response = await http.post(Uri.parse('$baseApi/service/order'),
-        body: data, headers: header);
-
-    if (response.statusCode == 201) {
-      setLoadingFalse();
-      OthersHelper().showToast('Order Placed', Colors.black);
+    if (imagePath != null) {
+      //if manual transfer selected then image upload is mandatory
+      formData = FormData.fromMap({
+        'service_id': serviceId.toString(),
+        'seller_id': sellerId.toString(),
+        'buyer_id': buyerId.toString(),
+        'name': name,
+        'email': email,
+        'phone': phone, //amount he paid in bkash ucash etc
+        'post_code': post,
+        'address': address,
+        'choose_service_city': city.toString(),
+        'choose_service_area': area.toString(),
+        'choose_service_country': country.toString(),
+        'date': selectedDate.toString(),
+        'schedule': schedule.toString(),
+        'include_services': jsonEncode({"include_services": includesList}),
+        'additional_services': jsonEncode({"additional_services": extrasList}),
+        'coupon_code': coupon.toString(),
+        'selected_payment_gateway': selectedPaymentGateway.toString(),
+        'manual_payment_image': await MultipartFile.fromFile(imagePath,
+            filename: 'bankTransfer$name$address$imagePath.jpg'),
+      });
     } else {
-      print(response.body);
-      setLoadingFalse();
+      //other payment method selected
+      formData = FormData.fromMap({
+        'service_id': serviceId.toString(),
+        'seller_id': sellerId.toString(),
+        'buyer_id': buyerId.toString(),
+        'name': name,
+        'email': email,
+        'phone': phone, //amount he paid in bkash ucash etc
+        'post_code': post,
+        'address': address,
+        'choose_service_city': city.toString(),
+        'choose_service_area': area.toString(),
+        'choose_service_country': country.toString(),
+        'date': selectedDate.toString(),
+        'schedule': schedule.toString(),
+        'include_services': jsonEncode({"include_services": includesList}),
+        'additional_services': jsonEncode({"additional_services": extrasList}),
+        'coupon_code': coupon.toString(),
+        'selected_payment_gateway': selectedPaymentGateway.toString(),
+      });
+    }
+
+    var response = await dio.post(
+      '$baseApi/service/order',
+      data: formData,
+    );
+
+    setLoadingFalse();
+    if (response.statusCode == 201) {
+      OthersHelper().showToast('Order placed successfully', Colors.black);
+      print(response.data);
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const Homepage(),
+        ),
+      );
+    } else {
+      print(response.data);
+      OthersHelper().showToast('Something went wrong', Colors.black);
     }
 
     //

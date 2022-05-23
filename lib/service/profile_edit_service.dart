@@ -75,7 +75,7 @@ class ProfileEditService with ChangeNotifier {
       });
     }
     var response = await dio.post(
-      'https://nazmul.xgenious.com/qixer_with_api/api/v1/user/update-profile',
+      '$baseApi/user/update-profile',
       data: formData,
     );
 

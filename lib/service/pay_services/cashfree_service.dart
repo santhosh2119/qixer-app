@@ -87,7 +87,7 @@ class CashfreeService {
     ).then((value) {
       print('cashfree payment successfull');
       Provider.of<PlaceOrderService>(context, listen: false)
-          .placeOrder(context);
+          .placeOrder(context, null);
     });
   }
 }

@@ -65,7 +65,8 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print("Payment Sucessfull");
 
-    Provider.of<PlaceOrderService>(context, listen: false).placeOrder(context);
+    Provider.of<PlaceOrderService>(context, listen: false)
+        .placeOrder(context, null);
 
     // print(
     //     "${response.orderId} \n${response.paymentId} \n${response.signature}");
