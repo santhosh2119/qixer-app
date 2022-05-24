@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/auth_services/facebook_login_service.dart';
 import 'package:qixer/service/auth_services/google_sign_service.dart';
 import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/view/auth/login/login_helper.dart';
@@ -383,7 +384,11 @@ class _LoginPageState extends State<LoginPage> {
                         height: 20,
                       ),
                       InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Provider.of<FacebookLoginService>(context,
+                                    listen: false)
+                                .checkIfLoggedIn();
+                          },
                           child: LoginHelper().commonButton(
                               'assets/icons/facebook.png',
                               "Login with Facebook")),
