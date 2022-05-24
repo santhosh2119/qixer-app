@@ -376,7 +376,7 @@ class _LoginPageState extends State<LoginPage> {
                           onTap: () {
                             Provider.of<GoogleSignInService>(context,
                                     listen: false)
-                                .googleLogin();
+                                .googleLogin(context);
                           },
                           child: LoginHelper().commonButton(
                               'assets/icons/google.png', "Login with Google")),
