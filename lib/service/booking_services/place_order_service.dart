@@ -144,12 +144,9 @@ class PlaceOrderService with ChangeNotifier {
       OthersHelper().showToast('Order placed successfully', Colors.black);
       print(response.data);
 
-      Navigator.pushReplacement<void, void>(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => const LandingPage(),
-        ),
-      );
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LandingPage()),
+          (Route<dynamic> route) => false);
 
       Navigator.push(
         context,

@@ -336,62 +336,62 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       //Divider (or)
-                      // const SizedBox(
-                      //   height: 30,
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   children: [
-                      //     Expanded(
-                      //         child: Container(
-                      //       height: 1,
-                      //       color: cc.greyFive,
-                      //     )),
-                      //     Container(
-                      //       width: 40,
-                      //       alignment: Alignment.center,
-                      //       margin: const EdgeInsets.only(bottom: 25),
-                      //       child: Text(
-                      //         "OR",
-                      //         style: TextStyle(
-                      //             color: cc.greyPrimary,
-                      //             fontSize: 17,
-                      //             fontWeight: FontWeight.w600),
-                      //       ),
-                      //     ),
-                      //     Expanded(
-                      //         child: Container(
-                      //       height: 1,
-                      //       color: cc.greyFive,
-                      //     )),
-                      //   ],
-                      // ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Container(
+                            height: 1,
+                            color: cc.greyFive,
+                          )),
+                          Container(
+                            width: 40,
+                            alignment: Alignment.center,
+                            margin: const EdgeInsets.only(bottom: 25),
+                            child: Text(
+                              "OR",
+                              style: TextStyle(
+                                  color: cc.greyPrimary,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Expanded(
+                              child: Container(
+                            height: 1,
+                            color: cc.greyFive,
+                          )),
+                        ],
+                      ),
 
-                      // //login with google, facebook button ===========>
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
-                      // InkWell(
-                      //     onTap: () {
-                      //       Provider.of<GoogleSignInService>(context,
-                      //               listen: false)
-                      //           .googleLogin(context);
-                      //     },
-                      //     child: LoginHelper().commonButton(
-                      //         'assets/icons/google.png', "Login with Google")),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
-                      // InkWell(
-                      //     onTap: () {
-                      //       Provider.of<FacebookLoginService>(context,
-                      //               listen: false)
-                      //           .checkIfLoggedIn();
-                      //     },
-                      //     child: LoginHelper().commonButton(
-                      //         'assets/icons/facebook.png',
-                      //         "Login with Facebook")),
+                      //login with google, facebook button ===========>
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Provider.of<GoogleSignInService>(context,
+                                    listen: false)
+                                .googleLogin(context);
+                          },
+                          child: LoginHelper().commonButton(
+                              'assets/icons/google.png', "Login with Google")),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Provider.of<FacebookLoginService>(context,
+                                    listen: false)
+                                .checkIfLoggedIn();
+                          },
+                          child: LoginHelper().commonButton(
+                              'assets/icons/facebook.png',
+                              "Login with Facebook")),
 
                       const SizedBox(
                         height: 30,
