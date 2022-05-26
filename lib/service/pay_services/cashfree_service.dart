@@ -83,6 +83,13 @@ class CashfreeService {
       inputParams,
     ).then((value) {
       print('cashfree payment result $value');
+      if (value != null) {
+        if (value['txStatus'] == "SUCCESS") {
+          print('Cashfree Payment successfull. Do something here');
+          Provider.of<PlaceOrderService>(context, listen: false)
+              .placeOrder(context, null);
+        }
+      }
     });
   }
 }

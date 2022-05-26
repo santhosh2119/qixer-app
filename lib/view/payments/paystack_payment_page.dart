@@ -34,7 +34,9 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
 
   @override
   void initState() {
-    plugin.initialize(publicKey: paystackPublicKey);
+    plugin.initialize(
+      publicKey: paystackPublicKey,
+    );
     super.initState();
   }
 
@@ -243,11 +245,12 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
       return;
     }
 
+    print('response status is ${response.status}');
+
     // The transaction failed. Checking if we should verify the transaction
     if (response.verify) {
       _verifyOnServer(reference);
     } else {
-      print('payment successfull');
       setState(() => _inProgress = false);
       _updateStatus(reference, response.message);
     }
