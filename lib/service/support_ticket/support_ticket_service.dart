@@ -42,6 +42,7 @@ class SupportTicketService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
+      //TODO change userId here
       var response = await http
           .get(Uri.parse("$baseApi/support-tickets/5?page=$currentPage"));
 

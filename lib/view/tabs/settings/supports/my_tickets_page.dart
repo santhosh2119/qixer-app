@@ -2,14 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/tabs/orders/orders_helper.dart';
 import 'package:qixer/view/tabs/settings/supports/ticket_chat_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
-
-import '../../../utils/others_helper.dart';
 
 class MyTicketsPage extends StatefulWidget {
   const MyTicketsPage({Key? key}) : super(key: key);
@@ -124,9 +123,22 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                                       MaterialPageRoute<void>(
                                                         builder: (BuildContext
                                                                 context) =>
-                                                            const TicketChatPage(),
+                                                            TicketChatPage(
+                                                          title: provider
+                                                              .ticketList[i]
+                                                              .title,
+                                                          ticketId: provider
+                                                              .ticketList[i].id,
+                                                        ),
                                                       ),
                                                     );
+
+                                                    //fetch message
+                                                    Provider.of<SupportMessagesService>(
+                                                            context,
+                                                            listen: false)
+                                                        .fetchMessages(provider
+                                                            .ticketList[i].id);
                                                   },
                                                   value: index,
                                                   child: const Text('Chat'),
@@ -169,7 +181,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                           ],
                         ),
                       )
-                    : CommonHelper().nothingfound(context, "No active order")),
+                    : CommonHelper().nothingfound(context, "No ticket")),
           ),
         ));
   }
