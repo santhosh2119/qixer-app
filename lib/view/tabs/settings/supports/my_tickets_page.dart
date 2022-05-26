@@ -81,102 +81,99 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             for (int i = 0; i < provider.ticketList.length; i++)
-                              Container(
-                                alignment: Alignment.center,
-                                margin: const EdgeInsets.only(
-                                  top: 20,
-                                  bottom: 3,
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 15),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: cc.borderColor),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          AutoSizeText(
-                                            '#${provider.ticketList[i].id}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: cc.primaryColor,
+                              InkWell(
+                                onTap: () {
+                                  provider.goToMessagePage(
+                                      context,
+                                      provider.ticketList[i].title,
+                                      provider.ticketList[i].id);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 3,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 15),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: cc.borderColor),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            AutoSizeText(
+                                              '#${provider.ticketList[i].id}',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: cc.primaryColor,
+                                              ),
                                             ),
-                                          ),
-                                          // put the hamburger icon here
-                                          PopupMenuButton(
-                                            // initialValue: 2,
-                                            child: const Icon(Icons.more_vert),
-                                            itemBuilder: (context) {
-                                              return List.generate(1, (index) {
-                                                return PopupMenuItem(
-                                                  onTap: () async {
-                                                    await Future.delayed(
-                                                        Duration.zero);
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute<void>(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            TicketChatPage(
-                                                          title: provider
-                                                              .ticketList[i]
+                                            // put the hamburger icon here
+                                            PopupMenuButton(
+                                              // initialValue: 2,
+                                              child:
+                                                  const Icon(Icons.more_vert),
+                                              itemBuilder: (context) {
+                                                return List.generate(1,
+                                                    (index) {
+                                                  return PopupMenuItem(
+                                                    onTap: () async {
+                                                      await Future.delayed(
+                                                          Duration.zero);
+                                                      provider.goToMessagePage(
+                                                          context,
+                                                          provider.ticketList[i]
                                                               .title,
-                                                          ticketId: provider
-                                                              .ticketList[i].id,
-                                                        ),
-                                                      ),
-                                                    );
+                                                          provider.ticketList[i]
+                                                              .id);
+                                                    },
+                                                    value: index,
+                                                    child: const Text('Chat'),
+                                                  );
+                                                });
+                                              },
+                                            )
+                                          ],
+                                        ),
 
-                                                    //fetch message
-                                                    Provider.of<SupportMessagesService>(
-                                                            context,
-                                                            listen: false)
-                                                        .fetchMessages(provider
-                                                            .ticketList[i].id);
-                                                  },
-                                                  value: index,
-                                                  child: const Text('Chat'),
-                                                );
-                                              });
-                                            },
-                                          )
-                                        ],
-                                      ),
+                                        //Ticket title
+                                        const SizedBox(
+                                          height: 7,
+                                        ),
+                                        CommonHelper().titleCommon(
+                                            provider.ticketList[i].title),
 
-                                      //Ticket title
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      CommonHelper().titleCommon(
-                                          provider.ticketList[i].title),
-
-                                      //Divider
-                                      Container(
-                                        margin: const EdgeInsets.only(
-                                            top: 17, bottom: 12),
-                                        child: CommonHelper().dividerCommon(),
-                                      ),
-                                      //Capsules
-                                      Row(
-                                        children: [
-                                          OrdersHelper().statusCapsule(
-                                              provider.ticketList[i].priority,
-                                              cc.greyThree),
-                                          const SizedBox(
-                                            width: 11,
-                                          ),
-                                          OrdersHelper().statusCapsuleBordered(
-                                              provider.ticketList[i].status,
-                                              cc.greyParagraph),
-                                        ],
-                                      )
-                                    ]),
+                                        //Divider
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 17, bottom: 12),
+                                          child: CommonHelper().dividerCommon(),
+                                        ),
+                                        //Capsules
+                                        Row(
+                                          children: [
+                                            OrdersHelper().statusCapsule(
+                                                provider.ticketList[i].priority,
+                                                cc.greyThree),
+                                            const SizedBox(
+                                              width: 11,
+                                            ),
+                                            OrdersHelper()
+                                                .statusCapsuleBordered(
+                                                    provider
+                                                        .ticketList[i].status,
+                                                    cc.greyParagraph),
+                                          ],
+                                        )
+                                      ]),
+                                ),
                               )
                           ],
                         ),

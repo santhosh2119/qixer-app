@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/view/tabs/settings/supports/support_ticket_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
-class TicketChatPage extends StatelessWidget {
+class TicketChatPage extends StatefulWidget {
   const TicketChatPage({Key? key, required this.title, required this.ticketId})
       : super(key: key);
 
@@ -13,23 +14,26 @@ class TicketChatPage extends StatelessWidget {
   final ticketId;
 
   @override
+  State<TicketChatPage> createState() => _TicketChatPageState();
+}
+
+class _TicketChatPageState extends State<TicketChatPage> {
+  bool firstTimeLoading = true;
+
+  TextEditingController sendMessageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent + 10,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
-
-    // List<ChatMessage> messages = [
-    //   ChatMessage(messageContent: "Hi", messageType: "sender"),
-    //   ChatMessage(messageContent: "I need help", messageType: "sender"),
-    //   ChatMessage(
-    //       messageContent:
-    //           "Hello there, if you need any assistance, I am always here",
-    //       messageType: "receiver"),
-    //   ChatMessage(
-    //       messageContent:
-    //           "I placed an order 3 days ago.But I didn't receive my order yet",
-    //       messageType: "sender"),
-    //   ChatMessage(
-    //       messageContent: "What is your order number", messageType: "receiver"),
-    // ];
 
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +80,7 @@ class TicketChatPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        title,
+                        widget.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -86,7 +90,7 @@ class TicketChatPage extends StatelessWidget {
                         height: 4,
                       ),
                       Text(
-                        "#$ticketId",
+                        "#${widget.ticketId}",
                         style: TextStyle(color: cc.primaryColor, fontSize: 13),
                       ),
                     ],
@@ -101,113 +105,128 @@ class TicketChatPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Consumer<SupportMessagesService>(
-        builder: (context, provider, child) => Stack(
+      body:
+          Consumer<SupportMessagesService>(builder: (context, provider, child) {
+        if (provider.messagesList.isNotEmpty && provider.sendLoading == false) {
+          Future.delayed(Duration(milliseconds: 500), () {
+            _scrollDown();
+          });
+        }
+        return Stack(
           children: <Widget>[
             provider.isloading == false
                 ?
                 //chat messages
-                ListView.builder(
-                    itemCount: provider.messagesList.length,
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment:
-                            provider.messagesList[index].type == "seller"
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end,
-                        children: [
-                          //small show profile pic
-                          provider.messagesList[index].type == "seller"
-                              ? Container(
-                                  margin: const EdgeInsets.only(
-                                    left: 13,
-                                  ),
-                                  width: 18,
-                                  height: 18,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white),
-                                  child: ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/logo.png',
-                                    ),
-                                  ),
-                                )
-                              : Container(),
-                          //the message
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  left: provider.messagesList[index].type ==
-                                          "seller"
-                                      ? 90
-                                      : 10,
-                                  right: provider.messagesList[index].type ==
-                                          "seller"
-                                      ? 90
-                                      : 10,
-                                  top: 10,
-                                  bottom: 10),
-                              child: Align(
-                                alignment: (provider.messagesList[index].type ==
-                                        "seller"
-                                    ? Alignment.topLeft
-                                    : Alignment.topRight),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: (provider.messagesList[index].type ==
+                Container(
+                    margin: const EdgeInsets.only(bottom: 60),
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: provider.messagesList.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      physics: physicsCommon,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          mainAxisAlignment:
+                              provider.messagesList[index]['type'] == "seller"
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.end,
+                          children: [
+                            //small show profile pic
+                            // provider.messagesList[index].type == "seller"
+                            //     ? Container(
+                            //         margin: const EdgeInsets.only(
+                            //           left: 13,
+                            //         ),
+                            //         width: 18,
+                            //         height: 18,
+                            //         decoration: const BoxDecoration(
+                            //             shape: BoxShape.circle,
+                            //             color: Colors.white),
+                            //         child: ClipRRect(
+                            //           child: Image.asset(
+                            //             'assets/images/logo.png',
+                            //           ),
+                            //         ),
+                            //       )
+                            //     : Container(),
+                            //the message
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: provider.messagesList[index]
+                                                ['type'] ==
                                             "seller"
-                                        ? Colors.grey.shade200
-                                        : cc.primaryColor),
-                                  ),
-                                  padding: const EdgeInsets.all(16),
-                                  child: Text(
-                                    SupportTicketHelper().removePTag(
-                                        provider.messagesList[index].message),
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: (provider
-                                                    .messagesList[index].type ==
-                                                "seller"
-                                            ? Colors.grey[800]
-                                            : Colors.white)),
+                                        ? 10
+                                        : 90,
+                                    right: provider.messagesList[index]
+                                                ['type'] ==
+                                            "seller"
+                                        ? 90
+                                        : 10,
+                                    top: 10,
+                                    bottom: 10),
+                                child: Align(
+                                  alignment: (provider.messagesList[index]
+                                              ['type'] ==
+                                          "seller"
+                                      ? Alignment.topLeft
+                                      : Alignment.topRight),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: (provider.messagesList[index]
+                                                  ['type'] ==
+                                              "seller"
+                                          ? Colors.grey.shade200
+                                          : cc.primaryColor),
+                                    ),
+                                    padding: const EdgeInsets.all(16),
+                                    child: Text(
+                                      SupportTicketHelper().removePTag(provider
+                                          .messagesList[index]['message']),
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: (provider.messagesList[index]
+                                                      ['type'] ==
+                                                  "seller"
+                                              ? Colors.grey[800]
+                                              : Colors.white)),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          provider.messagesList[index].type == "seller"
-                              ? Container(
-                                  margin: const EdgeInsets.only(
-                                    right: 13,
-                                  ),
-                                  width: 15,
-                                  height: 15,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Image.network(
-                                      'https://cdn.pixabay.com/photo/2016/09/08/13/58/desert-1654439__340.jpg',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                )
-                              : Container(),
-                        ],
-                      );
-                    },
+                            // provider.messagesList[index].type == "seller"
+                            //     ? Container(
+                            //         margin: const EdgeInsets.only(
+                            //           right: 13,
+                            //         ),
+                            //         width: 15,
+                            //         height: 15,
+                            //         decoration: const BoxDecoration(
+                            //             shape: BoxShape.circle,
+                            //             color: Colors.white),
+                            //         child: ClipRRect(
+                            //           borderRadius: BorderRadius.circular(100),
+                            //           child: Image.network(
+                            //             'https://cdn.pixabay.com/photo/2016/09/08/13/58/desert-1654439__340.jpg',
+                            //             fit: BoxFit.cover,
+                            //           ),
+                            //         ),
+                            //       )
+                            //     : Container(),
+                          ],
+                        );
+                      },
+                    ),
                   )
                 : OthersHelper().showLoading(cc.primaryColor),
+
             //write message section
             Align(
               alignment: Alignment.bottomLeft,
@@ -222,9 +241,10 @@ class TicketChatPage extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    const Expanded(
+                    Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: sendMessageController,
+                        decoration: const InputDecoration(
                             hintText: "Write message...",
                             hintStyle: TextStyle(color: Colors.black54),
                             border: InputBorder.none),
@@ -234,12 +254,32 @@ class TicketChatPage extends StatelessWidget {
                       width: 15,
                     ),
                     FloatingActionButton(
-                      onPressed: () {},
-                      child: const Icon(
-                        Icons.send,
-                        color: Colors.white,
-                        size: 18,
-                      ),
+                      onPressed: () async {
+                        if (sendMessageController.text.isNotEmpty) {
+                          //hide keyboard
+                          FocusScope.of(context).unfocus();
+                          //send message
+                          provider.sendMessage(
+                              widget.ticketId, sendMessageController.text);
+
+                          //clear input field
+                          sendMessageController.clear();
+                        }
+                      },
+                      child: provider.sendLoading == false
+                          ? const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 18,
+                            )
+                          : const SizedBox(
+                              height: 14,
+                              width: 14,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 1.5,
+                              ),
+                            ),
                       backgroundColor: cc.primaryColor,
                       elevation: 0,
                     ),
@@ -248,14 +288,8 @@ class TicketChatPage extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }
-
-// class ChatMessage {
-//   String messageContent;
-//   String messageType;
-//   ChatMessage({required this.messageContent, required this.messageType});
-// }

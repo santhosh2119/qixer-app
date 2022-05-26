@@ -1,12 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/model/ticket_list_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../view/tabs/settings/supports/ticket_chat_page.dart';
 
 class SupportTicketService with ChangeNotifier {
   var ticketList = [];
@@ -82,5 +86,21 @@ class SupportTicketService with ChangeNotifier {
 
     ticketList = dataList;
     notifyListeners();
+  }
+
+  goToMessagePage(BuildContext context, title, id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => TicketChatPage(
+          title: title,
+          ticketId: id,
+        ),
+      ),
+    );
+
+    //fetch message
+    Provider.of<SupportMessagesService>(context, listen: false)
+        .fetchMessages(id);
   }
 }
