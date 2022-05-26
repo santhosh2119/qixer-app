@@ -1,5 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -87,8 +89,14 @@ class PaypalPaymentState extends State<PaypalPayment> {
     ];
 
     // checkout invoice details
-    String totalAmount = '2.11';
-    String subTotalAmount = '2.11';
+    String totalAmount =
+        Provider.of<BookConfirmationService>(context, listen: false)
+            .totalPriceAfterAllcalculation
+            .toString();
+    String subTotalAmount =
+        Provider.of<BookConfirmationService>(context, listen: false)
+            .totalPriceAfterAllcalculation
+            .toString();
     String shippingCost = '0';
     int shippingDiscountCost = 0;
     String userFirstName = 'Gulshan';

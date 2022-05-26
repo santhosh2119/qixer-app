@@ -10,6 +10,10 @@ class BookStepsService with ChangeNotifier {
     notifyListeners();
   }
 
+  setStepsToDefault() {
+    currentStep = 1;
+  }
+
   // setCurrentStepOne() {
   //   currentStep = 1;
   //   Future.delayed(

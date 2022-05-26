@@ -167,15 +167,15 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   icon: 'assets/icons/email-grey.png',
                                   textInputAction: TextInputAction.next,
                                 ),
-                                const SizedBox(
-                                  height: 2,
-                                ),
-                                CommonHelper().labelCommon("Order note"),
+                                // const SizedBox(
+                                //   height: 2,
+                                // ),
+                                // CommonHelper().labelCommon("Order note"),
 
-                                TextareaField(
-                                  hintText: 'e.g. come with ideal brushes...',
-                                  notesController: notesController,
-                                ),
+                                // TextareaField(
+                                //   hintText: 'e.g. come with ideal brushes...',
+                                //   notesController: notesController,
+                                // ),
                                 const SizedBox(
                                   height: 135,
                                 ),
@@ -197,23 +197,24 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonHelper().buttonOrange("Next", () {
-                        if (_formKey.currentState!.validate()) {}
-                        //increase page steps by one
-                        BookStepsService().onNext(context);
-                        //set delivery address informations so that we can use it later
-                        Provider.of<BookService>(context, listen: false)
-                            .setAddress(
-                                userNameController.text,
-                                emailController.text,
-                                phoneController.text,
-                                postCodeController.text,
-                                addressController.text,
-                                notesController.text);
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: const BookConfirmationPage()));
+                        if (_formKey.currentState!.validate()) {
+                          //increase page steps by one
+                          BookStepsService().onNext(context);
+                          //set delivery address informations so that we can use it later
+                          Provider.of<BookService>(context, listen: false)
+                              .setAddress(
+                                  userNameController.text,
+                                  emailController.text,
+                                  phoneController.text,
+                                  postCodeController.text,
+                                  addressController.text,
+                                  notesController.text);
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: const BookConfirmationPage()));
+                        }
                       }),
                     ]),
               )

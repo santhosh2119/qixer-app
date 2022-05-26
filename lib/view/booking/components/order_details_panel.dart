@@ -240,24 +240,31 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                                             top: 15, bottom: 12),
                                         child: CommonHelper().dividerCommon(),
                                       ),
+
+                                      //Coupon ===>
+
+                                      Consumer<CouponService>(
+                                        builder:
+                                            (context, couponService, child) =>
+                                                BookingHelper().detailsPanelRow(
+                                                    'Coupon',
+                                                    0,
+                                                    couponService.couponDiscount
+                                                        .toString()),
+                                      ),
+
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 15, bottom: 12),
+                                        child: CommonHelper().dividerCommon(),
+                                      ),
                                     ],
                                   ),
                                 )
                               : Container(),
 
-                          //Coupon ===>
-
-                          Consumer<CouponService>(
-                            builder: (context, couponService, child) =>
-                                BookingHelper().detailsPanelRow('Coupon', 0,
-                                    couponService.couponDiscount.toString()),
-                          ),
-
                           //total ===>
-                          Container(
-                            margin: const EdgeInsets.only(top: 15, bottom: 12),
-                            child: CommonHelper().dividerCommon(),
-                          ),
+
                           BookingHelper().detailsPanelRow(
                               'Total',
                               0,

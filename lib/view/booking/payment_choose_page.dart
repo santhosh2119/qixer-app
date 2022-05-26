@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
-import 'package:qixer/service/pay_services/payment_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+
+import '../../service/book_confirmation_service.dart';
 
 class PaymentChoosePage extends StatefulWidget {
   const PaymentChoosePage({Key? key}) : super(key: key);
@@ -40,7 +43,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
           physics: physicsCommon,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: screenPadding),
-            child: Consumer<PaymentService>(
+            child: Consumer<PlaceOrderService>(
               builder: (context, provider, child) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -49,8 +52,14 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                       margin: const EdgeInsets.only(bottom: 20),
                       child: CommonHelper().dividerCommon(),
                     ),
-                    BookingHelper()
-                        .detailsPanelRow('Total Payable', 0, '237.6'),
+                    Consumer<BookConfirmationService>(
+                      builder: (context, bcProvider, child) => BookingHelper()
+                          .detailsPanelRow(
+                              'Total Payable',
+                              0,
+                              bcProvider.totalPriceAfterAllcalculation
+                                  .toString()),
+                    ),
 
                     //border
                     Container(
@@ -78,6 +87,11 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                             setState(() {
                               selectedMethod = index;
                             });
+
+                            //save selected payment method name
+                            Provider.of<BookService>(context, listen: false)
+                                .setSelectedPayment(
+                                    paymentList[selectedMethod].methodName);
                           },
                           child: Stack(
                             clipBehavior: Clip.none,
@@ -131,7 +145,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                         }),
                                       ],
                                     ),
-                                    btProvider.images != null
+                                    btProvider.pickedImage != null
                                         ? Column(
                                             children: [
                                               const SizedBox(
@@ -145,35 +159,33 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                                       Axis.horizontal,
                                                   shrinkWrap: true,
                                                   children: [
-                                                    for (int i = 0;
-                                                        i <
-                                                            btProvider
-                                                                .images!.length;
-                                                        i++)
-                                                      InkWell(
-                                                        onTap: () {},
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right:
-                                                                          10),
-                                                              child: Image.file(
-                                                                // File(provider.images[i].path),
-                                                                File(btProvider
-                                                                    .images![i]
-                                                                    .path),
-                                                                height: 80,
-                                                                width: 80,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
+                                                    // for (int i = 0;
+                                                    //     i <
+                                                    //         btProvider
+                                                    //             .images!.length;
+                                                    //     i++)
+                                                    InkWell(
+                                                      onTap: () {},
+                                                      child: Column(
+                                                        children: [
+                                                          Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 10),
+                                                            child: Image.file(
+                                                              // File(provider.images[i].path),
+                                                              File(btProvider
+                                                                  .pickedImage
+                                                                  .path),
+                                                              height: 80,
+                                                              width: 80,
+                                                              fit: BoxFit.cover,
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -221,20 +233,18 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                             'You must agree with the terms and conditions to place the order',
                             Colors.black);
                       } else {
-                        // provider.setLoadingTrue();
-
                         payAction(
-                            paymentList[selectedMethod].methodName, context);
+                            paymentList[selectedMethod].methodName,
+                            context,
+                            //if user selected bank transfer
+                            paymentList[selectedMethod].methodName ==
+                                    'bank_transfer'
+                                ? Provider.of<BankTransferService>(context,
+                                        listen: false)
+                                    .pickedImage
+                                : null);
                       }
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute<void>(
-                      //     builder: (BuildContext context) =>
-                      //         const PaymentSuccessPage(),
-                      //   ),
-                      // );
-                    })
+                    }, isloading: provider.isloading == false ? false : true)
                   ]),
             ),
           ),

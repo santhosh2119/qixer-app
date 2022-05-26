@@ -11,6 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:qixer/view/utils/others_helper.dart';
 
 class AllServicesService with ChangeNotifier {
+  bool isLoading = true;
+
   var categoryDropdownList = ['All'];
   var categoryDropdownIndexList = [0];
   var selectedCategory = 'All';
@@ -47,8 +49,6 @@ class AllServicesService with ChangeNotifier {
   ];
   var selectedSortby = 'All';
   var selectedSortbyId = '';
-
-  bool isLoading = false;
 
   setCategoryValue(value) {
     selectedCategory = value;
@@ -265,14 +265,6 @@ class AllServicesService with ChangeNotifier {
           }
           averageRateList.add(averageRate);
           imageList.add(serviceImage);
-          // setServiceList(
-          //     data.allServices.data[i].id,
-          //     data.allServices.data[i].title,
-          //     data.allServices.data[i].sellerForMobile.name,
-          //     data.allServices.data[i].price,
-          //     averageRate,
-          //     serviceImage,
-          //     i);
         }
 
         if (isrefresh) {
@@ -292,13 +284,6 @@ class AllServicesService with ChangeNotifier {
         setCurrentPage(currentPage);
         return true;
       } else {
-        print(response.body);
-        // serviceMap = [];
-        serviceMap.add('error');
-        //No more data
-        //Something went wrong
-        // serviceMap.add('error');
-        // notifyListeners();
         return false;
       }
     }

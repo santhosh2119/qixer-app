@@ -3,7 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert' as convert;
 import 'package:http_auth/http_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer/view/payments/PaypalPayment.dart';
+
+import '../booking_services/place_order_service.dart';
 
 class PaypalService {
   payByPaypal(BuildContext context) {
@@ -11,6 +14,11 @@ class PaypalService {
       MaterialPageRoute(
         builder: (BuildContext context) => PaypalPayment(
           onFinish: (number) async {
+            print('paypal payment successfull');
+
+            Provider.of<PlaceOrderService>(context, listen: false)
+                .placeOrder(context, null);
+
             // payment done
             print('order id: ' + number);
           },

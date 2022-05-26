@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/serviceby_category_service.dart';
@@ -23,11 +24,11 @@ class ServicebyCategoryPage extends StatefulWidget {
 }
 
 class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: true);
   @override
   void initState() {
     super.initState();
-    Provider.of<ServiceByCategoryService>(context, listen: false)
-        .fetchCategoryService(widget.categoryId);
   }
 
   @override
@@ -37,107 +38,128 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
       backgroundColor: Colors.white,
       appBar: CommonHelper().appbarCommon(widget.categoryName, context, () {
         Provider.of<ServiceByCategoryService>(context, listen: false)
-            .makeListEmpty();
+            .setEverythingToDefault();
+
         Navigator.pop(context);
       }),
-      body: WillPopScope(
-        onWillPop: () {
-          Provider.of<ServiceByCategoryService>(context, listen: false)
-              .makeListEmpty();
-          return Future.value(true);
+      body: SmartRefresher(
+        controller: refreshController,
+        enablePullUp: true,
+        enablePullDown:
+            context.watch<ServiceByCategoryService>().currentPage > 1
+                ? false
+                : true,
+        onRefresh: () async {
+          final result = await Provider.of<ServiceByCategoryService>(context,
+                  listen: false)
+              .fetchCategoryService(context, widget.categoryId);
+          if (result) {
+            refreshController.refreshCompleted();
+          } else {
+            refreshController.refreshFailed();
+          }
         },
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Consumer<ServiceByCategoryService>(
-              builder: (context, provider, child) => provider
-                      .categoryServiceMap.isNotEmpty
-                  ? provider.categoryServiceMap[0] != 'error'
-                      ? Column(children: [
-                          // Service List ===============>
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          for (int i = 0;
-                              i < provider.categoryServiceMap.length;
-                              i++)
-                            Column(
-                              children: [
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            const ServiceDetailsPage(),
-                                      ),
-                                    );
-                                    Provider.of<ServiceDetailsService>(context,
-                                            listen: false)
-                                        .fetchServiceDetails(
-                                            provider.categoryServiceMap[i]
-                                                ['serviceId']);
+        onLoading: () async {
+          final result = await Provider.of<ServiceByCategoryService>(context,
+                  listen: false)
+              .fetchCategoryService(context, widget.categoryId);
+          if (result) {
+            debugPrint('loadcomplete ran');
+            //loadcomplete function loads the data again
+            refreshController.loadComplete();
+          } else {
+            debugPrint('no more data');
+            refreshController.loadNoData();
+
+            Future.delayed(const Duration(seconds: 1), () {
+              //it will reset footer no data state to idle and will let us load again
+              refreshController.resetNoData();
+            });
+          }
+        },
+        child: WillPopScope(
+          onWillPop: () {
+            Provider.of<ServiceByCategoryService>(context, listen: false)
+                .setEverythingToDefault();
+            return Future.value(true);
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Consumer<ServiceByCategoryService>(
+                builder: (context, provider, child) => provider
+                        .serviceMap.isNotEmpty
+                    ? Column(children: [
+                        // Service List ===============>
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        for (int i = 0; i < provider.serviceMap.length; i++)
+                          Column(
+                            children: [
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          const ServiceDetailsPage(),
+                                    ),
+                                  );
+                                  Provider.of<ServiceDetailsService>(context,
+                                          listen: false)
+                                      .fetchServiceDetails(
+                                          provider.serviceMap[i]['serviceId']);
+                                },
+                                child: ServiceCard(
+                                  cc: cc,
+                                  imageLink: provider.serviceMap[i]['image'] ??
+                                      placeHolderUrl,
+                                  rating: twoDouble(
+                                      provider.serviceMap[i]['rating']),
+                                  title: provider.serviceMap[i]['title'],
+                                  sellerName: provider.serviceMap[i]
+                                      ['sellerName'],
+                                  price: provider.serviceMap[i]['price'],
+                                  buttonText: 'Book Now',
+                                  width: double.infinity,
+                                  marginRight: 0.0,
+                                  pressed: () {
+                                    provider.saveOrUnsave(
+                                        provider.serviceMap[i]['serviceId'],
+                                        provider.serviceMap[i]['title'],
+                                        provider.serviceMap[i]['image'],
+                                        provider.serviceMap[i]['price'].round(),
+                                        provider.serviceMap[i]['sellerName'],
+                                        twoDouble(
+                                            provider.serviceMap[i]['rating']),
+                                        i,
+                                        context,
+                                        provider.serviceMap[i]['sellerId']);
                                   },
-                                  child: ServiceCard(
-                                    cc: cc,
-                                    imageLink: provider.categoryServiceMap[i]
-                                            ['image'] ??
-                                        placeHolderUrl,
-                                    rating: twoDouble(provider
-                                        .categoryServiceMap[i]['rating']),
-                                    title: provider.categoryServiceMap[i]
-                                        ['title'],
-                                    sellerName: provider.categoryServiceMap[i]
-                                        ['sellerName'],
-                                    price: provider.categoryServiceMap[i]
-                                        ['price'],
-                                    buttonText: 'Book Now',
-                                    width: double.infinity,
-                                    marginRight: 0.0,
-                                    pressed: () {
-                                      provider.saveOrUnsave(
-                                          provider.categoryServiceMap[i]
-                                              ['serviceId'],
-                                          provider.categoryServiceMap[i]
-                                              ['title'],
-                                          provider.categoryServiceMap[i]
-                                              ['image'],
-                                          provider.categoryServiceMap[i]
-                                              ['price'],
-                                          provider.categoryServiceMap[i]
-                                              ['sellerName'],
-                                          twoDouble(provider
-                                              .categoryServiceMap[i]['rating']),
-                                          i,
-                                          context,
-                                          provider.categoryServiceMap[i]
-                                              ['sellerId']);
-                                    },
-                                    isSaved: provider.categoryServiceMap[i]
-                                                ['isSaved'] ==
-                                            true
-                                        ? true
-                                        : false,
-                                    serviceId: provider.categoryServiceMap[i]
-                                        ['serviceId'],
-                                    sellerId: provider.categoryServiceMap[i]
-                                        ['sellerId'],
-                                  ),
+                                  isSaved:
+                                      provider.serviceMap[i]['isSaved'] == true
+                                          ? true
+                                          : false,
+                                  serviceId: provider.serviceMap[i]
+                                      ['serviceId'],
+                                  sellerId: provider.serviceMap[i]['sellerId'],
                                 ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                              ],
-                            )
-                        ])
-                      : const Text("Something went wrong")
-                  : Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height - 140,
-                      child: OthersHelper().showLoading(cc.primaryColor),
-                    ),
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                            ],
+                          )
+                      ])
+                    : Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height - 140,
+                        child: OthersHelper().showLoading(cc.primaryColor),
+                      ),
+              ),
             ),
           ),
         ),

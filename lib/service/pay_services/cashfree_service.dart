@@ -3,8 +3,12 @@ import 'dart:convert';
 import 'package:cashfree_pg/cashfree_pg.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+
+import '../booking_services/place_order_service.dart';
 
 class CashfreeService {
   var header = {
@@ -15,7 +19,7 @@ class CashfreeService {
     "Content-Type": "application/json"
   };
 
-  getTokenAndPay() async {
+  getTokenAndPay(BuildContext context) async {
     String orderId = randomOrderId();
     String orderCurrency = "INR";
     var data = jsonEncode({
@@ -33,14 +37,15 @@ class CashfreeService {
     print(response.body);
 
     if (jsonDecode(response.body)['status'] == "OK") {
-      cashFreePay(jsonDecode(response.body)['cftoken'], orderId, orderCurrency);
+      cashFreePay(jsonDecode(response.body)['cftoken'], orderId, orderCurrency,
+          context);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
     // if()
   }
 
-  cashFreePay(token, orderId, orderCurrency) {
+  cashFreePay(token, orderId, orderCurrency, BuildContext context) {
     //Replace with actual values
     //has to be unique every time
     String stage = "TEST"; // PROD when in production mode// TEST when in test
@@ -68,11 +73,23 @@ class CashfreeService {
       "notifyUrl": notifyUrl
     };
 
-    CashfreePGSDK.doPayment(inputParams);
-    // .then((value) => value?.forEach((key, value) {
-    //       print("$key : $value");
-    //       print('it worked');
-    //       //Do something with the result
-    //     }));
+    // CashfreePGSDK.doPayment(inputParams)
+    //     .then((value) => value?.forEach((key, value) {
+    //           print("$key : $value");
+    //           print('it worked');
+    //           //Do something with the result
+    //         }));
+    CashfreePGSDK.doPayment(
+      inputParams,
+    ).then((value) {
+      print('cashfree payment result $value');
+      if (value != null) {
+        if (value['txStatus'] == "SUCCESS") {
+          print('Cashfree Payment successfull. Do something here');
+          Provider.of<PlaceOrderService>(context, listen: false)
+              .placeOrder(context, null);
+        }
+      }
+    });
   }
 }

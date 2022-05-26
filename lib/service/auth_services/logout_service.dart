@@ -66,6 +66,9 @@ class LogoutService with ChangeNotifier {
     prefs.remove('email');
     prefs.remove('pass');
     prefs.remove('token');
+    prefs.remove('userId');
+    prefs.remove('userName');
     prefs.setBool('keepLoggedIn', false);
+    prefs.setBool('googleLogin', false);
   }
 }

@@ -153,6 +153,17 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                                     .serviceAllDetails
                                                     .serviceDetails
                                                     .id,
+                                                title: provider
+                                                    .serviceAllDetails
+                                                    .serviceDetails
+                                                    .title,
+                                                userImg: provider
+                                                    .serviceAllDetails
+                                                    .serviceSellerImage
+                                                    .imgUrl,
+                                                userName: provider
+                                                    .serviceAllDetails
+                                                    .serviceSellerName,
                                               ),
                                             ),
                                           );
@@ -175,7 +186,8 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                             .imgUrl,
                                         provider.serviceAllDetails
                                             .serviceDetails.price,
-                                        provider.serviceAllDetails.sellerId);
+                                        provider.serviceAllDetails
+                                            .serviceDetails.sellerId);
                                 //=============>
                                 Navigator.push(
                                   context,

@@ -2,27 +2,29 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
-import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/paystack_service.dart';
 import 'package:qixer/service/pay_services/razorpay_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 randomOrderId() {
   var rng = Random();
   return rng.nextInt(100).toString();
 }
 
-payAction(String method, BuildContext context) {
+payAction(String method, BuildContext context, imagePath) {
   switch (method) {
     case 'paypal':
       PaypalService().payByPaypal(context);
       break;
     case 'cashfree':
-      CashfreeService().getTokenAndPay();
+      CashfreeService().getTokenAndPay(context);
       break;
     case 'flutterwave':
       FlutterwaveService().payByFlutterwave(context);
@@ -55,10 +57,18 @@ payAction(String method, BuildContext context) {
       StripeService().makePayment(context);
       break;
     case 'bank_transfer':
+      if (imagePath == null) {
+        OthersHelper()
+            .showToast('You must upload the cheque image', Colors.black);
+      } else {
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .placeOrder(context, imagePath.path);
+      }
       // StripeService().makePayment(context);
       break;
     case 'cash_on_delivery':
-      // StripeService().makePayment(context);
+      Provider.of<PlaceOrderService>(context, listen: false)
+          .placeOrder(context, null);
       break;
     default:
       {

@@ -91,8 +91,9 @@ class SignupService with ChangeNotifier {
         );
 
         String token = jsonDecode(response.body)['token'];
+        int userId = jsonDecode(response.body)['users']['id'];
 
-        LoginService().saveDetails(email, password, token);
+        LoginService().saveDetails(email, password, token, userId);
 
         return true;
       } else {

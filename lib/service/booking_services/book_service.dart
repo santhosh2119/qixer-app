@@ -7,6 +7,8 @@ class BookService with ChangeNotifier {
   int totalPrice = 0;
   int? sellerId;
 
+  String? selectedPayment;
+
   //address variables
   String? name;
   String? email;
@@ -24,8 +26,13 @@ class BookService with ChangeNotifier {
     serviceId = id;
     serviceTitle = title;
     serviceImage = image;
-    totalPrice = newPrice;
+    totalPrice = newPrice.round();
     sellerId = sellerNewId;
+    notifyListeners();
+  }
+
+  setSelectedPayment(String value) {
+    selectedPayment = value;
     notifyListeners();
   }
 

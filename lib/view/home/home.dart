@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/components/categories.dart';
-import 'package:qixer/view/home/components/discounts.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
+import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
+import 'package:qixer/view/home/homepage_helper.dart';
 import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
-import 'package:qixer/view/utils/others_helper.dart';
 
 import '../utils/constant_styles.dart';
-import 'components/search_bar.dart';
 import 'components/section_title.dart';
 
 class Homepage extends StatefulWidget {
@@ -37,6 +38,8 @@ class _HomepageState extends State<Homepage> {
     Provider.of<RecentServicesService>(context, listen: false)
         .fetchRecentService();
     Provider.of<ProfileService>(context, listen: false).getProfileDetails();
+    Provider.of<SearchBarWithDropdownService>(context, listen: false)
+        .fetchCountries();
   }
 
   @override
@@ -123,11 +126,33 @@ class _HomepageState extends State<Homepage> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: SearchBar(
-                  cc: cc,
-                  isHomePage: true,
-                ),
+                margin: const EdgeInsets.only(bottom: 15),
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: SearchBarPageWithDropdown(
+                                cc: cc,
+                              )));
+                    },
+                    child: HomepageHelper().searchbar(context)),
               ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(horizontal: 25),
+              //   child: SearchBar(
+              //     cc: cc,
+              //     isHomePage: true,
+              //   ),
+              // ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(horizontal: 25),
+              //   child: SearchBarWithDropdown(
+              //     cc: cc,
+              //     isHomePage: true,
+              //   ),
+              // ),
 
               const SizedBox(
                 height: 10,

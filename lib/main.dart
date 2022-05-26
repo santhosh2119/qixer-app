@@ -5,6 +5,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/auth_services/change_pass_service.dart';
+import 'package:qixer/service/auth_services/facebook_login_service.dart';
 import 'package:qixer/service/auth_services/google_sign_service.dart';
 import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/service/auth_services/logout_service.dart';
@@ -14,6 +15,7 @@ import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/booking_services/shedule_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
@@ -21,15 +23,18 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
+import 'package:qixer/service/my_orders_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
-import 'package:qixer/service/pay_services/payment_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
+import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/service/serviceby_category_service.dart';
+import 'package:qixer/service/support_ticket/support_messages_service.dart';
+import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/intro/splash.dart';
 
 void main() async {
@@ -69,7 +74,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ServiceDetailsService()),
         ChangeNotifierProvider(create: (_) => LeaveFeedbackService()),
         ChangeNotifierProvider(create: (_) => GoogleSignInService()),
-        ChangeNotifierProvider(create: (_) => PaymentService()),
         ChangeNotifierProvider(create: (_) => StripeService()),
         ChangeNotifierProvider(create: (_) => BankTransferService()),
         ChangeNotifierProvider(create: (_) => ServiceByCategoryService()),
@@ -78,6 +82,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BookService()),
         ChangeNotifierProvider(create: (_) => SheduleService()),
         ChangeNotifierProvider(create: (_) => CouponService()),
+        ChangeNotifierProvider(create: (_) => SearchBarWithDropdownService()),
+        ChangeNotifierProvider(create: (_) => MyOrdersService()),
+        ChangeNotifierProvider(create: (_) => PlaceOrderService()),
+        ChangeNotifierProvider(create: (_) => FacebookLoginService()),
+        ChangeNotifierProvider(create: (_) => SupportTicketService()),
+        ChangeNotifierProvider(create: (_) => SupportMessagesService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

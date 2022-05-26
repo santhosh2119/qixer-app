@@ -100,17 +100,17 @@ class ReviewTab extends StatelessWidget {
                       ),
 
                       //date
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Mar 21, 2022',
-                        style: TextStyle(
-                          color: Colors.grey.withOpacity(.8),
-                          fontSize: 14,
-                          height: 1.4,
-                        ),
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Text(
+                      //   'Mar 21, 2022',
+                      //   style: TextStyle(
+                      //     color: Colors.grey.withOpacity(.8),
+                      //     fontSize: 14,
+                      //     height: 1.4,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
