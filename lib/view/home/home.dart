@@ -7,6 +7,7 @@ import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
@@ -200,13 +201,18 @@ class _HomepageState extends State<Homepage> {
                       height: 25,
                     ),
 
-                    Text(
-                      'Browse categories',
-                      style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    SectionTitle(
+                      cc: cc,
+                      title: 'Browse categories',
+                      pressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const AllCategoriesPage(),
+                          ),
+                        );
+                      },
                     ),
 
                     const SizedBox(

@@ -372,29 +372,29 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       //login with google, facebook button ===========>
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            Provider.of<GoogleSignInService>(context,
-                                    listen: false)
-                                .googleLogin(context);
-                          },
-                          child: LoginHelper().commonButton(
-                              'assets/icons/google.png', "Login with Google")),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            Provider.of<FacebookLoginService>(context,
-                                    listen: false)
-                                .checkIfLoggedIn();
-                          },
-                          child: LoginHelper().commonButton(
-                              'assets/icons/facebook.png',
-                              "Login with Facebook")),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // InkWell(
+                      //     onTap: () {
+                      //       Provider.of<GoogleSignInService>(context,
+                      //               listen: false)
+                      //           .googleLogin(context);
+                      //     },
+                      //     child: LoginHelper().commonButton(
+                      //         'assets/icons/google.png', "Login with Google")),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
+                      // InkWell(
+                      //     onTap: () {
+                      //       Provider.of<FacebookLoginService>(context,
+                      //               listen: false)
+                      //           .checkIfLoggedIn();
+                      //     },
+                      //     child: LoginHelper().commonButton(
+                      //         'assets/icons/facebook.png',
+                      //         "Login with Facebook")),
 
                       const SizedBox(
                         height: 30,
