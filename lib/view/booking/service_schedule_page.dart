@@ -115,14 +115,15 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                             provider.isloading == false
                                 ? provider.schedules != 'nothing'
                                     ? GridView.builder(
+                                        clipBehavior: Clip.none,
                                         gridDelegate: FlutterzillaFixedGridView(
                                             crossAxisCount: 2,
-                                            mainAxisSpacing: 15,
-                                            crossAxisSpacing: 15,
+                                            mainAxisSpacing: 19,
+                                            crossAxisSpacing: 19,
                                             height: screenWidth <
                                                     fourinchScreenWidth
-                                                ? 70
-                                                : 30),
+                                                ? 75
+                                                : 60),
                                         padding: const EdgeInsets.only(top: 12),
                                         itemCount:
                                             provider.schedules.schedules.length,
@@ -147,9 +148,6 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                                               children: [
                                                 Container(
                                                   alignment: Alignment.center,
-                                                  margin: const EdgeInsets.only(
-                                                    right: 17,
-                                                  ),
                                                   decoration: BoxDecoration(
                                                       border: Border.all(
                                                           color: selectedShedule ==
@@ -178,7 +176,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                                                 ),
                                                 selectedShedule == index
                                                     ? Positioned(
-                                                        right: 10,
+                                                        right: -7,
                                                         top: -7,
                                                         child: CommonHelper()
                                                             .checkCircle())

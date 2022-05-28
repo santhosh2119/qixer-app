@@ -93,249 +93,258 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               'Please wait while the profile is updating', Colors.black);
         }
       }),
-      body: Consumer<ProfileEditService>(
-        builder: (context, provider, child) => WillPopScope(
-          onWillPop: () {
-            if (provider.isloading == false) {
-              return Future.value(true);
-            } else {
-              OthersHelper().showToast(
-                  'Please wait while the profile is updating', Colors.black);
-              return Future.value(false);
-            }
-          },
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: screenPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //pick profile image
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      pickedImage = await provider.pickImage();
-                      setState(() {});
-                    },
-                    child: SizedBox(
-                      width: 105,
-                      height: 105,
-                      child: Stack(
-                        children: [
-                          Consumer<ProfileService>(
-                            builder: (context, profileProvider, child) =>
-                                Container(
-                              width: 100,
-                              height: 100,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(5),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: pickedImage == null
-                                      ? profileProvider.profileImage != null
-                                          ? CommonHelper().profileImage(
-                                              profileProvider.profileImage,
-                                              85,
-                                              85)
-                                          : Image.asset(
-                                              'assets/images/avatar.png',
-                                              height: 85,
-                                              width: 85,
-                                              fit: BoxFit.cover,
-                                            )
-                                      : Image.file(
-                                          File(pickedImage!.path),
-                                          height: 85,
-                                          width: 85,
-                                          fit: BoxFit.cover,
-                                        )),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 9,
-                            right: 12,
-                            child: Container(
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
+      body: Listener(
+        onPointerDown: (_) {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.focusedChild?.unfocus();
+          }
+        },
+        child: Consumer<ProfileEditService>(
+          builder: (context, provider, child) => WillPopScope(
+            onWillPop: () {
+              if (provider.isloading == false) {
+                return Future.value(true);
+              } else {
+                OthersHelper().showToast(
+                    'Please wait while the profile is updating', Colors.black);
+                return Future.value(false);
+              }
+            },
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: screenPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //pick profile image
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        pickedImage = await provider.pickImage();
+                        setState(() {});
+                      },
+                      child: SizedBox(
+                        width: 105,
+                        height: 105,
+                        child: Stack(
+                          children: [
+                            Consumer<ProfileService>(
+                              builder: (context, profileProvider, child) =>
+                                  Container(
+                                width: 100,
+                                height: 100,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(5),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: pickedImage == null
+                                        ? profileProvider.profileImage != null
+                                            ? CommonHelper().profileImage(
+                                                profileProvider.profileImage,
+                                                85,
+                                                85)
+                                            : Image.asset(
+                                                'assets/images/avatar.png',
+                                                height: 85,
+                                                width: 85,
+                                                fit: BoxFit.cover,
+                                              )
+                                        : Image.file(
+                                            File(pickedImage!.path),
+                                            height: 85,
+                                            width: 85,
+                                            fit: BoxFit.cover,
+                                          )),
                               ),
-                              child: ClipRRect(
-                                  child: Icon(
-                                Icons.camera,
-                                color: cc.greyPrimary,
-                              )),
                             ),
-                          )
-                        ],
+                            Positioned(
+                              bottom: 9,
+                              right: 12,
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: ClipRRect(
+                                    child: Icon(
+                                  Icons.camera,
+                                  color: cc.greyPrimary,
+                                )),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(
-                    height: 25,
-                  ),
+                    const SizedBox(
+                      height: 25,
+                    ),
 
-                  //Email, name
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //Name ============>
-                      CommonHelper().labelCommon("Full name"),
+                    //Email, name
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //Name ============>
+                        CommonHelper().labelCommon("Full name"),
 
-                      CustomInput(
-                        controller: fullNameController,
-                        validation: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your full name';
-                          }
-                          return null;
-                        },
-                        hintText: "Enter your full name",
-                        icon: 'assets/icons/user.png',
-                        textInputAction: TextInputAction.next,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
+                        CustomInput(
+                          controller: fullNameController,
+                          validation: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your full name';
+                            }
+                            return null;
+                          },
+                          hintText: "Enter your full name",
+                          icon: 'assets/icons/user.png',
+                          textInputAction: TextInputAction.next,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
 
-                      //Email ============>
-                      CommonHelper().labelCommon("Email"),
+                        //Email ============>
+                        CommonHelper().labelCommon("Email"),
 
-                      CustomInput(
-                        controller: emailController,
-                        validation: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          return null;
-                        },
-                        hintText: "Enter your email",
-                        icon: 'assets/icons/email-grey.png',
-                        textInputAction: TextInputAction.next,
-                      ),
+                        CustomInput(
+                          controller: emailController,
+                          validation: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            return null;
+                          },
+                          hintText: "Enter your email",
+                          icon: 'assets/icons/email-grey.png',
+                          textInputAction: TextInputAction.next,
+                        ),
 
-                      const SizedBox(
-                        height: 8,
-                      ),
-                    ],
-                  ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                      ],
+                    ),
 
-                  //phone
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonHelper().labelCommon("Phone"),
-                      IntlPhoneField(
-                        controller: phoneController,
-                        decoration: SignupHelper().phoneFieldDecoration(),
-                        initialCountryCode: 'IN',
-                        onChanged: (phone) {
-                          // Provider.of<SignupService>(context, listen: false)
-                          //     .setPhone(phone.completeNumber);
-                        },
-                      ),
-                      CommonHelper().labelCommon("Post code"),
-                      CustomInput(
-                        controller: postCodeController,
-                        validation: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter post code';
-                          }
-                          return null;
-                        },
-                        isNumberField: true,
-                        hintText: "Enter your post code",
-                        icon: 'assets/icons/user.png',
-                        textInputAction: TextInputAction.next,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 3,
-                  ),
+                    //phone
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonHelper().labelCommon("Phone"),
+                        IntlPhoneField(
+                          controller: phoneController,
+                          decoration: SignupHelper().phoneFieldDecoration(),
+                          initialCountryCode: 'IN',
+                          onChanged: (phone) {
+                            // Provider.of<SignupService>(context, listen: false)
+                            //     .setPhone(phone.completeNumber);
+                          },
+                        ),
+                        CommonHelper().labelCommon("Post code"),
+                        CustomInput(
+                          controller: postCodeController,
+                          validation: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter post code';
+                            }
+                            return null;
+                          },
+                          isNumberField: true,
+                          hintText: "Enter your post code",
+                          icon: 'assets/icons/user.png',
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
 
-                  //dropdowns
-                  const CountryStatesDropdowns(),
+                    //dropdowns
+                    const CountryStatesDropdowns(),
 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      CommonHelper().labelCommon("Your Address"),
-                      TextareaField(
-                        hintText: 'Address',
-                        notesController: addressController,
-                      ),
-                    ],
-                  ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        CommonHelper().labelCommon("Your Address"),
+                        TextareaField(
+                          hintText: 'Address',
+                          notesController: addressController,
+                        ),
+                      ],
+                    ),
 
-                  //About
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      CommonHelper().labelCommon("About"),
-                      TextareaField(
-                        hintText: 'About',
-                        notesController: aboutController,
-                      ),
-                    ],
-                  ),
+                    //About
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        CommonHelper().labelCommon("About"),
+                        TextareaField(
+                          hintText: 'About',
+                          notesController: aboutController,
+                        ),
+                      ],
+                    ),
 
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  CommonHelper().buttonOrange('Save', () async {
-                    if (provider.isloading == false) {
-                      showTopSnackBar(
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    CommonHelper().buttonOrange('Save', () async {
+                      if (provider.isloading == false) {
+                        showTopSnackBar(
+                            context,
+                            const CustomSnackBar.success(
+                              message:
+                                  "Updating profile...It may take few minutes",
+                            ),
+                            persistent: true,
+                            onAnimationControllerInit: (controller) =>
+                                localAnimationController = controller,
+                            onTap: () {
+                              // localAnimationController.reverse();
+                            });
+
+                        //update profile
+                        var result = await provider.updateProfile(
+                          fullNameController.text,
+                          emailController.text,
+                          phoneController.text,
+                          Provider.of<CountryStatesService>(context,
+                                  listen: false)
+                              .selectedStateId,
+                          Provider.of<CountryStatesService>(context,
+                                  listen: false)
+                              .selectedAreaId,
+                          Provider.of<CountryStatesService>(context,
+                                  listen: false)
+                              .selectedCountryId,
+                          postCodeController.text,
+                          addressController.text,
+                          aboutController.text,
+                          pickedImage?.path,
                           context,
-                          const CustomSnackBar.success(
-                            message: "Updating profile...",
-                          ),
-                          persistent: true,
-                          onAnimationControllerInit: (controller) =>
-                              localAnimationController = controller,
-                          onTap: () {
-                            // localAnimationController.reverse();
-                          });
-
-                      //update profile
-                      var result = await provider.updateProfile(
-                        fullNameController.text,
-                        emailController.text,
-                        phoneController.text,
-                        Provider.of<CountryStatesService>(context,
-                                listen: false)
-                            .selectedStateId,
-                        Provider.of<CountryStatesService>(context,
-                                listen: false)
-                            .selectedAreaId,
-                        Provider.of<CountryStatesService>(context,
-                                listen: false)
-                            .selectedCountryId,
-                        postCodeController.text,
-                        addressController.text,
-                        aboutController.text,
-                        pickedImage?.path,
-                        context,
-                      );
-                      if (result == true || result == false) {
-                        localAnimationController.reverse();
+                        );
+                        if (result == true || result == false) {
+                          localAnimationController.reverse();
+                        }
                       }
-                    }
-                  }, isloading: provider.isloading == false ? false : true),
+                    }, isloading: provider.isloading == false ? false : true),
 
-                  const SizedBox(
-                    height: 38,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 38,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

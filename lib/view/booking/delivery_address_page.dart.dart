@@ -3,6 +3,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/booking/book_confirmation_page.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
@@ -23,11 +24,6 @@ class DeliveryAddressPage extends StatefulWidget {
 }
 
 class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
@@ -36,6 +32,46 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
   TextEditingController postCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController notesController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    userNameController.text =
+        Provider.of<ProfileService>(context, listen: false)
+                .profileDetails
+                .userDetails
+                .name ??
+            '';
+    emailController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        '';
+
+    phoneController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '';
+    postCodeController.text =
+        Provider.of<ProfileService>(context, listen: false)
+                .profileDetails
+                .userDetails
+                .postCode ??
+            '';
+    addressController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .address ??
+        '';
+
+    addressController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .address ??
+        '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +159,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                 //Phone number field
                                 CommonHelper().labelCommon("Phone"),
                                 IntlPhoneField(
+                                  controller: phoneController,
                                   decoration:
                                       SignupHelper().phoneFieldDecoration(),
                                   initialCountryCode: 'IN',

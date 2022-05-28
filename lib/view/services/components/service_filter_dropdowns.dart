@@ -4,10 +4,7 @@ import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/view/services/components/service_filter_dropdown_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
-import 'package:qixer/view/utils/others_helper.dart';
 import 'package:qixer/view/utils/responsive.dart';
-
-import '../../utils/common_helper.dart';
 
 class ServiceFilterDropdowns extends StatelessWidget {
   const ServiceFilterDropdowns({Key? key}) : super(key: key);
