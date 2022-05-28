@@ -3,6 +3,7 @@ import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/intro/intro_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 class IntroductionPage extends StatefulWidget {
   const IntroductionPage({Key? key}) : super(key: key);
@@ -19,7 +20,8 @@ class _IntroductionPageState extends State<IntroductionPage> {
   @override
   Widget build(BuildContext context) {
     // var screenWidth = MediaQuery.of(context).size.width;
-    var screenHeight = MediaQuery.of(context).size.height;
+    // var screenHeight = MediaQuery.of(context).size.height;
+    print(screenWidth);
     return Scaffold(
       body: Container(
         clipBehavior: Clip.none,
@@ -27,10 +29,12 @@ class _IntroductionPageState extends State<IntroductionPage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           //Slider =============>
           SizedBox(
-            height: screenHeight - 550,
+            height: screenHeight < fourinchScreenHeight
+                ? screenHeight - 490
+                : screenHeight - 550,
           ),
           SizedBox(
-            height: 370,
+            height: screenHeight < fourinchScreenHeight ? 290 : 370,
             child: PageView.builder(
                 controller: _pageController,
                 onPageChanged: (value) {
@@ -46,7 +50,8 @@ class _IntroductionPageState extends State<IntroductionPage> {
                       children: [
                         Container(
                           width: double.infinity,
-                          height: 260,
+                          height:
+                              screenHeight < fourinchScreenHeight ? 130 : 260,
                           margin: const EdgeInsets.only(bottom: 24),
                           decoration: BoxDecoration(
                             image: DecorationImage(

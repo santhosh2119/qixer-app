@@ -238,6 +238,9 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                                       'Order status', 'Pending', cc.yellowColor)
                                 ],
                               ),
+                              const SizedBox(
+                                height: 30,
+                              ),
                             ],
                           ),
 

@@ -55,52 +55,78 @@ class _SettingsPageState extends State<SettingsPage> {
                                         const SizedBox(
                                           height: 20,
                                         ),
+                                        //Profile image section =======>
+                                        InkWell(
+                                          highlightColor: Colors.transparent,
+                                          splashColor: Colors.transparent,
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        ProfileEditPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              profileProvider.profileImage !=
+                                                      null
+                                                  ? CommonHelper().profileImage(
+                                                      profileProvider
+                                                          .profileImage,
+                                                      62,
+                                                      62)
+                                                  : ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      child: Image.asset(
+                                                        'assets/images/avatar.png',
+                                                        height: 62,
+                                                        width: 62,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
 
-                                        profileProvider.profileImage != null
-                                            ? CommonHelper().profileImage(
-                                                profileProvider.profileImage,
-                                                62,
-                                                62)
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: Image.asset(
-                                                  'assets/images/avatar.png',
-                                                  height: 62,
-                                                  width: 62,
-                                                  fit: BoxFit.cover,
-                                                ),
+                                              const SizedBox(
+                                                height: 12,
                                               ),
 
-                                        const SizedBox(
-                                          height: 12,
+                                              //user name
+                                              CommonHelper().titleCommon(
+                                                  profileProvider.profileDetails
+                                                          .userDetails.name ??
+                                                      ''),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              //phone
+                                              CommonHelper().paragraphCommon(
+                                                  profileProvider.profileDetails
+                                                          .userDetails.phone ??
+                                                      '',
+                                                  TextAlign.center),
+                                              // const SizedBox(
+                                              //   height: 10,
+                                              // ),
+                                              profileProvider.profileDetails
+                                                          .userDetails.about !=
+                                                      null
+                                                  ? CommonHelper()
+                                                      .paragraphCommon(
+                                                          profileProvider
+                                                              .profileDetails
+                                                              .userDetails
+                                                              .about,
+                                                          TextAlign.center)
+                                                  : Container(),
+                                            ],
+                                          ),
                                         ),
-
-                                        //user name
-                                        CommonHelper().titleCommon(
-                                            profileProvider.profileDetails
-                                                    .userDetails.name ??
-                                                ''),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        //phone
-                                        CommonHelper().paragraphCommon(
-                                            profileProvider.profileDetails
-                                                    .userDetails.phone ??
-                                                '',
-                                            TextAlign.center),
-                                        // const SizedBox(
-                                        //   height: 10,
-                                        // ),
-                                        profileProvider.profileDetails.userDetails
-                                                    .about !=
-                                                null
-                                            ? CommonHelper().paragraphCommon(
-                                                profileProvider.profileDetails
-                                                    .userDetails.about,
-                                                TextAlign.center)
-                                            : Container(),
 
                                         //Grid cards
                                         SettingsPageGrid(cc: cc),

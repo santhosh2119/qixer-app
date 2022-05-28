@@ -248,6 +248,9 @@ class _LoginPageState extends State<LoginPage> {
                               controlAffinity: ListTileControlAffinity.leading,
                             ),
                           ),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           InkWell(
                             onTap: () {
                               Navigator.push(

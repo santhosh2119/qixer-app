@@ -158,19 +158,19 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
                           height: 17,
                         ),
 
-                        Text(
-                          'Order notes:',
-                          style: TextStyle(
-                            color: cc.greyFour,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 11,
-                        ),
-                        CommonHelper().paragraphCommon(
-                            bookProvider.orderNote ?? '', TextAlign.left),
+                        // Text(
+                        //   'Order notes:',
+                        //   style: TextStyle(
+                        //     color: cc.greyFour,
+                        //     fontSize: 15,
+                        //     fontWeight: FontWeight.w600,
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 11,
+                        // ),
+                        // CommonHelper().paragraphCommon(
+                        //     bookProvider.orderNote ?? '', TextAlign.left),
 
                         const SizedBox(
                           height: 335,
