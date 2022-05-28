@@ -48,7 +48,7 @@ class SupportTicketService with ChangeNotifier {
       //if connection is ok
       //TODO change userId here
       var response = await http
-          .get(Uri.parse("$baseApi/support-tickets/5?page=$currentPage"));
+          .get(Uri.parse("$baseApi/support-tickets/$userId?page=$currentPage"));
 
       if (response.statusCode == 201 &&
           jsonDecode(response.body)['tickets']['data'].isNotEmpty) {

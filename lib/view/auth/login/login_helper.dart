@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 class LoginHelper {
   ConstantColors cc = ConstantColors();
-  commonButton(String icon, String title) {
+  commonButton(String icon, String title, {isloading = false}) {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: cc.greyFive),
@@ -25,10 +26,12 @@ class LoginHelper {
           const SizedBox(
             width: 7,
           ),
-          Text(
-            title,
-            style: TextStyle(color: cc.greyFour),
-          ),
+          isloading == false
+              ? Text(
+                  title,
+                  style: TextStyle(color: cc.greyFour),
+                )
+              : OthersHelper().showLoading(cc.primaryColor),
         ],
       ),
     );

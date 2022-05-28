@@ -86,9 +86,10 @@ class GoogleSignInService with ChangeNotifier {
 
         return true;
       } else {
+        debugPrint(response.body);
         //Login unsuccessful ==========>
-        OthersHelper().showToast(
-            "Invalid Email or Password", ConstantColors().warningColor);
+        OthersHelper().showToast(jsonDecode(response.body)['message'],
+            ConstantColors().warningColor);
 
         setLoadingFalse();
         return false;
