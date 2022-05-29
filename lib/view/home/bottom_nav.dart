@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qixer/service/common_service.dart';
 
 import '../utils/constant_colors.dart';
 
@@ -14,7 +15,7 @@ class BottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
     return SizedBox(
-      height: 70,
+      height: isIos ? 90 : 70,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,

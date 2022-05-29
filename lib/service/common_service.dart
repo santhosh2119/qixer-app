@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+
+late bool isIos;
 
 Future<bool> checkConnection() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
@@ -45,4 +49,12 @@ getMonthAndDate(value) {
 firstThreeLetter(value) {
   var weekDayName = DateFormat('EEEE').format(value).toString();
   return weekDayName.substring(0, 3);
+}
+
+checkPlatform() {
+  if (Platform.isAndroid) {
+    isIos = false;
+  } else if (Platform.isIOS) {
+    isIos = true;
+  }
 }

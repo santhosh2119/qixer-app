@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/splash_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -16,12 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     SplashService().loginOrGoHome(context);
-    screenSize();
+    screenSizeAndPlatform();
   }
 
-  screenSize() {
+  screenSizeAndPlatform() {
     Future.delayed(Duration(seconds: 1), () {
       getScreenSize(context);
+      checkPlatform();
     });
   }
 

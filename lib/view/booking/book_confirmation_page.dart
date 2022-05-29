@@ -149,7 +149,7 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
                             bookProvider.email ?? ''),
                         BookingHelper().bRow('assets/svg/phone.svg', 'Phone',
                             bookProvider.phone ?? ''),
-                        BookingHelper().bRow('assets/svg/calendar.svg',
+                        BookingHelper().bRow('assets/svg/location.svg',
                             'Post Code', bookProvider.postCode ?? ''),
                         BookingHelper().bRow('assets/svg/location.svg',
                             'Address', bookProvider.address ?? ''),

@@ -181,7 +181,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   },
                                   isNumberField: true,
                                   hintText: "Enter your post code",
-                                  icon: 'assets/icons/user.png',
+                                  icon: 'assets/icons/location.png',
                                   textInputAction: TextInputAction.next,
                                 ),
 
@@ -201,7 +201,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                     return null;
                                   },
                                   hintText: "Enter your address",
-                                  icon: 'assets/icons/email-grey.png',
+                                  icon: 'assets/icons/location.png',
                                   textInputAction: TextInputAction.next,
                                 ),
                                 // const SizedBox(
