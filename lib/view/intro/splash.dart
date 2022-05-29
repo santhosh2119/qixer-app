@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer/service/splash_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,6 +16,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     SplashService().loginOrGoHome(context);
+    screenSize();
+  }
+
+  screenSize() {
+    Future.delayed(Duration(seconds: 1), () {
+      getScreenSize(context);
+    });
   }
 
   @override

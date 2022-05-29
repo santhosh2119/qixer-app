@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer/view/utils/responsive.dart';
 import 'components/steps.dart';
 
 class ServiceSchedulePage extends StatefulWidget {
@@ -112,82 +114,77 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                             ),
                             provider.isloading == false
                                 ? provider.schedules != 'nothing'
-                                    ? Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        height: 45,
-                                        child: ListView(
-                                          scrollDirection: Axis.horizontal,
-                                          shrinkWrap: true,
-                                          clipBehavior: Clip.none,
-                                          children: [
-                                            for (int i = 0;
-                                                i <
-                                                    provider.schedules.schedules
-                                                        .length;
-                                                i++)
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () {
-                                                  setState(() {
-                                                    selectedShedule = i;
-                                                    _selectedTime = provider
+                                    ? GridView.builder(
+                                        clipBehavior: Clip.none,
+                                        gridDelegate: FlutterzillaFixedGridView(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 19,
+                                            crossAxisSpacing: 19,
+                                            height: screenWidth <
+                                                    fourinchScreenWidth
+                                                ? 75
+                                                : 60),
+                                        padding: const EdgeInsets.only(top: 12),
+                                        itemCount:
+                                            provider.schedules.schedules.length,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () {
+                                              setState(() {
+                                                selectedShedule = index;
+                                                _selectedTime = provider
+                                                    .schedules
+                                                    .schedules[index]
+                                                    .schedule;
+                                              });
+                                            },
+                                            child: Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: selectedShedule ==
+                                                                  index
+                                                              ? cc.primaryColor
+                                                              : cc.borderColor),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 13,
+                                                      vertical: 15),
+                                                  child: Text(
+                                                    provider
                                                         .schedules
-                                                        .schedules[i]
-                                                        .schedule;
-                                                  });
-                                                },
-                                                child: Stack(
-                                                  clipBehavior: Clip.none,
-                                                  children: [
-                                                    Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                        right: 17,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: selectedShedule ==
-                                                                      i
-                                                                  ? cc
-                                                                      .primaryColor
-                                                                  : cc
-                                                                      .borderColor),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 13,
-                                                          vertical: 15),
-                                                      child: Text(
-                                                        provider
-                                                            .schedules
-                                                            .schedules[i]
-                                                            .schedule,
-                                                        style: TextStyle(
-                                                          color: cc.greyFour,
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
+                                                        .schedules[index]
+                                                        .schedule,
+                                                    style: TextStyle(
+                                                      color: cc.greyFour,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
-                                                    selectedShedule == i
-                                                        ? Positioned(
-                                                            right: 10,
-                                                            top: -7,
-                                                            child: CommonHelper()
-                                                                .checkCircle())
-                                                        : Container()
-                                                  ],
+                                                  ),
                                                 ),
-                                              )
-                                          ],
-                                        ),
+                                                selectedShedule == index
+                                                    ? Positioned(
+                                                        right: -7,
+                                                        top: -7,
+                                                        child: CommonHelper()
+                                                            .checkCircle())
+                                                    : Container()
+                                              ],
+                                            ),
+                                          );
+                                        },
                                       )
                                     : Text(
                                         "No shedule available on this date",
@@ -195,6 +192,9 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                                             TextStyle(color: cc.primaryColor),
                                       )
                                 : OthersHelper().showLoading(cc.primaryColor),
+                            const SizedBox(
+                              height: 30,
+                            ),
                           ],
                         )),
                   ),

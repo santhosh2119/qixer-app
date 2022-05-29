@@ -37,7 +37,7 @@ class _OrdersPageState extends State<OrdersPage> {
             child: Consumer<MyOrdersService>(
               builder: (context, provider, child) => Container(
                 padding: EdgeInsets.symmetric(horizontal: screenPadding),
-                child: provider.myServices != null
+                child: provider.isLoading == false
                     ? provider.myServices != 'error'
                         ? provider.myServices.isNotEmpty
                             ? Column(

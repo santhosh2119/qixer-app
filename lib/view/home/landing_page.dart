@@ -5,6 +5,7 @@ import 'package:qixer/view/tabs/search/search_tab.dart';
 import 'package:qixer/view/tabs/settings/settings_page.dart';
 
 import '../tabs/orders/orders_page.dart';
+import '../utils/others_helper.dart';
 import 'bottom_nav.dart';
 
 class LandingPage extends StatefulWidget {
@@ -15,6 +16,8 @@ class LandingPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<LandingPage> {
+  DateTime? currentBackPressTime;
+
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -34,7 +37,19 @@ class _HomePageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _children[_currentIndex],
+      body: WillPopScope(
+          onWillPop: () {
+            DateTime now = DateTime.now();
+            if (currentBackPressTime == null ||
+                now.difference(currentBackPressTime!) >
+                    const Duration(seconds: 2)) {
+              currentBackPressTime = now;
+              OthersHelper().showToast("Press again to exit", Colors.black);
+              return Future.value(false);
+            }
+            return Future.value(true);
+          },
+          child: _children[_currentIndex]),
       bottomNavigationBar: BottomNav(
         currentIndex: _currentIndex,
         onTabTapped: onTabTapped,

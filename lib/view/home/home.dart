@@ -7,6 +7,7 @@ import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
@@ -14,8 +15,10 @@ import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
 import 'package:qixer/view/home/homepage_helper.dart';
 import 'package:qixer/view/services/all_services_page.dart';
+import 'package:qixer/view/tabs/settings/profile_edit.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 import '../utils/constant_styles.dart';
 import 'components/section_title.dart';
@@ -44,6 +47,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    print('screen width: $screenWidth');
     ConstantColors cc = ConstantColors();
     return Listener(
       onPointerDown: (_) {
@@ -68,52 +72,66 @@ class _HomepageState extends State<Homepage> {
                             .profileDetails !=
                         null
                     ? profileProvider.profileDetails != 'error'
-                        ? Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: Row(
-                              children: [
-                                //name
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Welcome!',
-                                      style: TextStyle(
-                                        color: cc.greyParagraph,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      profileProvider.profileDetails.userDetails
-                                              .name ??
-                                          '',
-                                      style: TextStyle(
-                                        color: cc.greyFour,
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-
-                                //profile image
-                                profileProvider.profileImage != null
-                                    ? CommonHelper().profileImage(
-                                        profileProvider.profileImage, 52, 52)
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.asset(
-                                          'assets/images/avatar.png',
-                                          height: 52,
-                                          width: 52,
-                                          fit: BoxFit.cover,
+                        ? InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      ProfileEditPage(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25),
+                              child: Row(
+                                children: [
+                                  //name
+                                  Expanded(
+                                      child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Welcome!',
+                                        style: TextStyle(
+                                          color: cc.greyParagraph,
+                                          fontSize: 14,
                                         ),
                                       ),
-                              ],
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        profileProvider.profileDetails
+                                                .userDetails.name ??
+                                            '',
+                                        style: TextStyle(
+                                          color: cc.greyFour,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+
+                                  //profile image
+                                  profileProvider.profileImage != null
+                                      ? CommonHelper().profileImage(
+                                          profileProvider.profileImage, 52, 52)
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: Image.asset(
+                                            'assets/images/avatar.png',
+                                            height: 52,
+                                            width: 52,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                ],
+                              ),
                             ),
                           )
                         : const Text('Couldn\'t load user profile info')
@@ -183,13 +201,18 @@ class _HomepageState extends State<Homepage> {
                       height: 25,
                     ),
 
-                    Text(
-                      'Browse categories',
-                      style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    SectionTitle(
+                      cc: cc,
+                      title: 'Browse categories',
+                      pressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const AllCategoriesPage(),
+                          ),
+                        );
+                      },
                     ),
 
                     const SizedBox(

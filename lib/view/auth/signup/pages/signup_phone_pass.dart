@@ -212,6 +212,9 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                     widget.repeatPassController.text) {
                   OthersHelper()
                       .showToast('Password didn\'t match', Colors.black);
+                } else if (widget.passController.text.length < 6) {
+                  OthersHelper().showToast(
+                      'Password must be at least 6 characters', Colors.black);
                 } else if (_formKey.currentState!.validate()) {
                   provider.pagecontroller.animateToPage(
                       provider.selectedPage + 1,

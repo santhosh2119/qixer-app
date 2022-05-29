@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/common_service.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 import '../../booking/booking_location_page.dart';
 import '../../utils/common_helper.dart';
@@ -73,33 +75,41 @@ class ServiceCard extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    AutoSizeText(
-                      'Starts from:',
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: cc.greyFour.withOpacity(.6),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
+                    screenWidth < fourinchScreenWidth
+                        ? Container()
+                        : AutoSizeText(
+                            'Starts from:',
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: cc.greyFour.withOpacity(.6),
+                              fontSize:
+                                  screenWidth < fourinchScreenWidth ? 11 : 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                     const SizedBox(
                       width: 6,
                     ),
-                    AutoSizeText(
-                      '\$ $price',
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: AutoSizeText(
+                        '\$ $price',
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: cc.greyFour,
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                width: 10,
               ),
               InkWell(
                 onTap: pressed,
@@ -116,7 +126,7 @@ class ServiceCard extends StatelessWidget {
                         ? 'assets/svg/saved-fill-icon.svg'
                         : 'assets/svg/saved-icon.svg',
                     color: isSaved ? cc.primaryColor : cc.greyFour,
-                    height: 21,
+                    height: screenWidth < fourinchScreenWidth ? 19 : 21,
                   ),
                 ),
               ),
@@ -139,8 +149,9 @@ class ServiceCard extends StatelessWidget {
                   },
                   child: Text(
                     buttonText,
-                    style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.normal),
+                    style: TextStyle(
+                        fontSize: screenWidth < fourinchScreenWidth ? 9 : 13,
+                        fontWeight: FontWeight.normal),
                   ))
             ],
           )
@@ -178,34 +189,36 @@ class ServiceCardContents extends StatelessWidget {
           children: [
             //service image
             CommonHelper().profileImage(imageLink, 75, 78),
-            Positioned(
-                bottom: -13,
-                left: 12,
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2),
-                      color: const Color(0xffFFC300),
-                      borderRadius: BorderRadius.circular(4)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                  child: Row(children: [
-                    Icon(
-                      Icons.star_border,
-                      color: cc.greyFour,
-                      size: 14,
-                    ),
-                    const SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      rating.toString(),
-                      style: TextStyle(
+            rating != 0.0
+                ? Positioned(
+                    bottom: -13,
+                    left: 12,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 2),
+                          color: const Color(0xffFFC300),
+                          borderRadius: BorderRadius.circular(4)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 4),
+                      child: Row(children: [
+                        Icon(
+                          Icons.star_border,
                           color: cc.greyFour,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13),
-                    )
-                  ]),
-                )),
+                          size: 14,
+                        ),
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          rating.toString(),
+                          style: TextStyle(
+                              color: cc.greyFour,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13),
+                        )
+                      ]),
+                    ))
+                : Container(),
           ],
         ),
         const SizedBox(
