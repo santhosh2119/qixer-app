@@ -52,7 +52,7 @@ class Service {
   int? sellerId;
   String? title;
   int? price;
-  int? tax;
+  var tax;
   String? image;
   int? isServiceOnline;
   int? serviceCityId;

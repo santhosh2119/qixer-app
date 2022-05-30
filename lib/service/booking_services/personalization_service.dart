@@ -13,7 +13,7 @@ class PersonalizationService with ChangeNotifier {
 
   List includedList = [];
   List extrasList = [];
-  int tax = 0;
+  var tax = 0;
 
   int defaultprice = 0;
   setDefaultPrice(price) {

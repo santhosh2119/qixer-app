@@ -66,28 +66,37 @@ class _ServicePersonalizationPageState
                               //Circular Progress bar
                               Steps(cc: cc),
 
-                              CommonHelper().titleCommon('What’s included:'),
+                              provider.serviceExtraData.service
+                                          .isServiceOnline !=
+                                      1
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CommonHelper()
+                                            .titleCommon('What’s included:'),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Included(
+                                          cc: cc,
+                                          data: provider.includedList,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
 
-                              const SizedBox(
-                                height: 20,
-                              ),
-
-                              // for (int i = 0; i < 2; i++)
-                              Included(
-                                cc: cc,
-                                data: provider.includedList,
-                              ),
-
-                              const SizedBox(
-                                height: 20,
-                              ),
-
-                              Extras(
-                                cc: cc,
-                                additionalServices: provider.extrasList,
-                                serviceBenefits: provider
-                                    .serviceExtraData.service.serviceBenifit,
-                              ),
+                              provider.extrasList.isNotEmpty
+                                  ? Extras(
+                                      cc: cc,
+                                      additionalServices: provider.extrasList,
+                                      serviceBenefits: provider.serviceExtraData
+                                          .service.serviceBenifit,
+                                    )
+                                  : Container(),
 
                               // button ==================>
                               const SizedBox(
