@@ -41,14 +41,22 @@ class SupportTicketService with ChangeNotifier {
 
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? userId = prefs.getInt('userId');
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
 
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
       //TODO change userId here
-      var response = await http
-          .get(Uri.parse("$baseApi/support-tickets/$userId?page=$currentPage"));
+      var response = await http.post(
+          Uri.parse("$baseApi/user/support-tickets?page=$currentPage"),
+          headers: header);
 
       if (response.statusCode == 201 &&
           jsonDecode(response.body)['tickets']['data'].isNotEmpty) {
@@ -62,6 +70,7 @@ class SupportTicketService with ChangeNotifier {
           //make the list empty first so that existing data doesn't stay
           setServiceList(data.tickets.data, false);
         } else {
+          print(response.body);
           print('add new data');
 
           //else add new data
@@ -72,6 +81,7 @@ class SupportTicketService with ChangeNotifier {
         setCurrentPage(currentPage);
         return true;
       } else {
+        print(response.body);
         return false;
       }
     }
@@ -84,7 +94,7 @@ class SupportTicketService with ChangeNotifier {
       notifyListeners();
     }
 
-    ticketList = dataList;
+    ticketList.addAll(dataList);
     notifyListeners();
   }
 

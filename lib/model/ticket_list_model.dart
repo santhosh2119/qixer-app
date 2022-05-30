@@ -16,7 +16,7 @@ class TicketListModel {
     required this.tickets,
   });
 
-  String? buyerId;
+  int? buyerId;
   Tickets tickets;
 
   factory TicketListModel.fromJson(Map<String, dynamic> json) =>
@@ -107,7 +107,7 @@ class Datum {
 
   int? id;
   String? title;
-  String? description;
+  dynamic description;
   String? subject;
   String? priority;
   String? status;
@@ -115,7 +115,7 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         title: json["title"],
-        description: json["description"] == null ? null : json["description"],
+        description: json["description"],
         subject: json["subject"],
         priority: json["priority"],
         status: json["status"],
@@ -124,7 +124,7 @@ class Datum {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "description": description == null ? null : description,
+        "description": description,
         "subject": subject,
         "priority": priority,
         "status": status,
