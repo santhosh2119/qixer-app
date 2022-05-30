@@ -73,6 +73,8 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
         '';
   }
 
+  var phoneNumber;
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -165,7 +167,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   initialCountryCode: 'IN',
                                   onChanged: (phone) {
                                     print(phone.completeNumber);
-                                    phoneController.text = phone.completeNumber;
+                                    // phoneController.text = phone.completeNumber;
                                   },
                                 ),
 
@@ -243,6 +245,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   userNameController.text,
                                   emailController.text,
                                   phoneController.text,
+                                  // phoneNumber,
                                   postCodeController.text,
                                   addressController.text,
                                   notesController.text);

@@ -22,13 +22,28 @@ class MyOrdersService with ChangeNotifier {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? userId = prefs.getInt('userId');
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    //       var data = jsonEncode({
+    //   'email': email,
+    //   'password': pass,
+    // });
 
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      var response = await http.get(Uri.parse('$baseApi/my-orders/$userId'));
+      var response = await http.post(Uri.parse('$baseApi/user/my-orders'),
+          headers: header);
 
       if (response.statusCode == 201) {
+        print(response.body);
         var data = MyordersListModel.fromJson(jsonDecode(response.body));
         print(data);
         myServices = data.myOrders;

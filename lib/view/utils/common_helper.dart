@@ -175,7 +175,7 @@ class CommonHelper {
   //no order found
   nothingfound(BuildContext context, String title) {
     return Container(
-        height: MediaQuery.of(context).size.height - 180,
+        height: MediaQuery.of(context).size.height - 120,
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

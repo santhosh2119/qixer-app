@@ -31,6 +31,7 @@ class PlaceOrderService with ChangeNotifier {
   placeOrder(BuildContext context, String? imagePath) async {
     setLoadingTrue();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
 
     List includesList = [];
     List extrasList = [];
@@ -87,6 +88,7 @@ class PlaceOrderService with ChangeNotifier {
     var dio = Dio();
     dio.options.headers['Content-Type'] = 'multipart/form-data';
     dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Authorization'] = "Bearer $token";
 
     if (imagePath != null) {
       //if manual transfer selected then image upload is mandatory

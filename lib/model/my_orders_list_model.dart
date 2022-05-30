@@ -13,18 +13,22 @@ String myordersListModelToJson(MyordersListModel data) =>
 class MyordersListModel {
   MyordersListModel({
     required this.myOrders,
+    required this.userId,
   });
 
   List<MyOrder> myOrders;
+  int userId;
 
   factory MyordersListModel.fromJson(Map<String, dynamic> json) =>
       MyordersListModel(
         myOrders: List<MyOrder>.from(
             json["my_orders"].map((x) => MyOrder.fromJson(x))),
+        userId: json["user_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "my_orders": List<dynamic>.from(myOrders.map((x) => x.toJson())),
+        "user_id": userId,
       };
 }
 
@@ -85,12 +89,12 @@ class MyOrder {
   int? subTotal;
   double? tax;
   double? total;
-  String? couponCode;
+  dynamic couponCode;
   String? couponType;
   int? couponAmount;
   String? commissionType;
   int? commissionCharge;
-  int? commissionAmount;
+  double? commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;
@@ -98,7 +102,7 @@ class MyOrder {
   int? orderCompleteRequest;
   int? cancelOrderMoneyReturn;
   dynamic transactionId;
-  String? orderNote;
+  dynamic orderNote;
 
   dynamic manualPaymentImage;
 
@@ -127,7 +131,7 @@ class MyOrder {
         couponAmount: json["coupon_amount"],
         commissionType: json["commission_type"],
         commissionCharge: json["commission_charge"],
-        commissionAmount: json["commission_amount"],
+        commissionAmount: json["commission_amount"].toDouble(),
         paymentGateway: json["payment_gateway"],
         paymentStatus: json["payment_status"],
         status: json["status"],

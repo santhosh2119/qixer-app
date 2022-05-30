@@ -240,6 +240,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           decoration: SignupHelper().phoneFieldDecoration(),
                           initialCountryCode: 'IN',
                           onChanged: (phone) {
+                            print(phone.countryISOCode);
                             // Provider.of<SignupService>(context, listen: false)
                             //     .setPhone(phone.completeNumber);
                           },

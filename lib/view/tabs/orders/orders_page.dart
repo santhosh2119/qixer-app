@@ -69,16 +69,16 @@ class _OrdersPageState extends State<OrdersPage> {
                                         child: Column(children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              // AutoSizeText(
-                                              //   '#812466',
-                                              //   maxLines: 1,
-                                              //   overflow: TextOverflow.ellipsis,
-                                              //   style: TextStyle(
-                                              //     color: cc.primaryColor,
-                                              //   ),
-                                              // ),
+                                              AutoSizeText(
+                                                '#${provider.myServices[i].id}',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: cc.primaryColor,
+                                                ),
+                                              ),
                                               Row(
                                                 children: [
                                                   OrdersHelper().statusCapsule(
