@@ -33,6 +33,7 @@ import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/service/serviceby_category_service.dart';
+import 'package:qixer/service/support_ticket/create_ticket_service.dart';
 import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/intro/splash.dart';
@@ -88,6 +89,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FacebookLoginService()),
         ChangeNotifierProvider(create: (_) => SupportTicketService()),
         ChangeNotifierProvider(create: (_) => SupportMessagesService()),
+        ChangeNotifierProvider(create: (_) => CreateTicketService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

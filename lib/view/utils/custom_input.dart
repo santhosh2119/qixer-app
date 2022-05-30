@@ -10,7 +10,8 @@ class CustomInput extends StatelessWidget {
   final bool isPasswordField;
   final FocusNode? focusNode;
   final bool isNumberField;
-  final String icon;
+  final String? icon;
+  final double paddingHorizontal;
   TextEditingController? controller;
 
   CustomInput(
@@ -23,7 +24,8 @@ class CustomInput extends StatelessWidget {
       this.isNumberField = false,
       this.controller,
       this.validation,
-      required this.icon})
+      this.icon,
+      this.paddingHorizontal = 8.0})
       : super(key: key);
 
   @override
@@ -44,19 +46,22 @@ class CustomInput extends StatelessWidget {
           obscureText: isPasswordField,
           style: const TextStyle(fontSize: 14),
           decoration: InputDecoration(
-              prefixIcon: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 22.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(icon), fit: BoxFit.fitHeight),
-                    ),
-                  ),
-                ],
-              ),
+              prefixIcon: icon != null
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 22.0,
+                          width: 40.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(icon!),
+                                fit: BoxFit.fitHeight),
+                          ),
+                        ),
+                      ],
+                    )
+                  : null,
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: ConstantColors().greyFive),
                   borderRadius: BorderRadius.circular(9)),
@@ -67,8 +72,8 @@ class CustomInput extends StatelessWidget {
               focusedErrorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: ConstantColors().primaryColor)),
               hintText: hintText,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 18)),
+              contentPadding: EdgeInsets.symmetric(
+                  horizontal: paddingHorizontal, vertical: 18)),
         ));
   }
 }

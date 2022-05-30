@@ -70,7 +70,6 @@ class SupportTicketService with ChangeNotifier {
           //make the list empty first so that existing data doesn't stay
           setServiceList(data.tickets.data, false);
         } else {
-          print(response.body);
           print('add new data');
 
           //else add new data

@@ -2,13 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/tabs/orders/orders_helper.dart';
-import 'package:qixer/view/tabs/settings/supports/ticket_chat_page.dart';
+import 'package:qixer/view/tabs/settings/supports/create_ticket_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 class MyTicketsPage extends StatefulWidget {
   const MyTicketsPage({Key? key}) : super(key: key);
@@ -32,9 +32,63 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: CommonHelper().appbarCommon('Support tickets', context, () {
-          Navigator.pop(context);
-        }),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: cc.greyPrimary),
+          title: Text(
+            'Support tickets',
+            style: TextStyle(
+                color: cc.greyPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.w600),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back_ios,
+              size: 18,
+            ),
+          ),
+          actions: [
+            Container(
+              width: screenWidth / 4,
+              padding: const EdgeInsets.symmetric(
+                vertical: 9,
+              ),
+              margin: const EdgeInsets.only(right: 25),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          const CreateTicketPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                    // width: double.infinity,
+
+                    alignment: Alignment.center,
+                    // padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        color: cc.primaryColor,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: const AutoSizeText(
+                      'Create',
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                      ),
+                    )),
+              ),
+            )
+          ],
+        ),
         body: SmartRefresher(
           controller: refreshController,
           enablePullUp: true,
