@@ -41,7 +41,7 @@ class SplashService {
         String? userName = prefs.getString('userName');
 
         Provider.of<GoogleSignInService>(context, listen: false)
-            .loginAfterGoogleSignin(email, userName, context);
+            .googleLogin(context);
       } else {
         //user logged in with his email and password. so,
         //Try to login with the saved email and password

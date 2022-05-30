@@ -44,8 +44,13 @@ class GoogleSignInService with ChangeNotifier {
 
     // try to login with the info
     if (_user != null) {
-      loginAfterGoogleSignin(_user!.email, _user!.displayName, context);
+      loginAfterGoogleSignin(
+          _user!.email, _user!.displayName, _user?.id, 1, context);
+      // _user.
     } else {
+      OthersHelper().showToast(
+          'didnt get any user info after google sign in. visit google sign in service file',
+          Colors.black);
       print(
           'didnt get any user info after google sign in. visit google sign in service file');
     }
@@ -53,13 +58,15 @@ class GoogleSignInService with ChangeNotifier {
   }
 
   Future<bool> loginAfterGoogleSignin(
-      email, username, BuildContext context) async {
+      email, username, id, int isGoogle, BuildContext context) async {
     var connection = await checkConnection();
     if (connection) {
       setLoadingTrue();
       var data = jsonEncode({
         'email': email,
-        'username': username,
+        'displayName': username,
+        'id': id,
+        'isGoogle': isGoogle
       });
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
@@ -67,22 +74,22 @@ class GoogleSignInService with ChangeNotifier {
         "Content-Type": "application/json"
       };
 
-      var response = await http.post(Uri.parse('$baseApi/google/login'),
+      var response = await http.post(Uri.parse('$baseApi/social/login'),
           body: data, headers: header);
 
       if (response.statusCode == 201) {
+        OthersHelper().showToast('Social login successful', Colors.black);
         setLoadingFalse();
 
+        String token = jsonDecode(response.body)['token'];
+        int userId = jsonDecode(response.body)['users']['id'];
+        await saveDetailsAfterGoogleLogin(email, username, token, userId);
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => const LandingPage(),
           ),
         );
-
-        String token = jsonDecode(response.body)['token'];
-        int userId = jsonDecode(response.body)['users']['id'];
-        saveDetailsAfterGoogleLogin(email, username, token, userId);
 
         return true;
       } else {
@@ -110,5 +117,7 @@ class GoogleSignInService with ChangeNotifier {
 
     prefs.setString("token", token);
     prefs.setInt('userId', userId);
+
+    return true;
   }
 }

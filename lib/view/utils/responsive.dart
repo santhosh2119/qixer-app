@@ -11,4 +11,4 @@ getScreenSize(BuildContext context) {
 //responsive screen codes ========>
 
 var fourinchScreenHeight = 610;
-var fourinchScreenWidth = 400;
+var fourinchScreenWidth = 385;
