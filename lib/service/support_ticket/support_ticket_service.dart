@@ -39,7 +39,6 @@ class SupportTicketService with ChangeNotifier {
           .setCurrentPage(currentPage);
     } else {}
 
-    //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 

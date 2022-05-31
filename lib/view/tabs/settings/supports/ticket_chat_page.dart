@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/view/tabs/settings/supports/support_ticket_helper.dart';
@@ -30,6 +32,8 @@ class _TicketChatPageState extends State<TicketChatPage> {
       curve: Curves.fastOutSlowIn,
     );
   }
+
+  XFile? pickedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -175,27 +179,56 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                           "seller"
                                       ? Alignment.topLeft
                                       : Alignment.topRight),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: (provider.messagesList[index]
-                                                  ['type'] ==
-                                              "seller"
-                                          ? Colors.grey.shade200
-                                          : cc.primaryColor),
-                                    ),
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text(
-                                      SupportTicketHelper().removePTag(provider
-                                          .messagesList[index]['message']),
-                                      style: TextStyle(
-                                          fontSize: 15,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           color: (provider.messagesList[index]
                                                       ['type'] ==
                                                   "seller"
-                                              ? Colors.grey[800]
-                                              : Colors.white)),
-                                    ),
+                                              ? Colors.grey.shade200
+                                              : cc.primaryColor),
+                                        ),
+                                        padding: const EdgeInsets.all(16),
+                                        //message =====>
+                                        child: Text(
+                                          SupportTicketHelper().removePTag(
+                                              provider.messagesList[index]
+                                                  ['message']),
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color:
+                                                  (provider.messagesList[index]
+                                                              ['type'] ==
+                                                          "seller"
+                                                      ? Colors.grey[800]
+                                                      : Colors.white)),
+                                        ),
+                                      ),
+                                      provider.messagesList[index]
+                                                  ['attachment'] !=
+                                              null
+                                          ? Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 8),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    provider.messagesList[index]
+                                                            ['attachment'] ??
+                                                        placeHolderUrl,
+                                                placeholder: (context, url) {
+                                                  return Image.asset(
+                                                      'assets/images/placeholder.png');
+                                                },
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            )
+                                          : Container()
+                                    ],
                                   ),
                                 ),
                               ),
@@ -253,6 +286,18 @@ class _TicketChatPageState extends State<TicketChatPage> {
                     const SizedBox(
                       width: 15,
                     ),
+                    //pick image =====>
+                    IconButton(
+                        onPressed: () async {
+                          pickedImage = await provider.pickImage();
+                          setState(() {});
+                        },
+                        icon: const Icon(Icons.attachment)),
+
+                    //send message button
+                    const SizedBox(
+                      width: 13,
+                    ),
                     FloatingActionButton(
                       onPressed: () async {
                         if (sendMessageController.text.isNotEmpty) {
@@ -260,10 +305,17 @@ class _TicketChatPageState extends State<TicketChatPage> {
                           FocusScope.of(context).unfocus();
                           //send message
                           provider.sendMessage(
-                              widget.ticketId, sendMessageController.text);
+                            widget.ticketId,
+                            sendMessageController.text,
+                            pickedImage?.path,
+                          );
 
                           //clear input field
                           sendMessageController.clear();
+                          //clear image
+                          setState(() {
+                            pickedImage = null;
+                          });
                         }
                       },
                       child: provider.sendLoading == false

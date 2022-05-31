@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qixer/model/ticket_messages_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SupportMessagesService with ChangeNotifier {
   List messagesList = [];
@@ -32,14 +35,36 @@ class SupportMessagesService with ChangeNotifier {
     notifyListeners();
   }
 
+  final ImagePicker _picker = ImagePicker();
+  Future pickImage() async {
+    final XFile? imageFile =
+        await _picker.pickImage(source: ImageSource.gallery);
+
+    if (imageFile != null) {
+      return imageFile;
+    } else {
+      return null;
+    }
+  }
+
   fetchMessages(ticketId) async {
     var connection = await checkConnection();
     if (connection) {
       messagesList = [];
       setLoadingTrue();
       //if connection is ok
-      var response =
-          await http.get(Uri.parse('$baseApi/view-ticket/$ticketId'));
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      var header = {
+        //if header type is application/json then the data should be in jsonEncode method
+        "Accept": "application/json",
+        // "Content-Type": "application/json"
+        "Authorization": "Bearer $token",
+      };
+      var response = await http.get(
+          Uri.parse('$baseApi/user/view-ticket/$ticketId'),
+          headers: header);
       setLoadingFalse();
 
       if (response.statusCode == 201 &&
@@ -51,7 +76,7 @@ class SupportMessagesService with ChangeNotifier {
         notifyListeners();
       } else {
         //Something went wrong
-
+        print(response.body);
       }
     } else {
       OthersHelper()
@@ -65,7 +90,7 @@ class SupportMessagesService with ChangeNotifier {
         'id': dataList[i].id,
         'message': dataList[i].message,
         'notify': 'off',
-        'attachment': null,
+        'attachment': dataList[i].attachment,
         'type': dataList[i].type,
       });
     }
@@ -74,33 +99,55 @@ class SupportMessagesService with ChangeNotifier {
 
 //Send new message ======>
 
-  sendMessage(ticketId, message) async {
-    var data = jsonEncode({
-      'ticket_id': ticketId,
-      'user_type': 'buyer',
-      'message': message,
-    });
-    var header = {
-      //if header type is application/json then the data should be in jsonEncode method
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-    };
+  sendMessage(ticketId, message, imagePath) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    // var data = jsonEncode({
+    //   'ticket_id': ticketId,
+    //   'user_type': 'buyer',
+    //   'message': message,
+    // });
+
+    var dio = Dio();
+    dio.options.headers['Content-Type'] = 'multipart/form-data';
+    dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Authorization'] = "Bearer $token";
+    var formData;
+    if (imagePath != null) {
+      formData = FormData.fromMap({
+        'ticket_id': ticketId,
+        'user_type': 'buyer',
+        'message': message,
+        'file': await MultipartFile.fromFile(imagePath,
+            filename: 'ticket$imagePath.jpg')
+      });
+    } else {
+      formData = FormData.fromMap({
+        'ticket_id': ticketId,
+        'user_type': 'buyer',
+        'message': message,
+      });
+    }
 
     var connection = await checkConnection();
     if (connection) {
       setSendLoadingTrue();
       //if connection is ok
-      var response = await http.post(Uri.parse('$baseApi/ticket/message-send'),
-          body: data, headers: header);
+
+      var response = await dio.post(
+        '$baseApi/user/ticket/message-send',
+        data: formData,
+      );
       setSendLoadingFalse();
 
       if (response.statusCode == 201) {
-        print(response.body);
+        print(response.data);
         addNewMessage(message);
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
-        print(response.body);
+        print(response.data);
         return false;
       }
     } else {
@@ -110,7 +157,9 @@ class SupportMessagesService with ChangeNotifier {
     }
   }
 
-  addNewMessage(newMessage) {
+  addNewMessage(
+    newMessage,
+  ) {
     messagesList.add({
       'id': '',
       'message': newMessage,

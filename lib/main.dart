@@ -5,6 +5,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/auth_services/change_pass_service.dart';
+import 'package:qixer/service/auth_services/email_verify_service.dart';
 import 'package:qixer/service/auth_services/facebook_login_service.dart';
 import 'package:qixer/service/auth_services/google_sign_service.dart';
 import 'package:qixer/service/auth_services/login_service.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SupportTicketService()),
         ChangeNotifierProvider(create: (_) => SupportMessagesService()),
         ChangeNotifierProvider(create: (_) => CreateTicketService()),
+        ChangeNotifierProvider(create: (_) => EmailVerifyService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

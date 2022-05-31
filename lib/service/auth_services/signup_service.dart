@@ -109,6 +109,25 @@ class SignupService with ChangeNotifier {
 
         LoginService().saveDetails(email, password, token, userId);
 
+//TODO uncomment here to make email validation work
+        //Send otp
+        // var isOtepSent =
+        //     await Provider.of<EmailVerifyService>(context, listen: false)
+        //         .sendOtpForEmailValidation(email, context);
+        // setLoadingFalse();
+        // if (isOtepSent) {
+        //   Navigator.pushReplacement<void, void>(
+        //     context,
+        //     MaterialPageRoute<void>(
+        //       builder: (BuildContext context) => EmailVerifyPage(
+        //         email: email,
+        //       ),
+        //     ),
+        //   );
+        // } else {
+        //   OthersHelper().showToast('Otp send failed', Colors.black);
+        // }
+
         return true;
       } else {
         //Sign up unsuccessful ==========>
