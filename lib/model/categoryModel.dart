@@ -31,21 +31,25 @@ class Category {
     this.id,
     this.name,
     this.icon,
+    this.mobileIcon,
   });
 
   int? id;
   String? name;
   String? icon;
+  String? mobileIcon;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         name: json["name"],
         icon: json["icon"],
+        mobileIcon: json["mobile_icon"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "icon": icon,
+        "mobile_icon": mobileIcon,
       };
 }

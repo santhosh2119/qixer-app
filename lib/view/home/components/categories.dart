@@ -37,6 +37,8 @@ class Categories extends StatelessWidget {
                             cc: cc,
                             index: i,
                             marginRight: 17.0,
+                            imagelink:
+                                provider.categories.category[i].mobileIcon,
                           )
                       ],
                     ),

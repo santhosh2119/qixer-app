@@ -65,6 +65,8 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
                             cc: cc,
                             index: index,
                             marginRight: 0.0,
+                            imagelink:
+                                provider.categories.category[index].mobileIcon,
                           )
                         : const Text("Something went wrong")
                     : OthersHelper().showLoading(cc.primaryColor);
