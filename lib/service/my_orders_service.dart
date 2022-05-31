@@ -47,15 +47,18 @@ class MyOrdersService with ChangeNotifier {
         var data = MyordersListModel.fromJson(jsonDecode(response.body));
         print(data);
         myServices = data.myOrders;
+
         isLoading = false;
         notifyListeners();
         setLoadingTrue();
+        return myServices;
       } else {
         //Something went wrong
         myServices = 'error';
         isLoading = false;
         notifyListeners();
         setLoadingTrue();
+        return myServices;
       }
     }
   }
