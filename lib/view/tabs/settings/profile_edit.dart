@@ -36,10 +36,15 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
+  String? countryCode;
 
   @override
   void initState() {
     super.initState();
+    countryCode = Provider.of<ProfileService>(context, listen: false)
+        .profileDetails
+        .userDetails
+        .countryCode;
 
     fullNameController.text =
         Provider.of<ProfileService>(context, listen: false)
@@ -238,9 +243,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         IntlPhoneField(
                           controller: phoneController,
                           decoration: SignupHelper().phoneFieldDecoration(),
-                          initialCountryCode: 'IN',
+                          initialCountryCode: countryCode,
                           onChanged: (phone) {
-                            print(phone.countryISOCode);
                             // Provider.of<SignupService>(context, listen: false)
                             //     .setPhone(phone.completeNumber);
                           },

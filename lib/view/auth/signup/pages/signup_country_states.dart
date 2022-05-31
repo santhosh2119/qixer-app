@@ -10,13 +10,13 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class SignupCountryStates extends StatefulWidget {
-  const SignupCountryStates(
-      {Key? key,
-      this.fullNameController,
-      this.userNameController,
-      this.emailController,
-      this.passController})
-      : super(key: key);
+  const SignupCountryStates({
+    Key? key,
+    this.fullNameController,
+    this.userNameController,
+    this.emailController,
+    this.passController,
+  }) : super(key: key);
 
   final fullNameController;
   final userNameController;

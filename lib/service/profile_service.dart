@@ -60,7 +60,8 @@ class ProfileService with ChangeNotifier {
           await http.get(Uri.parse('$baseApi/user/profile'), headers: header);
 
       if (response.statusCode == 201) {
-        profileDetails = ProfileModel.fromJson(jsonDecode(response.body));
+        var data = ProfileModel.fromJson(jsonDecode(response.body));
+        profileDetails = data;
 
         ordersList.add(profileDetails.pendingOrder);
         ordersList.add(profileDetails.activeOrder);

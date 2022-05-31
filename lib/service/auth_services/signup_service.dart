@@ -15,8 +15,15 @@ class SignupService with ChangeNotifier {
   bool isloading = false;
 
   String phoneNumber = '0';
+  String countryCode = 'IN';
+
   setPhone(value) {
     phoneNumber = value;
+    notifyListeners();
+  }
+
+  setCountryCode(code) {
+    countryCode = code;
     notifyListeners();
   }
 
@@ -47,9 +54,15 @@ class SignupService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> signup(String fullName, String email, String userName,
-      String password, BuildContext context) async {
+  Future signup(
+    String fullName,
+    String email,
+    String userName,
+    String password,
+    BuildContext context,
+  ) async {
     var connection = await checkConnection();
+
     if (connection) {
       setLoadingTrue();
       var data = jsonEncode({
@@ -67,6 +80,7 @@ class SignupService with ChangeNotifier {
         'country_id': Provider.of<CountryStatesService>(context, listen: false)
             .selectedCountryId,
         'terms_conditions': 1,
+        'country_code': countryCode
       });
       var header = {
         //if header type is application/json then the data should be in jsonEncode method

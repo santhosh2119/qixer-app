@@ -12,17 +12,19 @@ String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 class ProfileModel {
   ProfileModel({
     required this.userDetails,
-    this.pendingOrder,
-    this.activeOrder,
-    this.completeOrder,
-    this.totalOrder,
+    required this.pendingOrder,
+    required this.activeOrder,
+    required this.completeOrder,
+    required this.totalOrder,
+    required this.profileImage,
   });
 
   UserDetails userDetails;
-  int? pendingOrder;
-  int? activeOrder;
-  int? completeOrder;
-  int? totalOrder;
+  int pendingOrder;
+  int activeOrder;
+  int completeOrder;
+  int totalOrder;
+  List<dynamic> profileImage;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         userDetails: UserDetails.fromJson(json["user_details"]),
@@ -30,6 +32,7 @@ class ProfileModel {
         activeOrder: json["active_order"],
         completeOrder: json["complete_order"],
         totalOrder: json["total_order"],
+        profileImage: List<dynamic>.from(json["profile_image"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,34 +41,7 @@ class ProfileModel {
         "active_order": activeOrder,
         "complete_order": completeOrder,
         "total_order": totalOrder,
-      };
-}
-
-class ProfileImage {
-  ProfileImage({
-    this.imageId,
-    this.path,
-    this.imgUrl,
-    this.imgAlt,
-  });
-
-  int? imageId;
-  String? path;
-  String? imgUrl;
-  dynamic imgAlt;
-
-  factory ProfileImage.fromJson(Map<String, dynamic> json) => ProfileImage(
-        imageId: json["image_id"],
-        path: json["path"],
-        imgUrl: json["img_url"],
-        imgAlt: json["img_alt"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "image_id": imageId,
-        "path": path,
-        "img_url": imgUrl,
-        "img_alt": imgAlt,
+        "profile_image": List<dynamic>.from(profileImage.map((x) => x)),
       };
 }
 
@@ -82,6 +58,7 @@ class UserDetails {
     this.serviceArea,
     this.postCode,
     this.image,
+    this.countryCode,
     required this.country,
     required this.city,
     required this.area,
@@ -91,13 +68,14 @@ class UserDetails {
   String? name;
   String? email;
   String? phone;
-  String? address;
-  String? about;
+  dynamic address;
+  dynamic about;
   int? countryId;
   String? serviceCity;
   String? serviceArea;
-  String? postCode;
-  String? image;
+  dynamic postCode;
+  dynamic image;
+  String? countryCode;
   Country country;
   City city;
   Area area;
@@ -114,6 +92,7 @@ class UserDetails {
         serviceArea: json["service_area"],
         postCode: json["post_code"],
         image: json["image"],
+        countryCode: json["country_code"],
         country: Country.fromJson(json["country"]),
         city: City.fromJson(json["city"]),
         area: Area.fromJson(json["area"]),
@@ -131,6 +110,7 @@ class UserDetails {
         "service_area": serviceArea,
         "post_code": postCode,
         "image": image,
+        "country_code": countryCode,
         "country": country.toJson(),
         "city": city.toJson(),
         "area": area.toJson(),
