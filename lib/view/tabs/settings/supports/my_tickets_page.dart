@@ -139,7 +139,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                 onTap: () {
                                   provider.goToMessagePage(
                                       context,
-                                      provider.ticketList[i].title,
+                                      provider.ticketList[i].subject,
                                       provider.ticketList[i].id);
                                 },
                                 child: Container(
@@ -184,7 +184,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                                       provider.goToMessagePage(
                                                           context,
                                                           provider.ticketList[i]
-                                                              .title,
+                                                              .subject,
                                                           provider.ticketList[i]
                                                               .id);
                                                     },
@@ -202,7 +202,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                           height: 7,
                                         ),
                                         CommonHelper().titleCommon(
-                                            provider.ticketList[i].title),
+                                            provider.ticketList[i].subject),
 
                                         //Divider
                                         Container(

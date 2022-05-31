@@ -33,6 +33,7 @@ class SupportTicketService with ChangeNotifier {
       //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
       //we are make the list empty when the sub category or brand is selected because then the refresh is true
       ticketList = [];
+
       notifyListeners();
 
       Provider.of<SupportTicketService>(context, listen: false)

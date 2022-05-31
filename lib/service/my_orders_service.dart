@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MyOrdersService with ChangeNotifier {
   var myServices;
 
-  bool isLoading = true;
+  bool isLoading = false;
 
   setLoadingTrue() {
     Future.delayed(Duration(seconds: 1), () {

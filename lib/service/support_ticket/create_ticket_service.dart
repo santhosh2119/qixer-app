@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/my_orders_service.dart';
+import 'package:qixer/view/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateTicketService with ChangeNotifier {
+  bool isLoading = false;
   //priority dropdown
   var priorityDropdownList = ['Urgent', 'High', 'Medium', 'Low'];
   var priorityDropdownIndexList = ['Urgent', 'High', 'Medium', 'Low'];
@@ -53,6 +59,45 @@ class CreateTicketService with ChangeNotifier {
       selectedOrder = '#${orders[0].id}';
       selectedOrderId = orders[0].id;
       notifyListeners();
+    }
+  }
+
+  //create ticket ====>
+
+  createTicket(BuildContext context, subject, priority, desc, orderId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('userId');
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var data = jsonEncode({
+      'subject': subject,
+      'priority': priority,
+      'description': desc,
+      'order_id': orderId
+    });
+
+    var connection = await checkConnection();
+    if (connection) {
+      isLoading = true;
+      notifyListeners();
+      //if connection is ok
+      var response = await http.post(Uri.parse('$baseApi/user/ticket/create'),
+          headers: header, body: data);
+      isLoading = false;
+      notifyListeners();
+      if (response.statusCode == 201) {
+        OthersHelper().showToast('Ticket created successfully', Colors.black);
+        Navigator.pop(context);
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
     }
   }
 }
