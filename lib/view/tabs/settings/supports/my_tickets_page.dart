@@ -139,8 +139,8 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                 onTap: () {
                                   provider.goToMessagePage(
                                       context,
-                                      provider.ticketList[i].subject,
-                                      provider.ticketList[i].id);
+                                      provider.ticketList[i]['subject'],
+                                      provider.ticketList[i]['id']);
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -162,7 +162,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             AutoSizeText(
-                                              '#${provider.ticketList[i].id}',
+                                              '#${provider.ticketList[i]['id']}',
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -184,9 +184,9 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                                       provider.goToMessagePage(
                                                           context,
                                                           provider.ticketList[i]
-                                                              .subject,
+                                                              ['subject'],
                                                           provider.ticketList[i]
-                                                              .id);
+                                                              ['id']);
                                                     },
                                                     value: index,
                                                     child: const Text('Chat'),
@@ -202,7 +202,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                           height: 7,
                                         ),
                                         CommonHelper().titleCommon(
-                                            provider.ticketList[i].subject),
+                                            provider.ticketList[i]['subject']),
 
                                         //Divider
                                         Container(
@@ -214,15 +214,16 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                         Row(
                                           children: [
                                             OrdersHelper().statusCapsule(
-                                                provider.ticketList[i].priority,
+                                                provider.ticketList[i]
+                                                    ['priority'],
                                                 cc.greyThree),
                                             const SizedBox(
                                               width: 11,
                                             ),
                                             OrdersHelper()
                                                 .statusCapsuleBordered(
-                                                    provider
-                                                        .ticketList[i].status,
+                                                    provider.ticketList[i]
+                                                        ['status'],
                                                     cc.greyParagraph),
                                           ],
                                         )

@@ -28,6 +28,12 @@ class SupportTicketService with ChangeNotifier {
     notifyListeners();
   }
 
+  addNewDataToTicketList(subject, id, priority, status) {
+    ticketList.add(
+        {'subject': subject, 'id': id, 'priority': priority, 'status': status});
+    notifyListeners();
+  }
+
   fetchTicketList(context, {bool isrefresh = false}) async {
     if (isrefresh) {
       //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
@@ -93,7 +99,15 @@ class SupportTicketService with ChangeNotifier {
       notifyListeners();
     }
 
-    ticketList.addAll(dataList);
+    for (int i = 0; i < dataList.length; i++) {
+      ticketList.add({
+        'subject': dataList[i].subject,
+        'id': dataList[i].id,
+        'priority': dataList[i].priority,
+        'status': dataList[i].status
+      });
+    }
+
     notifyListeners();
   }
 

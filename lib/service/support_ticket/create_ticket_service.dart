@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/my_orders_service.dart';
+import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,6 +95,13 @@ class CreateTicketService with ChangeNotifier {
       notifyListeners();
       if (response.statusCode == 201) {
         OthersHelper().showToast('Ticket created successfully', Colors.black);
+
+        Provider.of<SupportTicketService>(context, listen: false)
+            .addNewDataToTicketList(
+                subject,
+                jsonDecode(response.body)['ticket_info']['id'],
+                priority,
+                'open');
         Navigator.pop(context);
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
