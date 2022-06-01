@@ -45,7 +45,7 @@ payAction(String method, BuildContext context, imagePath) {
       // MercadoPagoService().mercadoPay();
       break;
     case 'paystack':
-      PaystackService().payByPaystack(context);
+      // PaystackService().payByPaystack(context);
       break;
     case 'paytm':
       // MercadoPagoService().mercadoPay();
@@ -82,12 +82,12 @@ List paymentList = [
   PayMethods('cashfree', 'assets/icons/payment/cashfree.png'),
   PayMethods('flutterwave', 'assets/icons/payment/flutterwave.png'),
   PayMethods('instamojo', 'assets/icons/payment/instamojo.png'),
-  PayMethods('mercado', 'assets/icons/payment/mercado.png'),
-  PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
-  PayMethods('mollie', 'assets/icons/payment/mollie.png'),
-  PayMethods('payfast', 'assets/icons/payment/payfast.png'),
-  PayMethods('paystack', 'assets/icons/payment/paystack.png'),
-  PayMethods('paytm', 'assets/icons/payment/paytm.png'),
+  // PayMethods('mercado', 'assets/icons/payment/mercado.png'),
+  // PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
+  // PayMethods('mollie', 'assets/icons/payment/mollie.png'),
+  // PayMethods('payfast', 'assets/icons/payment/payfast.png'),
+  // PayMethods('paystack', 'assets/icons/payment/paystack.png'),
+  // PayMethods('paytm', 'assets/icons/payment/paytm.png'),
   PayMethods('razorpay', 'assets/icons/payment/razorpay.png'),
   PayMethods('stripe', 'assets/icons/payment/stripe.png'),
   PayMethods('bank_transfer', 'assets/icons/payment/bank_transfer.png'),

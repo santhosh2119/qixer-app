@@ -89,14 +89,16 @@ class PaypalPaymentState extends State<PaypalPayment> {
     ];
 
     // checkout invoice details
-    String totalAmount =
-        Provider.of<BookConfirmationService>(context, listen: false)
-            .totalPriceAfterAllcalculation
-            .toString();
-    String subTotalAmount =
-        Provider.of<BookConfirmationService>(context, listen: false)
-            .totalPriceAfterAllcalculation
-            .toString();
+    String totalAmount = '2.11';
+    String subTotalAmount = '2.11';
+    // String totalAmount =
+    //     Provider.of<BookConfirmationService>(context, listen: false)
+    //         .totalPriceAfterAllcalculation
+    //         .toString();
+    // String subTotalAmount =
+    //     Provider.of<BookConfirmationService>(context, listen: false)
+    //         .totalPriceAfterAllcalculation
+    //         .toString();
     String shippingCost = '0';
     int shippingDiscountCost = 0;
     String userFirstName = 'Gulshan';

@@ -84,6 +84,7 @@ class PaypalService {
         }
         throw Exception("0");
       } else {
+        print(response.body);
         throw Exception(body["message"]);
       }
     } catch (e) {
