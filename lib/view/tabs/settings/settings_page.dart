@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/auth_services/google_sign_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
@@ -245,6 +246,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                     'assets/svg/logout-circle.svg', 'Logout',
                                     () {
                                   SettingsHelper().logoutPopup(context);
+                                  //if logged in by google then logout from it
+                                  GoogleSignInService().logOutFromGoogleLogin();
                                 }),
                                 sizedBox20()
                               ]),

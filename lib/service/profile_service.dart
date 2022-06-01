@@ -26,6 +26,13 @@ class ProfileService with ChangeNotifier {
     notifyListeners();
   }
 
+  setEverythingToDefault() {
+    profileDetails = null;
+    profileImage = null;
+    ordersList = [];
+    notifyListeners();
+  }
+
   getProfileDetails({bool isFromProfileupdatePage = false}) async {
     if (isFromProfileupdatePage == true) {
       //if from update profile page then load it anyway

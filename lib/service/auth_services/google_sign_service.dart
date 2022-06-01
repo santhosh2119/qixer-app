@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +31,7 @@ class GoogleSignInService with ChangeNotifier {
 
   Future googleLogin(BuildContext context) async {
     final googleUser = await googleSignIn.signIn();
+
     print(googleUser);
     if (googleUser == null) return;
     _user = googleUser;
@@ -46,15 +46,19 @@ class GoogleSignInService with ChangeNotifier {
     if (_user != null) {
       loginAfterGoogleSignin(
           _user!.email, _user!.displayName, _user?.id, 1, context);
+
       // _user.
     } else {
       OthersHelper().showToast(
-          'didnt get any user info after google sign in. visit google sign in service file',
+          'Didnt get any user info after google sign in. visit google sign in service file',
           Colors.black);
-      print(
-          'didnt get any user info after google sign in. visit google sign in service file');
     }
     notifyListeners();
+  }
+
+//Logout from google ====>
+  logOutFromGoogleLogin() {
+    googleSignIn.signOut();
   }
 
   Future<bool> loginAfterGoogleSignin(
@@ -78,7 +82,6 @@ class GoogleSignInService with ChangeNotifier {
           body: data, headers: header);
 
       if (response.statusCode == 201) {
-        OthersHelper().showToast('Social login successful', Colors.black);
         setLoadingFalse();
 
         String token = jsonDecode(response.body)['token'];
@@ -90,13 +93,15 @@ class GoogleSignInService with ChangeNotifier {
             builder: (BuildContext context) => const LandingPage(),
           ),
         );
+        print(response.body);
 
         return true;
       } else {
         debugPrint(response.body);
         //Login unsuccessful ==========>
-        OthersHelper().showToast(jsonDecode(response.body)['message'],
-            ConstantColors().warningColor);
+        // OthersHelper().showToast(jsonDecode(response.body)['message'],
+        //     ConstantColors().warningColor);
+        OthersHelper().showToast('Something went wrong', Colors.black);
 
         setLoadingFalse();
         return false;
@@ -110,6 +115,8 @@ class GoogleSignInService with ChangeNotifier {
   saveDetailsAfterGoogleLogin(
       String email, userName, String token, int userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('token is $token');
+    print('user id is $userId');
     prefs.setBool('keepLoggedIn', true);
     prefs.setBool('googleLogin', true);
     prefs.setString("email", email);
