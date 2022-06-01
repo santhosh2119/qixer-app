@@ -27,6 +27,8 @@ class CreateTicketService with ChangeNotifier {
     notifyListeners();
   }
 
+  bool hasOrder = true;
+
   //order list dropdown
   var orderDropdownList = [];
   var orderDropdownIndexList = [];
@@ -50,15 +52,24 @@ class CreateTicketService with ChangeNotifier {
   }
 
   fetchOrderDropdown(BuildContext context) async {
+    hasOrder = true;
+    Future.delayed(const Duration(microseconds: 500), () {
+      notifyListeners();
+    });
     var orders = await Provider.of<MyOrdersService>(context, listen: false)
         .fetchMyOrders();
     if (orders != 'error') {
+      print('orders is $orders');
       for (int i = 0; i < orders.length; i++) {
         orderDropdownList.add('#${orders[i].id}');
         orderDropdownIndexList.add(orders[i].id);
       }
       selectedOrder = '#${orders[0].id}';
       selectedOrderId = orders[0].id;
+      hasOrder = true;
+      notifyListeners();
+    } else {
+      hasOrder = false;
       notifyListeners();
     }
   }

@@ -38,6 +38,7 @@ import 'package:qixer/service/support_ticket/create_ticket_service.dart';
 import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/intro/splash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +47,13 @@ void main() async {
 
   await Firebase.initializeApp();
   runApp(const MyApp());
+
+//get user id, so that we can clear everything cached by provider when user logs out and logs in again
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  userId = prefs.getInt('userId');
 }
+
+int? userId;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -56,6 +63,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MultiProvider(
+      key: ObjectKey(userId),
       providers: [
         ChangeNotifierProvider(create: (_) => CountryStatesService()),
         ChangeNotifierProvider(create: (_) => SignupService()),

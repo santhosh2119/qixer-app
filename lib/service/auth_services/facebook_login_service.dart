@@ -18,6 +18,7 @@ class FacebookLoginService with ChangeNotifier {
 
       accessToken = token;
       userData = userDetails;
+      print('userData from facebook is $userData');
       notifyListeners();
     } else {
       // user is not logged in by facebook

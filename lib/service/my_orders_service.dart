@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MyOrdersService with ChangeNotifier {
   var myServices;
 
-  bool isLoading = false;
+  bool isLoading = true;
 
   setLoadingTrue() {
     Future.delayed(Duration(seconds: 1), () {
@@ -42,7 +42,8 @@ class MyOrdersService with ChangeNotifier {
       var response = await http.post(Uri.parse('$baseApi/user/my-orders'),
           headers: header);
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 &&
+          jsonDecode(response.body)['my_orders'].isNotEmpty) {
         print(response.body);
         var data = MyordersListModel.fromJson(jsonDecode(response.body));
         print(data);

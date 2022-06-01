@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/auth_services/facebook_login_service.dart';
 import 'package:qixer/service/auth_services/google_sign_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
@@ -248,6 +249,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                   SettingsHelper().logoutPopup(context);
                                   //if logged in by google then logout from it
                                   GoogleSignInService().logOutFromGoogleLogin();
+
+                                  //if logged in by facebook then logout from it
+                                  FacebookLoginService().logoutFromFacebook();
                                 }),
                                 sizedBox20()
                               ]),

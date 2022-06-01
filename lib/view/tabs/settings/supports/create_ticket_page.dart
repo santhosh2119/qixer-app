@@ -112,68 +112,83 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                         ),
 
                         //Order dropdown =======>
-                        provider.orderDropdownList.isNotEmpty
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  sizedBox20(),
-                                  CommonHelper().labelCommon("Order number"),
-                                  Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: cc.greyFive),
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<String>(
-                                        // menuMaxHeight: 200,
-                                        // isExpanded: true,
-                                        value:
-                                            provider.selectedOrder.toString(),
-                                        icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: cc.greyFour),
-                                        iconSize: 26,
-                                        elevation: 17,
-                                        style: TextStyle(color: cc.greyFour),
-                                        onChanged: (newValue) {
-                                          provider.setOrderValue(newValue);
+                        provider.hasOrder == true
+                            ? provider.orderDropdownList.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      sizedBox20(),
+                                      CommonHelper()
+                                          .labelCommon("Order number"),
+                                      Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: cc.greyFive),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                        ),
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            // menuMaxHeight: 200,
+                                            // isExpanded: true,
+                                            value: provider.selectedOrder
+                                                .toString(),
+                                            icon: Icon(
+                                                Icons
+                                                    .keyboard_arrow_down_rounded,
+                                                color: cc.greyFour),
+                                            iconSize: 26,
+                                            elevation: 17,
+                                            style:
+                                                TextStyle(color: cc.greyFour),
+                                            onChanged: (newValue) {
+                                              provider.setOrderValue(newValue);
 
-                                          //setting the id of selected value
-                                          provider.setSelectedOrderId(
-                                              provider.orderDropdownIndexList[
-                                                  provider.orderDropdownList
-                                                      .indexOf(newValue!)]);
-                                        },
-                                        items: provider.orderDropdownList
-                                            .map<DropdownMenuItem<String>>(
-                                                (value) {
-                                          return DropdownMenuItem(
-                                            value: value.toString(),
-                                            child: Text(
-                                              value.toString(),
-                                              style: TextStyle(
-                                                  color: cc.greyPrimary
-                                                      .withOpacity(.8)),
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
+                                              //setting the id of selected value
+                                              provider.setSelectedOrderId(
+                                                  provider.orderDropdownIndexList[
+                                                      provider.orderDropdownList
+                                                          .indexOf(newValue!)]);
+                                            },
+                                            items: provider.orderDropdownList
+                                                .map<DropdownMenuItem<String>>(
+                                                    (value) {
+                                              return DropdownMenuItem(
+                                                value: value.toString(),
+                                                child: Text(
+                                                  value.toString(),
+                                                  style: TextStyle(
+                                                      color: cc.greyPrimary
+                                                          .withOpacity(.8)),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : Container(
+                                    margin: const EdgeInsets.only(top: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        OthersHelper()
+                                            .showLoading(cc.primaryColor)
+                                      ],
                                     ),
                                   )
-                                ],
-                              )
                             : Container(
-                                margin: const EdgeInsets.only(top: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    OthersHelper().showLoading(cc.primaryColor)
-                                  ],
-                                ),
-                              ),
+                                margin: const EdgeInsets.only(top: 20),
+                                child: Text(
+                                  'You don\'t have any active order',
+                                  style: TextStyle(color: cc.warningColor),
+                                )),
 
                         sizedBox20(),
                         CommonHelper().labelCommon("Title"),
@@ -205,8 +220,13 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                           height: 30,
                         ),
                         CommonHelper().buttonOrange('Create ticket', () {
-                          if (_formKey.currentState!.validate()) {
-                            if (provider.isLoading == false) {
+                          if (provider.hasOrder == false) {
+                            OthersHelper().showToast(
+                                'You don\'t have any active order',
+                                Colors.black);
+                          } else if (_formKey.currentState!.validate()) {
+                            if (provider.isLoading == false &&
+                                provider.hasOrder == true) {
                               provider.createTicket(
                                   context,
                                   titleController.text,

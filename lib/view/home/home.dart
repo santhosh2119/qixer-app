@@ -230,7 +230,7 @@ class _HomepageState extends State<Homepage> {
                     ),
                     SectionTitle(
                       cc: cc,
-                      title: 'Top rated services',
+                      title: 'Top booked services',
                       pressed: () {
                         Navigator.push(
                           context,

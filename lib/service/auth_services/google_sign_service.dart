@@ -83,6 +83,7 @@ class GoogleSignInService with ChangeNotifier {
 
       if (response.statusCode == 201) {
         setLoadingFalse();
+        print(response.body);
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
