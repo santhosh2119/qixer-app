@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/support_ticket/support_messages_service.dart';
+import 'package:qixer/view/tabs/settings/supports/image_big_preview.dart';
 import 'package:qixer/view/tabs/settings/supports/support_ticket_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -225,30 +226,67 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                                               index]
                                                           ['imagePicked'] ==
                                                       false
-                                                  ? CachedNetworkImage(
-                                                      imageUrl:
-                                                          provider.messagesList[
-                                                                      index][
-                                                                  'attachment'] ??
-                                                              placeHolderUrl,
-                                                      placeholder:
-                                                          (context, url) {
-                                                        return Image.asset(
-                                                            'assets/images/placeholder.png');
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute<
+                                                              void>(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                ImageBigPreviewPage(
+                                                              networkImgLink:
+                                                                  provider.messagesList[
+                                                                          index]
+                                                                      [
+                                                                      'attachment'],
+                                                            ),
+                                                          ),
+                                                        );
                                                       },
-                                                      height: 150,
-                                                      width:
-                                                          screenWidth / 2 - 50,
-                                                      fit: BoxFit.fitWidth,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            provider.messagesList[
+                                                                        index][
+                                                                    'attachment'] ??
+                                                                placeHolderUrl,
+                                                        placeholder:
+                                                            (context, url) {
+                                                          return Image.asset(
+                                                              'assets/images/placeholder.png');
+                                                        },
+                                                        height: 150,
+                                                        width: screenWidth / 2 -
+                                                            50,
+                                                        fit: BoxFit.fitWidth,
+                                                      ),
                                                     )
-                                                  : Image.file(
-                                                      File(provider
-                                                              .messagesList[
-                                                          index]['attachment']),
-                                                      height: 150,
-                                                      width:
-                                                          screenWidth / 2 - 50,
-                                                      fit: BoxFit.cover,
+                                                  : InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute<
+                                                              void>(
+                                                            builder: (BuildContext
+                                                                    context) =>
+                                                                ImageBigPreviewPage(
+                                                              assetImgLink: provider
+                                                                          .messagesList[
+                                                                      index][
+                                                                  'attachment'],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Image.file(
+                                                        File(provider
+                                                                .messagesList[
+                                                            index]['attachment']),
+                                                        height: 150,
+                                                        width: screenWidth / 2 -
+                                                            50,
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                             )
                                           : Container()
@@ -348,6 +386,9 @@ class _TicketChatPageState extends State<TicketChatPage> {
                           setState(() {
                             pickedImage = null;
                           });
+                        } else {
+                          OthersHelper().showToast(
+                              'Please write a message first', Colors.black);
                         }
                       },
                       child: provider.sendLoading == false
