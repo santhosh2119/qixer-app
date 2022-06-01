@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer/service/auth_services/login_service.dart';
+import 'package:qixer/service/auth_services/reset_password_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
@@ -12,8 +14,6 @@ class EmailVerifyService with ChangeNotifier {
   bool isloading = false;
 
   bool verifyOtpLoading = false;
-
-  String? otpNumber;
 
   setLoadingTrue() {
     isloading = true;
@@ -37,18 +37,18 @@ class EmailVerifyService with ChangeNotifier {
         //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": "Bearer $token",
       };
       var data = jsonEncode({
         'email': email,
       });
 
-      var response = await http.post(
-          Uri.parse('$baseApi/user/send-otp-in-mail'),
-          headers: header,
-          body: data);
+      var response = await http.post(Uri.parse('$baseApi/send-otp-in-mail'),
+          headers: header, body: data);
       if (response.statusCode == 201) {
-        otpNumber = jsonDecode(response.body)['otp'];
+        var otpNumber = jsonDecode(response.body)['otp'];
+        Provider.of<ResetPasswordService>(context, listen: false)
+            .setOtp(otpNumber);
+
         debugPrint('otp is $otpNumber');
         notifyListeners();
 
@@ -65,6 +65,8 @@ class EmailVerifyService with ChangeNotifier {
 
   verifyOtpAndLogin(
       enteredOtp, BuildContext context, email, password, token, userId) async {
+    var otpNumber =
+        Provider.of<ResetPasswordService>(context, listen: false).otpNumber;
     if (otpNumber != null) {
       if (enteredOtp == otpNumber) {
         //Set Loading true

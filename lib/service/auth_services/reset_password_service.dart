@@ -6,11 +6,17 @@ import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResetPasswordService with ChangeNotifier {
   bool isloading = false;
 
   String? otpNumber;
+
+  setOtp(newOtp) {
+    otpNumber = newOtp;
+    notifyListeners();
+  }
 
   setLoadingTrue() {
     isloading = true;
@@ -32,7 +38,7 @@ class ResetPasswordService with ChangeNotifier {
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       };
       var data = jsonEncode({
         'email': email,
