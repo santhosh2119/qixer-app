@@ -12,9 +12,18 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class EmailVerifyPage extends StatefulWidget {
-  const EmailVerifyPage({Key? key, required this.email}) : super(key: key);
+  const EmailVerifyPage(
+      {Key? key,
+      required this.email,
+      required this.pass,
+      required this.token,
+      required this.userId})
+      : super(key: key);
 
   final email;
+  final pass;
+  final token;
+  final userId;
 
   @override
   _EmailVerifyPageState createState() => _EmailVerifyPageState();
@@ -92,7 +101,8 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                     errorAnimationController: errorController,
                     controller: textEditingController,
                     onCompleted: (otp) {
-                      // provider.checkAndVerifyOtp(otp, context);
+                      provider.verifyOtpAndLogin(otp, context, widget.email,
+                          widget.pass, widget.token, widget.userId);
                     },
                     onChanged: (value) {
                       setState(() {
@@ -106,6 +116,16 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                     },
                   ),
                 ),
+
+                //Loading bar
+                provider.verifyOtpLoading == true
+                    ? Container(
+                        margin: const EdgeInsets.only(top: 15, bottom: 5),
+                        alignment: Alignment.center,
+                        child: OthersHelper().showLoading(cc.primaryColor),
+                      )
+                    : Container(),
+
                 const SizedBox(
                   height: 13,
                 ),

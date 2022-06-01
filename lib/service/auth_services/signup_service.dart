@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/auth_services/email_verify_service.dart';
 import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/view/auth/signup/components/email_verify_page.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -95,38 +97,36 @@ class SignupService with ChangeNotifier {
         OthersHelper().showToast(
             "Registration successful", ConstantColors().successColor);
 
-        setLoadingFalse();
-
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LandingPage(),
-          ),
-        );
+        // Navigator.pushReplacement<void, void>(
+        //   context,
+        //   MaterialPageRoute<void>(
+        //     builder: (BuildContext context) => const LandingPage(),
+        //   ),
+        // );
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
 
-        LoginService().saveDetails(email, password, token, userId);
-
-//TODO uncomment here to make email validation work
         //Send otp
-        // var isOtepSent =
-        //     await Provider.of<EmailVerifyService>(context, listen: false)
-        //         .sendOtpForEmailValidation(email, context);
-        // setLoadingFalse();
-        // if (isOtepSent) {
-        //   Navigator.pushReplacement<void, void>(
-        //     context,
-        //     MaterialPageRoute<void>(
-        //       builder: (BuildContext context) => EmailVerifyPage(
-        //         email: email,
-        //       ),
-        //     ),
-        //   );
-        // } else {
-        //   OthersHelper().showToast('Otp send failed', Colors.black);
-        // }
+        var isOtepSent =
+            await Provider.of<EmailVerifyService>(context, listen: false)
+                .sendOtpForEmailValidation(email, context, token);
+        setLoadingFalse();
+        if (isOtepSent) {
+          Navigator.pushReplacement<void, void>(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => EmailVerifyPage(
+                email: email,
+                pass: password,
+                token: token,
+                userId: userId,
+              ),
+            ),
+          );
+        } else {
+          OthersHelper().showToast('Otp send failed', Colors.black);
+        }
 
         return true;
       } else {
