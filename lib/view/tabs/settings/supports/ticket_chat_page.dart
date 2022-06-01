@@ -295,8 +295,16 @@ class _TicketChatPageState extends State<TicketChatPage> {
                 color: Colors.white,
                 child: Row(
                   children: <Widget>[
+                    pickedImage != null
+                        ? Image.file(
+                            File(pickedImage!.path),
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(),
                     const SizedBox(
-                      width: 15,
+                      width: 13,
                     ),
                     Expanded(
                       child: TextField(
