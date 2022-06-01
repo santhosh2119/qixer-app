@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +9,7 @@ import 'package:qixer/view/tabs/settings/supports/support_ticket_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 class TicketChatPage extends StatefulWidget {
   const TicketChatPage({Key? key, required this.title, required this.ticketId})
@@ -180,6 +183,11 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                       ? Alignment.topLeft
                                       : Alignment.topRight),
                                   child: Column(
+                                    crossAxisAlignment:
+                                        (provider.messagesList[index]['type'] ==
+                                                "seller"
+                                            ? CrossAxisAlignment.start
+                                            : CrossAxisAlignment.end),
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
@@ -211,21 +219,37 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                                   ['attachment'] !=
                                               null
                                           ? Container(
-                                              margin:
-                                                  const EdgeInsets.only(top: 8),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    provider.messagesList[index]
-                                                            ['attachment'] ??
-                                                        placeHolderUrl,
-                                                placeholder: (context, url) {
-                                                  return Image.asset(
-                                                      'assets/images/placeholder.png');
-                                                },
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
-                                              ),
+                                              margin: const EdgeInsets.only(
+                                                  top: 11),
+                                              child: provider.messagesList[
+                                                              index]
+                                                          ['imagePicked'] ==
+                                                      false
+                                                  ? CachedNetworkImage(
+                                                      imageUrl:
+                                                          provider.messagesList[
+                                                                      index][
+                                                                  'attachment'] ??
+                                                              placeHolderUrl,
+                                                      placeholder:
+                                                          (context, url) {
+                                                        return Image.asset(
+                                                            'assets/images/placeholder.png');
+                                                      },
+                                                      height: 150,
+                                                      width:
+                                                          screenWidth / 2 - 50,
+                                                      fit: BoxFit.fitWidth,
+                                                    )
+                                                  : Image.file(
+                                                      File(provider
+                                                              .messagesList[
+                                                          index]['attachment']),
+                                                      height: 150,
+                                                      width:
+                                                          screenWidth / 2 - 50,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                             )
                                           : Container()
                                     ],

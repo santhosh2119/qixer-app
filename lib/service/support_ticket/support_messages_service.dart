@@ -92,6 +92,8 @@ class SupportMessagesService with ChangeNotifier {
         'notify': 'off',
         'attachment': dataList[i].attachment,
         'type': dataList[i].type,
+        'imagePicked':
+            false //check if this image is just got picked from device in that case we will show it from device location
       });
     }
     notifyListeners();
@@ -143,7 +145,7 @@ class SupportMessagesService with ChangeNotifier {
 
       if (response.statusCode == 201) {
         print(response.data);
-        addNewMessage(message);
+        addNewMessage(message, imagePath);
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -157,15 +159,15 @@ class SupportMessagesService with ChangeNotifier {
     }
   }
 
-  addNewMessage(
-    newMessage,
-  ) {
+  addNewMessage(newMessage, imagePath) {
     messagesList.add({
       'id': '',
       'message': newMessage,
       'notify': 'off',
-      'attachment': null,
+      'attachment': imagePath,
       'type': 'buyer',
+      'imagePicked':
+          true //check if this image is just got picked from device in that case we will show it from device location
     });
     notifyListeners();
   }
