@@ -175,41 +175,55 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                     },
                                   ),
 
-                                  CommonHelper().labelCommon("Post code"),
+                                  personalizatioProvider.isOnline == 0
+                                      ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CommonHelper()
+                                                .labelCommon("Post code"),
 
-                                  CustomInput(
-                                    controller: postCodeController,
-                                    validation: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter post code';
-                                      }
-                                      return null;
-                                    },
-                                    isNumberField: true,
-                                    hintText: "Enter your post code",
-                                    icon: 'assets/icons/location.png',
-                                    textInputAction: TextInputAction.next,
-                                  ),
+                                            CustomInput(
+                                              controller: postCodeController,
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter post code';
+                                                }
+                                                return null;
+                                              },
+                                              isNumberField: true,
+                                              hintText: "Enter your post code",
+                                              icon: 'assets/icons/location.png',
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                            ),
 
-                                  //Address ============>
+                                            //Address ============>
 
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  CommonHelper().labelCommon("Your address"),
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            CommonHelper()
+                                                .labelCommon("Your address"),
 
-                                  CustomInput(
-                                    controller: addressController,
-                                    validation: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your address';
-                                      }
-                                      return null;
-                                    },
-                                    hintText: "Enter your address",
-                                    icon: 'assets/icons/location.png',
-                                    textInputAction: TextInputAction.next,
-                                  ),
+                                            CustomInput(
+                                              controller: addressController,
+                                              validation: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter your address';
+                                                }
+                                                return null;
+                                              },
+                                              hintText: "Enter your address",
+                                              icon: 'assets/icons/location.png',
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                            ),
+                                          ],
+                                        )
+                                      : Container(),
                                   // const SizedBox(
                                   //   height: 2,
                                   // ),
@@ -220,7 +234,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                   //   notesController: notesController,
                                   // ),
                                   const SizedBox(
-                                    height: 135,
+                                    height: 100,
                                   ),
                                 ],
                               ),

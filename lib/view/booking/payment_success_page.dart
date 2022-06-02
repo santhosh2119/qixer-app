@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
@@ -8,8 +7,6 @@ import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
-
-import '../home/landing_page.dart';
 
 class PaymentSuccessPage extends StatefulWidget {
   const PaymentSuccessPage({Key? key}) : super(key: key);
@@ -85,51 +82,66 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                               ),
 
                               //Date and Time =================>
-                              Container(
-                                alignment: Alignment.center,
-                                margin: const EdgeInsets.only(
-                                  top: 30,
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 18),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: cc.borderColor),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: BookingHelper().bdetailsContainer(
-                                          'assets/svg/calendar.svg',
-                                          'Date',
-                                          "${bookProvider.weekDay ?? ''}, ${bookProvider.selectedDateAndMonth ?? ''}"),
-                                    ),
-                                    const SizedBox(
-                                      width: 13,
-                                    ),
-                                    Expanded(
-                                      child: BookingHelper().bdetailsContainer(
-                                          'assets/svg/clock.svg',
-                                          'Time',
-                                          bookProvider.selectedTime ?? ''),
+                              pProvider.isOnline == 0
+                                  ? Container(
+                                      alignment: Alignment.center,
+                                      margin: const EdgeInsets.only(
+                                        top: 30,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 18),
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: cc.borderColor),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: BookingHelper()
+                                                .bdetailsContainer(
+                                                    'assets/svg/calendar.svg',
+                                                    'Date',
+                                                    "${bookProvider.weekDay ?? ''}, ${bookProvider.selectedDateAndMonth ?? ''}"),
+                                          ),
+                                          const SizedBox(
+                                            width: 13,
+                                          ),
+                                          Expanded(
+                                            child: BookingHelper()
+                                                .bdetailsContainer(
+                                                    'assets/svg/clock.svg',
+                                                    'Time',
+                                                    bookProvider.selectedTime ??
+                                                        ''),
+                                          )
+                                        ],
+                                      ),
                                     )
-                                  ],
-                                ),
-                              ),
+                                  : Container(),
 
                               const SizedBox(
                                 height: 30,
                               ),
 
                               //payment details
-                              //Package fee and extra service =============>
-                              BookingHelper().detailsPanelRow(
-                                  'Package Fee',
-                                  0,
-                                  bcProvider
-                                      .includedTotalPrice(
-                                          pProvider.includedList)
-                                      .toString()),
-                              sizedBox20(),
+                              pProvider.isOnline == 0
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //Package fee and extra service =============>
+                                        BookingHelper().detailsPanelRow(
+                                            'Package Fee',
+                                            0,
+                                            bcProvider
+                                                .includedTotalPrice(
+                                                    pProvider.includedList)
+                                                .toString()),
+                                        sizedBox20(),
+                                      ],
+                                    )
+                                  : Container(),
                               BookingHelper().detailsPanelRow(
                                   'Extra service',
                                   0,
@@ -143,15 +155,24 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                                 child: CommonHelper().dividerCommon(),
                               ),
 
-                              //subtotal and tax =========>
-                              BookingHelper().detailsPanelRow(
-                                  'Subtotal',
-                                  0,
-                                  bcProvider
-                                      .calculateSubtotal(pProvider.includedList,
-                                          pProvider.extrasList)
-                                      .toString()),
-                              sizedBox20(),
+                              pProvider.isOnline == 0
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //subtotal and tax =========>
+                                        BookingHelper().detailsPanelRow(
+                                            'Subtotal',
+                                            0,
+                                            bcProvider
+                                                .calculateSubtotal(
+                                                    pProvider.includedList,
+                                                    pProvider.extrasList)
+                                                .toString()),
+                                        sizedBox20(),
+                                      ],
+                                    )
+                                  : Container(),
                               BookingHelper().detailsPanelRow(
                                   'Tax(+) ${pProvider.tax}%',
                                   0,
@@ -185,7 +206,9 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                                     ),
                                   ),
                                   Text(
-                                    '\$ ${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(1)}',
+                                    pProvider.isOnline == 0
+                                        ? '\$ ${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(1)}'
+                                        : '\$ ${bcProvider.totalPriceOnlineServiceAfterAllCalculation.toStringAsFixed(1)}',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: cc.greyFour,

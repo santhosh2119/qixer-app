@@ -64,6 +64,9 @@ class PlaceOrderService with ChangeNotifier {
     var selectedPaymentGateway =
         Provider.of<BookService>(context, listen: false).selectedPayment;
 
+    var isOnline =
+        Provider.of<PersonalizationService>(context, listen: false).isOnline;
+
     //includes list
     for (int i = 0; i < includes.length; i++) {
       includesList.add({
@@ -90,50 +93,103 @@ class PlaceOrderService with ChangeNotifier {
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = "Bearer $token";
 
-    if (imagePath != null) {
-      //if manual transfer selected then image upload is mandatory
-      formData = FormData.fromMap({
-        'service_id': serviceId.toString(),
-        'seller_id': sellerId.toString(),
-        'buyer_id': buyerId.toString(),
-        'name': name,
-        'email': email,
-        'phone': phone, //amount he paid in bkash ucash etc
-        'post_code': post,
-        'address': address,
-        'choose_service_city': city.toString(),
-        'choose_service_area': area.toString(),
-        'choose_service_country': country.toString(),
-        'date': selectedDate.toString(),
-        'schedule': schedule.toString(),
-        'include_services': jsonEncode({"include_services": includesList}),
-        'additional_services': jsonEncode({"additional_services": extrasList}),
-        'coupon_code': coupon.toString(),
-        'selected_payment_gateway': selectedPaymentGateway.toString(),
-        'manual_payment_image': await MultipartFile.fromFile(imagePath,
-            filename: 'bankTransfer$name$address$imagePath.jpg'),
-      });
+    if (isOnline == 0) {
+      print('not online service');
+      //if it's not online service
+      if (imagePath != null) {
+        //if manual transfer selected then image upload is mandatory
+        formData = FormData.fromMap({
+          'service_id': serviceId.toString(),
+          'seller_id': sellerId.toString(),
+          'buyer_id': buyerId.toString(),
+          'name': name,
+          'email': email,
+          'phone': phone, //amount he paid in bkash ucash etc
+          'post_code': post,
+          'address': address,
+          'choose_service_city': city.toString(),
+          'choose_service_area': area.toString(),
+          'choose_service_country': country.toString(),
+          'date': selectedDate.toString(),
+          'schedule': schedule.toString(),
+          'include_services': jsonEncode({"include_services": includesList}),
+          'additional_services':
+              jsonEncode({"additional_services": extrasList}),
+          'coupon_code': coupon.toString(),
+          'selected_payment_gateway': selectedPaymentGateway.toString(),
+          'manual_payment_image': await MultipartFile.fromFile(imagePath,
+              filename: 'bankTransfer$name$address$imagePath.jpg'),
+          'is_service_online': 0
+        });
+      } else {
+        //other payment method selected
+        formData = FormData.fromMap({
+          'service_id': serviceId.toString(),
+          'seller_id': sellerId.toString(),
+          'buyer_id': buyerId.toString(),
+          'name': name,
+          'email': email,
+          'phone': phone, //amount he paid in bkash ucash etc
+          'post_code': post,
+          'address': address,
+          'choose_service_city': city.toString(),
+          'choose_service_area': area.toString(),
+          'choose_service_country': country.toString(),
+          'date': selectedDate.toString(),
+          'schedule': schedule.toString(),
+          'include_services': jsonEncode({"include_services": includesList}),
+          'additional_services':
+              jsonEncode({"additional_services": extrasList}),
+          'coupon_code': coupon.toString(),
+          'selected_payment_gateway': selectedPaymentGateway.toString(),
+          'is_service_online': 0
+        });
+      }
     } else {
-      //other payment method selected
-      formData = FormData.fromMap({
-        'service_id': serviceId.toString(),
-        'seller_id': sellerId.toString(),
-        'buyer_id': buyerId.toString(),
-        'name': name,
-        'email': email,
-        'phone': phone, //amount he paid in bkash ucash etc
-        'post_code': post,
-        'address': address,
-        'choose_service_city': city.toString(),
-        'choose_service_area': area.toString(),
-        'choose_service_country': country.toString(),
-        'date': selectedDate.toString(),
-        'schedule': schedule.toString(),
-        'include_services': jsonEncode({"include_services": includesList}),
-        'additional_services': jsonEncode({"additional_services": extrasList}),
-        'coupon_code': coupon.toString(),
-        'selected_payment_gateway': selectedPaymentGateway.toString(),
-      });
+      print('this was an online service');
+      print(selectedPaymentGateway);
+      //else it is online service. so, some fields will not be given to api
+      if (imagePath != null) {
+        //if manual transfer selected then image upload is mandatory
+        formData = FormData.fromMap({
+          'service_id': serviceId.toString(),
+          'seller_id': sellerId.toString(),
+          'buyer_id': buyerId.toString(),
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'post_code': '""',
+          'address': '""',
+          'date': '""',
+          'schedule': '""',
+          'additional_services':
+              jsonEncode({"additional_services": extrasList}),
+          'coupon_code': coupon.toString(),
+          'selected_payment_gateway': selectedPaymentGateway.toString(),
+          'manual_payment_image': await MultipartFile.fromFile(imagePath,
+              filename: 'bankTransfer$name$address$imagePath.jpg'),
+          'is_service_online': '1'
+        });
+      } else {
+        //other payment method selected
+        formData = FormData.fromMap({
+          'service_id': serviceId.toString(),
+          'seller_id': sellerId.toString(),
+          'buyer_id': buyerId.toString(),
+          'name': name,
+          'email': email,
+          'phone': phone, //amount he paid in bkash ucash etc
+          'post_code': '""',
+          'address': '""',
+          'date': '""',
+          'schedule': '""',
+          'additional_services':
+              jsonEncode({"additional_services": extrasList}),
+          'coupon_code': coupon.toString(),
+          'selected_payment_gateway': selectedPaymentGateway.toString(),
+          'is_service_online': '1'
+        });
+      }
     }
 
     var response = await dio.post(
