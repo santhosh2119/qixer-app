@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/booking/components/order_details_panel.dart';
@@ -80,102 +81,114 @@ class _BookConfirmationPageState extends State<BookConfirmationPage> {
                     horizontal: screenPadding,
                   ),
                   child: Consumer<BookService>(
-                    builder: (context, bookProvider, child) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //Circular Progress bar
-                        Steps(cc: cc),
+                    builder: (context, bookProvider, child) =>
+                        Consumer<PersonalizationService>(
+                      builder: (context, personalizationProvider, child) =>
+                          Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //Circular Progress bar
+                          personalizationProvider.isOnline == 0
+                              ? Steps(cc: cc)
+                              : Container(),
 
-                        CommonHelper().titleCommon('Booking details'),
+                          CommonHelper().titleCommon('Booking details'),
 
-                        const SizedBox(
-                          height: 17,
-                        ),
+                          const SizedBox(
+                            height: 17,
+                          ),
 
-                        //Date Location Time ========>
-                        Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: cc.borderColor),
-                                borderRadius: BorderRadius.circular(5)),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 18),
-                            child: Column(
-                              children: [
-                                Consumer<CountryStatesService>(
-                                  builder: (context, locationProvider, child) =>
-                                      BookingHelper().bdetailsContainer(
-                                          'assets/svg/location.svg',
-                                          'Location',
-                                          '${locationProvider.selectedArea}, ${locationProvider.selectedState}, ${locationProvider.selectedCountry}, '),
-                                ),
+                          //Date Location Time ========>
+                          personalizationProvider.isOnline == 0
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: cc.borderColor),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 18),
+                                  child: Column(
+                                    children: [
+                                      Consumer<CountryStatesService>(
+                                        builder: (context, locationProvider,
+                                                child) =>
+                                            BookingHelper().bdetailsContainer(
+                                                'assets/svg/location.svg',
+                                                'Location',
+                                                '${locationProvider.selectedArea}, ${locationProvider.selectedState}, ${locationProvider.selectedCountry}, '),
+                                      ),
 
-                                //divider
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 18, bottom: 18),
-                                  child: CommonHelper().dividerCommon(),
-                                ),
+                                      //divider
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 18, bottom: 18),
+                                        child: CommonHelper().dividerCommon(),
+                                      ),
 
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: BookingHelper().bdetailsContainer(
-                                          'assets/svg/calendar.svg',
-                                          'Date',
-                                          "${bookProvider.weekDay ?? ''}, ${bookProvider.selectedDateAndMonth ?? ''}"),
-                                    ),
-                                    const SizedBox(
-                                      width: 13,
-                                    ),
-                                    Expanded(
-                                      child: BookingHelper().bdetailsContainer(
-                                          'assets/svg/clock.svg',
-                                          'Time',
-                                          bookProvider.selectedTime ?? ''),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            )),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: BookingHelper()
+                                                .bdetailsContainer(
+                                                    'assets/svg/calendar.svg',
+                                                    'Date',
+                                                    "${bookProvider.weekDay ?? ''}, ${bookProvider.selectedDateAndMonth ?? ''}"),
+                                          ),
+                                          const SizedBox(
+                                            width: 13,
+                                          ),
+                                          Expanded(
+                                            child: BookingHelper()
+                                                .bdetailsContainer(
+                                                    'assets/svg/clock.svg',
+                                                    'Time',
+                                                    bookProvider.selectedTime ??
+                                                        ''),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ))
+                              : Container(),
 
-                        const SizedBox(
-                          height: 30,
-                        ),
+                          const SizedBox(
+                            height: 30,
+                          ),
 
-                        BookingHelper().bRow('assets/svg/user.svg', 'Name',
-                            bookProvider.name ?? ''),
-                        BookingHelper().bRow('assets/svg/email.svg', 'Email',
-                            bookProvider.email ?? ''),
-                        BookingHelper().bRow('assets/svg/phone.svg', 'Phone',
-                            bookProvider.phone ?? ''),
-                        BookingHelper().bRow('assets/svg/location.svg',
-                            'Post Code', bookProvider.postCode ?? ''),
-                        BookingHelper().bRow('assets/svg/location.svg',
-                            'Address', bookProvider.address ?? ''),
+                          BookingHelper().bRow('assets/svg/user.svg', 'Name',
+                              bookProvider.name ?? ''),
+                          BookingHelper().bRow('assets/svg/email.svg', 'Email',
+                              bookProvider.email ?? ''),
+                          BookingHelper().bRow('assets/svg/phone.svg', 'Phone',
+                              bookProvider.phone ?? ''),
+                          BookingHelper().bRow('assets/svg/location.svg',
+                              'Post Code', bookProvider.postCode ?? ''),
+                          BookingHelper().bRow('assets/svg/location.svg',
+                              'Address', bookProvider.address ?? ''),
 
-                        const SizedBox(
-                          height: 17,
-                        ),
+                          const SizedBox(
+                            height: 17,
+                          ),
 
-                        // Text(
-                        //   'Order notes:',
-                        //   style: TextStyle(
-                        //     color: cc.greyFour,
-                        //     fontSize: 15,
-                        //     fontWeight: FontWeight.w600,
-                        //   ),
-                        // ),
-                        // const SizedBox(
-                        //   height: 11,
-                        // ),
-                        // CommonHelper().paragraphCommon(
-                        //     bookProvider.orderNote ?? '', TextAlign.left),
+                          // Text(
+                          //   'Order notes:',
+                          //   style: TextStyle(
+                          //     color: cc.greyFour,
+                          //     fontSize: 15,
+                          //     fontWeight: FontWeight.w600,
+                          //   ),
+                          // ),
+                          // const SizedBox(
+                          //   height: 11,
+                          // ),
+                          // CommonHelper().paragraphCommon(
+                          //     bookProvider.orderNote ?? '', TextAlign.left),
 
-                        const SizedBox(
-                          height: 335,
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 335,
+                          ),
+                        ],
+                      ),
                     ),
                   )),
             ),

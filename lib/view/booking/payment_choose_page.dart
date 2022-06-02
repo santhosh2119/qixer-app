@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
@@ -53,13 +54,20 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                       child: CommonHelper().dividerCommon(),
                     ),
                     Consumer<BookConfirmationService>(
-                      builder: (context, bcProvider, child) => BookingHelper()
-                          .detailsPanelRow(
-                              'Total Payable',
-                              0,
-                              bcProvider.totalPriceAfterAllcalculation
-                                  .toString()),
-                    ),
+                        builder: (context, bcProvider, child) =>
+                            Consumer<PersonalizationService>(
+                              builder: (context, pProvider, child) =>
+                                  BookingHelper().detailsPanelRow(
+                                      'Total Payable',
+                                      0,
+                                      pProvider.isOnline == 0
+                                          ? bcProvider
+                                              .totalPriceAfterAllcalculation
+                                              .toString()
+                                          : bcProvider
+                                              .totalPriceOnlineServiceAfterAllCalculation
+                                              .toString()),
+                            )),
 
                     //border
                     Container(
