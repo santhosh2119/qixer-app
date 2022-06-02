@@ -145,7 +145,7 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                                         ..onTap = () {
                                           provider.sendOtp(
                                               widget.email, context,
-                                              isFromOtpPage: false);
+                                              isFromOtpPage: true);
                                         },
                                       text: 'Send again',
                                       style: TextStyle(
