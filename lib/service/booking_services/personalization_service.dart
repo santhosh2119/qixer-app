@@ -18,13 +18,18 @@ class PersonalizationService with ChangeNotifier {
   int defaultprice = 0;
   setDefaultPrice(price) {
     defaultprice = price;
-    notifyListeners();
+
+    Future.delayed(const Duration(microseconds: 600), () {
+      notifyListeners();
+    });
   }
 
   // List defaultIncludedList = [];
   // List defaultExtrasList = [];
 
   bool isloading = true;
+
+  var isOnline = 0;
 
   setLoadingTrue() {
     isloading = true;
@@ -141,6 +146,7 @@ class PersonalizationService with ChangeNotifier {
 
       if (response.statusCode == 201) {
         var data = ServiceExtraModel.fromJson(jsonDecode(response.body));
+        isOnline = data.service.isServiceOnline ?? 0;
 
         tax = data.service.tax ?? 0;
 
@@ -167,9 +173,6 @@ class PersonalizationService with ChangeNotifier {
 
         notifyListeners();
         setLoadingFalse();
-        // Future.delayed(Duration(microseconds: 500), () {
-        //   isloading = true;
-        // });
       } else {
         serviceExtraData == 'error';
         setLoadingFalse();

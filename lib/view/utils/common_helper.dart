@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -31,7 +33,7 @@ class CommonHelper {
   }
 
   appbarForBookingPages(String title, BuildContext context,
-      {bool isLocPage = false, VoidCallback? extraFunction}) {
+      {bool isPersonalizatioPage = false, VoidCallback? extraFunction}) {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
@@ -44,8 +46,12 @@ class CommonHelper {
       elevation: 0,
       leading: InkWell(
         onTap: () {
-          if (isLocPage != true) {
+          if (isPersonalizatioPage != true) {
             BookStepsService().decreaseStep(context);
+          } else {
+            //if its personalization page then decrease step to 1
+            Provider.of<BookStepsService>(context, listen: false)
+                .setStepsToDefault();
           }
           Navigator.pop(context);
           if (extraFunction != null) {

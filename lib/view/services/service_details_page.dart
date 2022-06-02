@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/booking_location_page.dart';
+import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
 import 'package:qixer/view/services/components/overview_tab.dart';
@@ -12,6 +13,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
+import '../../service/booking_services/personalization_service.dart';
 import '../utils/common_helper.dart';
 import 'components/service_details_top.dart';
 
@@ -188,15 +190,28 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                             .serviceDetails.price,
                                         provider.serviceAllDetails
                                             .serviceDetails.sellerId);
+
+                                //==========>
+                                Provider.of<PersonalizationService>(context,
+                                        listen: false)
+                                    .setDefaultPrice(Provider.of<BookService>(
+                                            context,
+                                            listen: false)
+                                        .totalPrice);
+                                //fetch service extra
+                                Provider.of<PersonalizationService>(context,
+                                        listen: false)
+                                    .fetchServiceExtra(
+                                        provider.serviceAllDetails
+                                            .serviceDetails.id,
+                                        context);
+
                                 //=============>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                        BookingLocationPage(
-                                      serviceId: provider
-                                          .serviceAllDetails.serviceDetails.id,
-                                    ),
+                                        const ServicePersonalizationPage(),
                                   ),
                                 );
                               }),

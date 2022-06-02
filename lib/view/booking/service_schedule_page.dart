@@ -1,7 +1,7 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
-import 'package:intl/intl.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
@@ -9,6 +9,7 @@ import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/shedule_service.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/view/booking/booking_location_page.dart';
 
 import 'package:qixer/view/booking/delivery_address_page.dart.dart';
 
@@ -254,7 +255,7 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.rightToLeft,
-                                    child: const DeliveryAddressPage()));
+                                    child: const BookingLocationPage()));
                           }
                         }),
                         const SizedBox(

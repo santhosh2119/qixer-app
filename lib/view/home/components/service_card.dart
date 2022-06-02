@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/utils/responsive.dart';
 
+import '../../../service/booking_services/personalization_service.dart';
 import '../../booking/booking_location_page.dart';
 import '../../utils/common_helper.dart';
 import '../../utils/constant_colors.dart';
@@ -138,14 +141,18 @@ class ServiceCard extends StatelessWidget {
                     Provider.of<BookService>(context, listen: false)
                         .setData(serviceId, title, imageLink, price, sellerId);
                     //==========>
+                    Provider.of<PersonalizationService>(context, listen: false)
+                        .setDefaultPrice(
+                            Provider.of<BookService>(context, listen: false)
+                                .totalPrice);
+                    //fetch service extra
+                    Provider.of<PersonalizationService>(context, listen: false)
+                        .fetchServiceExtra(serviceId, context);
                     Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => BookingLocationPage(
-                          serviceId: serviceId,
-                        ),
-                      ),
-                    );
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: const ServicePersonalizationPage()));
                   },
                   child: Text(
                     buttonText,

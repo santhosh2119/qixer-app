@@ -3,10 +3,11 @@ import 'package:provider/provider.dart';
 
 class BookStepsService with ChangeNotifier {
   int currentStep = 1;
+
   int totalStep = 5;
 
-  increaseCurrentStep() {
-    currentStep = currentStep + 1;
+  increaseCurrentStep(int increaseBy) {
+    currentStep = currentStep + increaseBy;
     notifyListeners();
   }
 
@@ -24,27 +25,29 @@ class BookStepsService with ChangeNotifier {
   //   });
   // }
 
-  decreaseCurrentStep() {
-    currentStep = currentStep - 1;
+  decreaseCurrentStep(int decreaseBy) {
+    currentStep = currentStep - decreaseBy;
     notifyListeners();
   }
 
   List<StepsAndNext> stepsNameList = [
-    StepsAndNext("Choose Location", 'Service Personalization'),
     StepsAndNext("Service Personalization", 'Available Schedules'),
-    StepsAndNext("Available Schedules", 'Booking Informations'),
+    StepsAndNext("Available Schedules", 'Choose Location'),
+    StepsAndNext("Choose Location", 'Informations'),
     StepsAndNext("Informations", 'Booking Confirmations'),
     StepsAndNext("Booking Confirmations", ''),
   ];
 
-  decreaseStep(BuildContext context) {
+  decreaseStep(BuildContext context, {int decreaseBy = 1}) {
     //increase page steps by one
-    Provider.of<BookStepsService>(context, listen: false).decreaseCurrentStep();
+    Provider.of<BookStepsService>(context, listen: false)
+        .decreaseCurrentStep(decreaseBy);
   }
 
-  onNext(BuildContext context) {
+  onNext(BuildContext context, {int increaseBy = 1}) {
     //increase page steps by one
-    Provider.of<BookStepsService>(context, listen: false).increaseCurrentStep();
+    Provider.of<BookStepsService>(context, listen: false)
+        .increaseCurrentStep(increaseBy);
   }
 }
 
