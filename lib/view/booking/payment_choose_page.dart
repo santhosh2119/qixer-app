@@ -63,10 +63,10 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                       pProvider.isOnline == 0
                                           ? bcProvider
                                               .totalPriceAfterAllcalculation
-                                              .toString()
+                                              .toStringAsFixed(2)
                                           : bcProvider
                                               .totalPriceOnlineServiceAfterAllCalculation
-                                              .toString()),
+                                              .toStringAsFixed(2)),
                             )),
 
                     //border

@@ -306,10 +306,10 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                                     pProvider.isOnline == 0
                                         ? bcProvider
                                             .totalPriceAfterAllcalculation
-                                            .toStringAsFixed(1)
+                                            .toStringAsFixed(2)
                                         : bcProvider
                                             .totalPriceOnlineServiceAfterAllCalculation
-                                            .toStringAsFixed(1)),
+                                            .toStringAsFixed(2)),
                           ),
 
                           bcProvider.isPanelOpened == true

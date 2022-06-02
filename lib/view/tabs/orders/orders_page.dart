@@ -136,28 +136,45 @@ class _OrdersPageState extends State<OrdersPage> {
                                                 CommonHelper().dividerCommon(),
                                           ),
 
-                                          OrdersHelper().orderRow(
-                                            'assets/svg/calendar.svg',
-                                            'Date',
-                                            provider.myServices[i].date,
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 14),
-                                            child:
-                                                CommonHelper().dividerCommon(),
-                                          ),
-                                          OrdersHelper().orderRow(
-                                            'assets/svg/clock.svg',
-                                            'Schedule',
-                                            provider.myServices[i].schedule,
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 14),
-                                            child:
-                                                CommonHelper().dividerCommon(),
-                                          ),
+                                          provider.myServices[i].date == ""
+                                              ? Column(
+                                                  children: [
+                                                    OrdersHelper().orderRow(
+                                                      'assets/svg/calendar.svg',
+                                                      'Date',
+                                                      provider
+                                                          .myServices[i].date,
+                                                    ),
+                                                    Container(
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 14),
+                                                      child: CommonHelper()
+                                                          .dividerCommon(),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(),
+
+                                          provider.myServices[i].date == ""
+                                              ? Column(
+                                                  children: [
+                                                    OrdersHelper().orderRow(
+                                                      'assets/svg/clock.svg',
+                                                      'Schedule',
+                                                      provider.myServices[i]
+                                                          .schedule,
+                                                    ),
+                                                    Container(
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 14),
+                                                      child: CommonHelper()
+                                                          .dividerCommon(),
+                                                    ),
+                                                  ],
+                                                )
+                                              : Container(),
                                           OrdersHelper().orderRow(
                                             'assets/svg/bill.svg',
                                             'Billed',

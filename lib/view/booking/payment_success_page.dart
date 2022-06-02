@@ -207,8 +207,8 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                                   ),
                                   Text(
                                     pProvider.isOnline == 0
-                                        ? '\$ ${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(1)}'
-                                        : '\$ ${bcProvider.totalPriceOnlineServiceAfterAllCalculation.toStringAsFixed(1)}',
+                                        ? '\$ ${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2)}'
+                                        : '\$ ${bcProvider.totalPriceOnlineServiceAfterAllCalculation.toStringAsFixed(2)}',
                                     textAlign: TextAlign.right,
                                     style: TextStyle(
                                       color: cc.greyFour,

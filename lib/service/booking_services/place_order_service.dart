@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/coupon_service.dart';
@@ -35,6 +36,8 @@ class PlaceOrderService with ChangeNotifier {
 
     List includesList = [];
     List extrasList = [];
+    var total;
+    var subtotal;
 
     List includes = Provider.of<PersonalizationService>(context, listen: false)
         .includedList;
@@ -67,6 +70,20 @@ class PlaceOrderService with ChangeNotifier {
     var isOnline =
         Provider.of<PersonalizationService>(context, listen: false).isOnline;
 
+    if (isOnline == 0) {
+      total = Provider.of<BookConfirmationService>(context, listen: false)
+              .totalPriceAfterAllcalculation -
+          Provider.of<BookConfirmationService>(context, listen: false).taxPrice;
+      subtotal = Provider.of<BookConfirmationService>(context, listen: false)
+          .subTotalAfterAllCalculation;
+    } else {
+      total = Provider.of<BookConfirmationService>(context, listen: false)
+              .totalPriceOnlineServiceAfterAllCalculation -
+          Provider.of<BookConfirmationService>(context, listen: false).taxPrice;
+      subtotal = Provider.of<BookConfirmationService>(context, listen: false)
+          .subTotalOnlineServiceAfterAllCalculation;
+    }
+
     //includes list
     for (int i = 0; i < includes.length; i++) {
       includesList.add({
@@ -79,12 +96,14 @@ class PlaceOrderService with ChangeNotifier {
 
     //extras list
     for (int i = 0; i < extras.length; i++) {
-      extrasList.add({
-        'order_id': "1",
-        "additional_service_title": extras[i]['title'],
-        "additional_service_price": extras[i]['price'],
-        "quantity": includes[i]['qty']
-      });
+      if (extras[i]['selected'] == true) {
+        extrasList.add({
+          'order_id': "1",
+          "additional_service_title": extras[i]['title'],
+          "additional_service_price": extras[i]['price'],
+          "quantity": includes[i]['qty']
+        });
+      }
     }
 
     var formData;
@@ -119,7 +138,7 @@ class PlaceOrderService with ChangeNotifier {
           'selected_payment_gateway': selectedPaymentGateway.toString(),
           'manual_payment_image': await MultipartFile.fromFile(imagePath,
               filename: 'bankTransfer$name$address$imagePath.jpg'),
-          'is_service_online': 0
+          'is_service_online': 0,
         });
       } else {
         //other payment method selected
@@ -142,12 +161,12 @@ class PlaceOrderService with ChangeNotifier {
               jsonEncode({"additional_services": extrasList}),
           'coupon_code': coupon.toString(),
           'selected_payment_gateway': selectedPaymentGateway.toString(),
-          'is_service_online': 0
+          'is_service_online': 0,
         });
       }
     } else {
       print('this was an online service');
-      print(selectedPaymentGateway);
+
       //else it is online service. so, some fields will not be given to api
       if (imagePath != null) {
         //if manual transfer selected then image upload is mandatory
@@ -158,17 +177,13 @@ class PlaceOrderService with ChangeNotifier {
           'name': name,
           'email': email,
           'phone': phone,
-          'post_code': '""',
-          'address': '""',
-          'date': '""',
-          'schedule': '""',
           'additional_services':
               jsonEncode({"additional_services": extrasList}),
           'coupon_code': coupon.toString(),
           'selected_payment_gateway': selectedPaymentGateway.toString(),
           'manual_payment_image': await MultipartFile.fromFile(imagePath,
               filename: 'bankTransfer$name$address$imagePath.jpg'),
-          'is_service_online': '1'
+          'is_service_online': '1',
         });
       } else {
         //other payment method selected
@@ -179,15 +194,11 @@ class PlaceOrderService with ChangeNotifier {
           'name': name,
           'email': email,
           'phone': phone, //amount he paid in bkash ucash etc
-          'post_code': '""',
-          'address': '""',
-          'date': '""',
-          'schedule': '""',
           'additional_services':
               jsonEncode({"additional_services": extrasList}),
           'coupon_code': coupon.toString(),
           'selected_payment_gateway': selectedPaymentGateway.toString(),
-          'is_service_online': '1'
+          'is_service_online': '1',
         });
       }
     }

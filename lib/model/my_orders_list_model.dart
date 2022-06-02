@@ -94,7 +94,7 @@ class MyOrder {
   int? couponAmount;
   String? commissionType;
   int? commissionCharge;
-  double? commissionAmount;
+  var commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;
@@ -131,7 +131,7 @@ class MyOrder {
         couponAmount: json["coupon_amount"],
         commissionType: json["commission_type"],
         commissionCharge: json["commission_charge"],
-        commissionAmount: json["commission_amount"].toDouble(),
+        commissionAmount: json["commission_amount"],
         paymentGateway: json["payment_gateway"],
         paymentStatus: json["payment_status"],
         status: json["status"],
