@@ -58,9 +58,12 @@ class _OrdersPageState extends State<OrdersPage> {
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute<void>(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    const OrderDetailsPage(),
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        OrderDetailsPage(
+                                                            orderId: provider
+                                                                .myServices[i]
+                                                                .id),
                                               ));
                                           //             );
                                         },

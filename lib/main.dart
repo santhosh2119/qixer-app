@@ -25,6 +25,7 @@ import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/my_orders_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
@@ -100,6 +101,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SupportMessagesService()),
         ChangeNotifierProvider(create: (_) => CreateTicketService()),
         ChangeNotifierProvider(create: (_) => EmailVerifyService()),
+        ChangeNotifierProvider(create: (_) => OrderDetailsService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
