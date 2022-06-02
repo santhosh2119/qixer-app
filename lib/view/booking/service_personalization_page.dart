@@ -162,6 +162,7 @@ class _ServicePersonalizationPageState
                           Provider.of<SheduleService>(context, listen: false)
                               .fetchShedule(provider.sellerId,
                                   firstThreeLetter(DateTime.now()));
+
                           //go to shedule page
                           Navigator.push(
                               context,

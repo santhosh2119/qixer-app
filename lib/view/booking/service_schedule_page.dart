@@ -57,10 +57,12 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
         }),
         body: Consumer<SheduleService>(
           builder: (context, provider, child) {
+            print(provider.totalDay);
             //if user didnt select anything then go with the default value
             if (provider.isloading == false &&
                 provider.schedules != 'nothing' &&
                 _selectedTime == null) {
+              print(provider.totalDay);
               _selectedTime = provider.schedules.schedules[0].schedule;
               Future.delayed(const Duration(milliseconds: 500), () {
                 setState(() {});
@@ -84,7 +86,9 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                             DatePicker(
                               DateTime.now(),
                               initialSelectedDate: DateTime.now(),
-                              daysCount: provider.totalDay,
+                              daysCount: provider.totalDay == 0
+                                  ? 7
+                                  : provider.totalDay,
                               selectionColor: cc.primaryColor,
                               selectedTextColor: Colors.white,
                               onDateChange: (value) {

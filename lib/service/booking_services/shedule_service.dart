@@ -40,6 +40,7 @@ class SheduleService with ChangeNotifier {
 
       if (response.statusCode == 200 && response.body.contains('day')) {
         var data = SheduleModel.fromJson(jsonDecode(response.body));
+        print('total day is $totalDay');
         totalDay = data.day.totalDay ?? 0;
         schedules = data;
 
@@ -48,6 +49,7 @@ class SheduleService with ChangeNotifier {
         notifyListeners();
         setLoadingFalse();
       } else {
+        print(response.body);
         schedules = 'nothing';
         setLoadingFalse();
         notifyListeners();
