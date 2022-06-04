@@ -45,7 +45,10 @@ class ReviewTab extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           '${provider.serviceAllDetails.serviceReviews[i].buyerName[0]}',
-                          style: TextStyle(color: Colors.white, fontSize: 28),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 28),
                         ),
                       )),
                   const SizedBox(
