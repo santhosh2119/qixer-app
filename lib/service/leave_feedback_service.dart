@@ -62,7 +62,8 @@ class LeaveFeedbackService with ChangeNotifier {
       } else {
         print(response.body);
         //Sign up unsuccessful ==========>
-        OthersHelper().showToast('Something went wrong', Colors.black);
+        OthersHelper()
+            .showToast(jsonDecode(response.body)['message'], Colors.black);
         setLoadingFalse();
         return false;
       }

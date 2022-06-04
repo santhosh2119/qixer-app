@@ -36,6 +36,8 @@ class ProfileService with ChangeNotifier {
   getProfileDetails({bool isFromProfileupdatePage = false}) async {
     if (isFromProfileupdatePage == true) {
       //if from update profile page then load it anyway
+      print('is from profile update page true');
+      setEverythingToDefault();
       fetchData();
     } else {
       //not from profile page. check if data already loaded
@@ -48,6 +50,7 @@ class ProfileService with ChangeNotifier {
   }
 
   fetchData() async {
+    print('fetching profile data');
     var connection = await checkConnection();
     if (connection) {
       //internet connection is on

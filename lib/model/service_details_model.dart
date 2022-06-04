@@ -182,7 +182,7 @@ class ServiceDetails {
   String? image;
   int? status;
   int? isServiceOn;
-  int? price;
+  var price;
   int? tax;
   int? view;
   int? soldCount;

@@ -8,10 +8,11 @@ import 'package:qixer/service/book_steps_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/coupon_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/booking/payment_success_page.dart';
-import 'package:qixer/view/home/home.dart';
+
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -212,6 +213,10 @@ class PlaceOrderService with ChangeNotifier {
     if (response.statusCode == 201) {
       OthersHelper().showToast('Order placed successfully', Colors.black);
       print(response.data);
+
+      //Refresh profile page so that user can see updated total orders
+      Provider.of<ProfileService>(context, listen: false)
+          .getProfileDetails(isFromProfileupdatePage: true);
 
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LandingPage()),

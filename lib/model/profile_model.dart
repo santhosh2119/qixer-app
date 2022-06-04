@@ -1,30 +1,28 @@
 // To parse this JSON data, do
 //
-//     final profileModel = profileModelFromJson(jsonString);
+//     final myordersListModel = profileModel(jsonString);
 
 import 'dart:convert';
 
-ProfileModel profileModelFromJson(String str) =>
+ProfileModel profileModel(String str) =>
     ProfileModel.fromJson(json.decode(str));
 
-String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
+String myordersListModelToJson(ProfileModel data) => json.encode(data.toJson());
 
 class ProfileModel {
   ProfileModel({
     required this.userDetails,
-    required this.pendingOrder,
-    required this.activeOrder,
-    required this.completeOrder,
-    required this.totalOrder,
-    required this.profileImage,
+    this.pendingOrder,
+    this.activeOrder,
+    this.completeOrder,
+    this.totalOrder,
   });
 
   UserDetails userDetails;
-  int pendingOrder;
-  int activeOrder;
-  int completeOrder;
-  int totalOrder;
-  List<dynamic> profileImage;
+  int? pendingOrder;
+  int? activeOrder;
+  int? completeOrder;
+  int? totalOrder;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         userDetails: UserDetails.fromJson(json["user_details"]),
@@ -32,7 +30,6 @@ class ProfileModel {
         activeOrder: json["active_order"],
         completeOrder: json["complete_order"],
         totalOrder: json["total_order"],
-        profileImage: List<dynamic>.from(json["profile_image"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,7 +38,6 @@ class ProfileModel {
         "active_order": activeOrder,
         "complete_order": completeOrder,
         "total_order": totalOrder,
-        "profile_image": List<dynamic>.from(profileImage.map((x) => x)),
       };
 }
 
@@ -68,17 +64,17 @@ class UserDetails {
   String? name;
   String? email;
   String? phone;
-  dynamic address;
+  String? address;
   dynamic about;
   int? countryId;
   String? serviceCity;
   String? serviceArea;
-  dynamic postCode;
-  dynamic image;
+  String? postCode;
+  String? image;
   String? countryCode;
-  Country? country;
-  City? city;
-  Area? area;
+  Country country;
+  City city;
+  Area area;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["id"],
@@ -111,9 +107,9 @@ class UserDetails {
         "post_code": postCode,
         "image": image,
         "country_code": countryCode,
-        "country": country?.toJson(),
-        "city": city?.toJson(),
-        "area": area?.toJson(),
+        "country": country.toJson(),
+        "city": city.toJson(),
+        "area": area.toJson(),
       };
 }
 
@@ -132,12 +128,12 @@ class Area {
   int? countryId;
   int? status;
 
-  factory Area.fromJson(Map<String, dynamic>? json) => Area(
-        id: json?["id"],
-        serviceArea: json?["service_area"],
-        serviceCityId: json?["service_city_id"],
-        countryId: json?["country_id"],
-        status: json?["status"],
+  factory Area.fromJson(Map<String, dynamic> json) => Area(
+        id: json["id"],
+        serviceArea: json["service_area"],
+        serviceCityId: json["service_city_id"],
+        countryId: json["country_id"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -162,11 +158,11 @@ class City {
   int? countryId;
   int? status;
 
-  factory City.fromJson(Map<String, dynamic>? json) => City(
-        id: json?["id"],
-        serviceCity: json?["service_city"],
-        countryId: json?["country_id"],
-        status: json?["status"],
+  factory City.fromJson(Map<String, dynamic> json) => City(
+        id: json["id"],
+        serviceCity: json["service_city"],
+        countryId: json["country_id"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -188,10 +184,10 @@ class Country {
   String? country;
   int? status;
 
-  factory Country.fromJson(Map<String, dynamic>? json) => Country(
-        id: json?["id"],
-        country: json?["country"],
-        status: json?["status"],
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
+        id: json["id"],
+        country: json["country"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {

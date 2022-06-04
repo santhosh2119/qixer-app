@@ -36,51 +36,57 @@ class _BookingLocationPageState extends State<BookingLocationPage> {
       onWillPop: () {
         return Future.value(true);
       },
-      child: Scaffold(
-        appBar: CommonHelper().appbarForBookingPages(
-          "Location",
-          context,
-        ),
-        body: SingleChildScrollView(
-          physics: physicsCommon,
-          child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: screenPadding,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //Circular Progress bar
-                  Steps(cc: cc),
+      child: WillPopScope(
+        onWillPop: () {
+          BookStepsService().decreaseStep(context);
+          return Future.value(true);
+        },
+        child: Scaffold(
+          appBar: CommonHelper().appbarForBookingPages(
+            "Location",
+            context,
+          ),
+          body: SingleChildScrollView(
+            physics: physicsCommon,
+            child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenPadding,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //Circular Progress bar
+                    Steps(cc: cc),
 
-                  CommonHelper().titleCommon('Booking informations'),
+                    CommonHelper().titleCommon('Booking informations'),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
+                    const SizedBox(
+                      height: 20,
+                    ),
 
-                  const CountryStatesDropdowns(),
-                  //Login button ==================>
-                  const SizedBox(
-                    height: 27,
-                  ),
-                  CommonHelper().buttonOrange("Next", () {
-                    //increase page steps by one
-                    BookStepsService().onNext(context);
-                    // setDefaultPrice ==> Before the user did any quantity increase decrease...etc
+                    const CountryStatesDropdowns(),
+                    //Login button ==================>
+                    const SizedBox(
+                      height: 27,
+                    ),
+                    CommonHelper().buttonOrange("Next", () {
+                      //increase page steps by one
+                      BookStepsService().onNext(context);
+                      // setDefaultPrice ==> Before the user did any quantity increase decrease...etc
 
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: const DeliveryAddressPage()));
-                  }),
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const DeliveryAddressPage()));
+                    }),
 
-                  const SizedBox(
-                    height: 30,
-                  ),
-                ],
-              )),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                )),
+          ),
         ),
       ),
     );

@@ -51,67 +51,71 @@ class ReviewTab extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text(
-                      //   provider.serviceAllDetails.serviceReviews[i].,
-                      //   style: TextStyle(
-                      //       color: cc.greyFour,
-                      //       fontSize: 17,
-                      //       fontWeight: FontWeight.w600),
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(
+                        //   provider.serviceAllDetails.serviceReviews[i].,
+                        //   style: TextStyle(
+                        //       color: cc.greyFour,
+                        //       fontSize: 17,
+                        //       fontWeight: FontWeight.w600),
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
 
-                      // if one star rating then show one star else loop and show
-                      provider.serviceAllDetails.serviceReviews[i].rating == 0
-                          ? Icon(
-                              Icons.star,
-                              color: cc.primaryColor,
-                              size: 16,
-                            )
-                          : Row(
-                              children: [
-                                for (int j = 0;
-                                    j <
-                                        provider.serviceAllDetails
-                                            .serviceReviews[i].rating;
-                                    j++)
-                                  Icon(
-                                    Icons.star,
-                                    color: cc.primaryColor,
-                                    size: 16,
-                                  )
-                              ],
-                            ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      //feedback
-                      Text(
-                        provider.serviceAllDetails.serviceReviews[i].message,
-                        style: TextStyle(
-                          color: cc.greyParagraph,
-                          fontSize: 14,
-                          height: 1.4,
+                        // if one star rating then show one star else loop and show
+                        provider.serviceAllDetails.serviceReviews[i].rating == 0
+                            ? Icon(
+                                Icons.star,
+                                color: cc.primaryColor,
+                                size: 16,
+                              )
+                            : Row(
+                                children: [
+                                  for (int j = 0;
+                                      j <
+                                          provider.serviceAllDetails
+                                              .serviceReviews[i].rating;
+                                      j++)
+                                    Icon(
+                                      Icons.star,
+                                      color: cc.primaryColor,
+                                      size: 16,
+                                    )
+                                ],
+                              ),
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
+                        //feedback
+                        Text(
+                          provider.serviceAllDetails.serviceReviews[i].message,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: cc.greyParagraph,
+                            fontSize: 14,
+                            height: 1.4,
+                          ),
+                        ),
 
-                      //date
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      // Text(
-                      //   'Mar 21, 2022',
-                      //   style: TextStyle(
-                      //     color: Colors.grey.withOpacity(.8),
-                      //     fontSize: 14,
-                      //     height: 1.4,
-                      //   ),
-                      // ),
-                    ],
+                        //date
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Text(
+                        //   'Mar 21, 2022',
+                        //   style: TextStyle(
+                        //     color: Colors.grey.withOpacity(.8),
+                        //     fontSize: 14,
+                        //     height: 1.4,
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -9,7 +8,6 @@ import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
-import 'package:qixer/view/auth/signup/components/email_name_fields.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/booking/components/textarea_field.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -306,6 +304,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     ),
                     CommonHelper().buttonOrange('Save', () async {
                       if (provider.isloading == false) {
+                        if (addressController.text.isEmpty) {
+                          OthersHelper().showToast(
+                              'Address field is required', Colors.black);
+                          return;
+                        }
                         showTopSnackBar(
                             context,
                             const CustomSnackBar.success(

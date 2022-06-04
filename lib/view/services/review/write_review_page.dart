@@ -51,7 +51,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
                 cc: cc,
                 title: widget.title,
                 userImg: widget.userImg,
-                userName: 'Jane cooper',
+                userName: widget.userName,
               ),
               const SizedBox(
                 height: 28,
