@@ -43,8 +43,8 @@ class ReviewTab extends StatelessWidget {
                         height: 60,
                         width: 60,
                         alignment: Alignment.center,
-                        child: const Text(
-                          'Q',
+                        child: Text(
+                          '${provider.serviceAllDetails.serviceReviews[i].buyerName[0]}',
                           style: TextStyle(color: Colors.white, fontSize: 28),
                         ),
                       )),
@@ -55,16 +55,17 @@ class ReviewTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Text(
-                        //   provider.serviceAllDetails.serviceReviews[i].,
-                        //   style: TextStyle(
-                        //       color: cc.greyFour,
-                        //       fontSize: 17,
-                        //       fontWeight: FontWeight.w600),
-                        // ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
+                        Text(
+                          provider
+                              .serviceAllDetails.serviceReviews[i].buyerName,
+                          style: TextStyle(
+                              color: cc.greyFour,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
 
                         // if one star rating then show one star else loop and show
                         provider.serviceAllDetails.serviceReviews[i].rating == 0

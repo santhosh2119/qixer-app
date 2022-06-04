@@ -33,9 +33,16 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController notesController = TextEditingController();
 
+  String? countryCode;
+
   @override
   void initState() {
     super.initState();
+
+    countryCode = Provider.of<ProfileService>(context, listen: false)
+        .profileDetails
+        .userDetails
+        .countryCode;
 
     userNameController.text =
         Provider.of<ProfileService>(context, listen: false)
@@ -167,7 +174,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                     controller: phoneController,
                                     decoration:
                                         SignupHelper().phoneFieldDecoration(),
-                                    initialCountryCode: 'IN',
+                                    initialCountryCode: countryCode,
                                     onChanged: (phone) {
                                       print(phone.completeNumber);
                                       // phoneController.text = phone.completeNumber;

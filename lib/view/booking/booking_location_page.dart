@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 import 'package:qixer/service/book_steps_service.dart';
-import 'package:qixer/service/booking_services/book_service.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer/view/booking/delivery_address_page.dart.dart';
-import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';

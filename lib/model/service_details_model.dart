@@ -241,6 +241,7 @@ class ServiceReview {
     this.serviceId,
     this.rating,
     this.message,
+    this.buyerName,
     this.buyerId,
     required this.buyerForMobile,
   });
@@ -249,6 +250,7 @@ class ServiceReview {
   int? serviceId;
   int? rating;
   String? message;
+  String? buyerName;
   int? buyerId;
   BuyerForMobile buyerForMobile;
 
@@ -257,6 +259,7 @@ class ServiceReview {
         serviceId: json["service_id"],
         rating: json["rating"],
         message: json["message"],
+        buyerName: json["buyer_name"],
         buyerId: json["buyer_id"],
         buyerForMobile: BuyerForMobile.fromJson(json["buyer_for_mobile"]),
       );
@@ -266,6 +269,7 @@ class ServiceReview {
         "service_id": serviceId,
         "rating": rating,
         "message": message,
+        "buyerName": buyerName,
         "buyer_id": buyerId,
         "buyer_for_mobile": buyerForMobile.toJson(),
       };

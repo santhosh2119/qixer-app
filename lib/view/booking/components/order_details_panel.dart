@@ -368,7 +368,7 @@ class _OrderDetailsPanelState extends State<OrderDetailsPanel>
                                                   .text.isNotEmpty) {
                                                 if (couponProvider.isloading ==
                                                     false) {
-                                                  couponController.clear();
+                                                  // couponController.clear();
                                                   couponProvider
                                                       .getCouponDiscount(
                                                           couponController.text,
