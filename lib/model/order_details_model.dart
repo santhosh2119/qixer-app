@@ -79,17 +79,17 @@ class OrderInfo {
   int? country;
   String? date;
   String? schedule;
-  int? packageFee;
-  int? extraService;
-  int? subTotal;
-  double? tax;
-  double? total;
+  String? packageFee;
+  String? extraService;
+  String? subTotal;
+  String? tax;
+  String? total;
   dynamic couponCode;
   String? couponType;
   int? couponAmount;
   String? commissionType;
   int? commissionCharge;
-  var commissionAmount;
+  double? commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;
@@ -119,14 +119,14 @@ class OrderInfo {
         packageFee: json["package_fee"],
         extraService: json["extra_service"],
         subTotal: json["sub_total"],
-        tax: json["tax"].toDouble(),
-        total: json["total"].toDouble(),
+        tax: json["tax"],
+        total: json["total"],
         couponCode: json["coupon_code"],
         couponType: json["coupon_type"],
         couponAmount: json["coupon_amount"],
         commissionType: json["commission_type"],
         commissionCharge: json["commission_charge"],
-        commissionAmount: json["commission_amount"],
+        commissionAmount: json["commission_amount"].toDouble(),
         paymentGateway: json["payment_gateway"],
         paymentStatus: json["payment_status"],
         status: json["status"],

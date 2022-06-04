@@ -197,7 +197,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                               'null',
                                               'Tax',
                                               provider.orderDetails.tax
-                                                  .toStringAsFixed(2)),
+                                                  .toString()),
                                         ),
 
                                         Container(
@@ -205,7 +205,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                               'null',
                                               'Total',
                                               provider.orderDetails.total
-                                                  .toStringAsFixed(2)),
+                                                  .toString()),
                                         ),
 
                                         Container(
