@@ -43,6 +43,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         .profileDetails
         .userDetails
         .countryCode;
+    //set country code
+    Future.delayed(const Duration(milliseconds: 600), () {
+      Provider.of<ProfileEditService>(context, listen: false)
+          .setCountryCode(countryCode);
+    });
 
     fullNameController.text =
         Provider.of<ProfileService>(context, listen: false)
@@ -243,8 +248,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           decoration: SignupHelper().phoneFieldDecoration(),
                           initialCountryCode: countryCode,
                           onChanged: (phone) {
-                            // Provider.of<SignupService>(context, listen: false)
-                            //     .setPhone(phone.completeNumber);
+                            provider.setCountryCode(phone.countryISOCode);
                           },
                         ),
                         CommonHelper().labelCommon("Post code"),

@@ -20,6 +20,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PlaceOrderService with ChangeNotifier {
   bool isloading = false;
 
+  var orderId;
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -30,7 +32,7 @@ class PlaceOrderService with ChangeNotifier {
     notifyListeners();
   }
 
-  placeOrder(BuildContext context, String? imagePath) async {
+  Future<bool> placeOrder(BuildContext context, String? imagePath) async {
     setLoadingTrue();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -214,6 +216,9 @@ class PlaceOrderService with ChangeNotifier {
       OthersHelper().showToast('Order placed successfully', Colors.black);
       print(response.data);
 
+      orderId = response.data['order_id'];
+      print('order id is $orderId');
+
       //Refresh profile page so that user can see updated total orders
       Provider.of<ProfileService>(context, listen: false)
           .getProfileDetails(isFromProfileupdatePage: true);
@@ -231,9 +236,14 @@ class PlaceOrderService with ChangeNotifier {
 
       //reset steps
       Provider.of<BookStepsService>(context, listen: false).setStepsToDefault();
+
+      notifyListeners();
+
+      return true;
     } else {
       print(response.data);
       OthersHelper().showToast('Something went wrong', Colors.black);
+      return false;
     }
 
     //

@@ -16,8 +16,7 @@ class PaypalService {
           onFinish: (number) async {
             print('paypal payment successfull');
 
-            Provider.of<PlaceOrderService>(context, listen: false)
-                .placeOrder(context, null);
+            //make payment status success
 
             // payment done
             print('order id: ' + number);

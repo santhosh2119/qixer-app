@@ -12,6 +12,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileEditService with ChangeNotifier {
   bool isloading = false;
 
+  String countryCode = 'IN';
+
+  setCountryCode(code) {
+    countryCode = code;
+    notifyListeners();
+  }
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -59,7 +66,8 @@ class ProfileEditService with ChangeNotifier {
         'country_id': countryId,
         'post_code': postCode,
         'address': address,
-        'about': about
+        'about': about,
+        'country_code': countryCode
       });
     } else {
       formData = FormData.fromMap({
@@ -71,7 +79,8 @@ class ProfileEditService with ChangeNotifier {
         'country_id': countryId,
         'post_code': postCode,
         'address': address,
-        'about': about
+        'about': about,
+        'country_code': countryCode
       });
     }
     var response = await dio.post(

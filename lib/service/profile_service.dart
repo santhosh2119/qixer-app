@@ -78,6 +78,8 @@ class ProfileService with ChangeNotifier {
         ordersList.add(profileDetails.completeOrder);
         ordersList.add(profileDetails.totalOrder);
 
+        print('profile details is $profileDetails');
+
         if (jsonDecode(response.body)['profile_image'] is List) {
           //then dont do anything because it means image is missing from database
         } else {
