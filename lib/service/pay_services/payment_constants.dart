@@ -57,24 +57,28 @@ payAction(String method, BuildContext context, imagePath) {
       // MercadoPagoService().mercadoPay();
       break;
     case 'razorpay':
-      RazorpayService().payByRazorpay(context);
+      makePaymentToGetOrderId(context, () {
+        RazorpayService().payByRazorpay(context);
+      });
       break;
     case 'stripe':
-      StripeService().makePayment(context);
+      makePaymentToGetOrderId(context, () {
+        StripeService().makePayment(context);
+      });
       break;
-    case 'bank_transfer':
+    case 'manual_payment':
       if (imagePath == null) {
         OthersHelper()
             .showToast('You must upload the cheque image', Colors.black);
       } else {
         Provider.of<PlaceOrderService>(context, listen: false)
-            .placeOrder(context, null);
+            .placeOrder(context, imagePath.path, isManualOrCod: true);
       }
       // StripeService().makePayment(context);
       break;
     case 'cash_on_delivery':
       Provider.of<PlaceOrderService>(context, listen: false)
-          .placeOrder(context, null);
+          .placeOrder(context, null, isManualOrCod: true);
       break;
     default:
       {
@@ -88,7 +92,7 @@ List paymentList = [
   PayMethods('cashfree', 'assets/icons/payment/cashfree.png'),
   PayMethods('flutterwave', 'assets/icons/payment/flutterwave.png'),
   PayMethods('instamojo', 'assets/icons/payment/instamojo.png'),
-  // PayMethods('mercado', 'assets/icons/payment/mercado.png'),
+  // PayMethods('marcadopago', 'assets/icons/payment/mercado.png'),
   // PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
   // PayMethods('mollie', 'assets/icons/payment/mollie.png'),
   // PayMethods('payfast', 'assets/icons/payment/payfast.png'),
@@ -96,7 +100,7 @@ List paymentList = [
   // PayMethods('paytm', 'assets/icons/payment/paytm.png'),
   PayMethods('razorpay', 'assets/icons/payment/razorpay.png'),
   PayMethods('stripe', 'assets/icons/payment/stripe.png'),
-  PayMethods('bank_transfer', 'assets/icons/payment/bank_transfer.png'),
+  PayMethods('manual_payment', 'assets/icons/payment/bank_transfer.png'),
   PayMethods('cash_on_delivery', 'assets/icons/payment/cash_on_delivery.png'),
 ];
 

@@ -135,7 +135,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                       },
                     ),
 
-                    paymentList[selectedMethod].methodName == 'bank_transfer'
+                    paymentList[selectedMethod].methodName == 'manual_payment'
                         ?
 //pick image ==========>
                         Consumer<BankTransferService>(
@@ -246,7 +246,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                             context,
                             //if user selected bank transfer
                             paymentList[selectedMethod].methodName ==
-                                    'bank_transfer'
+                                    'manual_payment'
                                 ? Provider.of<BankTransferService>(context,
                                         listen: false)
                                     .pickedImage

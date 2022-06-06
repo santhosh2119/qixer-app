@@ -82,7 +82,7 @@ class FlutterwaveService {
       showLoading(response.status!, context);
       print('flutterwave payment successfull');
       Provider.of<PlaceOrderService>(context, listen: false)
-          .placeOrder(context, null);
+          .makePaymentSuccess(context);
       // print("${response.toJson()}");
     } else {
       //User cancelled the payment

@@ -9,7 +9,10 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 class PaymentSuccessPage extends StatefulWidget {
-  const PaymentSuccessPage({Key? key}) : super(key: key);
+  const PaymentSuccessPage({Key? key, required this.paymentStatus})
+      : super(key: key);
+
+  final String paymentStatus;
 
   @override
   _PaymentSuccessPageState createState() => _PaymentSuccessPageState();
@@ -253,7 +256,7 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                               Row(
                                 children: [
                                   BookingHelper().colorCapsule('Payment status',
-                                      'Complete', cc.successColor),
+                                      widget.paymentStatus, cc.successColor),
                                   const SizedBox(
                                     width: 30,
                                   ),

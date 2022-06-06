@@ -4,7 +4,6 @@ import 'package:cashfree_pg/cashfree_pg.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -20,7 +19,8 @@ class CashfreeService {
   };
 
   getTokenAndPay(BuildContext context) async {
-    String orderId = randomOrderId();
+    String orderId =
+        Provider.of<PlaceOrderService>(context, listen: false).orderId;
     String orderCurrency = "INR";
     var data = jsonEncode({
       'orderId': orderId,
@@ -87,7 +87,7 @@ class CashfreeService {
         if (value['txStatus'] == "SUCCESS") {
           print('Cashfree Payment successfull. Do something here');
           Provider.of<PlaceOrderService>(context, listen: false)
-              .placeOrder(context, null);
+              .makePaymentSuccess(context);
         }
       }
     });

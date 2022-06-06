@@ -16,6 +16,8 @@ import 'package:qixer/view/booking/payment_success_page.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../common_service.dart';
 
 class PlaceOrderService with ChangeNotifier {
   bool isloading = false;
@@ -32,7 +34,8 @@ class PlaceOrderService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> placeOrder(BuildContext context, String? imagePath) async {
+  Future<bool> placeOrder(BuildContext context, String? imagePath,
+      {bool isManualOrCod = false}) async {
     setLoadingTrue();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -211,41 +214,92 @@ class PlaceOrderService with ChangeNotifier {
       data: formData,
     );
 
-    setLoadingFalse();
     if (response.statusCode == 201) {
-      OthersHelper().showToast('Order placed successfully', Colors.black);
       print(response.data);
 
       orderId = response.data['order_id'];
       print('order id is $orderId');
 
-      //Refresh profile page so that user can see updated total orders
-      Provider.of<ProfileService>(context, listen: false)
-          .getProfileDetails(isFromProfileupdatePage: true);
-
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LandingPage()),
-          (Route<dynamic> route) => false);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => const PaymentSuccessPage(),
-        ),
-      );
-
-      //reset steps
-      Provider.of<BookStepsService>(context, listen: false).setStepsToDefault();
-
       notifyListeners();
 
+      if (isManualOrCod == true) {
+        //if user placed order in manual transfer or cash on delivery then no need to hit the api- make payment success
+        //because in this case payment needs to stay pending anyway.
+        doNext(context, 'Pending');
+        setLoadingFalse();
+      }
       return true;
     } else {
+      setLoadingFalse();
       print(response.data);
       OthersHelper().showToast('Something went wrong', Colors.black);
       return false;
     }
 
     //
+  }
+
+  //make payment successfull
+  makePaymentSuccess(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var connection = await checkConnection();
+
+    if (connection) {
+      var header = {
+        //if header type is application/json then the data should be in jsonEncode method
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      };
+
+      print('order id is $orderId');
+
+      var data = jsonEncode({
+        'order_id': orderId,
+      });
+
+      var response = await http.post(
+          Uri.parse('$baseApi/user/payment-status-update'),
+          headers: header,
+          body: data);
+      setLoadingFalse();
+      if (response.statusCode == 201) {
+        OthersHelper().showToast('Order placed successfully', Colors.black);
+        doNext(context, 'Complete');
+      } else {
+        print(response.body);
+        OthersHelper().showToast(
+            'Failed to make payment status successfull', Colors.black);
+        doNext(context, 'Pending');
+      }
+    } else {
+      OthersHelper().showToast(
+          'Check your internet connection and try again', Colors.black);
+    }
+  }
+
+  ///////////==========>
+  doNext(BuildContext context, String paymentStatus) {
+    //Refresh profile page so that user can see updated total orders
+    Provider.of<ProfileService>(context, listen: false)
+        .getProfileDetails(isFromProfileupdatePage: true);
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LandingPage()),
+        (Route<dynamic> route) => false);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => PaymentSuccessPage(
+          paymentStatus: paymentStatus,
+        ),
+      ),
+    );
+
+    //reset steps
+    Provider.of<BookStepsService>(context, listen: false).setStepsToDefault();
   }
 }

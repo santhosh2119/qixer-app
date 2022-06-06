@@ -198,7 +198,6 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                                 }
                                                 return null;
                                               },
-                                              isNumberField: true,
                                               hintText: "Enter your post code",
                                               icon: 'assets/icons/location.png',
                                               textInputAction:

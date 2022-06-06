@@ -100,7 +100,7 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
         print('instamojo payment successfull');
 
         Provider.of<PlaceOrderService>(context, listen: false)
-            .placeOrder(context, null);
+            .makePaymentSuccess(context);
 
 //payment is successful.
       } else {

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/my_orders_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 
 import 'package:qixer/view/tabs/orders/order_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -97,12 +98,14 @@ class _OrdersPageState extends State<OrdersPage> {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    OrdersHelper()
-                                                        .statusCapsule(
-                                                            provider
-                                                                .myServices[i]
-                                                                .paymentStatus,
-                                                            cc.greyFour),
+                                                    OrdersHelper().statusCapsule(
+                                                        OrderDetailsService()
+                                                            .getOrderStatus(
+                                                                provider
+                                                                    .myServices[
+                                                                        i]
+                                                                    .status),
+                                                        cc.greyFour),
 
                                                     //popup button
                                                     // Container(

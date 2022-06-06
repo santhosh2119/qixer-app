@@ -91,7 +91,7 @@ class MyOrder {
   double? total;
   dynamic couponCode;
   String? couponType;
-  int? couponAmount;
+  var couponAmount;
   String? commissionType;
   int? commissionCharge;
   var commissionAmount;

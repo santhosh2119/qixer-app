@@ -17,7 +17,8 @@ class PaypalService {
             print('paypal payment successfull');
 
             //make payment status success
-
+            Provider.of<PlaceOrderService>(context, listen: false)
+                .makePaymentSuccess(context);
             // payment done
             print('order id: ' + number);
           },

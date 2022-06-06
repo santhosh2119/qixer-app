@@ -46,19 +46,8 @@ class OrderDetailsService with ChangeNotifier {
         orderDetails = data.orderInfo;
 
         var status = data.orderInfo.status;
-        if (status == 0) {
-          orderStatus = 'Pending';
-        } else if (status == 1) {
-          orderStatus = 'Active';
-        } else if (status == 2) {
-          orderStatus = "Completed";
-        } else if (status == 3) {
-          orderStatus = "Delivered";
-        } else if (status == 4) {
-          orderStatus = 'Cancelled';
-        } else {
-          orderStatus = 'Unknown';
-        }
+
+        orderStatus = getOrderStatus(status ?? -1);
 
         isLoading = false;
         notifyListeners();
@@ -72,6 +61,22 @@ class OrderDetailsService with ChangeNotifier {
         setLoadingTrue();
         return orderDetails;
       }
+    }
+  }
+
+  getOrderStatus(int status) {
+    if (status == 0) {
+      return 'Pending';
+    } else if (status == 1) {
+      return 'Active';
+    } else if (status == 2) {
+      return "Completed";
+    } else if (status == 3) {
+      return "Delivered";
+    } else if (status == 4) {
+      return 'Cancelled';
+    } else {
+      return 'Unknown';
     }
   }
 }
