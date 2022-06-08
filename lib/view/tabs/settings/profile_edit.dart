@@ -312,6 +312,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           OthersHelper().showToast(
                               'Address field is required', Colors.black);
                           return;
+                        } else if (phoneController.text.isEmpty) {
+                          OthersHelper().showToast(
+                              'Phone field is required', Colors.black);
+                          return;
                         }
                         showTopSnackBar(
                             context,
