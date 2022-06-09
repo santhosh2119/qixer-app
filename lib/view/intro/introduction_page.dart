@@ -120,7 +120,12 @@ class _IntroductionPageState extends State<IntroductionPage> {
             children: [
               Expanded(
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                        (Route<dynamic> route) => false);
+                  },
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(
