@@ -18,6 +18,13 @@ class _IntroductionPageState extends State<IntroductionPage> {
   final PageController _pageController = PageController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    screenSizeAndPlatform(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     // var screenWidth = MediaQuery.of(context).size.width;
     // var screenHeight = MediaQuery.of(context).size.height;
