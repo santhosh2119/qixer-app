@@ -378,7 +378,9 @@ class _LoginPageState extends State<LoginPage> {
                       Consumer<GoogleSignInService>(
                         builder: (context, gProvider, child) => InkWell(
                             onTap: () {
-                              gProvider.googleLogin(context);
+                              if (gProvider.isloading == false) {
+                                gProvider.googleLogin(context);
+                              }
                             },
                             child: LoginHelper().commonButton(
                                 'assets/icons/google.png', "Login with Google",
