@@ -6,6 +6,9 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../../../service/auth_services/facebook_login_service.dart';
+import '../../../service/auth_services/google_sign_service.dart';
+
 class SettingsHelper {
   ConstantColors cc = ConstantColors();
   borderBold(double marginTop, double marginBottom) {
@@ -97,6 +100,11 @@ class SettingsHelper {
                         child: CommonHelper().buttonOrange('Logout', () {
                       if (provider.isloading == false) {
                         provider.logout(context);
+                        //if logged in by google then logout from it
+                        GoogleSignInService().logOutFromGoogleLogin();
+
+                        //if logged in by facebook then logout from it
+                        FacebookLoginService().logoutFromFacebook();
                       }
                     }, isloading: provider.isloading == false ? false : true)),
                   ),
