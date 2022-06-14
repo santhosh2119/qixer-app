@@ -44,8 +44,7 @@ class GoogleSignInService with ChangeNotifier {
 
     // try to login with the info
     if (_user != null) {
-      loginAfterGoogleSignin(
-          _user!.email, _user!.displayName, _user?.id, 1, context);
+      socialLogin(_user!.email, _user!.displayName, _user?.id, 1, context);
 
       // _user.
     } else {
@@ -61,11 +60,14 @@ class GoogleSignInService with ChangeNotifier {
     googleSignIn.signOut();
   }
 
-  Future<bool> loginAfterGoogleSignin(
-      email, username, id, int isGoogle, BuildContext context) async {
+  Future<bool> socialLogin(
+      email, username, id, int isGoogle, BuildContext context,
+      {bool isGoogleLogin = true}) async {
     var connection = await checkConnection();
     if (connection) {
-      setLoadingTrue();
+      if (isGoogleLogin == true) {
+        setLoadingTrue();
+      }
       var data = jsonEncode({
         'email': email,
         'displayName': username,
@@ -87,7 +89,8 @@ class GoogleSignInService with ChangeNotifier {
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
-        await saveDetailsAfterGoogleLogin(email, username, token, userId);
+        await saveDetailsAfterSocialLogin(
+            email, username, token, userId, isGoogleLogin);
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(
@@ -113,18 +116,24 @@ class GoogleSignInService with ChangeNotifier {
     }
   }
 
-  saveDetailsAfterGoogleLogin(
-      String email, userName, String token, int userId) async {
+  saveDetailsAfterSocialLogin(String email, userName, String token, int userId,
+      bool isGoogleLogin) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print('token is $token');
     print('user id is $userId');
     prefs.setBool('keepLoggedIn', true);
-    prefs.setBool('googleLogin', true);
+
     prefs.setString("email", email);
     prefs.setString("userName", email);
 
     prefs.setString("token", token);
     prefs.setInt('userId', userId);
+
+    if (isGoogleLogin == true) {
+      prefs.setBool('googleLogin', true);
+    } else {
+      prefs.setBool('fbLogin', true);
+    }
 
     return true;
   }

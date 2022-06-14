@@ -34,14 +34,17 @@ class SplashService {
       //check if user logged in with the google or facebook
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var googleLogin = prefs.getBool('googleLogin');
-      if (googleLogin == true) {
+      var fbLogin = prefs.getBool('fbLogin');
+      if (googleLogin == true || fbLogin == true) {
         //if last time user logged in with google or facebook
-        debugPrint('trying to log in with the last time google login info');
-        String? email = prefs.getString('email');
-        String? userName = prefs.getString('userName');
+        debugPrint('trying to log in with the last time social login info');
+        var email = prefs.getString('email');
+        var userName = prefs.getString('userName');
+        var id = prefs.getInt('userId');
 
-        Provider.of<GoogleSignInService>(context, listen: false)
-            .googleLogin(context);
+        Provider.of<GoogleSignInService>(context, listen: false).socialLogin(
+            email, userName, id, googleLogin == true ? 1 : 0, context,
+            isGoogleLogin: false);
       } else {
         //user logged in with his email and password. so,
         //Try to login with the saved email and password
