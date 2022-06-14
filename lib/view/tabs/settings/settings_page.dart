@@ -247,11 +247,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                     'assets/svg/logout-circle.svg', 'Logout',
                                     () {
                                   SettingsHelper().logoutPopup(context);
-                                  //if logged in by google then logout from it
-                                  GoogleSignInService().logOutFromGoogleLogin();
-
-                                  //if logged in by facebook then logout from it
-                                  FacebookLoginService().logoutFromFacebook();
                                 }),
                                 sizedBox20()
                               ]),
