@@ -77,12 +77,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             .userDetails
             .address ??
         '';
-
-    addressController.text = Provider.of<ProfileService>(context, listen: false)
-            .profileDetails
-            .userDetails
-            .address ??
-        '';
   }
 
   late AnimationController localAnimationController;
