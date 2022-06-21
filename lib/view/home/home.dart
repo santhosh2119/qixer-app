@@ -12,6 +12,7 @@ import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
+import 'package:qixer/view/home/top_all_service_page.dart';
 import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
@@ -239,7 +240,7 @@ class _HomepageState extends State<Homepage> {
                           context,
                           MaterialPageRoute<void>(
                             builder: (BuildContext context) =>
-                                const AllServicePage(),
+                                const TopAllServicePage(),
                           ),
                         );
                       },

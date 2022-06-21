@@ -22,6 +22,7 @@ import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
+import 'package:qixer/service/home_services/top_all_services_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/my_orders_service.dart';
@@ -104,6 +105,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EmailVerifyService()),
         ChangeNotifierProvider(create: (_) => OrderDetailsService()),
         ChangeNotifierProvider(create: (_) => RtlService()),
+        ChangeNotifierProvider(create: (_) => TopAllServicesService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

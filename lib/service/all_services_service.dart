@@ -348,32 +348,4 @@ class AllServicesService with ChangeNotifier {
     serviceMap = newListMap;
     notifyListeners();
   }
-
-  // getApiLink() {
-  //   if (selectedCategoryId == 0 && selectedSubcatId == 0) {
-  //     //when no option is selected from dropdown
-  //     return '$baseApi/service-list/all-services';
-  //   } else if (selectedCategoryId != 0 && selectedSubcatId == 0) {
-  //     //if only category is selected
-  //     return '$baseApi/service-list/search-by-category/$selectedCategoryId/';
-  //   } else if (selectedCategoryId == 0 &&
-  //       selectedSubcatId == 0 &&
-  //       selectedSortby == 'Sort by' &&
-  //       selectedRatingId != 0) {
-  //     //if nothing is selected, only rating is selected
-  //     // return '$baseApi/service-list/category-subcategory-rating-search/$categoryid/3/4';
-  //   } else if (selectedCategoryId != 0 &&
-  //       selectedSubcatId != 0 &&
-  //       selectedRatingId != 0 &&
-  //       selectedSortby == 'Sort by') {
-  //     //if category subcategory and rating selected, sort by not selected
-
-  //   } else if (selectedCategoryId != 0 &&
-  //       selectedSubcatId != 0 &&
-  //       selectedRatingId == 0 &&
-  //       selectedSortby == 'Sort by') {
-  //     //if only category and subcategory both is selected , nothing else
-  //     return '$baseApi/service-list/category-subcategory-search/$selectedCategoryId/$selectedSubcatId/';
-  //   }
-  // }
 }
