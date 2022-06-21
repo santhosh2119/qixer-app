@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
@@ -258,18 +259,30 @@ class _HomepageState extends State<Homepage> {
                     const SizedBox(
                       height: 30,
                     ),
-                    SectionTitle(
-                      cc: cc,
-                      title: 'Recently listed',
-                      pressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const AllServicePage(),
-                          ),
-                        );
-                      },
+                    Consumer<AllServicesService>(
+                      builder: (context, allServiceProvider, child) =>
+                          SectionTitle(
+                        cc: cc,
+                        title: 'Recently listed',
+                        pressed: () {
+                          //when user clicks on recent see all. set sort by dropdown to latest
+                          allServiceProvider.setSortbyValue('Latest Service');
+                          allServiceProvider
+                              .setSelectedSortbyId('latest_service');
+
+                          //fetch service
+                          allServiceProvider.setEverythingToDefault();
+                          allServiceProvider.fetchServiceByFilter(context);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const AllServicePage(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
 
                     const SizedBox(

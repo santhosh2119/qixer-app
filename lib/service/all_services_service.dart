@@ -35,6 +35,8 @@ class AllServicesService with ChangeNotifier {
   var selectedRating = 'All';
   var selectedRatingId = 0;
 
+  //=================>
+
   var sortbyDropdownList = [
     'All',
     'Highest Price',
@@ -47,8 +49,28 @@ class AllServicesService with ChangeNotifier {
     'lowest_price',
     'latest_service'
   ];
+
   var selectedSortby = 'All';
   var selectedSortbyId = '';
+
+  setSortbyValue(value) {
+    selectedSortby = value;
+    notifyListeners();
+  }
+
+  setSelectedSortbyId(value) {
+    selectedSortbyId = value;
+    print('selected sort by id $selectedSortbyId');
+    notifyListeners();
+  }
+
+  defaultSortBy() {
+    selectedSortby = 'All';
+    selectedSortbyId = '';
+    notifyListeners();
+  }
+
+  // ===============>
 
   setCategoryValue(value) {
     selectedCategory = value;
@@ -62,11 +84,6 @@ class AllServicesService with ChangeNotifier {
 
   setRatingValue(value) {
     selectedRating = value;
-    notifyListeners();
-  }
-
-  setSortbyValue(value) {
-    selectedSortby = value;
     notifyListeners();
   }
 
@@ -85,12 +102,6 @@ class AllServicesService with ChangeNotifier {
   setSelectedRatingId(value) {
     selectedRatingId = value;
     print('selected rating id $selectedRatingId');
-    notifyListeners();
-  }
-
-  setSelectedSortbyId(value) {
-    selectedSortbyId = value;
-    print('selected sort by id $selectedSortbyId');
     notifyListeners();
   }
 

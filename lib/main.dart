@@ -30,6 +30,7 @@ import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/service/service_details_service.dart';
@@ -102,10 +103,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CreateTicketService()),
         ChangeNotifierProvider(create: (_) => EmailVerifyService()),
         ChangeNotifierProvider(create: (_) => OrderDetailsService()),
+        ChangeNotifierProvider(create: (_) => RtlService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Qixer',
+        builder: (context, rtlchild) {
+          return Consumer<RtlService>(
+            builder: (context, value, child) => Directionality(
+              textDirection: TextDirection.ltr,
+              child: rtlchild!,
+            ),
+          );
+        },
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
