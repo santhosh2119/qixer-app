@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/utils/responsive.dart';
 
@@ -95,16 +96,20 @@ class ServiceCard extends StatelessWidget {
                     const SizedBox(
                       width: 6,
                     ),
-                    Expanded(
-                      child: AutoSizeText(
-                        '\$ $price',
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: cc.greyFour,
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
+                    Consumer<RtlService>(
+                      builder: (context, rtlP, child) => Expanded(
+                        child: AutoSizeText(
+                          rtlP.currencyDirection == 'left'
+                              ? '${rtlP.currency}$price'
+                              : '$price${rtlP.currency}',
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: cc.greyFour,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

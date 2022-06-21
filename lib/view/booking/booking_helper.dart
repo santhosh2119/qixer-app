@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 import '../utils/common_helper.dart';
@@ -160,15 +162,19 @@ class BookingHelper {
                   ),
                 ))
             : Container(),
-        Expanded(
-          flex: 1,
-          child: Text(
-            "\$ $price",
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              color: cc.greyFour,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+        Consumer<RtlService>(
+          builder: (context, rtlP, child) => Expanded(
+            flex: 1,
+            child: Text(
+              rtlP.currencyDirection == 'left'
+                  ? "${rtlP.currency}$price"
+                  : "$price${rtlP.currency}",
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                color: cc.greyFour,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         )

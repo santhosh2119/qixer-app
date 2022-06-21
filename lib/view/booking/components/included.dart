@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 class Included extends StatelessWidget {
@@ -37,12 +38,16 @@ class Included extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 9),
                   child: Row(
                     children: [
-                      Text(
-                        '\$${data[i]['price']} x',
-                        style: TextStyle(
-                          color: cc.greyPrimary,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                      Consumer<RtlService>(
+                        builder: (context, rtlP, child) => Text(
+                          rtlP.currencyDirection == 'left'
+                              ? '${rtlP.currency}${data[i]['price']} x'
+                              : '${data[i]['price']}${rtlP.currency} x',
+                          style: TextStyle(
+                            color: cc.greyPrimary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Container(

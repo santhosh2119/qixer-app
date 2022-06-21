@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/my_orders_service.dart';
 import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 
 import 'package:qixer/view/tabs/orders/order_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -198,11 +199,17 @@ class _OrdersPageState extends State<OrdersPage> {
                                                     ],
                                                   )
                                                 : Container(),
-                                            OrdersHelper().orderRow(
-                                              'assets/svg/bill.svg',
-                                              'Billed',
-                                              '\$${provider.myServices[i].total.toStringAsFixed(2)}',
-                                            ),
+
+                                            Consumer<RtlService>(
+                                              builder: (context, rtlP, child) =>
+                                                  OrdersHelper().orderRow(
+                                                'assets/svg/bill.svg',
+                                                'Billed',
+                                                rtlP.currencyDirection == 'left'
+                                                    ? '${rtlP.currency}${provider.myServices[i].total.toStringAsFixed(2)}'
+                                                    : '${provider.myServices[i].total.toStringAsFixed(2)}${rtlP.currency}',
+                                              ),
+                                            )
                                           ]),
                                         ),
                                       ),

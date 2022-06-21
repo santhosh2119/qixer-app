@@ -7,6 +7,7 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
@@ -44,6 +45,7 @@ class _HomepageState extends State<Homepage> {
     Provider.of<ProfileService>(context, listen: false).getProfileDetails();
     Provider.of<SearchBarWithDropdownService>(context, listen: false)
         .fetchCountries();
+    Provider.of<RtlService>(context, listen: false).fetchCurrency();
   }
 
   @override

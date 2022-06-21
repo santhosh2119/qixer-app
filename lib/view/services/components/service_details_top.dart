@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
@@ -51,12 +52,16 @@ class ServiceDetailsTop extends StatelessWidget {
                             fontSize: 18,
                             fontWeight: FontWeight.w400),
                       ),
-                      Text(
-                        '\$${provider.serviceAllDetails.serviceDetails.price}',
-                        style: TextStyle(
-                            color: cc.primaryColor,
-                            fontSize: 23,
-                            fontWeight: FontWeight.bold),
+                      Consumer<RtlService>(
+                        builder: (context, rtlP, child) => Text(
+                          rtlP.currencyDirection == 'left'
+                              ? '${rtlP.currency}${provider.serviceAllDetails.serviceDetails.price}'
+                              : '${provider.serviceAllDetails.serviceDetails.price}${rtlP.currency}',
+                          style: TextStyle(
+                              color: cc.primaryColor,
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ]),
               ),

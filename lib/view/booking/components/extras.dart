@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/rtl_service.dart';
 
 import '../../../service/booking_services/personalization_service.dart';
 import '../../services/service_helper.dart';
@@ -95,12 +96,16 @@ class _ExtrasState extends State<Extras> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  '\$${widget.additionalServices[i]['price']} x',
-                                  style: TextStyle(
-                                    color: widget.cc.greyPrimary,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                Consumer<RtlService>(
+                                  builder: (context, rtlP, child) => Text(
+                                    rtlP.currencyDirection == 'left'
+                                        ? '${rtlP.currency}${widget.additionalServices[i]['price']} x'
+                                        : '${widget.additionalServices[i]['price']}${rtlP.currency} x',
+                                    style: TextStyle(
+                                      color: widget.cc.greyPrimary,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
 

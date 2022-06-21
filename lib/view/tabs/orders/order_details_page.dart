@@ -149,7 +149,6 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                       )
                                     : Container(),
 
-                                // Date and schedule
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 25),
                                   padding: const EdgeInsets.symmetric(
@@ -162,7 +161,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         CommonHelper()
-                                            .titleCommon('Amound Details'),
+                                            .titleCommon('Amount Details'),
                                         const SizedBox(
                                           height: 25,
                                         ),

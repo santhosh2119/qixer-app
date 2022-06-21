@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -208,15 +209,21 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                  Text(
-                                    pProvider.isOnline == 0
-                                        ? '\$ ${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2)}'
-                                        : '\$ ${bcProvider.totalPriceOnlineServiceAfterAllCalculation.toStringAsFixed(2)}',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      color: cc.greyFour,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                  Consumer<RtlService>(
+                                    builder: (context, rtlP, child) => Text(
+                                      pProvider.isOnline == 0
+                                          ? rtlP.currencyDirection == 'left'
+                                              ? '${rtlP.currency}${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2)}'
+                                              : '${bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2)}${rtlP.currency}'
+                                          : rtlP.currencyDirection == 'left'
+                                              ? '${rtlP.currency}${bcProvider.totalPriceOnlineServiceAfterAllCalculation.toStringAsFixed(2)}'
+                                              : '${bcProvider.totalPriceOnlineServiceAfterAllCalculation.toStringAsFixed(2)}${rtlP.currency}',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        color: cc.greyFour,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   )
                                 ],
