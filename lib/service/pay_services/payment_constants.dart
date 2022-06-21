@@ -5,6 +5,7 @@ import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
+import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 
 import 'package:qixer/service/pay_services/razorpay_service.dart';
@@ -39,7 +40,9 @@ payAction(String method, BuildContext context, imagePath) {
       });
       break;
     case 'mercado':
-      // CashfreeService().getTokenAndPay();
+      makePaymentToGetOrderId(context, () {
+        MercadoPagoService().mercadoPay(context);
+      });
       break;
     case 'midtrans':
       // CashfreeService().getTokenAndPay();
@@ -92,7 +95,7 @@ List paymentList = [
   PayMethods('cashfree', 'assets/icons/payment/cashfree.png'),
   PayMethods('flutterwave', 'assets/icons/payment/flutterwave.png'),
   PayMethods('instamojo', 'assets/icons/payment/instamojo.png'),
-  // PayMethods('marcadopago', 'assets/icons/payment/mercado.png'),
+  PayMethods('mercado', 'assets/icons/payment/mercado.png'),
   // PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
   // PayMethods('mollie', 'assets/icons/payment/mollie.png'),
   // PayMethods('payfast', 'assets/icons/payment/payfast.png'),
