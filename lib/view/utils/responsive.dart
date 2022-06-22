@@ -14,7 +14,6 @@ screenSizeAndPlatform(BuildContext context) {
   getScreenSize(context);
   checkPlatform();
 }
-
 //responsive screen codes ========>
 
 var fourinchScreenHeight = 610;

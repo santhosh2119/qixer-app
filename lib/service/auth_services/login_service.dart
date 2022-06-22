@@ -54,12 +54,17 @@ class LoginService with ChangeNotifier {
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
+        String state = jsonDecode(response.body)['users']['state'].toString();
+        String country_id =
+            jsonDecode(response.body)['users']['country_id'].toString();
 
         if (keepLoggedIn) {
-          saveDetails(email, pass, token, userId);
+          saveDetails(email, pass, token, userId, state, country_id);
         } else {
           setKeepLoggedInFalseSaveToken(token);
         }
+
+        print(response.body);
 
         return true;
       } else {
@@ -78,13 +83,16 @@ class LoginService with ChangeNotifier {
     }
   }
 
-  saveDetails(String email, pass, String token, int userId) async {
+  saveDetails(
+      String email, pass, String token, int userId, state, country_id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("email", email);
     prefs.setBool('keepLoggedIn', true);
     prefs.setString("pass", pass);
     prefs.setString("token", token);
     prefs.setInt('userId', userId);
+    prefs.setString("state", state);
+    prefs.setString("countryId", country_id);
     print('token is $token');
     print('user id is $userId');
   }

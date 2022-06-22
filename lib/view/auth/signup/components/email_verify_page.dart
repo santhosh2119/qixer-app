@@ -17,13 +17,17 @@ class EmailVerifyPage extends StatefulWidget {
       required this.email,
       required this.pass,
       required this.token,
-      required this.userId})
+      required this.userId,
+      required this.state,
+      required this.countryId})
       : super(key: key);
 
   final email;
   final pass;
   final token;
   final userId;
+  final state;
+  final countryId;
 
   @override
   _EmailVerifyPageState createState() => _EmailVerifyPageState();
@@ -101,8 +105,15 @@ class _EmailVerifyPageState extends State<EmailVerifyPage> {
                     errorAnimationController: errorController,
                     controller: textEditingController,
                     onCompleted: (otp) {
-                      provider.verifyOtpAndLogin(otp, context, widget.email,
-                          widget.pass, widget.token, widget.userId);
+                      provider.verifyOtpAndLogin(
+                          otp,
+                          context,
+                          widget.email,
+                          widget.pass,
+                          widget.token,
+                          widget.userId,
+                          widget.state,
+                          widget.countryId);
                     },
                     onChanged: (value) {
                       setState(() {

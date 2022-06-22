@@ -6,6 +6,8 @@ import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/intro/introduction_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../view/utils/responsive.dart';
+
 class SplashService {
   loginOrGoHome(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

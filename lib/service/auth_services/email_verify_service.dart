@@ -63,8 +63,8 @@ class EmailVerifyService with ChangeNotifier {
     }
   }
 
-  verifyOtpAndLogin(
-      enteredOtp, BuildContext context, email, password, token, userId) async {
+  verifyOtpAndLogin(enteredOtp, BuildContext context, email, password, token,
+      userId, state, country_id) async {
     var otpNumber =
         Provider.of<ResetPasswordService>(context, listen: false).otpNumber;
     if (otpNumber != null) {
@@ -99,7 +99,8 @@ class EmailVerifyService with ChangeNotifier {
           );
 
           //save the details for later login
-          LoginService().saveDetails(email, password, token, userId);
+          LoginService()
+              .saveDetails(email, password, token, userId, state, country_id);
         } else {
           print(response.body);
           OthersHelper().showToast(

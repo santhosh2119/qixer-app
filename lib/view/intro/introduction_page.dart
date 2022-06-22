@@ -21,7 +21,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    screenSizeAndPlatform(context);
+    // screenSizeAndPlatform(context);
   }
 
   @override

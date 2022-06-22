@@ -96,6 +96,7 @@ class SignupService with ChangeNotifier {
       if (response.statusCode == 201) {
         OthersHelper().showToast(
             "Registration successful", ConstantColors().successColor);
+        print(response.body);
 
         // Navigator.pushReplacement<void, void>(
         //   context,
@@ -106,6 +107,9 @@ class SignupService with ChangeNotifier {
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
+        String state = jsonDecode(response.body)['users']['state'].toString();
+        String country_id =
+            jsonDecode(response.body)['users']['country_id'].toString();
 
         //Send otp
         var isOtepSent =
@@ -121,6 +125,8 @@ class SignupService with ChangeNotifier {
                 pass: password,
                 token: token,
                 userId: userId,
+                state: state,
+                countryId: country_id,
               ),
             ),
           );
@@ -131,8 +137,14 @@ class SignupService with ChangeNotifier {
         return true;
       } else {
         //Sign up unsuccessful ==========>
+        print('sign up failed ${response.body}');
+        if (jsonDecode(response.body).containsKey('errors')) {
+          showError(jsonDecode(response.body)['errors']);
+        } else {
+          OthersHelper()
+              .showToast(jsonDecode(response.body)['message'], Colors.black);
+        }
 
-        showError(jsonDecode(response.body)['errors']);
         setLoadingFalse();
         return false;
       }
