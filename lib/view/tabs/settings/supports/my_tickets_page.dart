@@ -58,7 +58,6 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
               padding: const EdgeInsets.symmetric(
                 vertical: 9,
               ),
-              margin: const EdgeInsets.only(right: 25),
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -86,7 +85,10 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                       ),
                     )),
               ),
-            )
+            ),
+            const SizedBox(
+              width: 25,
+            ),
           ],
         ),
         body: SmartRefresher(

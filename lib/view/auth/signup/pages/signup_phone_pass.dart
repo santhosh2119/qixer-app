@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/auth/reset_password/reset_pass_otp_page.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -48,14 +49,19 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
             children: [
               //Phone number field
               CommonHelper().labelCommon("Phone"),
-              IntlPhoneField(
-                decoration: SignupHelper().phoneFieldDecoration(),
-                initialCountryCode: provider.countryCode,
-                onChanged: (phone) {
-                  provider.setCountryCode(phone.countryISOCode);
+              Consumer<RtlService>(
+                builder: (context, rtlP, child) => IntlPhoneField(
+                  decoration: SignupHelper().phoneFieldDecoration(),
+                  initialCountryCode: provider.countryCode,
+                  textAlign: rtlP.direction == 'ltr'
+                      ? TextAlign.left
+                      : TextAlign.right,
+                  onChanged: (phone) {
+                    provider.setCountryCode(phone.countryISOCode);
 
-                  provider.setPhone(phone.number);
-                },
+                    provider.setPhone(phone.number);
+                  },
+                ),
               ),
 
               const SizedBox(

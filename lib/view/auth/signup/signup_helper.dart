@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
 import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
@@ -39,6 +40,8 @@ class SignupHelper {
   phoneFieldDecoration() {
     return InputDecoration(
         labelText: 'Phone Number',
+        // hintTextDirection: TextDirection.rtl,
+
         labelStyle: TextStyle(color: cc.greyFour, fontSize: 14),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: ConstantColors().greyFive),

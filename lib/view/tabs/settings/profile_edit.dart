@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/booking/components/textarea_field.dart';
@@ -237,13 +239,18 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CommonHelper().labelCommon("Phone"),
-                        IntlPhoneField(
-                          controller: phoneController,
-                          decoration: SignupHelper().phoneFieldDecoration(),
-                          initialCountryCode: countryCode,
-                          onChanged: (phone) {
-                            provider.setCountryCode(phone.countryISOCode);
-                          },
+                        Consumer<RtlService>(
+                          builder: (context, rtlP, child) => IntlPhoneField(
+                            controller: phoneController,
+                            decoration: SignupHelper().phoneFieldDecoration(),
+                            initialCountryCode: countryCode,
+                            textAlign: rtlP.direction == 'ltr'
+                                ? TextAlign.left
+                                : TextAlign.right,
+                            onChanged: (phone) {
+                              provider.setCountryCode(phone.countryISOCode);
+                            },
+                          ),
                         ),
                         CommonHelper().labelCommon("Post code"),
                         CustomInput(

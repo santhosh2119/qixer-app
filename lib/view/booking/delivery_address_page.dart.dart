@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/booking/book_confirmation_page.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
@@ -170,15 +171,21 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
 
                                   //Phone number field
                                   CommonHelper().labelCommon("Phone"),
-                                  IntlPhoneField(
-                                    controller: phoneController,
-                                    decoration:
-                                        SignupHelper().phoneFieldDecoration(),
-                                    initialCountryCode: countryCode,
-                                    onChanged: (phone) {
-                                      print(phone.completeNumber);
-                                      // phoneController.text = phone.completeNumber;
-                                    },
+                                  Consumer<RtlService>(
+                                    builder: (context, rtlP, child) =>
+                                        IntlPhoneField(
+                                      controller: phoneController,
+                                      textAlign: rtlP.direction == 'ltr'
+                                          ? TextAlign.left
+                                          : TextAlign.right,
+                                      decoration:
+                                          SignupHelper().phoneFieldDecoration(),
+                                      initialCountryCode: countryCode,
+                                      onChanged: (phone) {
+                                        print(phone.completeNumber);
+                                        // phoneController.text = phone.completeNumber;
+                                      },
+                                    ),
                                   ),
 
                                   personalizatioProvider.isOnline == 0

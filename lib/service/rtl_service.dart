@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class RtlService with ChangeNotifier {
   /// RTL support
-  String direction = 'rtl';
+  String direction = 'ltr';
 
   String currency = '\$';
   String currencyDirection = 'left';
