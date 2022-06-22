@@ -116,7 +116,7 @@ class ServiceDetailsTop extends StatelessWidget {
               Container(
                 height: 28,
                 width: 1,
-                margin: const EdgeInsets.only(left: 5, right: 15),
+                margin: const EdgeInsets.only(left: 10, right: 15),
                 color: cc.borderColor,
               ),
               //Sellers ratings ========>

@@ -124,7 +124,6 @@ class ServiceCard extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 child: Container(
-                  margin: const EdgeInsets.only(right: 12),
                   padding: const EdgeInsets.all(7),
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: cc.borderColor),
@@ -137,6 +136,9 @@ class ServiceCard extends StatelessWidget {
                     height: screenWidth < fourinchScreenWidth ? 19 : 21,
                   ),
                 ),
+              ),
+              const SizedBox(
+                width: 11,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(

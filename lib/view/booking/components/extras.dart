@@ -66,7 +66,7 @@ class _ExtrasState extends State<Extras> {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        alignment: Alignment.topLeft,
+                        // alignment: Alignment.topLeft,
                         width: 200,
                         margin: const EdgeInsets.only(
                           right: 17,
@@ -78,7 +78,7 @@ class _ExtrasState extends State<Extras> {
                                     : widget.cc.borderColor),
                             borderRadius: BorderRadius.circular(9)),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 13, vertical: 15),
+                            horizontal: 15, vertical: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

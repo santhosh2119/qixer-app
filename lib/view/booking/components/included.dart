@@ -34,92 +34,94 @@ class Included extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 9),
-                  child: Row(
-                    children: [
-                      Consumer<RtlService>(
-                        builder: (context, rtlP, child) => Text(
-                          rtlP.currencyDirection == 'left'
-                              ? '${rtlP.currency}${data[i]['price']} x'
-                              : '${data[i]['price']}${rtlP.currency} x',
-                          style: TextStyle(
-                            color: cc.greyPrimary,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
+                const SizedBox(
+                  width: 9,
+                ),
+                Row(
+                  children: [
+                    Consumer<RtlService>(
+                      builder: (context, rtlP, child) => Text(
+                        rtlP.currencyDirection == 'left'
+                            ? '${rtlP.currency}${data[i]['price']} x'
+                            : '${data[i]['price']}${rtlP.currency} x',
+                        style: TextStyle(
+                          color: cc.greyPrimary,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Container(
-                        width: 120,
-                        height: 40,
-                        margin: const EdgeInsets.only(left: 7),
-                        padding: const EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: cc.borderColor, width: 1),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          children: [
-                            //decrease quanityt
-                            Expanded(
-                                child: InkWell(
-                              onTap: () {
-                                Provider.of<PersonalizationService>(context,
-                                        listen: false)
-                                    .decreaseIncludedQty(i, context);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: Colors.red.withOpacity(.12),
-                                ),
-                                alignment: Alignment.center,
-                                child: const Icon(
-                                  Icons.remove,
-                                  color: Colors.red,
-                                  size: 19,
-                                ),
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    Container(
+                      width: 120,
+                      height: 40,
+                      padding: const EdgeInsets.all(7),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: cc.borderColor, width: 1),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        children: [
+                          //decrease quanityt
+                          Expanded(
+                              child: InkWell(
+                            onTap: () {
+                              Provider.of<PersonalizationService>(context,
+                                      listen: false)
+                                  .decreaseIncludedQty(i, context);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: Colors.red.withOpacity(.12),
                               ),
-                            )),
-                            Expanded(
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '${data[i]['qty']}',
-                                      style: TextStyle(
-                                          color: cc.greyPrimary,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                    ))),
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.remove,
+                                color: Colors.red,
+                                size: 19,
+                              ),
+                            ),
+                          )),
+                          Expanded(
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    '${data[i]['qty']}',
+                                    style: TextStyle(
+                                        color: cc.greyPrimary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ))),
 
-                            //increase quantity
-                            Expanded(
-                                child: InkWell(
-                              onTap: () {
-                                Provider.of<PersonalizationService>(context,
-                                        listen: false)
-                                    .increaseIncludedQty(i, context);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: cc.successColor.withOpacity(.12),
-                                ),
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.add,
-                                  color: cc.successColor,
-                                  size: 19,
-                                ),
+                          //increase quantity
+                          Expanded(
+                              child: InkWell(
+                            onTap: () {
+                              Provider.of<PersonalizationService>(context,
+                                      listen: false)
+                                  .increaseIncludedQty(i, context);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: cc.successColor.withOpacity(.12),
                               ),
-                            )),
-                          ],
-                        ),
+                              alignment: Alignment.center,
+                              child: Icon(
+                                Icons.add,
+                                color: cc.successColor,
+                                size: 19,
+                              ),
+                            ),
+                          )),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),

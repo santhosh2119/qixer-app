@@ -169,7 +169,8 @@ class BookingHelper {
               rtlP.currencyDirection == 'left'
                   ? "${rtlP.currency}$price"
                   : "$price${rtlP.currency}",
-              textAlign: TextAlign.right,
+              textAlign:
+                  rtlP.direction == 'ltr' ? TextAlign.right : TextAlign.left,
               style: TextStyle(
                 color: cc.greyFour,
                 fontSize: 16,
