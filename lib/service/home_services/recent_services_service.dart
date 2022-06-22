@@ -7,20 +7,41 @@ import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RecentServicesService with ChangeNotifier {
   var recentServiceMap = [];
   bool alreadySaved = false;
+  bool hasService = true;
 
   fetchRecentService() async {
     if (recentServiceMap.isEmpty) {
+      var apiLink;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var stateId = prefs.getString('state');
+      if (stateId == null) {
+        apiLink = '$baseApi/latest-services';
+      } else {
+        apiLink = '$baseApi/latest-services?state_id=$stateId';
+      }
+
       var connection = await checkConnection();
       if (connection) {
         //if connection is ok
-        var response = await http.get(Uri.parse('$baseApi/latest-services'));
+        var response = await http.get(Uri.parse(apiLink));
 
         if (response.statusCode == 201) {
           var data = RecentServiceModel.fromJson(jsonDecode(response.body));
+
+          //check if have service under this state =====>
+          if (data.latestServices.isEmpty) {
+            hasService = false;
+            notifyListeners();
+            return;
+          } else {
+            hasService = true;
+          }
+          //==============>
 
           for (int i = 0; i < data.latestServices.length; i++) {
             var serviceImage;

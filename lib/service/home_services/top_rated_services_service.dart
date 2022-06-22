@@ -7,6 +7,7 @@ import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TopRatedServicesSerivce with ChangeNotifier {
   var topServiceMap = [];
@@ -14,10 +15,21 @@ class TopRatedServicesSerivce with ChangeNotifier {
 
   fetchTopService() async {
     if (topServiceMap.isEmpty) {
+      //=================>
+      var apiLink;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var stateId = prefs.getString('state');
+      if (stateId == null) {
+        apiLink = '$baseApi/top-services';
+      } else {
+        apiLink = '$baseApi/top-services?state_id=$stateId';
+      }
+      //====================>
+
       var connection = await checkConnection();
       if (connection) {
         //if connection is ok
-        var response = await http.get(Uri.parse('$baseApi/top-services'));
+        var response = await http.get(Uri.parse(apiLink));
 
         if (response.statusCode == 201) {
           var data = TopServiceModel.fromJson(jsonDecode(response.body));

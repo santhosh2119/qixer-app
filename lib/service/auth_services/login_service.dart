@@ -95,6 +95,7 @@ class LoginService with ChangeNotifier {
     prefs.setString("countryId", country_id);
     print('token is $token');
     print('user id is $userId');
+    print('user state id is $state');
   }
 
   setKeepLoggedInFalseSaveToken(token) async {

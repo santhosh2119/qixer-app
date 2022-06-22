@@ -229,68 +229,10 @@ class _HomepageState extends State<Homepage> {
                     ),
 
                     //Top rated sellers ========>
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    SectionTitle(
-                      cc: cc,
-                      title: 'Top booked services',
-                      pressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const TopAllServicePage(),
-                          ),
-                        );
-                      },
-                    ),
-
-                    const SizedBox(
-                      height: 18,
-                    ),
 
                     TopRatedServices(cc: cc),
 
-                    //Discount images
-                    // const SizedBox(
-                    //   height: 25,
-                    // ),
-                    // Discounts(cc: cc),
-
-                    //Top rated sellers ========>
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Consumer<AllServicesService>(
-                      builder: (context, allServiceProvider, child) =>
-                          SectionTitle(
-                        cc: cc,
-                        title: 'Recently listed',
-                        pressed: () {
-                          //when user clicks on recent see all. set sort by dropdown to latest
-                          allServiceProvider.setSortbyValue('Latest Service');
-                          allServiceProvider
-                              .setSelectedSortbyId('latest_service');
-
-                          //fetch service
-                          allServiceProvider.setEverythingToDefault();
-                          allServiceProvider.fetchServiceByFilter(context);
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const AllServicePage(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: 18,
-                    ),
+                    //Recent service ========>
 
                     RecentServices(cc: cc),
 
