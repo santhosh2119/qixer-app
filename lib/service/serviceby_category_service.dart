@@ -9,15 +9,19 @@ import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceByCategoryService with ChangeNotifier {
   var serviceMap = [];
   bool alreadySaved = false;
+  bool hasError = false;
 
   late int totalPages;
 
   int currentPage = 1;
   var alreadyAddedtoFav = false;
+  List averageRateList = [];
+  List imageList = [];
 
   setCurrentPage(newValue) {
     currentPage = newValue;
@@ -29,17 +33,29 @@ class ServiceByCategoryService with ChangeNotifier {
     notifyListeners();
   }
 
-  List averageRateList = [];
-  List imageList = [];
   setEverythingToDefault() {
     serviceMap = [];
     currentPage = 1;
     averageRateList = [];
     imageList = [];
+    hasError = false;
     notifyListeners();
   }
 
   fetchCategoryService(context, categoryId, {bool isrefresh = false}) async {
+    //=================>
+    var apiLink;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var stateId = prefs.getString('state');
+    if (stateId == null) {
+      apiLink =
+          '$baseApi/service-list/search-by-category/$categoryId?page=$currentPage';
+    } else {
+      apiLink =
+          '$baseApi/service-list/search-by-category/$categoryId?page=$currentPage&state_id=$stateId';
+    }
+    //====================>
+
     if (isrefresh) {
       //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
       //we are make the list empty when the sub category or brand is selected because then the refresh is true
@@ -61,8 +77,7 @@ class ServiceByCategoryService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      var response = await http.get(Uri.parse(
-          "$baseApi/service-list/search-by-category/$categoryId?page=$currentPage"));
+      var response = await http.get(Uri.parse(apiLink));
 
       if (response.statusCode == 201) {
         var data = ServicebyCategoryModel.fromJson(jsonDecode(response.body));
@@ -112,6 +127,8 @@ class ServiceByCategoryService with ChangeNotifier {
         setCurrentPage(currentPage);
         return true;
       } else {
+        hasError = true;
+        notifyListeners();
         return false;
       }
     }
