@@ -73,6 +73,7 @@ class SearchBarWithDropdownService with ChangeNotifier {
 
         notifyListeners();
       } else {
+        print('error fetching city list ${response.body}');
         //error fetching data
         cityDropdownList = [];
         notifyListeners();

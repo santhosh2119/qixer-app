@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(Duration.zero, () {
       screenSizeAndPlatform(context);
     });
     SplashService().loginOrGoHome(context);

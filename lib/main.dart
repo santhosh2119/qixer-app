@@ -112,8 +112,10 @@ class MyApp extends StatelessWidget {
         title: 'Qixer',
         builder: (context, rtlchild) {
           return Consumer<RtlService>(
-            builder: (context, value, child) => Directionality(
-              textDirection: TextDirection.ltr,
+            builder: (context, rtlP, child) => Directionality(
+              textDirection: rtlP.direction == 'ltr'
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
               child: rtlchild!,
             ),
           );

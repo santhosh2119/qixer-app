@@ -41,16 +41,19 @@ class CountryStatesService with ChangeNotifier {
 
   setSelectedCountryId(value) {
     selectedCountryId = value;
+    print('selected country id $value');
     notifyListeners();
   }
 
   setSelectedStatesId(value) {
     selectedStateId = value;
+    print('selected state id $value');
     notifyListeners();
   }
 
   setSelectedAreaId(value) {
     selectedAreaId = value;
+    print('selected area id $value');
     notifyListeners();
   }
 

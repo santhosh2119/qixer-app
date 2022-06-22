@@ -315,7 +315,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             context,
                             const CustomSnackBar.success(
                               message:
-                                  "Updating profile...It may take few minutes",
+                                  "Updating profile...It may take few seconds",
                             ),
                             persistent: true,
                             onAnimationControllerInit: (controller) =>
