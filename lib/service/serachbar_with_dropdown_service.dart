@@ -8,6 +8,7 @@ import 'package:qixer/model/search_bar_with_dropdown_service_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchBarWithDropdownService with ChangeNotifier {
   var serviceMap = [];
@@ -15,6 +16,9 @@ class SearchBarWithDropdownService with ChangeNotifier {
   var cityDropdownList = [
     'Select City',
   ];
+
+  var userStateId;
+
   var selectedCity = 'Select City';
   List cityDropdownIndexList = [0];
   var selectedCityId = 0;
@@ -60,8 +64,14 @@ class SearchBarWithDropdownService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchCountries() async {
+  fetchStates() async {
     if (cityDropdownList.length < 2) {
+      //=================>
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      userStateId = prefs.getString('state');
+      //====================>
+
       var response = await http.get(Uri.parse('$baseApi/city/service-city'));
 
       if (response.statusCode == 201) {
@@ -70,30 +80,39 @@ class SearchBarWithDropdownService with ChangeNotifier {
           cityDropdownList.add(data.serviceCity[i].serviceCity);
           cityDropdownIndexList.add(data.serviceCity[i].id);
         }
-
-        notifyListeners();
       } else {
         print('error fetching city list ${response.body}');
         //error fetching data
         cityDropdownList = [];
-        notifyListeners();
       }
+      notifyListeners();
     } else {
       //country list already loaded from api
     }
   }
 
-  fetchService(context, String searchText, cityId) async {
+  fetchService(context, String searchText) async {
     var connection = await checkConnection();
     if (connection) {
       var data;
       if (selectedCityId == 0) {
-        data = jsonEncode({
-          'search_text': searchText,
-        });
+        if (userStateId == null) {
+          //if user doesn't have any state id (meaning, he logged in using google or facebook)
+          //and he didn't select any state from dropdown, then search from all state
+          data = jsonEncode({
+            'search_text': searchText,
+          });
+        } else {
+          //user has state id by default, so he deosn't need to select any state from dropdown
+          //service should be fetched by his default state id
+          data = jsonEncode({
+            'service_city_id': userStateId,
+            'search_text': searchText,
+          });
+        }
       } else {
         data = jsonEncode({
-          'service_city_id': cityId,
+          'service_city_id': selectedCityId,
           'search_text': searchText,
         });
       }

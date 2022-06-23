@@ -45,7 +45,7 @@ class _HomepageState extends State<Homepage> {
         .fetchRecentService();
     Provider.of<ProfileService>(context, listen: false).getProfileDetails();
     Provider.of<SearchBarWithDropdownService>(context, listen: false)
-        .fetchCountries();
+        .fetchStates();
     Provider.of<RtlService>(context, listen: false).fetchCurrency();
     Provider.of<RtlService>(context, listen: false).fetchDirection();
   }
