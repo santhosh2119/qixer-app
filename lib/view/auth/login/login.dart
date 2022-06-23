@@ -388,18 +388,23 @@ class _LoginPageState extends State<LoginPage> {
                                     ? false
                                     : true)),
                       ),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
-                      // InkWell(
-                      //     onTap: () {
-                      //       Provider.of<FacebookLoginService>(context,
-                      //               listen: false)
-                      //           .checkIfLoggedIn();
-                      //     },
-                      //     child: LoginHelper().commonButton(
-                      //         'assets/icons/facebook.png',
-                      //         "Login with Facebook")),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Consumer<FacebookLoginService>(
+                        builder: (context, fProvider, child) => InkWell(
+                          onTap: () {
+                            if (fProvider.isloading == false) {
+                              fProvider.checkIfLoggedIn(context);
+                            }
+                          },
+                          child: LoginHelper().commonButton(
+                              'assets/icons/facebook.png',
+                              "Login with Facebook",
+                              isloading:
+                                  fProvider.isloading == false ? false : true),
+                        ),
+                      ),
 
                       const SizedBox(
                         height: 30,
