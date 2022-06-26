@@ -47,6 +47,7 @@ class _HomepageState extends State<Homepage> {
     Provider.of<SearchBarWithDropdownService>(context, listen: false)
         .fetchStates();
     Provider.of<RtlService>(context, listen: false).fetchCurrency();
+    //language direction (ltr or rtl)
     Provider.of<RtlService>(context, listen: false).fetchDirection();
   }
 

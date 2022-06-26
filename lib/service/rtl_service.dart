@@ -16,7 +16,7 @@ class RtlService with ChangeNotifier {
 
   fetchCurrency() async {
     if (alreadyCurrencyLoaded == false) {
-      var response = await http.get(Uri.parse('$baseApi/get-currency-symbol'));
+      var response = await http.get(Uri.parse('$baseApi/currency'));
       if (response.statusCode == 201) {
         currency = jsonDecode(response.body)['currency']['symbol'];
         currencyDirection = jsonDecode(response.body)['currency']['position'];
