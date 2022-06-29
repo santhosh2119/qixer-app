@@ -7,6 +7,7 @@ import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
+import 'package:qixer/service/pay_services/paystack_service.dart';
 
 import 'package:qixer/service/pay_services/razorpay_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
@@ -54,7 +55,7 @@ payAction(String method, BuildContext context, imagePath) {
       // MercadoPagoService().mercadoPay();
       break;
     case 'paystack':
-      // PaystackService().payByPaystack(context);
+      PaystackService().payByPaystack(context);
       break;
     case 'paytm':
       // MercadoPagoService().mercadoPay();
@@ -99,7 +100,7 @@ List paymentList = [
   // PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
   // PayMethods('mollie', 'assets/icons/payment/mollie.png'),
   // PayMethods('payfast', 'assets/icons/payment/payfast.png'),
-  // PayMethods('paystack', 'assets/icons/payment/paystack.png'),
+  PayMethods('paystack', 'assets/icons/payment/paystack.png'),
   // PayMethods('paytm', 'assets/icons/payment/paytm.png'),
   PayMethods('razorpay', 'assets/icons/payment/razorpay.png'),
   PayMethods('stripe', 'assets/icons/payment/stripe.png'),
