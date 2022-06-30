@@ -55,7 +55,10 @@ payAction(String method, BuildContext context, imagePath) {
       // MercadoPagoService().mercadoPay();
       break;
     case 'paystack':
-      PaystackService().payByPaystack(context);
+      makePaymentToGetOrderId(context, () {
+        PaystackService().payByPaystack(context);
+      });
+
       break;
     case 'paytm':
       // MercadoPagoService().mercadoPay();
