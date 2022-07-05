@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
@@ -72,7 +74,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print("Payemt Failed");
-
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
     // print("${response.code}\n${response.message}");
   }
 

@@ -173,6 +173,10 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
 
         Provider.of<PlaceOrderService>(context, listen: false)
             .makePaymentSuccess(context);
+      } else {
+        //payment failed
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .setLoadingFalse();
       }
       setState(() => _inProgress = false);
       // _updateStatus(response.reference, '$response');

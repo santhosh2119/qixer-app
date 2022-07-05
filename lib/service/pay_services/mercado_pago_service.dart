@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,12 +14,18 @@ class MercadoPagoService {
 
     if (result == true) {
       print('mercado token is $token');
-      await MercadoPagoMobileCheckout.startCheckout(
+      var res = await MercadoPagoMobileCheckout.startCheckout(
         publicKey,
         token ?? '',
       );
-      Provider.of<PlaceOrderService>(context, listen: false)
-          .makePaymentSuccess(context);
+      if (res.result == 'done') {
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .makePaymentSuccess(context);
+      } else {
+        print('payment failed');
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .setLoadingFalse();
+      }
     } else {
       //token getting failed
     }
