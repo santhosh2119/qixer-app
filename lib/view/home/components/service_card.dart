@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -144,6 +146,7 @@ class ServiceCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: cc.primaryColor, elevation: 0),
                   onPressed: () {
+                    print('service id is $serviceId');
                     //set some data of the service which is clicked, these datas may be needed
                     Provider.of<BookService>(context, listen: false)
                         .setData(serviceId, title, imageLink, price, sellerId);

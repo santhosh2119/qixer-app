@@ -160,6 +160,7 @@ class ServiceDetails {
     this.slug,
     this.description,
     this.image,
+    this.video,
     this.status,
     this.isServiceOn,
     this.price,
@@ -180,6 +181,7 @@ class ServiceDetails {
   String? slug;
   String? description;
   String? image;
+  String? video;
   int? status;
   int? isServiceOn;
   var price;
@@ -200,6 +202,7 @@ class ServiceDetails {
         slug: json["slug"],
         description: json["description"],
         image: json["image"],
+        video: json["video"],
         status: json["status"],
         isServiceOn: json["is_service_on"],
         price: json["price"],
@@ -222,6 +225,7 @@ class ServiceDetails {
         "slug": slug,
         "description": description,
         "image": image,
+        "video": video,
         "status": status,
         "is_service_on": isServiceOn,
         "price": price,

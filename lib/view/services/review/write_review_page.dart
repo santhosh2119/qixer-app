@@ -52,6 +52,7 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
                 title: widget.title,
                 userImg: widget.userImg,
                 userName: widget.userName,
+                videoLink: null,
               ),
               const SizedBox(
                 height: 28,

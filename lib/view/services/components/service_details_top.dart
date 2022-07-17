@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/service_details_service.dart';
+import 'package:qixer/view/services/components/watch_video_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 import '../../utils/constant_styles.dart';
@@ -24,7 +27,6 @@ class ServiceDetailsTop extends StatelessWidget {
         children: [
           //title author price details
           Container(
-            margin: const EdgeInsets.only(top: 20),
             padding: EdgeInsets.symmetric(horizontal: screenPadding),
             child: Column(children: [
               ServiceTitleAndUser(
@@ -32,6 +34,7 @@ class ServiceDetailsTop extends StatelessWidget {
                 title: provider.serviceAllDetails.serviceDetails.title,
                 userImg: provider.serviceAllDetails.serviceSellerImage.imgUrl,
                 userName: provider.serviceAllDetails.serviceSellerName,
+                videoLink: provider.serviceAllDetails.serviceDetails.video,
               ),
 
               //package price
@@ -156,17 +159,39 @@ class ServiceTitleAndUser extends StatelessWidget {
       required this.cc,
       required this.title,
       this.userImg,
-      required this.userName})
+      required this.userName,
+      required this.videoLink})
       : super(key: key);
   final ConstantColors cc;
   final String title;
   final userImg;
   final String userName;
+  final videoLink;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+//Watch video button ===========>
+        videoLink != null
+            ? ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => WatchVideoPage(
+                                videoUrl: videoLink,
+                              ))));
+                },
+                child: const Text('Watch video'),
+                style: ElevatedButton.styleFrom(
+                    elevation: 0, primary: cc.successColor))
+            : Container(),
+
+        const SizedBox(
+          height: 7,
+        ),
         Text(
           title,
           style: TextStyle(

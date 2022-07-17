@@ -81,7 +81,11 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                       .serviceAllDetails.serviceImage.imgUrl,
                                 ),
 
-                                //package price
+                                const SizedBox(
+                                  height: 15,
+                                ),
+
+                                //Top part
                                 ServiceDetailsTop(cc: cc),
                               ],
                             ),
