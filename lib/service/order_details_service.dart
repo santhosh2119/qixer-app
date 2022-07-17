@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -23,7 +25,6 @@ class OrderDetailsService with ChangeNotifier {
   fetchOrderDetails(orderId) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? userId = prefs.getInt('userId');
     var token = prefs.getString('token');
 
     var header = {

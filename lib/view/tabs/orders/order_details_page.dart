@@ -70,21 +70,24 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Name',
-                                              provider.orderDetails.name),
+                                              provider.orderDetails
+                                                  .sellerDetails.name),
                                         ),
 
                                         Container(
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Email',
-                                              provider.orderDetails.email),
+                                              provider.orderDetails
+                                                  .sellerDetails.email),
                                         ),
 
                                         Container(
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Phone',
-                                              provider.orderDetails.phone),
+                                              provider.orderDetails
+                                                  .sellerDetails.phone),
                                         ),
                                         provider.orderDetails.isOrderOnline == 0
                                             ? Container(
@@ -92,7 +95,9 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                     'null',
                                                     'Post code',
                                                     provider
-                                                        .orderDetails.postCode),
+                                                        .orderDetails
+                                                        .sellerDetails
+                                                        .postCode),
                                               )
                                             : Container(),
                                         provider.orderDetails.isOrderOnline == 0
@@ -100,8 +105,8 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                 child: BookingHelper().bRow(
                                                     'null',
                                                     'Address',
-                                                    provider
-                                                        .orderDetails.address,
+                                                    provider.orderDetails
+                                                        .sellerDetails.address,
                                                     lastBorder: false),
                                               )
                                             : Container(),
