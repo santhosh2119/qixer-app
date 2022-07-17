@@ -170,6 +170,7 @@ class ServiceDetails {
     this.featured,
     required this.sellerForMobile,
     required this.reviewsForMobile,
+    required this.serviceFaq,
   });
 
   int? id;
@@ -191,6 +192,7 @@ class ServiceDetails {
   int? featured;
   SellerForMobile sellerForMobile;
   List<ServiceReview> reviewsForMobile;
+  List<ServiceFaq> serviceFaq;
 
   factory ServiceDetails.fromJson(Map<String, dynamic> json) => ServiceDetails(
         id: json["id"],
@@ -213,6 +215,8 @@ class ServiceDetails {
         sellerForMobile: SellerForMobile.fromJson(json["seller_for_mobile"]),
         reviewsForMobile: List<ServiceReview>.from(
             json["reviews_for_mobile"].map((x) => ServiceReview.fromJson(x))),
+        serviceFaq: List<ServiceFaq>.from(
+            json["service_faq"].map((x) => ServiceFaq.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -276,6 +280,38 @@ class ServiceReview {
         "buyerName": buyerName,
         "buyer_id": buyerId,
         "buyer_for_mobile": buyerForMobile.toJson(),
+      };
+}
+
+class ServiceFaq {
+  ServiceFaq({
+    this.id,
+    this.serviceId,
+    this.sellerId,
+    this.title,
+    this.description,
+  });
+
+  int? id;
+  int? serviceId;
+  int? sellerId;
+  String? title;
+  String? description;
+
+  factory ServiceFaq.fromJson(Map<String, dynamic> json) => ServiceFaq(
+        id: json["id"],
+        serviceId: json["service_id"],
+        sellerId: json["seller_id"],
+        title: json["title"],
+        description: json["description"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "service_id": serviceId,
+        "seller_id": sellerId,
+        "title": title,
+        "description": description,
       };
 }
 
