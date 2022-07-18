@@ -43,7 +43,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
     Future.delayed(Duration.zero, () async {
       try {
-        accessToken = await services.getAccessToken();
+        accessToken = await services.getAccessToken(context);
 
         final transactions = getOrderParams();
         final res =

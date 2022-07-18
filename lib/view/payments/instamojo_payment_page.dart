@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 import '../../service/booking_services/place_order_service.dart';
+import '../../service/payment_gateway_list_service.dart';
 
 class InstamojoPaymentPage extends StatefulWidget {
   @override
@@ -85,14 +86,30 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
   }
 
   _checkPaymentStatus(String id) async {
+    // var header = {
+    //       "Accept": "application/json",
+    //       "Content-Type": "application/x-www-form-urlencoded",
+    //       "X-Api-Key": "test_b678a7048c8a9e5f69663c2e4fa",
+    //       "X-Auth-Token": "test_41af76995b230611b2c3b72b8cc"
+    //     };
+
+    var header = {
+      "Accept": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-Api-Key":
+          Provider.of<PaymentGatewayListService>(context, listen: false)
+              .publicKey
+              .toString(),
+      "X-Auth-Token":
+          Provider.of<PaymentGatewayListService>(context, listen: false)
+              .secretKey
+              .toString()
+    };
+
     var response = await http.get(
         Uri.parse("https://test.instamojo.com/api/1.1/payments/$id/"),
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-          "X-Api-Key": "test_b678a7048c8a9e5f69663c2e4fa",
-          "X-Auth-Token": "test_41af76995b230611b2c3b72b8cc"
-        });
+        headers: header);
+
     var realResponse = json.decode(response.body);
     print(realResponse);
     if (realResponse['success'] == true) {

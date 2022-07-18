@@ -5,20 +5,35 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 import '../booking_services/place_order_service.dart';
 
 class CashfreeService {
-  var header = {
-    //if header type is application/json then the data should be in jsonEncode method
-    // "Accept": "application/json",
-    'x-client-id': '94527832f47d6e74fa6ca5e3c72549',
-    'x-client-secret': 'ec6a3222018c676e95436b2e26e89c1ec6be2830',
-    "Content-Type": "application/json"
-  };
-
   getTokenAndPay(BuildContext context) async {
+    // var header = {
+    //   //if header type is application/json then the data should be in jsonEncode method
+    //   // "Accept": "application/json",
+    //   'x-client-id': '94527832f47d6e74fa6ca5e3c72549',
+    //   'x-client-secret': 'ec6a3222018c676e95436b2e26e89c1ec6be2830',
+    //   "Content-Type": "application/json"
+    // };
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      // "Accept": "application/json",
+      'x-client-id':
+          Provider.of<PaymentGatewayListService>(context, listen: false)
+              .publicKey
+              .toString(),
+      'x-client-secret':
+          Provider.of<PaymentGatewayListService>(context, listen: false)
+              .secretKey
+              .toString(),
+      "Content-Type": "application/json"
+    };
+
     String orderId =
         Provider.of<PlaceOrderService>(context, listen: false).orderId;
     String orderCurrency = "INR";

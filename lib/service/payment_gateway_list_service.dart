@@ -27,6 +27,9 @@ class PaymentGatewayListService with ChangeNotifier {
   }
 
   Future fetchGatewayList() async {
+//TODO if no payment gateway is selected by user.
+//set default public and secret key
+
     //if payment list already loaded, then don't load again
     if (paymentList.isNotEmpty) {
       return;
@@ -49,7 +52,7 @@ class PaymentGatewayListService with ChangeNotifier {
       var response = await http.post(
           Uri.parse('$baseApi/user/payment-gateway-list'),
           headers: header);
-
+      print(response.body);
       setLoadingFalse();
 
       if (response.statusCode == 201) {
@@ -66,160 +69,109 @@ class PaymentGatewayListService with ChangeNotifier {
 
   //set clientId or secretId
   //==================>
-  setKey(String methodName) {
+  setKey(String methodName, int index) {
+    print('selected method $methodName');
     switch (methodName) {
       case 'paypal':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'paypal') {
-            publicKey = paymentList[i]['client_id'];
-            secretKey = paymentList[i]['secret_id'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['client_id'];
+        secretKey = paymentList[index]['secret_id'];
+        isTestMode = paymentList[index]['test_mode'];
+        print('client id is $publicKey');
+        print('secret id is $secretKey');
+        notifyListeners();
         break;
 
       case 'cashfree':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'cashfree') {
-            publicKey = paymentList[i]['app_id'];
-            secretKey = paymentList[i]['secret_key'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['app_id'];
+        secretKey = paymentList[index]['secret_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        print('client id is $publicKey');
+        print('secret id is $secretKey');
+        notifyListeners();
         break;
 
       case 'flutterwave':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'flutterwave') {
-            publicKey = paymentList[i]['public_key'];
-            secretKey = paymentList[i]['secret_key'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['public_key'];
+        secretKey = paymentList[index]['secret_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'instamojo':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'instamojo') {
-            publicKey = paymentList[i]['client_id'];
-            secretKey = paymentList[i]['client_secret'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['client_id'];
+        secretKey = paymentList[index]['client_secret'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'marcadopago':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'marcadopago') {
-            publicKey = paymentList[i]['client_id'];
-            secretKey = paymentList[i]['client_secret'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['client_id'];
+        secretKey = paymentList[index]['client_secret'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'midtrans':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'midtrans') {
-            publicKey = paymentList[i]['merchant_id'];
-            secretKey = paymentList[i]['server_key'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['merchant_id'];
+        secretKey = paymentList[index]['server_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'mollie':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'mollie') {
-            publicKey = paymentList[i]['public_key'];
-            secretKey = '';
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['public_key'];
+        secretKey = '';
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'payfast':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'payfast') {
-            publicKey = paymentList[i]['merchant_id'];
-            secretKey = paymentList[i]['merchant_key'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['merchant_id'];
+        secretKey = paymentList[index]['merchant_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'paystack':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'paystack') {
-            publicKey = paymentList[i]['public_key'];
-            secretKey = paymentList[i]['secret_key'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['public_key'];
+        secretKey = paymentList[index]['secret_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'paytm':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'paytm') {
-            publicKey = paymentList[i]['merchant_key'];
-            secretKey = paymentList[i]['merchant_mid'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['merchant_key'];
+        secretKey = paymentList[index]['merchant_mid'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'razorpay':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'razorpay') {
-            publicKey = paymentList[i]['api_key'];
-            secretKey = paymentList[i]['api_secret'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['api_key'];
+        secretKey = paymentList[index]['api_secret'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'stripe':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'stripe') {
-            publicKey = paymentList[i]['public_key'];
-            secretKey = paymentList[i]['secret_key'];
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = paymentList[index]['public_key'];
+        secretKey = paymentList[index]['secret_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'manual_payment':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'manual_payment') {
-            publicKey = '';
-            secretKey = '';
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = '';
+        secretKey = '';
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       case 'cash_on_delivery':
-        for (int i = 0; i < paymentList.length; i++) {
-          if (paymentList[i]['name'] == 'cash_on_delivery') {
-            publicKey = '';
-            secretKey = '';
-            isTestMode = secretKey = paymentList[i]['test_mode'];
-            break;
-          }
-        }
+        publicKey = '';
+        secretKey = '';
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
         break;
 
       //switch end

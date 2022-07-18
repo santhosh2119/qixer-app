@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../service/booking_services/place_order_service.dart';
+import '../../service/payment_gateway_list_service.dart';
 
 class RazorpayPaymentPage extends StatefulWidget {
   const RazorpayPaymentPage({Key? key}) : super(key: key);
@@ -41,14 +42,24 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    launchRazorPay();
+    launchRazorPay(context);
   }
 
-  void launchRazorPay() {
+  void launchRazorPay(BuildContext context) {
     int amountToPay = int.parse(amount) * 100;
 
+    // var options = {
+    //   'key': 'rzp_test_FSFnXQOqPP1YbJ',
+    //   'amount': "$amountToPay",
+    //   'name': name,
+    //   'description': ' ',
+    //   'prefill': {'contact': phone, 'email': email}
+    // };
+
     var options = {
-      'key': 'rzp_test_FSFnXQOqPP1YbJ',
+      'key': Provider.of<PaymentGatewayListService>(context, listen: false)
+              .publicKey ??
+          '',
       'amount': "$amountToPay",
       'name': name,
       'description': ' ',

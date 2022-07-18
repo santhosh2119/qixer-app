@@ -8,9 +8,21 @@ import 'package:mercado_pago_mobile_checkout/mercado_pago_mobile_checkout.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 
+import '../payment_gateway_list_service.dart';
+
 class MercadoPagoService {
+  String? token;
+  // String publicKey = "TEST-0a3cc78a-57bf-4556-9dbe-2afa06347769";
+  // String accessToken =
+  //     "TEST-4644184554273630-070813-7d817e2ca1576e75884001d0755f8a7a-786499991";
+
   mercadoPay(BuildContext context) async {
-    var result = await getToken();
+    String publicKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .publicKey ??
+            '';
+
+    var result = await getToken(context);
 
     if (result == true) {
       print('mercado token is $token');
@@ -31,12 +43,12 @@ class MercadoPagoService {
     }
   }
 
-  String? token;
-  String publicKey = "TEST-0a3cc78a-57bf-4556-9dbe-2afa06347769";
-  String accessToken =
-      "TEST-4644184554273630-070813-7d817e2ca1576e75884001d0755f8a7a-786499991";
+  Future<bool> getToken(BuildContext context) async {
+    String accessToken =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .secretKey ??
+            '';
 
-  Future<bool> getToken() async {
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       "Accept": "application/json",

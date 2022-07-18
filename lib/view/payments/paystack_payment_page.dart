@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import '../../service/booking_services/place_order_service.dart';
+import '../../service/payment_gateway_list_service.dart';
 
 class PaystackPaymentPage extends StatefulWidget {
   const PaystackPaymentPage({Key? key}) : super(key: key);
@@ -36,10 +37,14 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
   int? _expiryYear;
   String backendUrl = 'https://api.paystack.co';
 // Set this to a public key that matches the secret key you supplied while creating the heroku instance
-  String paystackPublicKey = 'pk_test_a7e58f850adce9a73750e61668d4f492f67abcd9';
+  // String paystackPublicKey = 'pk_test_a7e58f850adce9a73750e61668d4f492f67abcd9';
 
   @override
   void initState() {
+    String paystackPublicKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .publicKey ??
+            '';
     plugin.initialize(publicKey: paystackPublicKey);
     super.initState();
   }

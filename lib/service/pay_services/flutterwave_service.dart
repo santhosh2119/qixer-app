@@ -3,12 +3,13 @@ import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:flutterwave_standard/models/subaccount.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:uuid/uuid.dart';
 
 class FlutterwaveService {
   String phone = '35435413513513';
   String email = 'test@test.com';
-  String publicKey = 'FLWPUBK_TEST-86cce2ec43c63e09a517290a8347fcab-X';
+
   String currency = 'USD';
   String amount = '200';
 
@@ -22,6 +23,12 @@ class FlutterwaveService {
   }
 
   _handlePaymentInitialization(BuildContext context) async {
+    // String publicKey = 'FLWPUBK_TEST-86cce2ec43c63e09a517290a8347fcab-X';
+    String publicKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .publicKey ??
+            '';
+
     final style = FlutterwaveStyle(
       appBarText: "Flutterwave payment",
       buttonColor: Colors.blue,
