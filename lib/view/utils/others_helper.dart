@@ -33,6 +33,18 @@ class OthersHelper with ChangeNotifier {
         fontSize: 16.0);
   }
 
+  // snackbar
+  showSnackBar(BuildContext context, String msg, color) {
+    var snackBar = SnackBar(
+      content: Text(msg),
+      backgroundColor: color,
+      duration: const Duration(milliseconds: 2000),
+    );
+
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   void toastShort(String msg, Color color) {
     Fluttertoast.showToast(
         msg: msg,

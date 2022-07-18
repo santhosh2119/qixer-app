@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
+
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +21,9 @@ randomOrderId() {
 }
 
 payAction(String method, BuildContext context, imagePath) {
+  //to know method names visit PaymentGatewayListService class where payment
+  //methods list are fetching with method name
+
   switch (method) {
     case 'paypal':
       makePaymentToGetOrderId(context, () {
@@ -40,19 +45,25 @@ payAction(String method, BuildContext context, imagePath) {
         InstamojoService().payByInstamojo(context);
       });
       break;
-    case 'mercado':
+    case 'marcadopago':
       makePaymentToGetOrderId(context, () {
         MercadoPagoService().mercadoPay(context);
       });
       break;
     case 'midtrans':
       // CashfreeService().getTokenAndPay();
+      OthersHelper().showSnackBar(
+          context, 'This payment method is not implemented yet', Colors.red);
       break;
     case 'mollie':
       // CashfreeService().getTokenAndPay();
+      OthersHelper().showSnackBar(
+          context, 'This payment method is not implemented yet', Colors.red);
       break;
     case 'payfast':
       // MercadoPagoService().mercadoPay();
+      OthersHelper().showSnackBar(
+          context, 'This payment method is not implemented yet', Colors.red);
       break;
     case 'paystack':
       makePaymentToGetOrderId(context, () {
@@ -62,6 +73,8 @@ payAction(String method, BuildContext context, imagePath) {
       break;
     case 'paytm':
       // MercadoPagoService().mercadoPay();
+      OthersHelper().showSnackBar(
+          context, 'This payment method is not implemented yet', Colors.red);
       break;
     case 'razorpay':
       makePaymentToGetOrderId(context, () {
@@ -92,30 +105,6 @@ payAction(String method, BuildContext context, imagePath) {
         debugPrint('not method found');
       }
   }
-}
-
-List paymentList = [
-  PayMethods('paypal', 'assets/icons/payment/paypal.png'),
-  PayMethods('cashfree', 'assets/icons/payment/cashfree.png'),
-  PayMethods('flutterwave', 'assets/icons/payment/flutterwave.png'),
-  PayMethods('instamojo', 'assets/icons/payment/instamojo.png'),
-  PayMethods('mercado', 'assets/icons/payment/mercado.png'),
-  // PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
-  // PayMethods('mollie', 'assets/icons/payment/mollie.png'),
-  // PayMethods('payfast', 'assets/icons/payment/payfast.png'),
-  PayMethods('paystack', 'assets/icons/payment/paystack.png'),
-  // PayMethods('paytm', 'assets/icons/payment/paytm.png'),
-  PayMethods('razorpay', 'assets/icons/payment/razorpay.png'),
-  PayMethods('stripe', 'assets/icons/payment/stripe.png'),
-  PayMethods('manual_payment', 'assets/icons/payment/bank_transfer.png'),
-  PayMethods('cash_on_delivery', 'assets/icons/payment/cash_on_delivery.png'),
-];
-
-class PayMethods {
-  final methodName;
-  final image;
-
-  PayMethods(this.methodName, this.image);
 }
 
 makePaymentToGetOrderId(BuildContext context, VoidCallback function) async {

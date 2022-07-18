@@ -29,6 +29,7 @@ import 'package:qixer/service/my_orders_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/rtl_service.dart';
@@ -106,6 +107,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OrderDetailsService()),
         ChangeNotifierProvider(create: (_) => RtlService()),
         ChangeNotifierProvider(create: (_) => TopAllServicesService()),
+        ChangeNotifierProvider(create: (_) => PaymentGatewayListService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
