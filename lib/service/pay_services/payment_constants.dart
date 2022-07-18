@@ -52,18 +52,15 @@ payAction(String method, BuildContext context, imagePath) {
       break;
     case 'midtrans':
       // CashfreeService().getTokenAndPay();
-      OthersHelper().showSnackBar(
-          context, 'This payment method is not implemented yet', Colors.red);
+
       break;
     case 'mollie':
       // CashfreeService().getTokenAndPay();
-      OthersHelper().showSnackBar(
-          context, 'This payment method is not implemented yet', Colors.red);
+
       break;
     case 'payfast':
       // MercadoPagoService().mercadoPay();
-      OthersHelper().showSnackBar(
-          context, 'This payment method is not implemented yet', Colors.red);
+
       break;
     case 'paystack':
       makePaymentToGetOrderId(context, () {
@@ -73,8 +70,7 @@ payAction(String method, BuildContext context, imagePath) {
       break;
     case 'paytm':
       // MercadoPagoService().mercadoPay();
-      OthersHelper().showSnackBar(
-          context, 'This payment method is not implemented yet', Colors.red);
+
       break;
     case 'razorpay':
       makePaymentToGetOrderId(context, () {

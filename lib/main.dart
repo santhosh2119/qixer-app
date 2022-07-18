@@ -46,7 +46,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Stripe.publishableKey = StripeService().publishableKey;
+
+  var publishableKey = await StripeService().getStripeKey();
+  Stripe.publishableKey = publishableKey;
   await Stripe.instance.applySettings();
 
   await Firebase.initializeApp();

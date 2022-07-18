@@ -34,7 +34,7 @@ class ServiceDetailsTop extends StatelessWidget {
                 title: provider.serviceAllDetails.serviceDetails.title,
                 userImg: provider.serviceAllDetails.serviceSellerImage.imgUrl,
                 userName: provider.serviceAllDetails.serviceSellerName,
-                videoLink: provider.serviceAllDetails.serviceDetails.video,
+                videoLink: provider.serviceAllDetails.videoUrl,
               ),
 
               //package price
@@ -177,12 +177,14 @@ class ServiceTitleAndUser extends StatelessWidget {
         videoLink != null
             ? ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => WatchVideoPage(
-                                videoUrl: videoLink,
-                              ))));
+                  ServiceHelper().watchVideoPopup(context, videoLink);
+
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: ((context) => WatchVideoPage(
+                  //               videoUrl: videoLink,
+                  //             ))));
                 },
                 child: const Text('Watch video'),
                 style: ElevatedButton.styleFrom(

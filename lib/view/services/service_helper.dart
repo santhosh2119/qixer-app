@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ServiceHelper {
   ConstantColors cc = ConstantColors();
@@ -56,50 +57,56 @@ class ServiceHelper {
   }
 
 //===================>
-  // watchVideoPopup(BuildContext context) {
-  //   return Alert(
-  //       context: context,
-  //       style: AlertStyle(
-  //           alertElevation: 0,
-  //           overlayColor: Colors.black.withOpacity(.6),
-  //           alertPadding: const EdgeInsets.all(25),
-  //           isButtonVisible: false,
-  //           alertBorder: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(8),
-  //             side: const BorderSide(
-  //               color: Colors.transparent,
-  //             ),
-  //           ),
-  //           titleStyle: const TextStyle(),
-  //           animationType: AnimationType.grow,
-  //           animationDuration: const Duration(milliseconds: 500)),
-  //       content: Container(
-  //         margin: const EdgeInsets.only(top: 22),
-  //         padding: const EdgeInsets.fromLTRB(14, 10, 14, 0),
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(7),
-  //           boxShadow: [
-  //             BoxShadow(
-  //                 color: Colors.black.withOpacity(0.01),
-  //                 spreadRadius: -2,
-  //                 blurRadius: 13,
-  //                 offset: const Offset(0, 13)),
-  //           ],
-  //         ),
-  //         child: Column(
-  //           children: [
-  //             Container(
-  //                 color: cc.primaryColor,
-  //                 height: 200,
-  //                 child: WebView(
-  //                   initialUrl: Uri.dataFromString(
-  //                           '<html><body><iframe width= "560",height="700", src="https://www.youtube.com/embed/abc"></iframe></body></html>',
-  //                           mimeType: 'text/html')
-  //                       .toString(),
-  //                   javascriptMode: JavascriptMode.unrestricted,
-  //                 )),
-  //           ],
-  //         ),
-  //       )).show();
-  // }
+  watchVideoPopup(BuildContext context, String videoLink) {
+    String videoId = YoutubePlayer.convertUrlToId(videoLink)!;
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+
+    return Alert(
+        context: context,
+        style: AlertStyle(
+            alertElevation: 0,
+            overlayColor: Colors.black.withOpacity(.6),
+            alertPadding: const EdgeInsets.all(16),
+            isButtonVisible: false,
+            alertBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: const BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            titleStyle: const TextStyle(),
+            animationType: AnimationType.grow,
+            animationDuration: const Duration(milliseconds: 500)),
+        content: Container(
+          margin: const EdgeInsets.only(top: 17),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: -2,
+                  blurRadius: 13,
+                  offset: const Offset(0, 13)),
+            ],
+          ),
+          child: Column(
+            children: [
+              Container(
+                color: cc.primaryColor,
+                height: 200,
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                ),
+              ),
+            ],
+          ),
+        )).show();
+  }
 }

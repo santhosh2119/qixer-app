@@ -11,21 +11,21 @@ String serviceDetailsModelToJson(ServiceDetailsModel data) =>
     json.encode(data.toJson());
 
 class ServiceDetailsModel {
-  ServiceDetailsModel({
-    required this.serviceDetails,
-    required this.serviceImage,
-    this.serviceSellerName,
-    required this.serviceSellerImage,
-    this.sellerCompleteOrder,
-    this.sellerRating,
-    this.orderCompletionRate,
-    this.sellerFrom,
-    required this.sellerSince,
-    required this.serviceIncludes,
-    required this.serviceBenifits,
-    required this.serviceReviews,
-    required this.reviewerImage,
-  });
+  ServiceDetailsModel(
+      {required this.serviceDetails,
+      required this.serviceImage,
+      this.serviceSellerName,
+      required this.serviceSellerImage,
+      this.sellerCompleteOrder,
+      this.sellerRating,
+      this.orderCompletionRate,
+      this.sellerFrom,
+      required this.sellerSince,
+      required this.serviceIncludes,
+      required this.serviceBenifits,
+      required this.serviceReviews,
+      required this.reviewerImage,
+      this.videoUrl});
 
   ServiceDetails serviceDetails;
   Image serviceImage;
@@ -40,6 +40,7 @@ class ServiceDetailsModel {
   List<ServiceBenifit> serviceBenifits;
   List<ServiceReview> serviceReviews;
   List<dynamic> reviewerImage;
+  String? videoUrl;
 
   factory ServiceDetailsModel.fromJson(Map<String, dynamic> json) =>
       ServiceDetailsModel(
@@ -59,6 +60,7 @@ class ServiceDetailsModel {
         serviceReviews: List<ServiceReview>.from(
             json["service_reviews"].map((x) => ServiceReview.fromJson(x))),
         reviewerImage: List<dynamic>.from(json["reviewer_image"].map((x) => x)),
+        videoUrl: json["video_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,6 +80,7 @@ class ServiceDetailsModel {
         "service_reviews":
             List<dynamic>.from(serviceReviews.map((x) => x.toJson())),
         "reviewer_image": List<dynamic>.from(reviewerImage.map((x) => x)),
+        "video_url": videoUrl,
       };
 }
 

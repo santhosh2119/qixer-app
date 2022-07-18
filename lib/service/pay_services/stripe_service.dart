@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StripeService with ChangeNotifier {
   String amount = '200';
@@ -110,6 +111,45 @@ class StripeService with ChangeNotifier {
       displayPaymentSheet(context);
     } catch (e, s) {
       debugPrint('exception:$e$s');
+    }
+  }
+
+  //set stripe key
+  Future<String> getStripeKey() async {
+    var defaultPublicKey =
+        'pk_test_51GwS1SEmGOuJLTMsIeYKFtfAT3o3Fc6IOC7wyFmmxA2FIFQ3ZigJ2z1s4ZOweKQKlhaQr1blTH9y6HR2PMjtq1Rx00vqE8LO0x';
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http
+        .post(Uri.parse('$baseApi/user/payment-gateway-list'), headers: header);
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      var paymentList = jsonDecode(response.body)['gateway_list'];
+      var publicKey;
+
+      for (int i = 0; i < paymentList.length; i++) {
+        if (paymentList[i]['name'] == 'stripe') {
+          publicKey = paymentList[i]['public_key'];
+        }
+      }
+      print('stripe public key is $publicKey');
+      if (publicKey == null) {
+        return defaultPublicKey;
+      } else {
+        return publicKey;
+      }
+    } else {
+      //failed loading
+      return defaultPublicKey;
     }
   }
 }
