@@ -112,8 +112,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                         Provider.of<BookService>(context,
                                                 listen: false)
                                             .setSelectedPayment(pgProvider
-                                                .paymentList[selectedMethod]
-                                                .methodName);
+                                                    .paymentList[selectedMethod]
+                                                ['name']);
                                       },
                                       child: Stack(
                                         clipBehavior: Clip.none,
@@ -131,8 +131,9 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                                       : cc.borderColor),
                                             ),
                                             child: CachedNetworkImage(
-                                              imageUrl: pgProvider
-                                                  .paymentList[index].image,
+                                              imageUrl:
+                                                  pgProvider.paymentList[index]
+                                                      ['logo_link'],
                                               placeholder: (context, url) {
                                                 return Image.asset(
                                                     'assets/images/placeholder.png');
@@ -154,7 +155,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                 ),
 
                                 pgProvider.paymentList[selectedMethod]
-                                            .methodName ==
+                                            ['name'] ==
                                         'manual_payment'
                                     ?
                                     //pick image ==========>
@@ -273,11 +274,11 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                   } else {
                                     payAction(
                                         pgProvider.paymentList[selectedMethod]
-                                            .methodName,
+                                            ['name'],
                                         context,
                                         //if user selected bank transfer
                                         pgProvider.paymentList[selectedMethod]
-                                                    .methodName ==
+                                                    ['name'] ==
                                                 'manual_payment'
                                             ? Provider.of<BankTransferService>(
                                                     context,

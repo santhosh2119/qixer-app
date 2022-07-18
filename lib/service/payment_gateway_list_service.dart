@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -7,22 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'common_service.dart';
 
 class PaymentGatewayListService with ChangeNotifier {
-  List paymentList = [
-    // PayMethods('paypal', 'assets/icons/payment/paypal.png'),
-    // PayMethods('cashfree', 'assets/icons/payment/cashfree.png'),
-    // PayMethods('flutterwave', 'assets/icons/payment/flutterwave.png'),
-    // PayMethods('instamojo', 'assets/icons/payment/instamojo.png'),
-    // PayMethods('mercado', 'assets/icons/payment/mercado.png'),
-    // PayMethods('midtrans', 'assets/icons/payment/midtrans.png'),
-    // PayMethods('mollie', 'assets/icons/payment/mollie.png'),
-    // PayMethods('payfast', 'assets/icons/payment/payfast.png'),
-    // PayMethods('paystack', 'assets/icons/payment/paystack.png'),
-    // PayMethods('paytm', 'assets/icons/payment/paytm.png'),
-    // PayMethods('razorpay', 'assets/icons/payment/razorpay.png'),
-    // PayMethods('stripe', 'assets/icons/payment/stripe.png'),
-    // PayMethods('manual_payment', 'assets/icons/payment/bank_transfer.png'),
-    // PayMethods('cash_on_delivery', 'assets/icons/payment/cash_on_delivery.png'),
-  ];
+  List paymentList = [];
+  bool? isTestMode;
+  var publicKey;
+  var secretKey;
 
   bool isloading = false;
 
@@ -63,12 +53,7 @@ class PaymentGatewayListService with ChangeNotifier {
       setLoadingFalse();
 
       if (response.statusCode == 201) {
-        List gatewayList = jsonDecode(response.body)['gateway_list'];
-
-        for (int i = 0; i < gatewayList.length; i++) {
-          paymentList.add(
-              PayMethods(gatewayList[i]['name'], gatewayList[i]['logo_link']));
-        }
+        paymentList = jsonDecode(response.body)['gateway_list'];
       } else {
         //something went wrong
         print(response.body);
@@ -78,11 +63,166 @@ class PaymentGatewayListService with ChangeNotifier {
       return false;
     }
   }
-}
 
-class PayMethods {
-  final methodName;
-  final image;
+  //set clientId or secretId
+  //==================>
+  setKey(String methodName) {
+    switch (methodName) {
+      case 'paypal':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'paypal') {
+            publicKey = paymentList[i]['client_id'];
+            secretKey = paymentList[i]['secret_id'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
 
-  PayMethods(this.methodName, this.image);
+      case 'cashfree':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'cashfree') {
+            publicKey = paymentList[i]['app_id'];
+            secretKey = paymentList[i]['secret_key'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'flutterwave':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'flutterwave') {
+            publicKey = paymentList[i]['public_key'];
+            secretKey = paymentList[i]['secret_key'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'instamojo':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'instamojo') {
+            publicKey = paymentList[i]['client_id'];
+            secretKey = paymentList[i]['client_secret'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'marcadopago':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'marcadopago') {
+            publicKey = paymentList[i]['client_id'];
+            secretKey = paymentList[i]['client_secret'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'midtrans':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'midtrans') {
+            publicKey = paymentList[i]['merchant_id'];
+            secretKey = paymentList[i]['server_key'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'mollie':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'mollie') {
+            publicKey = paymentList[i]['public_key'];
+            secretKey = '';
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'payfast':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'payfast') {
+            publicKey = paymentList[i]['merchant_id'];
+            secretKey = paymentList[i]['merchant_key'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'paystack':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'paystack') {
+            publicKey = paymentList[i]['public_key'];
+            secretKey = paymentList[i]['secret_key'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'paytm':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'paytm') {
+            publicKey = paymentList[i]['merchant_key'];
+            secretKey = paymentList[i]['merchant_mid'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'razorpay':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'razorpay') {
+            publicKey = paymentList[i]['api_key'];
+            secretKey = paymentList[i]['api_secret'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'stripe':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'stripe') {
+            publicKey = paymentList[i]['public_key'];
+            secretKey = paymentList[i]['secret_key'];
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'manual_payment':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'manual_payment') {
+            publicKey = '';
+            secretKey = '';
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      case 'cash_on_delivery':
+        for (int i = 0; i < paymentList.length; i++) {
+          if (paymentList[i]['name'] == 'cash_on_delivery') {
+            publicKey = '';
+            secretKey = '';
+            isTestMode = secretKey = paymentList[i]['test_mode'];
+            break;
+          }
+        }
+        break;
+
+      //switch end
+    }
+  }
 }
