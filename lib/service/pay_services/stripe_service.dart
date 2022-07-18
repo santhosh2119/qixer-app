@@ -4,13 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StripeService with ChangeNotifier {
   String amount = '200';
-  String publishableKey =
-      'pk_test_51GwS1SEmGOuJLTMsIeYKFtfAT3o3Fc6IOC7wyFmmxA2FIFQ3ZigJ2z1s4ZOweKQKlhaQr1blTH9y6HR2PMjtq1Rx00vqE8LO0x';
 
   bool isloading = false;
 
@@ -74,15 +73,22 @@ class StripeService with ChangeNotifier {
         'currency': currency,
         'payment_method_types[]': 'card'
       };
+
+      // var header ={
+      //       'Authorization':
+      //           'Bearer sk_test_51GwS1SEmGOuJLTMs2vhSliTwAGkOt4fKJMBrxzTXeCJoLrRu8HFf4I0C5QuyE3l3bQHBJm3c0qFmeVjd0V9nFb6Z00VrWDJ9Uw',
+      //       'Content-Type': 'application/x-www-form-urlencoded'
+      //     };
+      var header = {
+        'Authorization':
+            'Bearer ${Provider.of<PaymentGatewayListService>(context, listen: false).secretKey}',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      };
       // print(body);
       var response = await http.post(
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
-          headers: {
-            'Authorization':
-                'Bearer sk_test_51GwS1SEmGOuJLTMs2vhSliTwAGkOt4fKJMBrxzTXeCJoLrRu8HFf4I0C5QuyE3l3bQHBJm3c0qFmeVjd0V9nFb6Z00VrWDJ9Uw',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          });
+          headers: header);
       // print('Create Intent reponse ===> ${response.body.toString()}');
       // debugPrint("response body is ${response.body}");
       return jsonDecode(response.body);
@@ -114,7 +120,8 @@ class StripeService with ChangeNotifier {
     }
   }
 
-  //set stripe key
+  //get stripe key ==========>
+
   Future<String> getStripeKey() async {
     var defaultPublicKey =
         'pk_test_51GwS1SEmGOuJLTMsIeYKFtfAT3o3Fc6IOC7wyFmmxA2FIFQ3ZigJ2z1s4ZOweKQKlhaQr1blTH9y6HR2PMjtq1Rx00vqE8LO0x';

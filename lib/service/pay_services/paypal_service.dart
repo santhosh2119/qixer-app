@@ -47,8 +47,6 @@ class PaypalService {
         Provider.of<PaymentGatewayListService>(context, listen: false)
                 .secretKey ??
             '';
-    print('client id is $clientId');
-    print('secret id is $secret');
     try {
       var client = BasicAuthClient(clientId, secret);
       var response = await client.post(
