@@ -262,19 +262,27 @@ class CountryStatesService with ChangeNotifier {
     });
   }
 
+//==============>
   set_State(BuildContext context, {data}) {
     var profileData =
         Provider.of<ProfileService>(context, listen: false).profileDetails;
-    var userCountryId = Provider.of<ProfileService>(context, listen: false)
-        .profileDetails
-        .userDetails
-        .countryId;
 
-    if (userCountryId == selectedCountryId) {
-      //if user selected the country id which is save in his profile
-      //only then show state/area based on that
-      if (profileData != null) {
+    if (profileData != null) {
+      var userCountryId = Provider.of<ProfileService>(context, listen: false)
+          .profileDetails
+          .userDetails
+          .countryId;
+
+      if (userCountryId == selectedCountryId) {
+        //if user selected the country id which is save in his profile
+        //only then show state/area based on that
+
         setStateBasedOnUserProfile(context);
+      } else {
+        if (data != null) {
+          selectedState = data.serviceCities[0].serviceCity;
+          selectedStateId = data.serviceCities[0].id;
+        }
       }
     } else {
       if (data != null) {
@@ -288,19 +296,26 @@ class CountryStatesService with ChangeNotifier {
     });
   }
 
+// ==================>
   setArea(BuildContext context, {data}) {
     var profileData =
         Provider.of<ProfileService>(context, listen: false).profileDetails;
-    var userCountryId = Provider.of<ProfileService>(context, listen: false)
-        .profileDetails
-        .userDetails
-        .countryId;
 
-    if (userCountryId == selectedCountryId) {
-      //if user selected the country id which is save in his profile
-      //only then show state/area based on that
-      if (profileData != null) {
+    if (profileData != null) {
+      var userCountryId = Provider.of<ProfileService>(context, listen: false)
+          .profileDetails
+          .userDetails
+          .countryId;
+      if (userCountryId == selectedCountryId) {
+        //if user selected the country id which is save in his profile
+        //only then show state/area based on that
+
         setAreaBasedOnUserProfile(context);
+      } else {
+        if (data != null) {
+          selectedArea = data.serviceAreas[0].serviceArea;
+          selectedAreaId = data.serviceAreas[0].id;
+        }
       }
     } else {
       if (data != null) {
