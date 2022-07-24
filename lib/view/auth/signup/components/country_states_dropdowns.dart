@@ -16,11 +16,14 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CountryStatesService>(context, listen: false).fetchCountries();
   }
 
   @override
   Widget build(BuildContext context) {
+    //fetch country
+    Provider.of<CountryStatesService>(context, listen: false)
+        .fetchCountries(context);
+
     ConstantColors cc = ConstantColors();
     return Consumer<CountryStatesService>(
         builder: (context, provider, child) => Column(
@@ -61,7 +64,8 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                                       .indexOf(newValue)]);
 
                               //fetch states based on selected country
-                              provider.fetchStates(provider.selectedCountryId);
+                              provider.fetchStates(
+                                  provider.selectedCountryId, context);
                             },
                             items: provider.countryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
@@ -116,7 +120,7 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                               // //fetch area based on selected country and state
 
                               provider.fetchArea(provider.selectedCountryId,
-                                  provider.selectedStateId);
+                                  provider.selectedStateId, context);
 
                               // print(provider.statesDropdownIndexList[provider
                               //     .statesDropdownList
