@@ -61,6 +61,9 @@ class AppStringService with ChangeNotifier {
   }
 
   getString(String staticString) {
+    if (tStrings == null) {
+      return staticString;
+    }
     if (tStrings.containsKey(staticString)) {
       return tStrings[staticString];
     } else {

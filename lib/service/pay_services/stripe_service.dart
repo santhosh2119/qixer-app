@@ -1,16 +1,19 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StripeService with ChangeNotifier {
-  String amount = '200';
-
   bool isloading = false;
 
   setLoadingTrue() {
@@ -51,7 +54,7 @@ class StripeService with ChangeNotifier {
       }).onError((error, stackTrace) {
         debugPrint('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
       });
-    } on StripeException catch (e) {
+    } on StripeException {
       // print('Exception/DISPLAYPAYMENTSHEET==> $e');
       OthersHelper().showToast("Payment cancelled", Colors.red);
     } catch (e) {
@@ -98,6 +101,24 @@ class StripeService with ChangeNotifier {
   }
 
   Future<void> makePayment(BuildContext context) async {
+    var amount;
+    var name;
+
+    var bcProvider =
+        Provider.of<BookConfirmationService>(context, listen: false);
+    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
+    var bookProvider = Provider.of<BookService>(context, listen: false);
+
+    name = bookProvider.name ?? '';
+    if (pProvider.isOnline == 0) {
+      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(0);
+    } else {
+      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+          .toStringAsFixed(0);
+    }
+
+    //Stripe takes only integer value
+
     try {
       paymentIntentData = await createPaymentIntent(amount, 'USD', context);
       await Stripe.instance
@@ -110,7 +131,7 @@ class StripeService with ChangeNotifier {
                   testEnv: true,
                   style: ThemeMode.light,
                   merchantCountryCode: 'US',
-                  merchantDisplayName: 'ANNIE'))
+                  merchantDisplayName: name))
           .then((value) {});
 
       ///now finally display payment sheeet
