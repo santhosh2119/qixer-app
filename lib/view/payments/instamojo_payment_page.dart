@@ -10,6 +10,18 @@ import '../../service/booking_services/place_order_service.dart';
 import '../../service/payment_gateway_list_service.dart';
 
 class InstamojoPaymentPage extends StatefulWidget {
+  const InstamojoPaymentPage(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      // required this.phone,
+      required this.email})
+      : super(key: key);
+
+  final amount;
+  final name;
+  // final phone;
+  final email;
   @override
   _InstamojoPaymentPageState createState() => _InstamojoPaymentPageState();
 }
@@ -131,14 +143,13 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
 
   Future createRequest() async {
     Map<String, String> body = {
-      "amount": "9", //amount to be paid
-      "purpose": "Advertising",
-      "buyer_name": 'mahesh',
-      "email": 'abc@gmail.com',
-      "phone": '7276544474',
+      "amount": widget.amount, //amount to be paid
+      "purpose": "Qixer pay",
+      "buyer_name": widget.name,
+      "email": widget.email,
       "allow_repeated_payments": "true",
       "send_email": "true",
-      "send_sms": "true",
+      "send_sms": "false",
       "redirect_url": "https://www.google.com/",
       //Where to redirect after a successful payment.
       "webhook": "https://www.google.com/",

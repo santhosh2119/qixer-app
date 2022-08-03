@@ -4,7 +4,9 @@ import 'package:cashfree_pg/cashfree_pg.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:qixer/service/pay_services/payment_constants.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -19,6 +21,23 @@ class CashfreeService {
     //   'x-client-secret': 'ec6a3222018c676e95436b2e26e89c1ec6be2830',
     //   "Content-Type": "application/json"
     // };
+
+    String amount;
+    var bcProvider =
+        Provider.of<BookConfirmationService>(context, listen: false);
+    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
+    var bookProvider = Provider.of<BookService>(context, listen: false);
+
+    var name = bookProvider.name ?? '';
+    var phone = bookProvider.phone ?? '';
+    var email = bookProvider.email ?? '';
+
+    if (pProvider.isOnline == 0) {
+      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    } else {
+      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+          .toStringAsFixed(2);
+    }
 
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
@@ -39,7 +58,7 @@ class CashfreeService {
     String orderCurrency = "INR";
     var data = jsonEncode({
       'orderId': orderId,
-      'orderAmount': '6000',
+      'orderAmount': amount,
       'orderCurrency': orderCurrency
     });
 
@@ -53,36 +72,33 @@ class CashfreeService {
 
     if (jsonDecode(response.body)['status'] == "OK") {
       cashFreePay(jsonDecode(response.body)['cftoken'], orderId, orderCurrency,
-          context);
+          context, amount, name, phone, email);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
     // if()
   }
 
-  cashFreePay(token, orderId, orderCurrency, BuildContext context) {
+  cashFreePay(token, orderId, orderCurrency, BuildContext context, amount, name,
+      phone, email) {
     //Replace with actual values
     //has to be unique every time
     String stage = "TEST"; // PROD when in production mode// TEST when in test
-    String orderAmount = "6000";
+
     String tokenData = token; //generate token data from server
-    String customerName = "saleheen";
-    String orderNote = "test note";
 
     String appId = "94527832f47d6e74fa6ca5e3c72549";
-    String customerPhone = "01781873788";
-    String customerEmail = "smsaleheen2@gmail.com";
+
     String notifyUrl = "";
 
     Map<String, dynamic> inputParams = {
       "orderId": orderId,
-      "orderAmount": orderAmount,
-      "customerName": customerName,
-      "orderNote": orderNote,
+      "orderAmount": amount,
+      "customerName": name,
       "orderCurrency": orderCurrency,
       "appId": appId,
-      "customerPhone": customerPhone,
-      "customerEmail": customerEmail,
+      "customerPhone": phone,
+      "customerEmail": email,
       "stage": stage,
       "tokenData": tokenData,
       "notifyUrl": notifyUrl

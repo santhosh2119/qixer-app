@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mercado_pago_mobile_checkout/mercado_pago_mobile_checkout.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 
 import '../payment_gateway_list_service.dart';
@@ -49,6 +52,22 @@ class MercadoPagoService {
                 .secretKey ??
             '';
 
+    double amount;
+    var bcProvider =
+        Provider.of<BookConfirmationService>(context, listen: false);
+    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
+    var bookProvider = Provider.of<BookService>(context, listen: false);
+
+    var email = bookProvider.email ?? '';
+
+    if (pProvider.isOnline == 0) {
+      amount = double.parse(
+          bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2));
+    } else {
+      amount = double.parse(bcProvider
+          .totalPriceOnlineServiceAfterAllCalculation
+          .toStringAsFixed(2));
+    }
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       "Accept": "application/json",
@@ -58,14 +77,14 @@ class MercadoPagoService {
     var data = jsonEncode({
       "items": [
         {
-          "title": "Dummy Item",
-          "description": "Multicolor Item",
+          "title": "Qixer",
+          "description": "Qixer cart item",
           "quantity": 1,
           "currency_id": "ARS",
-          "unit_price": 10.0
+          "unit_price": amount
         }
       ],
-      "payer": {"email": "payer@email.com"}
+      "payer": {"email": email}
     });
 
     var response = await http.post(
