@@ -13,9 +13,11 @@ class SettingsPageGrid extends StatelessWidget {
   const SettingsPageGrid({
     Key? key,
     required this.cc,
+    required this.asProvider,
   }) : super(key: key);
 
   final ConstantColors cc;
+  final asProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,8 @@ class SettingsPageGrid extends StatelessWidget {
                       height: 3,
                     ),
                     AutoSizeText(
-                      SettingsHelper().cardContent[index].text,
+                      asProvider
+                          .getString(SettingsHelper().cardContent[index].text),
                       maxLines: 1,
                       style: TextStyle(
                         color: cc.greyParagraph,

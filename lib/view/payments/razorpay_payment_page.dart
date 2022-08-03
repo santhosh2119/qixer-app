@@ -8,7 +8,18 @@ import '../../service/booking_services/place_order_service.dart';
 import '../../service/payment_gateway_list_service.dart';
 
 class RazorpayPaymentPage extends StatefulWidget {
-  const RazorpayPaymentPage({Key? key}) : super(key: key);
+  const RazorpayPaymentPage(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      required this.phone,
+      required this.email})
+      : super(key: key);
+
+  final amount;
+  final name;
+  final phone;
+  final email;
 
   @override
   _RazorpayPaymentPageState createState() => _RazorpayPaymentPageState();
@@ -21,10 +32,10 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   // final TextEditingController description = TextEditingController();
   // final TextEditingController amount = TextEditingController();
 
-  String amount = '200';
-  String name = 'saleheen';
-  String phone = '54545133511';
-  String email = 'test@test.com';
+  // String amount = '200';
+  // String name = 'saleheen';
+  // String phone = '54545133511';
+  // String email = 'test@test.com';
 
   late Razorpay _razorpay;
 
@@ -46,7 +57,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   }
 
   void launchRazorPay(BuildContext context) {
-    int amountToPay = int.parse(amount) * 100;
+    double amountToPay = double.parse(widget.amount) * 100;
 
     // var options = {
     //   'key': 'rzp_test_FSFnXQOqPP1YbJ',
@@ -61,9 +72,9 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
               .publicKey ??
           '',
       'amount': "$amountToPay",
-      'name': name,
+      'name': widget.name,
       'description': ' ',
-      'prefill': {'contact': phone, 'email': email}
+      'prefill': {'contact': widget.phone, 'email': widget.email}
     };
 
     try {
@@ -101,7 +112,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
       appBar: AppBar(
         title: const Text("Razorpay"),
       ),
-      body: Container(
+      body: SizedBox(
         height: size.height,
         width: size.width,
         child: SingleChildScrollView(
@@ -132,7 +143,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
       TextEditingController controller) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: size.height / 50),
-      child: Container(
+      child: SizedBox(
         height: size.height / 15,
         width: size.width / 1.1,
         child: TextField(

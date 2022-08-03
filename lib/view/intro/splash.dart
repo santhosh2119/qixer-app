@@ -20,6 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
       screenSizeAndPlatform(context);
     });
     SplashService().loginOrGoHome(context);
+    //run when app starts
+    runAtstart(context);
   }
 
   @override
@@ -35,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 30,
+                height: 40,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     image: DecorationImage(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/service_details_service.dart';
-import 'package:qixer/view/booking/booking_location_page.dart';
 import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
@@ -63,171 +63,188 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
     ConstantColors cc = ConstantColors();
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Consumer<ServiceDetailsService>(
-        builder: (context, provider, child) => provider.isloading == false
-            ? provider.serviceAllDetails != 'error'
-                ? Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: [
-                            Column(
-                              children: [
-                                // Image big
-                                ImageBig(
-                                  serviceName: 'Service Name',
-                                  imageLink: provider
-                                      .serviceAllDetails.serviceImage.imgUrl,
-                                ),
-
-                                const SizedBox(
-                                  height: 15,
-                                ),
-
-                                //Top part
-                                ServiceDetailsTop(cc: cc),
-                              ],
-                            ),
-                            Container(
-                              color: Colors.white,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25),
-                              margin:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              child: Column(
-                                children: <Widget>[
-                                  TabBar(
-                                    onTap: (value) {
-                                      setState(() {
-                                        currentTab = value;
-                                      });
-                                    },
-                                    labelColor: cc.primaryColor,
-                                    unselectedLabelColor: cc.greyFour,
-                                    indicatorColor: cc.primaryColor,
-                                    unselectedLabelStyle: TextStyle(
-                                        color: cc.greyParagraph,
-                                        fontWeight: FontWeight.normal),
-                                    controller: _tabController,
-                                    tabs: const [
-                                      Tab(text: 'Overview'),
-                                      Tab(text: 'About seller'),
-                                      Tab(text: 'Review'),
-                                    ],
+      body: Consumer<AppStringService>(
+        builder: (context, asProvider, child) =>
+            Consumer<ServiceDetailsService>(
+          builder: (context, provider, child) => provider.isloading == false
+              ? provider.serviceAllDetails != 'error'
+                  ? Column(
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            padding: EdgeInsets.zero,
+                            children: [
+                              Column(
+                                children: [
+                                  // Image big
+                                  ImageBig(
+                                    serviceName:
+                                        asProvider.getString('Service Name'),
+                                    imageLink: provider
+                                        .serviceAllDetails.serviceImage.imgUrl,
                                   ),
-                                  Container(
-                                    child: [
-                                      OverviewTab(
-                                        provider: provider,
-                                      ),
-                                      AboutSellerTab(
-                                        provider: provider,
-                                      ),
-                                      ReviewTab(
-                                        provider: provider,
-                                      ),
-                                    ][_tabIndex],
+
+                                  const SizedBox(
+                                    height: 15,
                                   ),
+
+                                  //Top part
+                                  ServiceDetailsTop(cc: cc),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //Book now button
-                      CommonHelper().dividerCommon(),
-                      //Button
-                      sizedBox20(),
-
-                      Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: screenPadding),
-                          child: Column(
-                            children: [
-                              currentTab == 2
-                                  ? Column(
-                                      children: [
-                                        CommonHelper().borderButtonOrange(
-                                            "Write a review", () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  WriteReviewPage(
-                                                serviceId: provider
-                                                    .serviceAllDetails
-                                                    .serviceDetails
-                                                    .id,
-                                                title: provider
-                                                    .serviceAllDetails
-                                                    .serviceDetails
-                                                    .title,
-                                                userImg: provider
-                                                    .serviceAllDetails
-                                                    .serviceSellerImage
-                                                    .imgUrl,
-                                                userName: provider
-                                                    .serviceAllDetails
-                                                    .serviceSellerName,
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                        const SizedBox(
-                                          height: 14,
-                                        ),
+                              Container(
+                                color: Colors.white,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 25),
+                                margin:
+                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                child: Column(
+                                  children: <Widget>[
+                                    TabBar(
+                                      onTap: (value) {
+                                        setState(() {
+                                          currentTab = value;
+                                        });
+                                      },
+                                      labelColor: cc.primaryColor,
+                                      unselectedLabelColor: cc.greyFour,
+                                      indicatorColor: cc.primaryColor,
+                                      unselectedLabelStyle: TextStyle(
+                                          color: cc.greyParagraph,
+                                          fontWeight: FontWeight.normal),
+                                      controller: _tabController,
+                                      tabs: [
+                                        Tab(
+                                            text: asProvider
+                                                .getString('Overview')),
+                                        Tab(
+                                            text: asProvider
+                                                .getString('About seller')),
+                                        Tab(
+                                            text:
+                                                asProvider.getString('Review')),
                                       ],
-                                    )
-                                  : Container(),
-                              CommonHelper().buttonOrange("Book Appointment",
-                                  () {
-                                Provider.of<BookService>(context, listen: false)
-                                    .setData(
-                                        provider.serviceAllDetails
-                                            .serviceDetails.id,
-                                        provider.serviceAllDetails
-                                            .serviceDetails.title,
-                                        provider.serviceAllDetails.serviceImage
-                                            .imgUrl,
-                                        provider.serviceAllDetails
-                                            .serviceDetails.price,
-                                        provider.serviceAllDetails
-                                            .serviceDetails.sellerId);
-
-                                //==========>
-                                Provider.of<PersonalizationService>(context,
-                                        listen: false)
-                                    .setDefaultPrice(Provider.of<BookService>(
-                                            context,
-                                            listen: false)
-                                        .totalPrice);
-                                //fetch service extra
-                                Provider.of<PersonalizationService>(context,
-                                        listen: false)
-                                    .fetchServiceExtra(
-                                        provider.serviceAllDetails
-                                            .serviceDetails.id,
-                                        context);
-
-                                //=============>
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        const ServicePersonalizationPage(),
-                                  ),
-                                );
-                              }),
+                                    ),
+                                    Container(
+                                      child: [
+                                        OverviewTab(
+                                          provider: provider,
+                                        ),
+                                        AboutSellerTab(
+                                          provider: provider,
+                                        ),
+                                        ReviewTab(
+                                          provider: provider,
+                                        ),
+                                      ][_tabIndex],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
-                          )),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                    ],
-                  )
-                : const Text("Something went wrong")
-            : OthersHelper().showLoading(cc.primaryColor),
+                          ),
+                        ),
+                        //Book now button
+                        CommonHelper().dividerCommon(),
+                        //Button
+                        sizedBox20(),
+
+                        Container(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: screenPadding),
+                            child: Column(
+                              children: [
+                                currentTab == 2
+                                    ? Column(
+                                        children: [
+                                          CommonHelper().borderButtonOrange(
+                                              asProvider.getString(
+                                                  'Write a review'), () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        WriteReviewPage(
+                                                  serviceId: provider
+                                                      .serviceAllDetails
+                                                      .serviceDetails
+                                                      .id,
+                                                  title: provider
+                                                      .serviceAllDetails
+                                                      .serviceDetails
+                                                      .title,
+                                                  userImg: provider
+                                                      .serviceAllDetails
+                                                      .serviceSellerImage
+                                                      .imgUrl,
+                                                  userName: provider
+                                                      .serviceAllDetails
+                                                      .serviceSellerName,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                          const SizedBox(
+                                            height: 14,
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                                CommonHelper().buttonOrange(
+                                    asProvider.getString('Book Appointment'),
+                                    () {
+                                  Provider.of<BookService>(context,
+                                          listen: false)
+                                      .setData(
+                                          provider.serviceAllDetails
+                                              .serviceDetails.id,
+                                          provider.serviceAllDetails
+                                              .serviceDetails.title,
+                                          provider.serviceAllDetails
+                                              .serviceImage.imgUrl,
+                                          provider.serviceAllDetails
+                                              .serviceDetails.price,
+                                          provider.serviceAllDetails
+                                              .serviceDetails.sellerId);
+
+                                  //==========>
+                                  Provider.of<PersonalizationService>(context,
+                                          listen: false)
+                                      .setDefaultPrice(Provider.of<BookService>(
+                                              context,
+                                              listen: false)
+                                          .totalPrice);
+                                  //fetch service extra
+                                  Provider.of<PersonalizationService>(context,
+                                          listen: false)
+                                      .fetchServiceExtra(
+                                          provider.serviceAllDetails
+                                              .serviceDetails.id,
+                                          context);
+
+                                  //=============>
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          const ServicePersonalizationPage(),
+                                    ),
+                                  );
+                                }),
+                              ],
+                            )),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ],
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      child: Text(asProvider.getString('Something went wrong')),
+                    )
+              : OthersHelper().showLoading(cc.primaryColor),
+        ),
       ),
     );
   }

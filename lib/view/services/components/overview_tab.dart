@@ -85,7 +85,8 @@ class OverviewTab extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 provider.serviceAllDetails.serviceDetails
-                                    .serviceFaq[i].title,
+                                        .serviceFaq[i].title ??
+                                    '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -111,8 +112,8 @@ class OverviewTab extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(provider.serviceAllDetails.serviceDetails
-                                  .serviceFaq[i].description
-                                  .toString())
+                                      .serviceFaq[i].description ??
+                                  '')
                             ],
                           )),
                     ),

@@ -8,7 +8,6 @@ import 'package:qixer/view/home/components/section_title.dart';
 import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/services/all_services_page.dart';
 import 'package:qixer/view/services/service_details_page.dart';
-import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -16,8 +15,10 @@ class RecentServices extends StatelessWidget {
   const RecentServices({
     Key? key,
     required this.cc,
+    required this.asProvider,
   }) : super(key: key);
   final ConstantColors cc;
+  final asProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class RecentServices extends StatelessWidget {
                           builder: (context, allServiceProvider, child) =>
                               SectionTitle(
                             cc: cc,
-                            title: 'Recently listed',
+                            title: asProvider.getString('Recently listed'),
                             pressed: () {
                               //when user clicks on recent see all. set sort by dropdown to latest
                               allServiceProvider
@@ -55,6 +56,7 @@ class RecentServices extends StatelessWidget {
                                 ),
                               );
                             },
+                            asProvider: asProvider,
                           ),
                         ),
                         const SizedBox(
@@ -138,12 +140,13 @@ class RecentServices extends StatelessWidget {
                         ),
                       ],
                     )
-                  : const Text("Something went wrong")
+                  : Text(asProvider.getString('Something went wrong'))
               : Container()
           : Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.only(top: 35),
-              child: const Text("No service available in your area"),
+              child: Text(
+                  asProvider.getString('No service available in your area')),
             ),
     );
   }

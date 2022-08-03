@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -15,10 +14,12 @@ class CommonHelper {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
-      title: Text(
-        title,
-        style: TextStyle(
-            color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+      title: Consumer<AppStringService>(
+        builder: (context, asProvider, child) => Text(
+          asProvider.getString(title),
+          style: TextStyle(
+              color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -37,10 +38,12 @@ class CommonHelper {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
-      title: Text(
-        title,
-        style: TextStyle(
-            color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+      title: Consumer<AppStringService>(
+        builder: (context, asProvider, child) => Text(
+          asProvider.getString(title),
+          style: TextStyle(
+              color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -187,7 +190,7 @@ class CommonHelper {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              LineAwesomeIcons.hourglass,
+              Icons.hourglass_empty,
               size: 26,
               color: cc.greyFour,
             ),

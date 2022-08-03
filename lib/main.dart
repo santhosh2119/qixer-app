@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/all_services_service.dart';
+import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/auth_services/change_pass_service.dart';
 import 'package:qixer/service/auth_services/email_verify_service.dart';
 import 'package:qixer/service/auth_services/facebook_login_service.dart';
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RtlService()),
         ChangeNotifierProvider(create: (_) => TopAllServicesService()),
         ChangeNotifierProvider(create: (_) => PaymentGatewayListService()),
+        ChangeNotifierProvider(create: (_) => AppStringService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
