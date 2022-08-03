@@ -11,7 +11,12 @@ import '../../service/booking_services/place_order_service.dart';
 import '../../service/payment_gateway_list_service.dart';
 
 class PaystackPaymentPage extends StatefulWidget {
-  const PaystackPaymentPage({Key? key}) : super(key: key);
+  const PaystackPaymentPage(
+      {Key? key, required this.amount, required this.email})
+      : super(key: key);
+
+  final amount;
+  final email;
 
   @override
   _PaystackPaymentPageState createState() => _PaystackPaymentPageState();
@@ -28,7 +33,7 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
     height: 1.0,
     color: Colors.red,
   );
-  int _radioValue = 0;
+  final int _radioValue = 0;
   CheckoutMethod _method = CheckoutMethod.selectable;
   bool _inProgress = false;
   String? _cardNumber;
@@ -53,91 +58,103 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text('Select method')),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Theme(
-                  data: Theme.of(context).copyWith(
-                    accentColor: green,
-                    primaryColorLight: Colors.white,
-                    primaryColorDark: navyBlue,
-                    textTheme: Theme.of(context).textTheme.copyWith(
-                          bodyText2: TextStyle(
-                            color: lightBlue,
+      appBar: AppBar(title: const Text('Select method')),
+      body: WillPopScope(
+        onWillPop: () {
+          Provider.of<PlaceOrderService>(context, listen: false)
+              .setLoadingFalse();
+          return Future.value(true);
+        },
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      primaryColorLight: Colors.white,
+                      primaryColorDark: navyBlue,
+                      textTheme: Theme.of(context).textTheme.copyWith(
+                            bodyText2: const TextStyle(
+                              color: lightBlue,
+                            ),
                           ),
-                        ),
-                  ),
-                  child: Builder(
-                    builder: (context) {
-                      return _inProgress
-                          ? Container(
-                              alignment: Alignment.center,
-                              height: 50.0,
-                              child: Platform.isIOS
-                                  ? const CupertinoActivityIndicator()
-                                  : const CircularProgressIndicator(),
-                            )
-                          : Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Flexible(
-                                      flex: 3,
-                                      child: DropdownButtonHideUnderline(
-                                        child: InputDecorator(
-                                          decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            isDense: true,
-                                            hintText: 'Checkout method',
-                                          ),
-                                          child: DropdownButton<CheckoutMethod>(
-                                            value: _method,
-                                            isDense: true,
-                                            onChanged: (CheckoutMethod? value) {
-                                              if (value != null) {
-                                                setState(() => _method = value);
-                                              }
-                                            },
-                                            items: banks.map((String value) {
-                                              return DropdownMenuItem<
-                                                  CheckoutMethod>(
-                                                value:
-                                                    _parseStringToMethod(value),
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
+                      colorScheme:
+                          ColorScheme.fromSwatch().copyWith(secondary: green),
+                    ),
+                    child: Builder(
+                      builder: (context) {
+                        return _inProgress
+                            ? Container(
+                                alignment: Alignment.center,
+                                height: 50.0,
+                                child: Platform.isIOS
+                                    ? const CupertinoActivityIndicator()
+                                    : const CircularProgressIndicator(),
+                              )
+                            : Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Flexible(
+                                        flex: 3,
+                                        child: DropdownButtonHideUnderline(
+                                          child: InputDecorator(
+                                            decoration: const InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              isDense: true,
+                                              hintText: 'Checkout method',
+                                            ),
+                                            child:
+                                                DropdownButton<CheckoutMethod>(
+                                              value: _method,
+                                              isDense: true,
+                                              onChanged:
+                                                  (CheckoutMethod? value) {
+                                                if (value != null) {
+                                                  setState(
+                                                      () => _method = value);
+                                                }
+                                              },
+                                              items: banks.map((String value) {
+                                                return DropdownMenuItem<
+                                                    CheckoutMethod>(
+                                                  value: _parseStringToMethod(
+                                                      value),
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    _horizontalSizeBox,
-                                    Flexible(
-                                      flex: 2,
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: _getPlatformButton(
-                                          'Checkout',
-                                          () => _handleCheckout(context),
+                                      _horizontalSizeBox,
+                                      Flexible(
+                                        flex: 2,
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: _getPlatformButton(
+                                            'Checkout',
+                                            () => _handleCheckout(context),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            );
-                    },
-                  ),
-                )
-              ],
+                                    ],
+                                  )
+                                ],
+                              );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -153,8 +170,8 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
     setState(() => _inProgress = true);
     _formKey.currentState?.save();
     Charge charge = Charge()
-      ..amount = 10000 // In base currency
-      ..email = 'customer@email.com'
+      ..amount = widget.amount // In base currency
+      ..email = widget.email
       ..card = _getCardFromUI();
 
     if (!_isLocal) {
@@ -170,7 +187,7 @@ class _PaystackPaymentPageState extends State<PaystackPaymentPage> {
         method: _method,
         charge: charge,
         fullscreen: false,
-        logo: MyLogo(),
+        logo: const MyLogo(),
       );
       print('Response = $response');
       if (response.status == true) {
