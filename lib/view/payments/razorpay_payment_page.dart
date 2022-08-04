@@ -121,7 +121,8 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
               Container(
                 margin: const EdgeInsets.only(
                     top: 30, bottom: 20, left: 25, right: 25),
-                child: BookingHelper().detailsPanelRow('Total', 0, '237.6'),
+                child:
+                    BookingHelper().detailsPanelRow('Total', 0, widget.amount),
               ),
               // textField(size, "Name", false, name),
               // textField(size, "Phone no.", false, phoneNo),
