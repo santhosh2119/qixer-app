@@ -46,9 +46,9 @@ payAction(String method, BuildContext context, imagePath) {
       });
       break;
     case 'marcadopago':
-      makePaymentToGetOrderId(context, () {
-        MercadoPagoService().mercadoPay(context);
-      });
+      // makePaymentToGetOrderId(context, () {
+      //   MercadoPagoService().mercadoPay(context);
+      // });
       break;
     case 'midtrans':
       // CashfreeService().getTokenAndPay();
@@ -63,9 +63,9 @@ payAction(String method, BuildContext context, imagePath) {
 
       break;
     case 'paystack':
-      makePaymentToGetOrderId(context, () {
-        PaystackService().payByPaystack(context);
-      });
+      // makePaymentToGetOrderId(context, () {
+      //   PaystackService().payByPaystack(context);
+      // });
 
       break;
     case 'paytm':

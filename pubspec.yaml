@@ -44,10 +44,10 @@ dependencies:
   flutter_date_pickers: ^0.3.0
   flutter_facebook_auth: ^4.1.1
   flutter_inappwebview: ^5.4.3+7
-  flutter_paystack: ^1.0.5+1
+  # flutter_paystack: ^1.0.5+1
   flutter_rating_bar: ^4.0.0
   flutter_spinkit: ^5.1.0
-  flutter_stripe: ^2.0.2
+  flutter_stripe: ^3.2.0
   flutter_svg: ^1.0.3
   flutter_widget_from_html: ^0.8.5
   fluttertoast: ^8.0.9
@@ -59,7 +59,7 @@ dependencies:
   intl: ^0.17.0
   intl_phone_field: ^3.1.0
   line_awesome_flutter: ^2.0.0
-  mercado_pago_mobile_checkout: ^0.1.1
+  # mercado_pago_mobile_checkout: ^0.1.1
   page_transition: ^2.0.5
   path_provider: ^2.0.9
   pin_code_fields: ^7.4.0
