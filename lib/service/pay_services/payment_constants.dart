@@ -46,9 +46,9 @@ payAction(String method, BuildContext context, imagePath) {
       });
       break;
     case 'marcadopago':
-      // makePaymentToGetOrderId(context, () {
-      //   MercadoPagoService().mercadoPay(context);
-      // });
+      makePaymentToGetOrderId(context, () {
+        MercadoPagoService().payByMercado(context);
+      });
       break;
     case 'midtrans':
       // CashfreeService().getTokenAndPay();
