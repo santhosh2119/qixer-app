@@ -63,9 +63,9 @@ payAction(String method, BuildContext context, imagePath) {
 
       break;
     case 'paystack':
-      // makePaymentToGetOrderId(context, () {
-      //   PaystackService().payByPaystack(context);
-      // });
+      makePaymentToGetOrderId(context, () {
+        PaystackService().payByPaystack(context);
+      });
 
       break;
     case 'paytm':
