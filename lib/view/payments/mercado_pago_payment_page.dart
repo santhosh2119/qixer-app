@@ -70,7 +70,7 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
                 print('on progress $v');
               },
               onWebViewCreated: (v) {
-                print('on webview created $v');
+                // print('on webview created 'v.);
               },
               onPageFinished: (value) async {
                 print('on progress.........................$value');
