@@ -140,6 +140,7 @@ class SquareUpPayment extends StatelessWidget {
             "price_money": {"amount": 100, "currency": "USD"}
           },
           "payment_note": "grenmart groceries",
+          "redirect_url": "https://xgenious.com/",
           "pre_populated_data": {"buyer_email": email}
         }));
     print(response.body);
