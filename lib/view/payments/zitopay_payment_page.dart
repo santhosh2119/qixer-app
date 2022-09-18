@@ -2,6 +2,9 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ZitopayPaymentPage extends StatefulWidget {
@@ -58,24 +61,32 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
             onWebViewCreated: (controller) {
               this.controller = controller;
             },
-            onPageFinished: (url) {
-              print(url);
-              if (url == 'https://www.google.com/') {
+            navigationDelegate: (NavigationRequest request) async {
+              if (request.url.contains('https://www.google.com/')) {
                 //if payment is success, then the page is refreshing twice.
                 //which is causing the screen pop twice.
                 //So, this alreadySuccess = true trick will prevent that
                 if (alreadySuccessful != true) {
                   print('payment success');
-                  Navigator.pop(context);
+                  await Provider.of<PlaceOrderService>(context, listen: false)
+                      .makePaymentSuccess(context);
                 }
 
                 setState(() {
                   alreadySuccessful = true;
                 });
-              } else if (url == 'https://pub.dev/') {
-                print('payment failed');
-                Navigator.pop(context);
+
+                return NavigationDecision.prevent;
               }
+              if (request.url.contains('https://pub.dev/')) {
+                print('payment failed');
+                OthersHelper()
+                    .showSnackBar(context, 'Payment failed', Colors.red);
+                Navigator.pop(context);
+
+                return NavigationDecision.prevent;
+              }
+              return NavigationDecision.navigate;
             },
           ),
         ),

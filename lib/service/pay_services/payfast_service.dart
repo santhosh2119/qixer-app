@@ -5,11 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/view/payments/billplz_payment.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/view/payments/payfast_payment.dart';
 
 class PayfastService {
   payByPayfast(BuildContext context) {
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+
     var amount;
     var bcProvider =
         Provider.of<BookConfirmationService>(context, listen: false);

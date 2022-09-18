@@ -6,10 +6,10 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/view/payments/razorpay_payment_page.dart';
+import 'package:qixer/view/payments/mollie_payment.dart';
 
-class RazorpayService {
-  payByRazorpay(BuildContext context) {
+class MollieService {
+  payByMollie(BuildContext context) {
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     var amount;
@@ -31,7 +31,7 @@ class RazorpayService {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => RazorpayPaymentPage(
+        builder: (BuildContext context) => MolliePayment(
           amount: amount,
           name: name,
           phone: phone,
