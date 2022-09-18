@@ -116,8 +116,8 @@ class MolliePayment extends StatelessWidget {
     //TODO dynamic this
     final publicKey = 'test_fVk76gNbAp6ryrtRjfAVvzjxSHxC2v';
 
-    String orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
+    String orderId = '1';
+    // Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
     final url = Uri.parse('https://api.mollie.com/v2/payments');
     final header = {

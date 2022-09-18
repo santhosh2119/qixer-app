@@ -9,7 +9,9 @@ import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
+import 'package:qixer/service/pay_services/billplz_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
+import 'package:qixer/service/pay_services/square_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -59,6 +61,12 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         builder: (context, provider, child) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              InkWell(
+                                onTap: () {
+                                  BillPlzService().payByBillPlz(context);
+                                },
+                                child: Text('pay'),
+                              ),
                               //border
                               Container(
                                 margin: const EdgeInsets.only(bottom: 20),

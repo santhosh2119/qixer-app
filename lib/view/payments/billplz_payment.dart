@@ -85,8 +85,8 @@ class BillplzPayment extends StatelessWidget {
   }
 
   waitForIt(BuildContext context) async {
-    String orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
+    // String orderId =
+    //     Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
     final url = Uri.parse('https://www.billplz-sandbox.com/api/v3/bills');
     final username = 'b2ead199-e6f3-4420-ae5c-c94f1b1e8ed6';
@@ -103,9 +103,9 @@ class BillplzPayment extends StatelessWidget {
         body: jsonEncode({
           "collection_id": "kjj5ya006",
           "description": "Qixer payment",
-          "email": email,
-          "name": name,
-          "amount": "$amount",
+          "email": 'saleheen@s.com',
+          "name": 'saleheen',
+          "amount": "${double.parse(amount) * 100}",
           "reference_1_label": "Bank Code",
           "reference_1": "BP-FKR01",
           "callback_url": "http://www.xgenious.com"
