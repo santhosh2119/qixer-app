@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -89,7 +90,10 @@ class BillplzPayment extends StatelessWidget {
     //     Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
     final url = Uri.parse('https://www.billplz-sandbox.com/api/v3/bills');
-    final username = 'b2ead199-e6f3-4420-ae5c-c94f1b1e8ed6';
+    final username =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .publicKey ??
+            '';
     final basicAuth =
         'Basic ${base64Encode(utf8.encode('$username:$username'))}';
     final header = {

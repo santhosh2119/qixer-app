@@ -13,6 +13,11 @@ class PaymentGatewayListService with ChangeNotifier {
   var publicKey;
   var secretKey;
 
+  var billPlzCollectionName;
+  var paytabProfileId;
+
+  var squareLocationId;
+
   bool isloading = false;
 
   setLoadingTrue() {
@@ -155,6 +160,35 @@ class PaymentGatewayListService with ChangeNotifier {
       case 'stripe':
         publicKey = paymentList[index]['public_key'];
         secretKey = paymentList[index]['secret_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
+        break;
+
+      case 'cinetpay':
+        publicKey = paymentList[index]['site_id'];
+        secretKey = paymentList[index]['app_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
+        break;
+
+      case 'paytabs':
+        paytabProfileId = paymentList[index]['profile_id'];
+        secretKey = paymentList[index]['server_key'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
+        break;
+
+      case 'squareup':
+        squareLocationId = paymentList[index]['location_id'];
+        secretKey = paymentList[index]['access_token'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
+        break;
+
+      case 'billplz':
+        publicKey = paymentList[index]['key'];
+        secretKey = paymentList[index]['xsignature'];
+        billPlzCollectionName = paymentList[index]['collection_name'];
         isTestMode = paymentList[index]['test_mode'];
         notifyListeners();
         break;
