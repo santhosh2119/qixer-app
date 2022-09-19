@@ -11,6 +11,7 @@ import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/cinetpay_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
+import 'package:qixer/service/pay_services/paytabs_service.dart';
 import 'package:qixer/service/pay_services/square_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
@@ -63,7 +64,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  CinetPayService().payByCinetpay(context);
+                                  PaytabsService().payByPaytabs(context);
                                 },
                                 child: Text('pay'),
                               ),
