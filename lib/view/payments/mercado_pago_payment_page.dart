@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -11,6 +13,7 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MercadopagoPaymentPage extends StatefulWidget {
@@ -57,8 +60,8 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
                   context: context,
                   builder: (ctx) {
                     return const AlertDialog(
-                      title: const Text('Loading failed!'),
-                      content: const Text('Failed to load payment page.'),
+                      title: Text('Loading failed!'),
+                      content: Text('Failed to load payment page.'),
                       actions: [
                         Spacer(),
                       ],
@@ -66,19 +69,23 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
                   }),
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
-              onProgress: (v) {
-                print('on progress $v');
-              },
-              onWebViewCreated: (v) {
-                // print('on webview created 'v.);
-              },
-              onPageFinished: (value) async {
-                print('on progress.........................$value');
-                if (value.contains('success')) {}
-              },
-              onPageStarted: (value) async {
-                print("on progress.........................$value");
-                if (value.contains('success')) {}
+              navigationDelegate: (NavigationRequest request) async {
+                if (request.url.contains('https://www.google.com/')) {
+                  print('payment success');
+                  await Provider.of<PlaceOrderService>(context, listen: false)
+                      .makePaymentSuccess(context);
+
+                  return NavigationDecision.prevent;
+                }
+                if (request.url.contains('https://www.facebook.com/')) {
+                  print('payment failed');
+                  OthersHelper()
+                      .showSnackBar(context, 'Payment failed', Colors.red);
+                  Navigator.pop(context);
+
+                  return NavigationDecision.prevent;
+                }
+                return NavigationDecision.navigate;
               },
             );
           }),
@@ -124,6 +131,12 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
           "unit_price": amount
         }
       ],
+      'back_urls': {
+        "success": 'https://www.google.com/',
+        "failure": 'https://www.facebook.com',
+        "pending": 'https://www.facebook.com'
+      },
+      'auto_return': 'approved',
       "payer": {"email": email}
     });
 

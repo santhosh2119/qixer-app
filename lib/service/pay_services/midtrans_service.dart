@@ -7,8 +7,6 @@ import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/view/payments/midtrans/midtrans_payment.dart';
-import 'package:qixer/view/payments/paytabs_payment.dart';
-import 'package:qixer/view/payments/squareup_payment.dart';
 
 class MidtransService {
   payByMidtrans(BuildContext context) {

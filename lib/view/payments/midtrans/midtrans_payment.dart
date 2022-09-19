@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:math';
 
@@ -65,8 +67,8 @@ class MidtransPayment extends StatelessWidget {
     final url =
         Uri.parse('https://app.sandbox.midtrans.com/snap/v1/transactions');
 
-    final serverKey = 'SB-Mid-server-9z5jztsHyYxEdSs7DgkNg2on';
-    final clientKey = 'SB-Mid-client-iDuy-jKdZHkLjL_I';
+    const serverKey = 'SB-Mid-server-9z5jztsHyYxEdSs7DgkNg2on';
+    const clientKey = 'SB-Mid-client-iDuy-jKdZHkLjL_I';
 
     final basicAuth =
         'Basic ${base64Encode(utf8.encode('$serverKey:$clientKey'))}';

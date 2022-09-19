@@ -63,12 +63,12 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         builder: (context, provider, child) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  MidtransService().payByMidtrans(context);
-                                },
-                                child: Text('pay'),
-                              ),
+                              // InkWell(
+                              //   onTap: () {
+                              //     MidtransService().payByMidtrans(context);
+                              //   },
+                              //   child: Text('pay'),
+                              // ),
                               //border
                               Container(
                                 margin: const EdgeInsets.only(bottom: 20),

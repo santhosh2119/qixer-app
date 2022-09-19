@@ -8,6 +8,7 @@ import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
+import 'package:qixer/service/pay_services/midtrans_service.dart';
 import 'package:qixer/service/pay_services/mollie_service.dart';
 import 'package:qixer/service/pay_services/payfast_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
@@ -53,8 +54,9 @@ payAction(String method, BuildContext context, imagePath) {
       });
       break;
     case 'midtrans':
-      // CashfreeService().getTokenAndPay();
-
+      makePaymentToGetOrderId(context, () {
+        MidtransService().payByMidtrans(context);
+      });
       break;
     case 'mollie':
       makePaymentToGetOrderId(context, () {
