@@ -1,14 +1,17 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/payment_gateway_list_service.dart';
+
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
-class PayfastPayment extends StatelessWidget {
-  PayfastPayment(
+class CinetPayPayment extends StatelessWidget {
+  CinetPayPayment(
       {Key? key,
       required this.amount,
       required this.name,
@@ -22,12 +25,11 @@ class PayfastPayment extends StatelessWidget {
   final email;
 
   String? url;
-  late WebViewController _controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Payfast'),
+        title: const Text('Cinetpay'),
       ),
       body: FutureBuilder(
           future: waitForIt(context),
@@ -47,6 +49,9 @@ class PayfastPayment extends StatelessWidget {
               );
             }
             return WebView(
+              // onWebViewCreated: ((controller) {
+              //   _controller = controller;
+              // }),
               onWebResourceError: (error) {
                 showDialog(
                     context: context,
@@ -59,42 +64,60 @@ class PayfastPayment extends StatelessWidget {
 
                 Navigator.pop(context);
               },
+
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
+
               onPageFinished: (value) async {
-                if (value.contains('finish')) {
-                  bool paySuccess = await verifyPayment(value);
-                  if (paySuccess) {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
-                    return;
-                  }
-                }
+                print('on finished......................... $value');
               },
             );
           }),
     );
   }
 
-  waitForIt(BuildContext context) {
-    // final merchantId =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .publicKey;
+  waitForIt(BuildContext context) async {
+    final url = Uri.parse('https://api-checkout.cinetpay.com/v2/payment');
+    final header = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      // "Authorization":
+      //     'Bearer EAAAEOuLQObrVwJvCvoio3H13b8Ssqz1ighmTBKZvIENW9qxirHGHkqsGcPBC1uN',
+      // Above is API server key for the Midtrans account, encoded to base64
+    };
 
-    // final merchantKey =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .secretKey;
+    // String orderId =
+    //     Provider.of<PlaceOrderService>(context, listen: false).orderId;
+    final response = await http.post(url,
+        headers: header,
+        body: jsonEncode({
+          "apikey": "12912847765bc0db748fdd44.40081707",
+          "site_id": "445160",
+          "transaction_id": DateTime.now().toString(),
+          "amount": double.parse(amount).toInt(),
+          "currency": "USD",
+          "alternative_currency": "USD",
+          "description": " Grenmart Payment ",
+          "customer_id": "1",
+          "customer_name": name,
+          "customer_surname": name,
+          "customer_email": email,
+          "customer_phone_number": phone,
+          "customer_address": 'Dhaka',
+          "customer_city": "Dhaka",
+          "customer_country": "BD",
+          "customer_state": "BD",
+          "customer_zip_code": "1220",
+          "channels": "ALL"
+        }));
+    print(response.body);
+    if (response.statusCode == 200) {
+      this.url = jsonDecode(response.body)['data']['payment_url'];
+      print(this.url);
+      return;
+    }
 
-    final merchantId = '10024000';
-
-    final merchantKey = '77jcu5v4ufdod';
-
-    this.url =
-        'https://sandbox.payfast.co.za/eng/process?merchant_id=$merchantId&merchant_key=$merchantKey&amount=$amount&item_name=GrenmartGroceries';
-    //   return;
-    // }
-
-    // return true;
+    return true;
   }
 
   Future<bool> verifyPayment(String url) async {
