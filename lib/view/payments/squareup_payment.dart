@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -110,13 +113,17 @@ class SquareUpPayment extends StatelessWidget {
   }
 
   Future waitForIt(BuildContext context) async {
-    // final secretKey =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .publicKey;
-//TODO dynamic this
-    const secretKey =
-        'EAAAEDsGeASjEG2t6YD1XqJxdyMXEJMS9m50rukk07akibxyMeCTjV2UHwdIsTtl';
-    const locationId = 'LP6DRN3R0SBRF';
+    final secretKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .secretKey;
+
+    final locationId =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .squareLocationId;
+
+    // const secretKey =
+    //     'EAAAEDsGeASjEG2t6YD1XqJxdyMXEJMS9m50rukk07akibxyMeCTjV2UHwdIsTtl';
+    // const locationId = 'LP6DRN3R0SBRF';
 
     // String orderId =
     //     Provider.of<PlaceOrderService>(context, listen: false).orderId;
@@ -139,7 +146,7 @@ class SquareUpPayment extends StatelessWidget {
             "name": "Qixer payment",
             "price_money": {"amount": 100, "currency": "USD"}
           },
-          "payment_note": "grenmart groceries",
+          "payment_note": "Qixer payment",
           "redirect_url": "https://xgenious.com/",
           "pre_populated_data": {"buyer_email": email}
         }));

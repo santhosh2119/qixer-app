@@ -18,6 +18,8 @@ class PaymentGatewayListService with ChangeNotifier {
 
   var squareLocationId;
 
+  var zitopayUserName;
+
   bool isloading = false;
 
   setLoadingTrue() {
@@ -189,6 +191,12 @@ class PaymentGatewayListService with ChangeNotifier {
         publicKey = paymentList[index]['key'];
         secretKey = paymentList[index]['xsignature'];
         billPlzCollectionName = paymentList[index]['collection_name'];
+        isTestMode = paymentList[index]['test_mode'];
+        notifyListeners();
+        break;
+
+      case 'zitopay':
+        zitopayUserName = paymentList[index]['username'];
         isTestMode = paymentList[index]['test_mode'];
         notifyListeners();
         break;

@@ -79,17 +79,17 @@ class PayfastPayment extends StatelessWidget {
   }
 
   waitForIt(BuildContext context) {
-    // final merchantId =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .publicKey;
+    final merchantId =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .publicKey;
 
-    // final merchantKey =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .secretKey;
+    final merchantKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .secretKey;
 
-    final merchantId = '10024000';
+    // final merchantId = '10024000';
 
-    final merchantKey = '77jcu5v4ufdod';
+    // final merchantKey = '77jcu5v4ufdod';
 
     this.url =
         'https://sandbox.payfast.co.za/eng/process?merchant_id=$merchantId&merchant_key=$merchantKey&amount=$amount&item_name=GrenmartGroceries';

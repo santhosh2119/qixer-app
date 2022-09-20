@@ -94,6 +94,11 @@ class BillplzPayment extends StatelessWidget {
         Provider.of<PaymentGatewayListService>(context, listen: false)
                 .publicKey ??
             '';
+
+    final collectionName =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .billPlzCollectionName ??
+            '';
     final basicAuth =
         'Basic ${base64Encode(utf8.encode('$username:$username'))}';
     final header = {
@@ -105,10 +110,10 @@ class BillplzPayment extends StatelessWidget {
     final response = await http.post(url,
         headers: header,
         body: jsonEncode({
-          "collection_id": "kjj5ya006",
+          "collection_id": collectionName,
           "description": "Qixer payment",
-          "email": 'saleheen@s.com',
-          "name": 'saleheen',
+          "email": email,
+          "name": name,
           "amount": "${double.parse(amount) * 100}",
           "reference_1_label": "Bank Code",
           "reference_1": "BP-FKR01",

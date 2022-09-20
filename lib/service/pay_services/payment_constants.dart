@@ -4,7 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/pay_services/billplz_service.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
+import 'package:qixer/service/pay_services/cinetpay_service.dart';
 import 'package:qixer/service/pay_services/flutterwave_service.dart';
 import 'package:qixer/service/pay_services/instamojo_service.dart';
 import 'package:qixer/service/pay_services/mercado_pago_service.dart';
@@ -13,9 +15,12 @@ import 'package:qixer/service/pay_services/mollie_service.dart';
 import 'package:qixer/service/pay_services/payfast_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/paystack_service.dart';
+import 'package:qixer/service/pay_services/paytabs_service.dart';
 
 import 'package:qixer/service/pay_services/razorpay_service.dart';
+import 'package:qixer/service/pay_services/square_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
+import 'package:qixer/service/pay_services/zitopay_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 randomOrderId() {
@@ -90,6 +95,37 @@ payAction(String method, BuildContext context, imagePath) {
         StripeService().makePayment(context);
       });
       break;
+
+    case 'squareup':
+      makePaymentToGetOrderId(context, () {
+        SquareService().payBySquare(context);
+      });
+      break;
+
+    case 'cinetpay':
+      makePaymentToGetOrderId(context, () {
+        CinetPayService().payByCinetpay(context);
+      });
+      break;
+
+    case 'paytabs':
+      makePaymentToGetOrderId(context, () {
+        PaytabsService().payByPaytabs(context);
+      });
+      break;
+
+    case 'billplz':
+      makePaymentToGetOrderId(context, () {
+        BillPlzService().payByBillPlz(context);
+      });
+      break;
+
+    case 'zitopay':
+      makePaymentToGetOrderId(context, () {
+        ZitopayService().payByZitopay(context);
+      });
+      break;
+
     case 'manual_payment':
       if (imagePath == null) {
         OthersHelper()

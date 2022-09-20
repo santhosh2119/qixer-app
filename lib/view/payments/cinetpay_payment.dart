@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +36,7 @@ class CinetPayPayment extends StatelessWidget {
           future: waitForIt(context),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               return const Center(
@@ -68,9 +69,7 @@ class CinetPayPayment extends StatelessWidget {
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
 
-              onPageFinished: (value) async {
-                print('on finished......................... $value');
-              },
+              onPageFinished: (value) async {},
             );
           }),
     );
@@ -86,13 +85,19 @@ class CinetPayPayment extends StatelessWidget {
       // Above is API server key for the Midtrans account, encoded to base64
     };
 
-    // String orderId =
-    //     Provider.of<PlaceOrderService>(context, listen: false).orderId;
+    String apiKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .publicKey;
+
+    String siteId =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .secretKey;
+
     final response = await http.post(url,
         headers: header,
         body: jsonEncode({
-          "apikey": "12912847765bc0db748fdd44.40081707",
-          "site_id": "445160",
+          "apikey": apiKey,
+          "site_id": siteId,
           "transaction_id": DateTime.now().toString(),
           "amount": double.parse(amount).toInt(),
           "currency": "USD",

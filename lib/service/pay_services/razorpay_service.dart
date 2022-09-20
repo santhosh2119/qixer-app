@@ -10,6 +10,7 @@ import 'package:qixer/view/payments/razorpay_payment_page.dart';
 
 class RazorpayService {
   payByRazorpay(BuildContext context) {
+    //========>
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     var amount;

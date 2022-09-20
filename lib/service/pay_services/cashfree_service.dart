@@ -14,13 +14,8 @@ import '../booking_services/place_order_service.dart';
 
 class CashfreeService {
   getTokenAndPay(BuildContext context) async {
-    // var header = {
-    //   //if header type is application/json then the data should be in jsonEncode method
-    //   // "Accept": "application/json",
-    //   'x-client-id': '94527832f47d6e74fa6ca5e3c72549',
-    //   'x-client-secret': 'ec6a3222018c676e95436b2e26e89c1ec6be2830',
-    //   "Content-Type": "application/json"
-    // };
+    //========>
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     String amount;
     var bcProvider =

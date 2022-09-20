@@ -10,7 +10,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 class ZitopayPaymentPage extends StatefulWidget {
   const ZitopayPaymentPage({
     Key? key,
+    required this.userName,
+    required this.amount,
   }) : super(key: key);
+
+  final userName;
+  final amount;
 
   @override
   _ZitopayPaymentPageState createState() => _ZitopayPaymentPageState();
@@ -42,22 +47,13 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
         },
         child: Scaffold(
           appBar: AppBar(
-              backgroundColor: Colors.blue,
-              title: const Text("Zitopay"),
-              actions: [
-                Container(
-                  margin: const EdgeInsets.only(right: 15),
-                  child: IconButton(
-                      onPressed: () async {
-                        controller.reload();
-                      },
-                      icon: const Icon(Icons.refresh)),
-                )
-              ]),
+            backgroundColor: Colors.blue,
+            title: const Text("Zitopay"),
+          ),
           body: WebView(
             javascriptMode: JavascriptMode.unrestricted,
             initialUrl:
-                "https://zitopay.africa/sci/?currency=XAF&amount=1000&receiver=dvrobin4&success_url=https%3A%2F%2Fwww.google.com%2F&cancel_url=https%3A%2F%2Fpub.dev",
+                "https://zitopay.africa/sci/?currency=XAF&amount=${widget.amount}&receiver=${widget.userName}&success_url=https%3A%2F%2Fwww.google.com%2F&cancel_url=https%3A%2F%2Fpub.dev",
             onWebViewCreated: (controller) {
               this.controller = controller;
             },

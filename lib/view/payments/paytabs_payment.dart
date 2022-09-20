@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,7 +35,7 @@ class PayTabsPayment extends StatelessWidget {
           future: waitForIt(context),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasData) {
               return const Center(
@@ -98,17 +99,22 @@ class PayTabsPayment extends StatelessWidget {
   }
 
   waitForIt(BuildContext context) async {
-    final amount = 100;
-    // if (selectrdGateaway.serverKey == null ||
-    //     selectrdGateaway.clientKey == null) {
-    //   snackBar(context, 'Invalid developer keys');
-    // }
+    String orderId =
+        Provider.of<PlaceOrderService>(context, listen: false).orderId;
+
+    // String profileId =
+    //     Provider.of<PaymentGatewayListService>(context, listen: false)
+    //         .paytabProfileId;
+    String secretKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .secretKey;
+
     print('here');
     final url = Uri.parse('https://secure-global.paytabs.com/payment/request');
     final header = {
       "Content-Type": "application/json",
       "Accept": "application/json",
-      "Authorization": 'SKJNDNRHM2-JDKTZDDH2N-H9HLMJNJ2L',
+      "Authorization": secretKey,
       // Above is API server key for the Midtrans account, encoded to base64
     };
 
@@ -118,8 +124,8 @@ class PayTabsPayment extends StatelessWidget {
           "profile_id": 96698,
           "tran_type": "sale",
           "tran_class": "ecom",
-          "cart_id": "1",
-          "cart_description": "Grenmart groceries",
+          "cart_id": orderId.toString(),
+          "cart_description": "Qixer payment",
           "cart_currency": "USD",
           "cart_amount": amount,
         }));
