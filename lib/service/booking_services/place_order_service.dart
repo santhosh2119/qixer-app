@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -23,6 +25,8 @@ class PlaceOrderService with ChangeNotifier {
   bool isloading = false;
 
   var orderId;
+  var successUrl;
+  var cancelUrl;
 
   setLoadingTrue() {
     isloading = true;
@@ -218,6 +222,9 @@ class PlaceOrderService with ChangeNotifier {
       print(response.data);
 
       orderId = response.data['order_id'];
+      successUrl = response.data['success_url'];
+      cancelUrl = response.data['cancel_url'];
+
       print('order id is $orderId');
 
       notifyListeners();

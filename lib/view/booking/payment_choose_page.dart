@@ -311,7 +311,11 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                               },
                                   isloading: provider.isloading == false
                                       ? false
-                                      : true)
+                                      : true),
+
+                              const SizedBox(
+                                height: 30,
+                              )
                             ]),
                       )
                     : Container(

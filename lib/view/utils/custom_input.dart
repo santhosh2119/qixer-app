@@ -33,7 +33,6 @@ class CustomInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(bottom: 19),
         decoration: BoxDecoration(
             // color: const Color(0xfff2f2f2),
             borderRadius: BorderRadius.circular(10)),

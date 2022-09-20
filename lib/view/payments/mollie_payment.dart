@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
-import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,8 +51,12 @@ class MolliePayment extends StatelessWidget {
             return WebView(
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
-              navigationDelegate: (NavigationRequest request) async {
-                if (request.url.contains('http://www.xgenious.com')) {
+              onPageStarted: (value) async {
+                var redirectUrl =
+                    Provider.of<PlaceOrderService>(context, listen: false)
+                        .successUrl;
+
+                if (value.contains(redirectUrl)) {
                   String status = await verifyPayment(context);
                   if (status == 'paid') {
                     await Provider.of<PlaceOrderService>(context, listen: false)
@@ -91,18 +94,7 @@ class MolliePayment extends StatelessWidget {
                         });
                     Navigator.pop(context);
                   }
-
-                  return NavigationDecision.prevent;
                 }
-                if (request.url.contains('https://pub.dev/')) {
-                  print('payment failed');
-                  OthersHelper()
-                      .showSnackBar(context, 'Payment failed', Colors.red);
-                  Navigator.pop(context);
-
-                  return NavigationDecision.prevent;
-                }
-                return NavigationDecision.navigate;
               },
             );
           }),
@@ -110,16 +102,14 @@ class MolliePayment extends StatelessWidget {
   }
 
   waitForIt(BuildContext context) async {
-    // final publicKey =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .publicKey;
-    //TODO dynamic this
     final publicKey =
         Provider.of<PaymentGatewayListService>(context, listen: false)
-                .publicKey ??
-            '';
+            .publicKey;
 
-    String orderId = '1';
+    // final publicKey = 'test_fVk76gNbAp6ryrtRjfAVvzjxSHxC2v';
+
+    String orderId =
+        Provider.of<PlaceOrderService>(context, listen: false).orderId;
     // Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
     final url = Uri.parse('https://api.mollie.com/v2/payments');
@@ -135,27 +125,32 @@ class MolliePayment extends StatelessWidget {
         body: jsonEncode({
           "amount": {"value": amount, "currency": "USD"},
           "description": "Qixer payment",
-          "redirectUrl": "http://www.xgenious.com",
-          "webhookUrl": "http://www.xgenious.com",
-          "metadata": orderId,
+          "redirectUrl":
+              Provider.of<PlaceOrderService>(context, listen: false).successUrl,
+          "webhookUrl":
+              Provider.of<PlaceOrderService>(context, listen: false).successUrl,
+          "metadata": 'mollieQixer$orderId',
           // "method": "creditcard",
         }));
     if (response.statusCode == 201) {
       this.url = jsonDecode(response.body)['_links']['checkout']['href'];
+      print('url link is ${this.url}');
       this.statusURl = jsonDecode(response.body)['_links']['self']['href'];
       print(statusURl);
       return;
+    } else {
+      print(response.body);
     }
 
     return true;
   }
 
   verifyPayment(BuildContext context) async {
-    // final publicKey =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .publicKey;
-//TODO dynamic this
-    final publicKey = 'test_fVk76gNbAp6ryrtRjfAVvzjxSHxC2v';
+    final publicKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .publicKey;
+
+    // final publicKey = 'test_fVk76gNbAp6ryrtRjfAVvzjxSHxC2v';
 
     final url = Uri.parse(statusURl as String);
     final header = {
