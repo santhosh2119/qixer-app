@@ -254,7 +254,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                           //     ),
                                           //   );
                                           // }),
-                                          // CommonHelper().dividerCommon(),
+                                          CommonHelper().dividerCommon(),
                                           SettingsHelper().settingOption(
                                               'assets/svg/message-circle.svg',
                                               asProvider.getString(
@@ -330,40 +330,40 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
 
               //chat icon ========>
-              Positioned(
-                right: 20,
-                bottom: 20,
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const LiveChatPage(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 3,
-                          blurRadius: 12,
-                          offset:
-                              const Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/svg/message-green.svg',
-                      height: 48,
-                    ),
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   right: 20,
+              //   bottom: 20,
+              //   child: InkWell(
+              //     splashColor: Colors.transparent,
+              //     highlightColor: Colors.transparent,
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute<void>(
+              //           builder: (BuildContext context) => const LiveChatPage(),
+              //         ),
+              //       );
+              //     },
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //         shape: BoxShape.circle,
+              //         boxShadow: [
+              //           BoxShadow(
+              //             color: Colors.grey.withOpacity(0.2),
+              //             spreadRadius: 3,
+              //             blurRadius: 12,
+              //             offset:
+              //                 const Offset(0, 5), // changes position of shadow
+              //           ),
+              //         ],
+              //       ),
+              //       child: SvgPicture.asset(
+              //         'assets/svg/message-green.svg',
+              //         height: 48,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ));

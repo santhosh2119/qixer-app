@@ -16,6 +16,7 @@ import 'package:qixer/service/pay_services/payfast_service.dart';
 import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/paystack_service.dart';
 import 'package:qixer/service/pay_services/paytabs_service.dart';
+import 'package:qixer/service/pay_services/paytm_service.dart';
 
 import 'package:qixer/service/pay_services/razorpay_service.dart';
 import 'package:qixer/service/pay_services/square_service.dart';
@@ -82,9 +83,11 @@ payAction(String method, BuildContext context, imagePath) {
 
       break;
     case 'paytm':
-      // MercadoPagoService().mercadoPay();
-
+      makePaymentToGetOrderId(context, () {
+        PaytmService().payByPaytm(context);
+      }, paytmPaymentSelected: true);
       break;
+
     case 'razorpay':
       makePaymentToGetOrderId(context, () {
         RazorpayService().payByRazorpay(context);
@@ -147,9 +150,10 @@ payAction(String method, BuildContext context, imagePath) {
   }
 }
 
-makePaymentToGetOrderId(BuildContext context, VoidCallback function) async {
+makePaymentToGetOrderId(BuildContext context, VoidCallback function,
+    {bool paytmPaymentSelected = false}) async {
   var res = await Provider.of<PlaceOrderService>(context, listen: false)
-      .placeOrder(context, null);
+      .placeOrder(context, null, paytmPaymentSelected: paytmPaymentSelected);
 
   if (res == true) {
     function();

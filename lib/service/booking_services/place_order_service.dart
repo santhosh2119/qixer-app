@@ -28,6 +28,8 @@ class PlaceOrderService with ChangeNotifier {
   var successUrl;
   var cancelUrl;
 
+  var paytmHtmlForm;
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -39,7 +41,7 @@ class PlaceOrderService with ChangeNotifier {
   }
 
   Future<bool> placeOrder(BuildContext context, String? imagePath,
-      {bool isManualOrCod = false}) async {
+      {bool isManualOrCod = false, bool paytmPaymentSelected = false}) async {
     setLoadingTrue();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -213,10 +215,69 @@ class PlaceOrderService with ChangeNotifier {
       }
     }
 
+    //For paytm
+    //=============>
+    var data = jsonEncode({
+      'service_id': serviceId.toString(),
+      'seller_id': sellerId.toString(),
+      'buyer_id': buyerId.toString(),
+      'name': name,
+      'email': email,
+      'phone': phone, //amount he paid in bkash ucash etc
+      'post_code': post,
+      'address': address,
+      'choose_service_city': city,
+      'choose_service_area': area,
+      'choose_service_country': country,
+      'date': selectedDate.toString(),
+      'schedule': schedule.toString(),
+      'include_services': jsonEncode({"include_services": includesList}),
+      'additional_services': jsonEncode({"additional_services": extrasList}),
+      'coupon_code': coupon.toString(),
+      'selected_payment_gateway': selectedPaymentGateway.toString(),
+      'is_service_online': 0,
+      'paytm': true
+    });
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
     var response = await dio.post(
       '$baseApi/service/order',
       data: formData,
     );
+
+    //if paytm payment selected
+    // =================>
+
+    if (paytmPaymentSelected == true) {
+      var paytmRes = await http.post(Uri.parse('$baseApi/service/order-paytm'),
+          headers: header, body: data);
+
+      paytmHtmlForm = paytmRes.body;
+      notifyListeners();
+    }
+
+    // if (paytmPaymentSelected == true) {
+    //   var paytmRes = await dio.post(
+    //     '$baseApi/service/order',
+    //     data: formData,
+    //   );
+
+    //   print('paytm response is' + paytmRes.data);
+    //   if (paytmRes.statusCode == 200) {
+    //     paytmHtmlForm = paytmRes.data;
+    //     print(paytmHtmlForm);
+    //     notifyListeners();
+    //   }
+    // }
+
+    // =====================>
+    // ===============>
 
     if (response.statusCode == 201) {
       print(response.data);
