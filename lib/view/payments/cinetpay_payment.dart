@@ -85,16 +85,16 @@ class CinetPayPayment extends StatelessWidget {
       // Above is API server key for the Midtrans account, encoded to base64
     };
 
-    // String apiKey =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .secretKey;
+    String apiKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .secretKey;
 
-    // String siteId =
-    //     Provider.of<PaymentGatewayListService>(context, listen: false)
-    //         .publicKey;
+    String siteId =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .publicKey;
 
-    final apiKey = '12912847765bc0db748fdd44.40081707';
-    final siteId = '445160';
+    // final apiKey = '12912847765bc0db748fdd44.40081707';
+    // final siteId = '445160';
 
     final response = await http.post(url,
         headers: header,
