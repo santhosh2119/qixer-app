@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'dart:convert';
 
@@ -114,7 +114,10 @@ class MolliePayment extends StatelessWidget {
     //     Provider.of<PaymentGatewayListService>(context, listen: false)
     //         .publicKey;
     //TODO dynamic this
-    final publicKey = 'test_fVk76gNbAp6ryrtRjfAVvzjxSHxC2v';
+    final publicKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .publicKey ??
+            '';
 
     String orderId = '1';
     // Provider.of<PlaceOrderService>(context, listen: false).orderId;

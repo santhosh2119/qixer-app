@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,8 +68,14 @@ class MidtransPayment extends StatelessWidget {
     final url =
         Uri.parse('https://app.sandbox.midtrans.com/snap/v1/transactions');
 
-    const serverKey = 'SB-Mid-server-9z5jztsHyYxEdSs7DgkNg2on';
-    const clientKey = 'SB-Mid-client-iDuy-jKdZHkLjL_I';
+    final clientKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .publicKey ??
+            '';
+    final serverKey =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .secretKey ??
+            '';
 
     final basicAuth =
         'Basic ${base64Encode(utf8.encode('$serverKey:$clientKey'))}';
