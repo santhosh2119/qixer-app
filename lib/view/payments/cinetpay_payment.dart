@@ -85,13 +85,16 @@ class CinetPayPayment extends StatelessWidget {
       // Above is API server key for the Midtrans account, encoded to base64
     };
 
-    String apiKey =
-        Provider.of<PaymentGatewayListService>(context, listen: false)
-            .publicKey;
+    // String apiKey =
+    //     Provider.of<PaymentGatewayListService>(context, listen: false)
+    //         .secretKey;
 
-    String siteId =
-        Provider.of<PaymentGatewayListService>(context, listen: false)
-            .secretKey;
+    // String siteId =
+    //     Provider.of<PaymentGatewayListService>(context, listen: false)
+    //         .publicKey;
+
+    final apiKey = '12912847765bc0db748fdd44.40081707';
+    final siteId = '445160';
 
     final response = await http.post(url,
         headers: header,
@@ -102,10 +105,10 @@ class CinetPayPayment extends StatelessWidget {
           "amount": double.parse(amount).toInt(),
           "currency": "USD",
           "alternative_currency": "USD",
-          "description": " Grenmart Payment ",
+          "description": " Qixer Payment ",
           "customer_id": "1",
-          "customer_name": name,
-          "customer_surname": name,
+          "customer_name": name + " first name",
+          "customer_surname": name + " surname",
           "customer_email": email,
           "customer_phone_number": phone,
           "customer_address": 'Dhaka',

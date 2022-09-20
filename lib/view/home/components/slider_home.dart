@@ -52,12 +52,12 @@ class SliderHome extends StatelessWidget {
                   left: rtlP.direction == 'ltr' ? 25 : 0,
                   right: rtlP.direction == 'ltr' ? 0 : 25,
                   top: 20,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: Text(
                           sliderDetailsList[itemIndex]['title'],
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -66,28 +66,29 @@ class SliderHome extends StatelessWidget {
                               fontSize: 21,
                               fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        Text(
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 20,
+                        child: Text(
                           sliderDetailsList[itemIndex]['subtitle'],
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: cc.greyFour,
-                            fontSize: 14,
-                          ),
+                              color: cc.greyFour, fontSize: 14, height: 1.3),
                         ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        // ElevatedButton(
-                        //     style: ElevatedButton.styleFrom(
-                        //         primary: cc.greyFour, elevation: 0),
-                        //     onPressed: () {},
-                        //     child: const Text('Get now'))
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 7,
+                      ),
+                      // ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //         primary: cc.greyFour, elevation: 0),
+                      //     onPressed: () {},
+                      //     child: const Text('Get now'))
+                    ],
                   )),
             )
           ],
