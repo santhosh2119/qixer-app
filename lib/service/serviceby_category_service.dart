@@ -79,6 +79,12 @@ class ServiceByCategoryService with ChangeNotifier {
       //if connection is ok
       var response = await http.get(Uri.parse(apiLink));
 
+      print(response.body);
+      print(response.statusCode);
+
+      // var jsonDataServiceList =
+      //     jsonDecode(response.body)['all_services']['data'];
+
       if (response.statusCode == 201) {
         var data = ServicebyCategoryModel.fromJson(jsonDecode(response.body));
 
@@ -127,7 +133,10 @@ class ServiceByCategoryService with ChangeNotifier {
         setCurrentPage(currentPage);
         return true;
       } else {
-        hasError = true;
+        if (serviceMap.isEmpty) {
+          hasError = true;
+          notifyListeners();
+        }
         notifyListeners();
         return false;
       }

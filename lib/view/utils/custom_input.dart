@@ -26,7 +26,7 @@ class CustomInput extends StatelessWidget {
       this.controller,
       this.validation,
       this.icon,
-      this.maxLength = 15,
+      this.maxLength = 45,
       this.paddingHorizontal = 8.0})
       : super(key: key);
 
