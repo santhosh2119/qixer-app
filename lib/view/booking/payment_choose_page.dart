@@ -293,6 +293,9 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                       asProvider.getString(
                                           'You must agree with the terms and conditions to place the order'),
                                       Colors.black);
+                                }
+                                if (provider.isloading == true) {
+                                  return;
                                 } else {
                                   payAction(
                                       pgProvider.paymentList[selectedMethod]
