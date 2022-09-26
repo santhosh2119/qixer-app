@@ -226,6 +226,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
                           CustomInput(
                             controller: emailController,
+                            maxLength: 190,
                             validation: (value) {
                               if (value == null || value.isEmpty) {
                                 return asProvider

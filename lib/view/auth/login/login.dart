@@ -103,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: asProvider.getString("Email"),
                           icon: 'assets/icons/user.png',
                           textInputAction: TextInputAction.next,
+                          maxLength: 190,
                         ),
                         const SizedBox(
                           height: 8,
