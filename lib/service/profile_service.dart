@@ -36,7 +36,7 @@ class ProfileService with ChangeNotifier {
   getProfileDetails({bool isFromProfileupdatePage = false}) async {
     if (isFromProfileupdatePage == true) {
       //if from update profile page then load it anyway
-      print('is from profile update page true');
+
       setEverythingToDefault();
       fetchData();
     } else {
@@ -77,8 +77,6 @@ class ProfileService with ChangeNotifier {
         ordersList.add(profileDetails.activeOrder);
         ordersList.add(profileDetails.completeOrder);
         ordersList.add(profileDetails.totalOrder);
-
-        print('profile details is $profileDetails');
 
         if (jsonDecode(response.body)['profile_image'] is List) {
           //then dont do anything because it means image is missing from database

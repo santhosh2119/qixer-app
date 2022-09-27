@@ -249,7 +249,8 @@ class CountryStatesService with ChangeNotifier {
     var profileData =
         Provider.of<ProfileService>(context, listen: false).profileDetails;
     //if profile of user loaded then show selected dropdown data based on the user profile
-    if (profileData != null) {
+    if (profileData != null &&
+        profileData.userDetails.country.country != null) {
       setCountryBasedOnUserProfile(context);
     } else {
       if (data != null) {

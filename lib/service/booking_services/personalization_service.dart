@@ -147,6 +147,7 @@ class PersonalizationService with ChangeNotifier {
       if (response.statusCode == 201) {
         var data = ServiceExtraModel.fromJson(jsonDecode(response.body));
         isOnline = data.service.isServiceOnline ?? 0;
+        print('tax is ${data.service.tax}');
 
         tax = data.service.tax ?? 0;
 
