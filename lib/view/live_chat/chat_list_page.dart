@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/support_ticket/support_messages_service.dart';
+import 'package:qixer/view/live_chat/chat_message_page.dart';
 import 'package:qixer/view/live_chat/components/chat_search.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
@@ -55,7 +58,24 @@ class _ChatListPageState extends State<ChatListPage> {
 
                 for (int i = 0; i < 5; i++)
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const ChatMessagePage(
+                            title: 'sdfdf',
+                            buyerId: 1,
+                            sellerId: 1,
+                          ),
+                        ),
+                      );
+
+                      //fetch message
+                      Provider.of<SupportMessagesService>(context,
+                              listen: false)
+                          .fetchMessages(21);
+                    },
                     child: Column(
                       children: [
                         Container(
