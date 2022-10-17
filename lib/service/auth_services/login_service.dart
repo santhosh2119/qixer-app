@@ -38,6 +38,8 @@ class LoginService with ChangeNotifier {
       var response = await http.post(Uri.parse('$baseApi/login'),
           body: data, headers: header);
 
+      print(response.body);
+
       if (response.statusCode == 201) {
         if (isFromLoginPage) {
           OthersHelper()

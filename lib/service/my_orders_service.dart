@@ -54,6 +54,7 @@ class MyOrdersService with ChangeNotifier {
         setLoadingTrue();
         return myServices;
       } else {
+        print(response.body);
         //Something went wrong
         myServices = 'error';
         isLoading = false;

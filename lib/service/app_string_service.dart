@@ -48,10 +48,14 @@ class AppStringService with ChangeNotifier {
 
       var response = await http.post(Uri.parse('$baseApi/translate-string'),
           headers: header, body: data);
+
+      print(response.body);
+
       if (response.statusCode == 201) {
         tStrings = jsonDecode(response.body)['strings'];
         notifyListeners();
       } else {
+        print('error fetching translations ' + response.body);
         OthersHelper().showToast('Something went wrong', Colors.black);
         notifyListeners();
       }

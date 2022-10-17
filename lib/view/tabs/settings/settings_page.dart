@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/view/live_chat/live_chat_page.dart';
+import 'package:qixer/view/live_chat/chat_list_page.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
 import 'package:qixer/view/tabs/settings/profile_edit.dart';
@@ -330,40 +330,40 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
 
               //chat icon ========>
-              // Positioned(
-              //   right: 20,
-              //   bottom: 20,
-              //   child: InkWell(
-              //     splashColor: Colors.transparent,
-              //     highlightColor: Colors.transparent,
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute<void>(
-              //           builder: (BuildContext context) => const LiveChatPage(),
-              //         ),
-              //       );
-              //     },
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //         shape: BoxShape.circle,
-              //         boxShadow: [
-              //           BoxShadow(
-              //             color: Colors.grey.withOpacity(0.2),
-              //             spreadRadius: 3,
-              //             blurRadius: 12,
-              //             offset:
-              //                 const Offset(0, 5), // changes position of shadow
-              //           ),
-              //         ],
-              //       ),
-              //       child: SvgPicture.asset(
-              //         'assets/svg/message-green.svg',
-              //         height: 48,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Positioned(
+                right: 20,
+                bottom: 20,
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const ChatListPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 3,
+                          blurRadius: 12,
+                          offset:
+                              const Offset(0, 5), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: SvgPicture.asset(
+                      'assets/svg/message-green.svg',
+                      height: 48,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ));

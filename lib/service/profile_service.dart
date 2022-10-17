@@ -57,6 +57,8 @@ class ProfileService with ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
 
+      print('token is $token');
+
       setLoadingTrue();
 
       var header = {
@@ -87,6 +89,7 @@ class ProfileService with ChangeNotifier {
         setLoadingFalse();
         notifyListeners();
       } else {
+        print(response.body);
         profileDetails == 'error';
         setLoadingFalse();
         OthersHelper().showToast('Something went wrong', Colors.black);
