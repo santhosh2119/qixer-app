@@ -8,6 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatListService with ChangeNotifier {
   var chatList = [];
+  List storeChatList = [];
+
+  setLoadedChatList() {
+    chatList = storeChatList;
+    notifyListeners();
+  }
 
   fetchChatList(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,12 +35,14 @@ class ChatListService with ChangeNotifier {
         headers: header);
 
     chatList = [];
+    storeChatList = [];
 
     if (response.statusCode == 200 &&
         jsonDecode(response.body)['chat_seller_lists'].isNotEmpty) {
       final data = ChatListModel.fromJson(jsonDecode(response.body));
 
       chatList = data.chatSellerLists;
+      storeChatList = data.chatSellerLists;
 
       notifyListeners();
 
@@ -42,6 +50,19 @@ class ChatListService with ChangeNotifier {
     } else {
       print(response.body);
       return false;
+    }
+  }
+
+  ///Search user
+  ///===============>
+  searchUser(String searchString) {
+    chatList = [];
+    for (int i = 0; i < storeChatList.length; i++) {
+      if ((storeChatList[i].sellerList.name.toLowerCase())
+          .contains(searchString.toLowerCase())) {
+        chatList.add(storeChatList[i]);
+        notifyListeners();
+      }
     }
   }
 }
