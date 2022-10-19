@@ -30,6 +30,12 @@ class ChatMessagesService with ChangeNotifier {
     notifyListeners();
   }
 
+  setMessageListDefault() {
+    messagesList = [];
+    currentPage = 1;
+    notifyListeners();
+  }
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();

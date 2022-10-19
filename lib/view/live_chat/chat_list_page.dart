@@ -86,6 +86,8 @@ class _ChatListPageState extends State<ChatListPage> {
                                     receiverId:
                                         provider.chatList[i].sellerList.id,
                                     currentUserId: currentUserId,
+                                    userName:
+                                        provider.chatList[i].sellerList.name,
                                   ),
                                 ),
                               );
