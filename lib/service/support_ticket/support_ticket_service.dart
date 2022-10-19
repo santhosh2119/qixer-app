@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/model/ticket_list_model.dart';
@@ -59,7 +58,7 @@ class SupportTicketService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      //TODO change userId here
+
       var response = await http.post(
           Uri.parse("$baseApi/user/support-tickets?page=$currentPage"),
           headers: header);

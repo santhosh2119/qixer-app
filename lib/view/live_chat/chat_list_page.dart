@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/live_chat/chat_list_service.dart';
-import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/view/live_chat/chat_message_page.dart';
 import 'package:qixer/view/live_chat/components/chat_search.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -9,6 +8,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:qixer/view/utils/responsive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatListPage extends StatefulWidget {
   const ChatListPage({Key? key}) : super(key: key);
@@ -68,23 +68,27 @@ class _ChatListPageState extends State<ChatListPage> {
 
                         for (int i = 0; i < provider.chatList.length; i++)
                           InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              print(
+                                  'clicked on user ID ${provider.chatList[i].sellerList.id}');
+
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              var currentUserId = prefs.getInt('userId')!;
+
+                              //======>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(
                                   builder: (BuildContext context) =>
                                       ChatMessagePage(
                                     title: provider.chatList[i].sellerList.name,
-                                    buyerId: 1,
-                                    sellerId: 1,
+                                    receiverId:
+                                        provider.chatList[i].sellerList.id,
+                                    currentUserId: currentUserId,
                                   ),
                                 ),
                               );
-
-                              //fetch message
-                              Provider.of<SupportMessagesService>(context,
-                                      listen: false)
-                                  .fetchMessages(21);
                             },
                             child: Column(
                               children: [
