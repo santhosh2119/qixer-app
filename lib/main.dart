@@ -26,6 +26,7 @@ import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_all_services_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
+import 'package:qixer/service/live_chat/chat_list_service.dart';
 import 'package:qixer/service/my_orders_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
@@ -112,6 +113,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TopAllServicesService()),
         ChangeNotifierProvider(create: (_) => PaymentGatewayListService()),
         ChangeNotifierProvider(create: (_) => AppStringService()),
+        ChangeNotifierProvider(create: (_) => ChatListService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
