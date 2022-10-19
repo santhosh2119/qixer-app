@@ -439,7 +439,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             //hide keyboard
                             FocusScope.of(context).unfocus();
                             //send message
-
+                            provider.sendMessage(widget.receiverId,
+                                sendMessageController.text.trim(), null);
                             //clear input field
                             sendMessageController.clear();
                             //clear image

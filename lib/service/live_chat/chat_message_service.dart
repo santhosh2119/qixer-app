@@ -143,15 +143,9 @@ class ChatMessagesService with ChangeNotifier {
 
 //Send new message ======>
 
-  sendMessage(ticketId, message, imagePath) async {
+  sendMessage(toUser, message, imagePath) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
-
-    // var data = jsonEncode({
-    //   'ticket_id': ticketId,
-    //   'user_type': 'buyer',
-    //   'message': message,
-    // });
 
     var dio = Dio();
     dio.options.headers['Content-Type'] = 'multipart/form-data';
@@ -160,16 +154,14 @@ class ChatMessagesService with ChangeNotifier {
     FormData formData;
     if (imagePath != null) {
       formData = FormData.fromMap({
-        'ticket_id': ticketId,
-        'user_type': 'buyer',
+        'to_user': toUser,
         'message': message,
         'file': await MultipartFile.fromFile(imagePath,
             filename: 'ticket$imagePath.jpg')
       });
     } else {
       formData = FormData.fromMap({
-        'ticket_id': ticketId,
-        'user_type': 'buyer',
+        'to_user': toUser,
         'message': message,
       });
     }
@@ -180,14 +172,17 @@ class ChatMessagesService with ChangeNotifier {
       //if connection is ok
 
       var response = await dio.post(
-        '$baseApi/user/ticket/message-send',
+        '$baseApi/user/chat/send',
         data: formData,
       );
       setSendLoadingFalse();
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         print(response.data);
-        addNewMessage(message, imagePath);
+        addNewMessage(
+          message,
+          imagePath,
+        );
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -201,15 +196,17 @@ class ChatMessagesService with ChangeNotifier {
     }
   }
 
-  addNewMessage(newMessage, imagePath) {
-    messagesList.add({
+  addNewMessage(message, imagePath) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var currentUserId = prefs.getInt('userId')!;
+
+    messagesList.insert(0, {
       'id': '',
-      'message': newMessage,
-      'notify': 'off',
-      'attachment': imagePath,
-      'type': 'buyer',
+      'message': message,
+      'attachment': null,
+      'fromUser': currentUserId,
       'imagePicked':
-          true //check if this image is just got picked from device in that case we will show it from device location
+          false //check if this image is just got picked from device in that case we will show it from device location
     });
     notifyListeners();
   }
