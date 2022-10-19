@@ -104,8 +104,8 @@ class _ChatListPageState extends State<ChatListPage> {
                                           children: <Widget>[
                                             CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                                  provider.chatList[i]
-                                                          .senderProfileImage ??
+                                                  provider.chatListImage[i]
+                                                          ['img_url'] ??
                                                       placeHolderUrl),
                                               maxRadius: 25,
                                             ),

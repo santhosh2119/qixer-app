@@ -8,10 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatListService with ChangeNotifier {
   var chatList = [];
+  List chatListImage = [];
   List storeChatList = [];
+  List storeChatListImage = [];
 
   setLoadedChatList() {
     chatList = storeChatList;
+    chatListImage = storeChatListImage;
     notifyListeners();
   }
 
@@ -35,14 +38,18 @@ class ChatListService with ChangeNotifier {
         headers: header);
 
     chatList = [];
+    chatListImage = [];
     storeChatList = [];
+    storeChatListImage = [];
 
-    if (response.statusCode == 200 &&
+    if (response.statusCode == 201 &&
         jsonDecode(response.body)['chat_seller_lists'].isNotEmpty) {
       final data = ChatListModel.fromJson(jsonDecode(response.body));
 
       chatList = data.chatSellerLists;
-      storeChatList = data.chatSellerLists;
+      chatListImage = jsonDecode(response.body)['seller_image'];
+      storeChatList = chatList;
+      storeChatListImage = chatListImage;
 
       notifyListeners();
 
@@ -57,12 +64,16 @@ class ChatListService with ChangeNotifier {
   ///===============>
   searchUser(String searchString) {
     chatList = [];
+    chatListImage = [];
+
     for (int i = 0; i < storeChatList.length; i++) {
       if ((storeChatList[i].sellerList.name.toLowerCase())
           .contains(searchString.toLowerCase())) {
+        print(storeChatListImage[i]['img_url']);
         chatList.add(storeChatList[i]);
-        notifyListeners();
+        chatListImage.add(storeChatListImage[i]);
       }
     }
+    notifyListeners();
   }
 }
