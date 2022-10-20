@@ -8,6 +8,8 @@ import 'package:qixer/view/utils/constant_colors.dart';
 String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
 
 String placeHolderUrl = 'https://i.postimg.cc/3RKkSRDb/placeholder.png';
+String userPlaceHolderUrl =
+    'https://i.postimg.cc/ZYQp5Xv1/blank-profile-picture-gb26b7fbdf-1280.png';
 
 class OthersHelper with ChangeNotifier {
   ConstantColors cc = ConstantColors();

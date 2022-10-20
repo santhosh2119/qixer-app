@@ -115,11 +115,19 @@ class _ChatListPageState extends State<ChatListPage> {
                                                       child: Row(
                                                         children: <Widget>[
                                                           CircleAvatar(
-                                                            backgroundImage: NetworkImage(
-                                                                provider.chatListImage[
-                                                                            i][
-                                                                        'img_url'] ??
-                                                                    placeHolderUrl),
+                                                            backgroundImage: NetworkImage(provider
+                                                                        .chatListImage[
+                                                                    i] is List
+                                                                ? userPlaceHolderUrl
+                                                                : (provider.chatListImage[i]['img_url'] !=
+                                                                            null &&
+                                                                        provider.chatListImage[i]['img_url'] !=
+                                                                            "")
+                                                                    ? provider
+                                                                            .chatListImage[i]
+                                                                        [
+                                                                        'img_url']
+                                                                    : userPlaceHolderUrl),
                                                             maxRadius: 25,
                                                           ),
                                                           const SizedBox(
