@@ -30,9 +30,7 @@ class _ChatListPageState extends State<ChatListPage> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 17),
             child: Consumer<ChatListService>(
-              builder: (context, provider, child) => provider
-                      .chatList.isNotEmpty
-                  ? Column(
+                builder: (context, provider, child) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -53,103 +51,129 @@ class _ChatListPageState extends State<ChatListPage> {
                             ),
                           ],
                         ),
-
-                        //Search bar
-
-                        const SizedBox(
-                          height: 10,
-                        ),
-
-                        const ChatSearch(),
-
-                        const SizedBox(
-                          height: 20,
-                        ),
-
-                        for (int i = 0; i < provider.chatList.length; i++)
-                          InkWell(
-                            onTap: () async {
-                              print(
-                                  'clicked on user ID ${provider.chatList[i].sellerList.id}');
-
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              var currentUserId = prefs.getInt('userId')!;
-
-                              //======>
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      ChatMessagePage(
-                                    title: provider.chatList[i].sellerList.name,
-                                    receiverId:
-                                        provider.chatList[i].sellerList.id,
-                                    currentUserId: currentUserId,
-                                    userName:
-                                        provider.chatList[i].sellerList.name,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Row(
+                        provider.isLoading == false
+                            ? provider.chatList.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: Row(
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  provider.chatListImage[i]
-                                                          ['img_url'] ??
-                                                      placeHolderUrl),
-                                              maxRadius: 25,
-                                            ),
-                                            const SizedBox(
-                                              width: 16,
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                color: Colors.transparent,
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      provider.chatList[i]
-                                                          .sellerList.name
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                          fontSize: 16),
+                                      //Search bar
+
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+
+                                      const ChatSearch(),
+
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+
+                                      for (int i = 0;
+                                          i < provider.chatList.length;
+                                          i++)
+                                        InkWell(
+                                          onTap: () async {
+                                            print(
+                                                'clicked on user ID ${provider.chatList[i].sellerList.id}');
+
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            var currentUserId =
+                                                prefs.getInt('userId')!;
+
+                                            //======>
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        ChatMessagePage(
+                                                  title: provider.chatList[i]
+                                                      .sellerList.name,
+                                                  receiverId: provider
+                                                      .chatList[i]
+                                                      .sellerList
+                                                      .id,
+                                                  currentUserId: currentUserId,
+                                                  userName: provider.chatList[i]
+                                                      .sellerList.name,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          CircleAvatar(
+                                                            backgroundImage: NetworkImage(
+                                                                provider.chatListImage[
+                                                                            i][
+                                                                        'img_url'] ??
+                                                                    placeHolderUrl),
+                                                            maxRadius: 25,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 16,
+                                                          ),
+                                                          Expanded(
+                                                            child: Container(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    provider
+                                                                        .chatList[
+                                                                            i]
+                                                                        .sellerList
+                                                                        .name
+                                                                        .toString(),
+                                                                    style: const TextStyle(
+                                                                        fontSize:
+                                                                            16),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              CommonHelper().dividerCommon()
+                                            ],
+                                          ),
                                         ),
-                                      ),
                                     ],
-                                  ),
-                                ),
-                                CommonHelper().dividerCommon()
-                              ],
-                            ),
-                          ),
-
-                        // ==============>
-                        //
+                                  )
+                                : Container(
+                                    height: screenHeight - 200,
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                        'You don\'t have any active conversation'))
+                            : SizedBox(
+                                height: screenHeight - 200,
+                                child:
+                                    OthersHelper().showLoading(cc.primaryColor),
+                              ),
                       ],
-                    )
-                  : SizedBox(
-                      height: screenHeight - 200,
-                      child: OthersHelper().showLoading(cc.primaryColor),
-                    ),
-            ),
+                    )),
           ),
         ),
       ),

@@ -12,6 +12,13 @@ class ChatListService with ChangeNotifier {
   List storeChatList = [];
   List storeChatListImage = [];
 
+  bool isLoading = false;
+
+  setLoadingStatus(bool status) {
+    isLoading = status;
+    notifyListeners();
+  }
+
   setLoadedChatList() {
     chatList = storeChatList;
     chatListImage = storeChatListImage;
@@ -34,8 +41,12 @@ class ChatListService with ChangeNotifier {
       return;
     }
 
+    setLoadingStatus(true);
+
     var response = await http.get(Uri.parse("$baseApi/user/chat/seller-lists"),
         headers: header);
+
+    setLoadingStatus(false);
 
     chatList = [];
     chatListImage = [];
