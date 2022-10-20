@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:qixer/model/chat_messages_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:qixer/service/support_ticket/support_ticket_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -78,7 +77,7 @@ class ChatMessagesService with ChangeNotifier {
 
       notifyListeners();
 
-      Provider.of<SupportTicketService>(context, listen: false)
+      Provider.of<ChatMessagesService>(context, listen: false)
           .setCurrentPage(currentPage);
     } else {}
 
