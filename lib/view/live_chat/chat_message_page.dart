@@ -51,6 +51,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   final secret = 'b1b45c15293e3a02dbaa';
   final cluster = 'ap2';
   final channelName = 'private-chat-message.1';
+  final eventName = 'client-message.sent';
 
   void _scrollDown() {
     _scrollController.animateTo(
@@ -96,8 +97,14 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     print('message received::: $event');
     //add message to message list to show in the ui
     final messageReceived = jsonDecode(event.data)['message']['message'];
+    final receivedUserId = jsonDecode(event.data)['message']['from_user']['id'];
     Provider.of<ChatMessagesService>(context, listen: false)
-        .addNewMessage(messageReceived, null);
+        .addNewMessage(messageReceived, null, receivedUserId);
+  }
+
+  void sendMessageToPusher() async {
+    pusher.trigger(PusherEvent(
+        channelName: channelName, eventName: eventName, data: 'nazmul'));
   }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
@@ -503,6 +510,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             //hide keyboard
                             FocusScope.of(context).unfocus();
                             //send message
+                            sendMessageToPusher();
+                            //=====>
                             provider.sendMessage(widget.receiverId,
                                 sendMessageController.text.trim(), null);
                             //clear input field

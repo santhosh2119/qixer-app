@@ -181,10 +181,9 @@ class ChatMessagesService with ChangeNotifier {
 
       if (response.statusCode == 200) {
         print(response.data);
-        addNewMessage(
-          message,
-          imagePath,
-        );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var currentUserId = prefs.getInt('userId')!;
+        addNewMessage(message, imagePath, currentUserId);
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -198,15 +197,12 @@ class ChatMessagesService with ChangeNotifier {
     }
   }
 
-  addNewMessage(message, imagePath) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var currentUserId = prefs.getInt('userId')!;
-
+  addNewMessage(message, imagePath, userId) async {
     messagesList.insert(0, {
       'id': '',
       'message': message,
       'attachment': null,
-      'fromUser': currentUserId,
+      'fromUser': userId,
       'imagePicked':
           false //check if this image is just got picked from device in that case we will show it from device location
     });
