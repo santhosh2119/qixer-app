@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:qixer/service/live_chat/chat_message_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -32,6 +35,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   @override
   void initState() {
     super.initState();
+    connectToPusher();
   }
 
   bool firstTimeLoading = true;
@@ -41,12 +45,67 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
 
+  PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
+
+  final apiKey = '7d714dc6322556cfdb64';
+  final secret = 'b1b45c15293e3a02dbaa';
+  final cluster = 'ap2';
+  final channelName = 'private-chat-message.1';
+
   void _scrollDown() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent + 10,
       duration: const Duration(milliseconds: 500),
       curve: Curves.fastOutSlowIn,
     );
+  }
+
+  void connectToPusher() async {
+    try {
+      await pusher.init(
+          apiKey: apiKey,
+          cluster: cluster,
+          onEvent: onEvent,
+          onSubscriptionSucceeded: onSubscriptionSucceeded,
+          onConnectionStateChange: onConnectionStateChange,
+          onAuthorizer: onAuthorizer);
+      await pusher.subscribe(channelName: channelName);
+      await pusher.connect();
+    } catch (e) {
+      //if already initialized then just connect to the channel
+      print("ERROR: $e");
+      await pusher.subscribe(channelName: channelName);
+      await pusher.connect();
+    }
+  }
+
+//========>
+  dynamic onAuthorizer(String channelName, String socketId, dynamic options) {
+    var stringToSign = '$socketId:$channelName';
+
+    var hmacSha256 = Hmac(sha256, utf8.encode(secret)); // HMAC-SHA256
+    var digest = hmacSha256.convert(utf8.encode(stringToSign));
+
+    return {
+      "auth": "$apiKey:$digest",
+      "user_data": "{\"id\":\"1\"}",
+    };
+  }
+
+  void onEvent(PusherEvent event) {
+    print('message received::: $event');
+    //add message to message list to show in the ui
+    final messageReceived = jsonDecode(event.data)['message']['message'];
+    Provider.of<ChatMessagesService>(context, listen: false)
+        .addNewMessage(messageReceived, null);
+  }
+
+  void onSubscriptionSucceeded(String channelName, dynamic data) {
+    print("onSubscriptionSucceeded: $channelName data: $data");
+  }
+
+  void onConnectionStateChange(dynamic currentState, dynamic previousState) {
+    print("Connection: $currentState");
   }
 
   XFile? pickedImage;
@@ -69,6 +128,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                   onPressed: () {
                     Provider.of<ChatMessagesService>(context, listen: false)
                         .setMessageListDefault();
+                    pusher.disconnect();
+                    pusher.unsubscribe(channelName: channelName);
                     Navigator.pop(context);
                   },
                   icon: Icon(
@@ -108,6 +169,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
         onWillPop: () {
           Provider.of<ChatMessagesService>(context, listen: false)
               .setMessageListDefault();
+
+          pusher.disconnect();
+          pusher.unsubscribe(channelName: channelName);
           return Future.value(true);
         },
         child:
