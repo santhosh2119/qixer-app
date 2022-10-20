@@ -36,6 +36,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   void initState() {
     super.initState();
     connectToPusher();
+    channelName = 'private-chat-message.${widget.receiverId}';
   }
 
   bool firstTimeLoading = true;
@@ -50,7 +51,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   final apiKey = '7d714dc6322556cfdb64';
   final secret = 'b1b45c15293e3a02dbaa';
   final cluster = 'ap2';
-  final channelName = 'private-chat-message.1';
+  late String channelName;
   final eventName = 'client-message.sent';
 
   void _scrollDown() {
@@ -102,10 +103,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
         .addNewMessage(messageReceived, null, receivedUserId);
   }
 
-  void sendMessageToPusher() async {
-    pusher.trigger(PusherEvent(
-        channelName: channelName, eventName: eventName, data: 'nazmul'));
-  }
+  // void sendMessageToPusher() async {
+  //   pusher.trigger(PusherEvent(
+  //       channelName: channelName, eventName: eventName, data: 'nazmul'));
+  // }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
     print("onSubscriptionSucceeded: $channelName data: $data");
@@ -510,8 +511,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             //hide keyboard
                             FocusScope.of(context).unfocus();
                             //send message
-                            sendMessageToPusher();
-                            //=====>
+
                             provider.sendMessage(widget.receiverId,
                                 sendMessageController.text.trim(), null);
                             //clear input field
