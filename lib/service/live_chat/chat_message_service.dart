@@ -207,4 +207,39 @@ class ChatMessagesService with ChangeNotifier {
     });
     notifyListeners();
   }
+
+  //get pusher credential
+  //======================>
+
+  var apiKey;
+  var secret;
+
+  fetchPusherCredential(BuildContext context) async {
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      // "Content-Type": "application/json"
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.get(
+        Uri.parse("$baseApi/user/chat/pusher/credentials"),
+        headers: header);
+
+    print(response.body);
+
+    if (response.statusCode == 201) {
+      final jsonData = jsonDecode(response.body);
+      apiKey = jsonData['pusher_app_key'];
+      secret = jsonData['pusher_app_secret'];
+      notifyListeners();
+    } else {
+      print(response.body);
+    }
+  }
 }

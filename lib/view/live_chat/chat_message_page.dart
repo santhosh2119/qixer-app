@@ -35,8 +35,12 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   @override
   void initState() {
     super.initState();
+
+    apiKey = Provider.of<ChatMessagesService>(context, listen: false).apiKey;
+    secret = Provider.of<ChatMessagesService>(context, listen: false).secret;
+
     connectToPusher();
-    channelName = 'private-chat-message.${widget.receiverId}';
+    channelName = 'private-chat-message.${widget.currentUserId}';
   }
 
   bool firstTimeLoading = true;
@@ -48,8 +52,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
   PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
-  final apiKey = '7d714dc6322556cfdb64';
-  final secret = 'b1b45c15293e3a02dbaa';
+  late String apiKey;
+  late String secret;
   final cluster = 'ap2';
   late String channelName;
   final eventName = 'client-message.sent';
@@ -136,8 +140,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                   onPressed: () {
                     Provider.of<ChatMessagesService>(context, listen: false)
                         .setMessageListDefault();
-                    pusher.disconnect();
+
                     pusher.unsubscribe(channelName: channelName);
+                    pusher.disconnect();
                     Navigator.pop(context);
                   },
                   icon: Icon(
@@ -178,8 +183,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           Provider.of<ChatMessagesService>(context, listen: false)
               .setMessageListDefault();
 
-          pusher.disconnect();
           pusher.unsubscribe(channelName: channelName);
+          pusher.disconnect();
           return Future.value(true);
         },
         child:

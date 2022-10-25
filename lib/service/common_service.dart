@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/live_chat/chat_message_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -70,4 +71,7 @@ runAtstart(BuildContext context) {
 //fetch translated strings
   Provider.of<AppStringService>(context, listen: false)
       .fetchTranslatedStrings();
+
+  Provider.of<ChatMessagesService>(context, listen: false)
+      .fetchPusherCredential(context);
 }
