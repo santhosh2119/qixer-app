@@ -42,6 +42,8 @@ class _HomepageState extends State<Homepage> {
     Provider.of<ProfileService>(context, listen: false).getProfileDetails();
     Provider.of<SearchBarWithDropdownService>(context, listen: false)
         .fetchStates();
+      Provider.of<ChatMessagesService>(context, listen: false)
+      .fetchPusherCredential(context);
   }
 
   @override

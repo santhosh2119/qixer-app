@@ -72,6 +72,5 @@ runAtstart(BuildContext context) {
   Provider.of<AppStringService>(context, listen: false)
       .fetchTranslatedStrings();
 
-  Provider.of<ChatMessagesService>(context, listen: false)
-      .fetchPusherCredential(context);
+
 }

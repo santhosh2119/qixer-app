@@ -17,6 +17,7 @@ class ChatMessagesService with ChangeNotifier {
 
   bool isloading = false;
   bool sendLoading = false;
+  bool pusherCredentialLoaded = false;
 
   late int totalPages;
   int currentPage = 1;
@@ -217,6 +218,7 @@ class ChatMessagesService with ChangeNotifier {
   fetchPusherCredential(BuildContext context) async {
     var connection = await checkConnection();
     if (!connection) return;
+    if (pusherCredentialLoaded == true) return;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -235,6 +237,7 @@ class ChatMessagesService with ChangeNotifier {
 
     if (response.statusCode == 201) {
       final jsonData = jsonDecode(response.body);
+      pusherCredentialLoaded = true;
       apiKey = jsonData['pusher_app_key'];
       secret = jsonData['pusher_app_secret'];
       notifyListeners();
