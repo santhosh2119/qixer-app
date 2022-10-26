@@ -103,8 +103,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     //add message to message list to show in the ui
     final messageReceived = jsonDecode(event.data)['message']['message'];
     final receivedUserId = jsonDecode(event.data)['message']['from_user']['id'];
-    Provider.of<ChatMessagesService>(context, listen: false)
-        .addNewMessage(messageReceived, null, receivedUserId);
+    if (receivedUserId == widget.receiverId) {
+      Provider.of<ChatMessagesService>(context, listen: false)
+          .addNewMessage(messageReceived, null, receivedUserId);
+    }
   }
 
   // void sendMessageToPusher() async {
