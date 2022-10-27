@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qixer/view/tabs/orders/components/order_details_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -37,8 +38,9 @@ class OrderExtras extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                      child: CommonHelper().buttonOrange('Delete', () {},
-                          bgColor: Colors.red, paddingVerticle: 14)),
+                      child: CommonHelper().buttonOrange('Delete', () {
+                    OrderDetailsHelper().deletePopup(context);
+                  }, bgColor: Colors.red, paddingVerticle: 14)),
                   const SizedBox(
                     width: 15,
                   ),
