@@ -70,15 +70,17 @@ class CommonHelper {
   }
 
   //common orange button =======>
-  buttonOrange(String title, VoidCallback pressed, {isloading = false}) {
+  buttonOrange(String title, VoidCallback pressed,
+      {isloading = false, bgColor, double paddingVerticle = 18}) {
     return InkWell(
       onTap: pressed,
       child: Container(
           width: double.infinity,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 18),
+          padding: EdgeInsets.symmetric(vertical: paddingVerticle),
           decoration: BoxDecoration(
-              color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
+              color: bgColor ?? cc.primaryColor,
+              borderRadius: BorderRadius.circular(8)),
           child: isloading == false
               ? Text(
                   title,
@@ -91,20 +93,21 @@ class CommonHelper {
     );
   }
 
-  borderButtonOrange(String title, VoidCallback pressed) {
+  borderButtonOrange(String title, VoidCallback pressed,
+      {bgColor, double paddingVerticle = 17}) {
     return InkWell(
       onTap: pressed,
       child: Container(
           width: double.infinity,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 17),
+          padding: EdgeInsets.symmetric(vertical: paddingVerticle),
           decoration: BoxDecoration(
-              border: Border.all(color: cc.primaryColor),
+              border: Border.all(color: bgColor ?? cc.primaryColor),
               borderRadius: BorderRadius.circular(8)),
           child: Text(
             title,
             style: TextStyle(
-              color: cc.primaryColor,
+              color: bgColor ?? cc.primaryColor,
               fontSize: 14,
             ),
           )),
@@ -138,11 +141,13 @@ class CommonHelper {
     );
   }
 
-  titleCommon(String title) {
+  titleCommon(String title, {double fontsize = 18}) {
     return Text(
       title,
       style: TextStyle(
-          color: cc.greyPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+          color: cc.greyPrimary,
+          fontSize: fontsize,
+          fontWeight: FontWeight.bold),
     );
   }
 

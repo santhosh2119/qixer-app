@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/view/tabs/orders/components/order_extras.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -271,7 +272,10 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           ),
                                         ]),
                                   ),
-                                  //
+
+                                  // order extras
+                                  // ==============>
+                                  const OrderExtras()
                                 ]),
                           )
                         : CommonHelper().nothingfound(
