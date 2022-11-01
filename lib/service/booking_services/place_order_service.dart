@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
 import 'dart:convert';
 
@@ -13,6 +13,7 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 
 import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/view/booking/payment_success_page.dart';
 
 import 'package:qixer/view/home/landing_page.dart';
@@ -262,23 +263,6 @@ class PlaceOrderService with ChangeNotifier {
       notifyListeners();
     }
 
-    // if (paytmPaymentSelected == true) {
-    //   var paytmRes = await dio.post(
-    //     '$baseApi/service/order',
-    //     data: formData,
-    //   );
-
-    //   print('paytm response is' + paytmRes.data);
-    //   if (paytmRes.statusCode == 200) {
-    //     paytmHtmlForm = paytmRes.data;
-    //     print(paytmHtmlForm);
-    //     notifyListeners();
-    //   }
-    // }
-
-    // =====================>
-    // ===============>
-
     if (response.statusCode == 201) {
       print(response.data);
 
@@ -349,9 +333,9 @@ class PlaceOrderService with ChangeNotifier {
   }
 
   ///////////==========>
-  doNext(BuildContext context, String paymentStatus) {
+  doNext(BuildContext context, String paymentStatus) async {
     //Refresh profile page so that user can see updated total orders
-    Provider.of<ProfileService>(context, listen: false)
+    await Provider.of<ProfileService>(context, listen: false)
         .getProfileDetails(isFromProfileupdatePage: true);
 
     Navigator.of(context).pushAndRemoveUntil(
@@ -369,5 +353,9 @@ class PlaceOrderService with ChangeNotifier {
 
     //reset steps
     Provider.of<BookStepsService>(context, listen: false).setStepsToDefault();
+
+    //Send notification to seller
+    var sellerId = Provider.of<BookService>(context, listen: false).sellerId;
+    PushNotificationService().sendNotificationToSeller(sellerId, context);
   }
 }
