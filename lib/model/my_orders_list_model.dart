@@ -84,7 +84,7 @@ class MyOrder {
   int? country;
   String? date;
   String? schedule;
-  int? packageFee;
+  var packageFee;
   int? extraService;
   int? subTotal;
   double? tax;

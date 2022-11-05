@@ -52,7 +52,7 @@ void main() async {
 
   var publishableKey = await StripeService().getStripeKey();
   Stripe.publishableKey = publishableKey;
-  await Stripe.instance.applySettings();
+  Stripe.instance.applySettings();
 
   await Firebase.initializeApp();
   runApp(const MyApp());

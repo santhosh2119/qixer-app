@@ -77,8 +77,6 @@ class PaypalPaymentState extends State<PaypalPayment> {
             },
           ),
         );
-        // ignore: deprecated_member_use
-        _scaffoldKey.currentState!.showSnackBar(snackBar);
       }
     });
   }

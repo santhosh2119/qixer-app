@@ -69,7 +69,7 @@ class BottomNav extends StatelessWidget {
                   color: currentIndex == 4 ? cc.primaryColor : cc.greyFour,
                   semanticsLabel: 'Acme Logo'),
             ),
-            label: 'Settings',
+            label: 'Menu',
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/live_chat/chat_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/view/jobs/my_jobs_page.dart';
 import 'package:qixer/view/live_chat/chat_list_page.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
@@ -242,6 +243,20 @@ class _SettingsPageState extends State<SettingsPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10),
                                         child: Column(children: [
+                                          SettingsHelper().settingOption(
+                                              'assets/svg/message-circle.svg',
+                                              asProvider.getString("My jobs"),
+                                              () {
+                                            //=====>
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const MyJobsPage(),
+                                              ),
+                                            );
+                                          }),
                                           CommonHelper().dividerCommon(),
                                           SettingsHelper().settingOption(
                                               'assets/svg/message-circle.svg',
