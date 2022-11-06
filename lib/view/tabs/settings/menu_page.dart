@@ -18,14 +18,14 @@ import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../booking/booking_helper.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class MenuPage extends StatefulWidget {
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  _MenuPageState createState() => _MenuPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _MenuPageState extends State<MenuPage> {
   @override
   void initState() {
     super.initState();

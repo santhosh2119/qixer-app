@@ -13,14 +13,14 @@ class MyJobsCardContents extends StatelessWidget {
     required this.cc,
     required this.imageLink,
     required this.title,
-    required this.sellerName,
+    required this.viewCount,
     required this.price,
   }) : super(key: key);
 
   final ConstantColors cc;
   final imageLink;
   final title;
-  final sellerName;
+  final viewCount;
   final price;
 
   @override
@@ -61,21 +61,29 @@ class MyJobsCardContents extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '${asProvider.getString('by')}:',
+                      'Orders: 17',
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: cc.greyFour.withOpacity(.6),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                        color: cc.greyFour,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                       ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Icon(
+                      Icons.remove_red_eye_outlined,
+                      size: 18,
+                      color: cc.successColor,
                     ),
                     const SizedBox(
                       width: 6,
                     ),
                     Text(
-                      sellerName ?? '',
+                      viewCount ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -86,7 +94,7 @@ class MyJobsCardContents extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),

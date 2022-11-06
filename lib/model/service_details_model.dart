@@ -189,7 +189,7 @@ class ServiceDetails {
   int? status;
   int? isServiceOn;
   var price;
-  int? tax;
+  var tax;
   int? view;
   int? soldCount;
   int? featured;
@@ -329,12 +329,12 @@ class BuyerForMobile {
 
   factory BuyerForMobile.fromJson(Map<String, dynamic> json) => BuyerForMobile(
         id: json["id"],
-        image: json["image"] == null ? null : json["image"],
+        image: json["image"] ?? null,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "image": image == null ? null : image,
+        "image": image ?? null,
       };
 }
 
