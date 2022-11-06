@@ -5,6 +5,7 @@ import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/jobs/components/my_jobs_card.dart';
+import 'package:qixer/view/jobs/components/my_jobs_page_appbar.dart';
 import 'package:qixer/view/jobs/components/my_jobs_popup_menu.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -30,9 +31,10 @@ class _MyJobsPageState extends State<MyJobsPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CommonHelper().appbarCommon('My Jobs', context, () {
-        Navigator.pop(context);
-      }),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: MyJobsPageAppbar(),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(

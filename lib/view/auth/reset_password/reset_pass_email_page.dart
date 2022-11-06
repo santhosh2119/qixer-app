@@ -79,7 +79,6 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
 
                         CustomInput(
                           controller: emailController,
-                          maxLength: 190,
                           validation: (value) {
                             if (value == null || value.isEmpty) {
                               return asProvider

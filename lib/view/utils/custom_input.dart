@@ -12,7 +12,6 @@ class CustomInput extends StatelessWidget {
   final bool isNumberField;
   final String? icon;
   final double paddingHorizontal;
-  final int maxLength;
   TextEditingController? controller;
 
   CustomInput(
@@ -26,7 +25,6 @@ class CustomInput extends StatelessWidget {
       this.controller,
       this.validation,
       this.icon,
-      this.maxLength = 45,
       this.paddingHorizontal = 8.0})
       : super(key: key);
 
@@ -38,7 +36,6 @@ class CustomInput extends StatelessWidget {
             borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
           controller: controller,
-          maxLength: maxLength,
           keyboardType:
               isNumberField ? TextInputType.number : TextInputType.text,
           focusNode: focusNode,

@@ -163,7 +163,6 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
 
                                     CustomInput(
                                       controller: emailController,
-                                      maxLength: 190,
                                       validation: (value) {
                                         if (value == null || value.isEmpty) {
                                           return asProvider.getString(

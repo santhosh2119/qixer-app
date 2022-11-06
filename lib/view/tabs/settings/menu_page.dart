@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/live_chat/chat_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/view/jobs/job_request_page.dart';
 import 'package:qixer/view/jobs/my_jobs_page.dart';
 import 'package:qixer/view/live_chat/chat_list_page.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
@@ -247,7 +248,6 @@ class _MenuPageState extends State<MenuPage> {
                                               'assets/svg/message-circle.svg',
                                               asProvider.getString("My jobs"),
                                               () {
-                                            //=====>
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute<void>(
@@ -257,6 +257,24 @@ class _MenuPageState extends State<MenuPage> {
                                               ),
                                             );
                                           }),
+                                          //============>
+                                          CommonHelper().dividerCommon(),
+                                          SettingsHelper().settingOption(
+                                              'assets/svg/message-circle.svg',
+                                              asProvider.getString(
+                                                  "Job requests"), () {
+                                            //=====>
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const JobRequestPage(),
+                                              ),
+                                            );
+                                          }),
+
+                                          //===========>
                                           CommonHelper().dividerCommon(),
                                           SettingsHelper().settingOption(
                                               'assets/svg/message-circle.svg',

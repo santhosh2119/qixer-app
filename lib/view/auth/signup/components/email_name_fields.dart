@@ -63,7 +63,6 @@ class EmailNameFields extends StatelessWidget {
 
         CustomInput(
           controller: emailController,
-          maxLength: 190,
           validation: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
