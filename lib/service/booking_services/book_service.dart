@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 class BookService with ChangeNotifier {
   int? serviceId;
@@ -22,10 +23,10 @@ class BookService with ChangeNotifier {
   String? selectedTime;
   String? weekDay;
 
-  setData(id, title, image, newPrice, sellerNewId) {
+  setData(id, title, newPrice, sellerNewId, {image}) {
     serviceId = id;
     serviceTitle = title;
-    serviceImage = image;
+    serviceImage = image ?? placeHolderUrl;
     totalPrice = newPrice.round();
     sellerId = sellerNewId;
     notifyListeners();

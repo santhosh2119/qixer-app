@@ -25,7 +25,7 @@ class ServiceFilterDropdownHelper {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       // menuMaxHeight: 200,
-                      // isExpanded: true,
+                      isExpanded: true,
                       value: provider.selectedCategory,
                       icon: Icon(Icons.keyboard_arrow_down_rounded,
                           color: cc.greyFour),
@@ -88,7 +88,7 @@ class ServiceFilterDropdownHelper {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           // menuMaxHeight: 200,
-                          // isExpanded: true,
+                          isExpanded: true,
                           value: provider.selectedSubcat,
                           icon: Icon(Icons.keyboard_arrow_down_rounded,
                               color: cc.greyFour),
@@ -150,7 +150,7 @@ class ServiceFilterDropdownHelper {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           // menuMaxHeight: 200,
-                          // isExpanded: true,
+                          isExpanded: true,
                           value: provider.selectedRating,
                           icon: Icon(Icons.keyboard_arrow_down_rounded,
                               color: cc.greyFour),
@@ -213,7 +213,7 @@ class ServiceFilterDropdownHelper {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           // menuMaxHeight: 200,
-                          // isExpanded: true,
+                          isExpanded: true,
                           value: provider.selectedSortby,
                           icon: Icon(Icons.keyboard_arrow_down_rounded,
                               color: cc.greyFour),

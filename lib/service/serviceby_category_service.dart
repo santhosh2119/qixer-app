@@ -44,7 +44,7 @@ class ServiceByCategoryService with ChangeNotifier {
 
   fetchCategoryService(context, categoryId, {bool isrefresh = false}) async {
     //=================>
-    var apiLink;
+    String apiLink;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var stateId = prefs.getString('state');
     if (stateId == null) {
@@ -91,10 +91,10 @@ class ServiceByCategoryService with ChangeNotifier {
         setTotalPage(data.allServices.lastPage);
 
         for (int i = 0; i < data.allServices.data.length; i++) {
-          var serviceImage;
+          String? serviceImage;
 
           if (data.serviceImage.length > i) {
-            serviceImage = data.serviceImage[i].imgUrl;
+            serviceImage = data.serviceImage[i]?.imgUrl;
           } else {
             serviceImage = null;
           }

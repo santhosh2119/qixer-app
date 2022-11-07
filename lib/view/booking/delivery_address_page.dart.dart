@@ -154,7 +154,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                       textInputAction: TextInputAction.next,
                                     ),
                                     const SizedBox(
-                                      height: 2,
+                                      height: 20,
                                     ),
 
                                     //Email ============>
@@ -175,7 +175,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                       textInputAction: TextInputAction.next,
                                     ),
                                     const SizedBox(
-                                      height: 2,
+                                      height: 20,
                                     ),
 
                                     //Phone number field
@@ -228,8 +228,9 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                               //Address ============>
 
                                               const SizedBox(
-                                                height: 2,
+                                                height: 20,
                                               ),
+
                                               CommonHelper().labelCommon(
                                                   asProvider.getString(
                                                       'Your address')),

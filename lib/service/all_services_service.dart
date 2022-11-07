@@ -253,10 +253,10 @@ class AllServicesService with ChangeNotifier {
         setTotalPage(data.allServices.lastPage);
 
         for (int i = 0; i < data.allServices.data.length; i++) {
-          var serviceImage;
+          String? serviceImage;
 
           if (data.serviceImage.length > i) {
-            serviceImage = data.serviceImage[i].imgUrl;
+            serviceImage = data.serviceImage[i]?.imgUrl;
           } else {
             serviceImage = null;
           }

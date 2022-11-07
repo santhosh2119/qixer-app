@@ -146,12 +146,13 @@ class ServiceCard extends StatelessWidget {
                 ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: cc.primaryColor, elevation: 0),
+                        backgroundColor: cc.primaryColor, elevation: 0),
                     onPressed: () {
                       print('service id is $serviceId');
                       //set some data of the service which is clicked, these datas may be needed
                       Provider.of<BookService>(context, listen: false).setData(
-                          serviceId, title, imageLink, price, sellerId);
+                          serviceId, title, price, sellerId,
+                          image: imageLink);
                       //==========>
                       Provider.of<PersonalizationService>(context,
                               listen: false)

@@ -53,78 +53,89 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                     height: 10,
                                   ),
 
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 25),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(9)),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CommonHelper().titleCommon(asProvider
-                                              .getString('Seller Details')),
-                                          const SizedBox(
-                                            height: 25,
-                                          ),
-                                          //Service row
+                                  provider.orderDetails.sellerDetails != null
+                                      ? Container(
+                                          margin:
+                                              const EdgeInsets.only(bottom: 25),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 20),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(9)),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                CommonHelper().titleCommon(
+                                                    asProvider.getString(
+                                                        'Seller Details')),
+                                                const SizedBox(
+                                                  height: 25,
+                                                ),
+                                                //Service row
 
-                                          Container(
-                                            child: BookingHelper().bRow(
-                                                'null',
-                                                asProvider.getString('Name'),
-                                                provider.orderDetails
-                                                    .sellerDetails.name),
-                                          ),
-
-                                          Container(
-                                            child: BookingHelper().bRow(
-                                                'null',
-                                                asProvider.getString('Email'),
-                                                provider.orderDetails
-                                                    .sellerDetails.email),
-                                          ),
-
-                                          Container(
-                                            child: BookingHelper().bRow(
-                                                'null',
-                                                asProvider.getString('Phone'),
-                                                provider.orderDetails
-                                                    .sellerDetails.phone),
-                                          ),
-                                          provider.orderDetails.isOrderOnline ==
-                                                  0
-                                              ? Container(
-                                                  child: BookingHelper().bRow(
-                                                      'null',
-                                                      asProvider.getString(
-                                                          'Post code'),
-                                                      provider
-                                                              .orderDetails
-                                                              .sellerDetails
-                                                              .postCode ??
-                                                          ''),
-                                                )
-                                              : Container(),
-                                          provider.orderDetails.isOrderOnline ==
-                                                  0
-                                              ? Container(
+                                                Container(
                                                   child: BookingHelper().bRow(
                                                       'null',
                                                       asProvider
-                                                          .getString('Address'),
-                                                      provider
-                                                              .orderDetails
-                                                              .sellerDetails
-                                                              .address ??
-                                                          "",
-                                                      lastBorder: false),
-                                                )
-                                              : Container(),
-                                        ]),
-                                  ),
+                                                          .getString('Name'),
+                                                      provider.orderDetails
+                                                          .sellerDetails.name),
+                                                ),
+
+                                                Container(
+                                                  child: BookingHelper().bRow(
+                                                      'null',
+                                                      asProvider
+                                                          .getString('Email'),
+                                                      provider.orderDetails
+                                                          .sellerDetails.email),
+                                                ),
+
+                                                Container(
+                                                  child: BookingHelper().bRow(
+                                                      'null',
+                                                      asProvider
+                                                          .getString('Phone'),
+                                                      provider.orderDetails
+                                                          .sellerDetails.phone),
+                                                ),
+                                                provider.orderDetails
+                                                            .isOrderOnline ==
+                                                        0
+                                                    ? Container(
+                                                        child: BookingHelper().bRow(
+                                                            'null',
+                                                            asProvider.getString(
+                                                                'Post code'),
+                                                            provider
+                                                                    .orderDetails
+                                                                    .sellerDetails
+                                                                    .postCode ??
+                                                                ''),
+                                                      )
+                                                    : Container(),
+                                                provider.orderDetails
+                                                            .isOrderOnline ==
+                                                        0
+                                                    ? Container(
+                                                        child: BookingHelper().bRow(
+                                                            'null',
+                                                            asProvider
+                                                                .getString(
+                                                                    'Address'),
+                                                            provider
+                                                                    .orderDetails
+                                                                    .sellerDetails
+                                                                    .address ??
+                                                                "",
+                                                            lastBorder: false),
+                                                      )
+                                                    : Container(),
+                                              ]),
+                                        )
+                                      : Container(),
 
                                   // Date and schedule
                                   provider.orderDetails.isOrderOnline == 0

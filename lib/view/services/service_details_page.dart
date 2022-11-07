@@ -199,19 +199,26 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                 CommonHelper().buttonOrange(
                                     asProvider.getString('Book Appointment'),
                                     () {
+                                  print(
+                                      'seller id ${provider.serviceAllDetails.serviceDetails.sellerId}');
                                   Provider.of<BookService>(context,
                                           listen: false)
                                       .setData(
-                                          provider.serviceAllDetails
-                                              .serviceDetails.id,
-                                          provider.serviceAllDetails
-                                              .serviceDetails.title,
-                                          provider.serviceAllDetails
-                                              .serviceImage.imgUrl,
-                                          provider.serviceAllDetails
-                                              .serviceDetails.price,
-                                          provider.serviceAllDetails
-                                              .serviceDetails.sellerId);
+                                    provider
+                                        .serviceAllDetails.serviceDetails.id,
+                                    provider
+                                        .serviceAllDetails.serviceDetails.title,
+                                    provider
+                                        .serviceAllDetails.serviceDetails.price,
+                                    provider.serviceAllDetails.serviceDetails
+                                        .sellerId,
+                                    image: provider.serviceAllDetails
+                                                .serviceImage !=
+                                            null
+                                        ? provider.serviceAllDetails
+                                            .serviceImage.imgUrl
+                                        : placeHolderUrl,
+                                  );
 
                                   //==========>
                                   Provider.of<PersonalizationService>(context,
