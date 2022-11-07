@@ -18,15 +18,20 @@ class RecentServiceModel {
   });
 
   List<LatestService> latestServices;
-  List<Image> serviceImage;
+  List<Image?> serviceImage;
   List<dynamic> reviewerImage;
 
   factory RecentServiceModel.fromJson(Map<String, dynamic> json) =>
       RecentServiceModel(
         latestServices: List<LatestService>.from(
             json["latest_services"].map((x) => LatestService.fromJson(x))),
-        serviceImage: List<Image>.from(
-            json["service_image"].map((x) => Image.fromJson(x))),
+        serviceImage: List<Image?>.from(json["service_image"].map((x) {
+          if (x is List) {
+            return null;
+          } else {
+            return Image?.fromJson(x);
+          }
+        })),
         reviewerImage: List<dynamic>.from(json["reviewer_image"].map((x) => x)),
       );
 
@@ -34,7 +39,7 @@ class RecentServiceModel {
         "latest_services":
             List<dynamic>.from(latestServices.map((x) => x.toJson())),
         "service_image":
-            List<dynamic>.from(serviceImage.map((x) => x.toJson())),
+            List<dynamic>.from(serviceImage.map((x) => x?.toJson())),
         "reviewer_image": List<dynamic>.from(reviewerImage.map((x) => x)),
       };
 }
@@ -129,12 +134,12 @@ class BuyerForMobile {
 
   factory BuyerForMobile.fromJson(Map<String, dynamic> json) => BuyerForMobile(
         id: json["id"],
-        image: json["image"] == null ? null : json["image"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "image": image == null ? null : image,
+        "image": image,
       };
 }
 
@@ -180,11 +185,11 @@ class Image {
   String? imgUrl;
   dynamic imgAlt;
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
-        imageId: json["image_id"],
-        path: json["path"],
-        imgUrl: json["img_url"],
-        imgAlt: json["img_alt"],
+  factory Image.fromJson(Map<String, dynamic>? json) => Image(
+        imageId: json?["image_id"],
+        path: json?["path"],
+        imgUrl: json?["img_url"],
+        imgAlt: json?["img_alt"],
       );
 
   Map<String, dynamic> toJson() => {

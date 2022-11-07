@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/services/services_of_user.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 import '../service_helper.dart';
 
@@ -32,7 +33,8 @@ class AboutSellerTab extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
                 child: CachedNetworkImage(
                   imageUrl:
-                      provider.serviceAllDetails.serviceSellerImage.imgUrl,
+                      provider.serviceAllDetails.serviceSellerImage.imgUrl ??
+                          userPlaceHolderUrl,
                   placeholder: (context, url) {
                     return Image.asset('assets/images/placeholder.png');
                   },

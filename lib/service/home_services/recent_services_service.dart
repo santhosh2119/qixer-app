@@ -16,7 +16,7 @@ class RecentServicesService with ChangeNotifier {
 
   fetchRecentService() async {
     if (recentServiceMap.isEmpty) {
-      var apiLink;
+      String apiLink;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var stateId = prefs.getString('state');
       if (stateId == null) {
@@ -44,9 +44,9 @@ class RecentServicesService with ChangeNotifier {
           //==============>
 
           for (int i = 0; i < data.latestServices.length; i++) {
-            var serviceImage;
+            String? serviceImage;
             if (data.serviceImage.length > i) {
-              serviceImage = data.serviceImage[i].imgUrl;
+              serviceImage = data.serviceImage[i]?.imgUrl;
             } else {
               serviceImage = null;
             }

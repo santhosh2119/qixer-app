@@ -80,8 +80,13 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                   ImageBig(
                                     serviceName:
                                         asProvider.getString('Service Name'),
-                                    imageLink: provider
-                                        .serviceAllDetails.serviceImage.imgUrl,
+                                    imageLink: provider.serviceAllDetails
+                                                .serviceImage !=
+                                            null
+                                        ? provider.serviceAllDetails
+                                                .serviceImage.imgUrl ??
+                                            placeHolderUrl
+                                        : placeHolderUrl,
                                   ),
 
                                   const SizedBox(
