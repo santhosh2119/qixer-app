@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/model/recent_service_model.dart';
 import 'package:qixer/model/serviceby_category_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/db/db_service.dart';
@@ -174,19 +173,11 @@ class ServiceByCategoryService with ChangeNotifier {
     notifyListeners();
   }
 
-  saveOrUnsave(
-      int serviceId,
-      String title,
-      String image,
-      int price,
-      String sellerName,
-      double rating,
-      int index,
-      BuildContext context,
-      sellerId) async {
+  saveOrUnsave(int serviceId, String title, image, int price, String sellerName,
+      double rating, int index, BuildContext context, sellerId) async {
     var newListMap = serviceMap;
-    alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context, sellerId);
+    alreadySaved = await DbService().saveOrUnsave(serviceId, title,
+        image ?? placeHolderUrl, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     serviceMap = newListMap;
     notifyListeners();

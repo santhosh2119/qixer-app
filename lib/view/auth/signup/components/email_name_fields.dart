@@ -36,7 +36,7 @@ class EmailNameFields extends StatelessWidget {
           textInputAction: TextInputAction.next,
         ),
         const SizedBox(
-          height: 8,
+          height: 18,
         ),
 
         //User name ============>
@@ -55,7 +55,7 @@ class EmailNameFields extends StatelessWidget {
           textInputAction: TextInputAction.next,
         ),
         const SizedBox(
-          height: 8,
+          height: 18,
         ),
 
         //Email ============>

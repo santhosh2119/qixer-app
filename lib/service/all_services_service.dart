@@ -331,19 +331,11 @@ class AllServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  saveOrUnsave(
-      int serviceId,
-      String title,
-      String image,
-      int price,
-      String sellerName,
-      double rating,
-      int index,
-      BuildContext context,
-      sellerId) async {
+  saveOrUnsave(int serviceId, String title, image, int price, String sellerName,
+      double rating, int index, BuildContext context, sellerId) async {
     var newListMap = serviceMap;
-    alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context, sellerId);
+    alreadySaved = await DbService().saveOrUnsave(serviceId, title,
+        image ?? placeHolderUrl, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     serviceMap = newListMap;
     notifyListeners();

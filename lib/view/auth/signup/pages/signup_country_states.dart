@@ -93,7 +93,9 @@ class _SignupCountryStatesState extends State<SignupCountryStates> {
                               context,
                               listen: false)
                           .selectedAreaId;
-                      if (selectedStateId == '0' || selectedAreaId == '0') {
+                      if (selectedStateId == '0' ||
+                          selectedAreaId == '0' ||
+                          selectedAreaId == null) {
                         OthersHelper().showSnackBar(
                             context,
                             asProvider

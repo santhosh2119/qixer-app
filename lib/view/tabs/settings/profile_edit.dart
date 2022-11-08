@@ -217,7 +217,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             textInputAction: TextInputAction.next,
                           ),
                           const SizedBox(
-                            height: 8,
+                            height: 18,
                           ),
 
                           //Email ============>
@@ -239,7 +239,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           ),
 
                           const SizedBox(
-                            height: 8,
+                            height: 18,
                           ),
                         ],
                       ),
@@ -283,7 +283,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         ],
                       ),
                       const SizedBox(
-                        height: 3,
+                        height: 18,
                       ),
 
                       //dropdowns

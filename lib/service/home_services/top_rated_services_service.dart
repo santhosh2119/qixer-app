@@ -16,7 +16,7 @@ class TopRatedServicesSerivce with ChangeNotifier {
   fetchTopService() async {
     if (topServiceMap.isEmpty) {
       //=================>
-      var apiLink;
+      String apiLink;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var stateId = prefs.getString('state');
       if (stateId == null) {
@@ -35,10 +35,10 @@ class TopRatedServicesSerivce with ChangeNotifier {
           var data = TopServiceModel.fromJson(jsonDecode(response.body));
 
           for (int i = 0; i < data.topServices.length; i++) {
-            var serviceImage;
+            String? serviceImage;
 
             if (data.serviceImage.length > i) {
-              serviceImage = data.serviceImage[i].imgUrl;
+              serviceImage = data.serviceImage[i]?.imgUrl;
             } else {
               serviceImage = null;
             }
@@ -103,19 +103,11 @@ class TopRatedServicesSerivce with ChangeNotifier {
     notifyListeners();
   }
 
-  saveOrUnsave(
-      int serviceId,
-      String title,
-      String image,
-      int price,
-      String sellerName,
-      double rating,
-      int index,
-      BuildContext context,
-      sellerId) async {
+  saveOrUnsave(int serviceId, String title, image, int price, String sellerName,
+      double rating, int index, BuildContext context, sellerId) async {
     var newListMap = topServiceMap;
-    alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context, sellerId);
+    alreadySaved = await DbService().saveOrUnsave(serviceId, title,
+        image ?? placeHolderUrl, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     topServiceMap = newListMap;
     notifyListeners();

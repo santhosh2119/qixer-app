@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:qixer/model/all_city_dropdown_model.dart';
 import 'package:qixer/model/search_bar_with_dropdown_service_model.dart';
 import 'package:qixer/service/common_service.dart';
@@ -94,7 +93,7 @@ class SearchBarWithDropdownService with ChangeNotifier {
   fetchService(context, String searchText) async {
     var connection = await checkConnection();
     if (connection) {
-      var data;
+      String data;
       if (selectedCityId == 0) {
         if (userStateId == null) {
           //if user doesn't have any state id (meaning, he logged in using google or facebook)
@@ -135,10 +134,10 @@ class SearchBarWithDropdownService with ChangeNotifier {
         print(data.serviceImage);
 
         for (int i = 0; i < data.services.length; i++) {
-          var serviceImage;
+          String? serviceImage;
 
           if (data.serviceImage.length > i) {
-            serviceImage = data.serviceImage[i].imgUrl;
+            serviceImage = data.serviceImage[i]?.imgUrl;
           } else {
             serviceImage = null;
           }
@@ -181,19 +180,11 @@ class SearchBarWithDropdownService with ChangeNotifier {
     }
   }
 
-  saveOrUnsave(
-      int serviceId,
-      String title,
-      String image,
-      int price,
-      String sellerName,
-      double rating,
-      int index,
-      BuildContext context,
-      sellerId) async {
+  saveOrUnsave(int serviceId, String title, image, int price, String sellerName,
+      double rating, int index, BuildContext context, sellerId) async {
     var newListMap = serviceMap;
-    alreadySaved = await DbService().saveOrUnsave(
-        serviceId, title, image, price, sellerName, rating, context, sellerId);
+    alreadySaved = await DbService().saveOrUnsave(serviceId, title,
+        image ?? placeHolderUrl, price, sellerName, rating, context, sellerId);
     newListMap[index]['isSaved'] = alreadySaved;
     serviceMap = newListMap;
     notifyListeners();

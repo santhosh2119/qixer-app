@@ -53,7 +53,7 @@ class _SignupEmailNameState extends State<SignupEmailName> {
                   fullNameController: widget.fullNameController,
                   userNameController: widget.userNameController),
               const SizedBox(
-                height: 8,
+                height: 18,
               ),
 
               //Login button ==================>
