@@ -3,7 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer/model/order_details_model.dart';
+import 'package:qixer/model/order_extra_model.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -14,15 +16,16 @@ class OrderDetailsService with ChangeNotifier {
 
   var orderStatus;
 
+  List orderExtra = [];
+
   bool isLoading = true;
 
-  setLoadingTrue() {
-    Future.delayed(Duration(seconds: 1), () {
-      isLoading = true;
-    });
+  setLoadingStatus(bool status) {
+    isLoading = status;
+    notifyListeners();
   }
 
-  fetchOrderDetails(orderId) async {
+  fetchOrderDetails(orderId, BuildContext context) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -37,6 +40,8 @@ class OrderDetailsService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
+
+      setLoadingStatus(true);
       var response = await http
           .post(Uri.parse('$baseApi/user/my-orders/$orderId'), headers: header);
 
@@ -50,20 +55,60 @@ class OrderDetailsService with ChangeNotifier {
 
         orderStatus = getOrderStatus(status ?? -1);
 
-        isLoading = false;
+        Provider.of<OrderDetailsService>(context, listen: false)
+            .fetchOrderExtraList(orderId);
+
         notifyListeners();
-        setLoadingTrue();
         return orderDetails;
       } else {
         //Something went wrong
         orderDetails = 'error';
-        isLoading = false;
         notifyListeners();
-        setLoadingTrue();
         return orderDetails;
       }
     }
   }
+
+  //fetch order extra list
+  fetchOrderExtraList(orderId) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+      var response = await http.get(
+          Uri.parse('$baseApi/user/order/extra-service/list/$orderId'),
+          headers: header);
+
+      final decodedData = jsonDecode(response.body);
+
+      isLoading = false;
+
+      print(response.body);
+
+      if (response.statusCode == 201 &&
+          decodedData.containsKey('extra_service_list')) {
+        var data = OrderExtraModel.fromJson(decodedData);
+
+        orderExtra = data.extraServiceList;
+
+        notifyListeners();
+      } else {
+        print('error fetching order extra ${response.body}');
+      }
+    }
+  }
+
+  //=========>
 
   getOrderStatus(int status) {
     if (status == 0) {

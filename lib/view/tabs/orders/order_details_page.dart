@@ -24,7 +24,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
   void initState() {
     super.initState();
     Provider.of<OrderDetailsService>(context, listen: false)
-        .fetchOrderDetails(widget.orderId);
+        .fetchOrderDetails(widget.orderId, context);
   }
 
   ConstantColors cc = ConstantColors();
@@ -286,7 +286,9 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
 
                                   // order extras
                                   // ==============>
-                                  const OrderExtras()
+                                  OrderExtras(
+                                    orderId: widget.orderId,
+                                  )
                                 ]),
                           )
                         : CommonHelper().nothingfound(

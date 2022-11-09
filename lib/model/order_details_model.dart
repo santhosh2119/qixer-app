@@ -133,7 +133,7 @@ class OrderInfo {
         couponAmount: json?["coupon_amount"],
         commissionType: json?["commission_type"],
         commissionCharge: json?["commission_charge"],
-        commissionAmount: json?["commission_amount"].toDouble(),
+        commissionAmount: json?["commission_amount"]?.toDouble(),
         paymentGateway: json?["payment_gateway"],
         paymentStatus: json?["payment_status"],
         status: json?["status"],
