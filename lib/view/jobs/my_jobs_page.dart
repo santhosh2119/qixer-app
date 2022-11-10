@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/service/rtl_service.dart';
@@ -25,6 +26,9 @@ class _MyJobsPageState extends State<MyJobsPage> {
     super.initState();
   }
 
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: true);
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -36,141 +40,210 @@ class _MyJobsPageState extends State<MyJobsPage> {
         child: MyJobsPageAppbar(),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-              padding: EdgeInsets.symmetric(horizontal: screenPadding),
-              clipBehavior: Clip.none,
-              child: Consumer<AppStringService>(
-                builder: (context, asProvider, child) =>
-                    Consumer<MyJobsService>(
-                  builder: (context, provider, child) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        sizedBoxCustom(10),
-                        Column(
-                          children: [
-                            for (int i = 0;
-                                i < provider.myJobsListMap.length;
-                                i++)
-                              Container(
-                                alignment: Alignment.center,
-                                margin: const EdgeInsets.only(bottom: 20),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: cc.borderColor),
-                                    borderRadius: BorderRadius.circular(9)),
-                                padding:
-                                    const EdgeInsets.fromLTRB(13, 0, 13, 4),
-                                child: Column(
-                                  children: [
-                                    //popup button
-                                    //==============>
-                                    const MyJobsPopupMenu(),
+        child: SmartRefresher(
+          controller: refreshController,
+          enablePullUp: true,
+          enablePullDown:
+              context.watch<MyJobsService>().currentPage > 1 ? false : true,
+          onRefresh: () async {
+            final result =
+                await Provider.of<MyJobsService>(context, listen: false)
+                    .fetchMyJobs(context);
+            if (result) {
+              refreshController.refreshCompleted();
+            } else {
+              refreshController.refreshFailed();
+            }
+          },
+          onLoading: () async {
+            final result =
+                await Provider.of<MyJobsService>(context, listen: false)
+                    .fetchMyJobs(context);
+            if (result) {
+              debugPrint('loadcomplete ran');
+              //loadcomplete function loads the data again
+              refreshController.loadComplete();
+            } else {
+              debugPrint('no more data');
+              refreshController.loadNoData();
 
-                                    MyJobsCardContents(
-                                      cc: cc,
-                                      imageLink: placeHolderUrl,
-                                      title: provider.myJobsListMap[i]['title'],
-                                      viewCount: '173',
-                                      price: 100,
-                                    ),
-                                    const SizedBox(
-                                      height: 18,
-                                    ),
-                                    CommonHelper().dividerCommon(),
-                                    sizedBoxCustom(3),
-                                    Row(
+              Future.delayed(const Duration(seconds: 1), () {
+                //it will reset footer no data state to idle and will let us load again
+                refreshController.resetNoData();
+              });
+            }
+          },
+          child: SingleChildScrollView(
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: screenPadding),
+                clipBehavior: Clip.none,
+                child: Consumer<AppStringService>(
+                  builder: (context, asProvider, child) =>
+                      Consumer<MyJobsService>(
+                    builder: (context, provider, child) => provider.isLoading ==
+                            false
+                        ? provider.myJobsListMap.isNotEmpty
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    sizedBoxCustom(10),
+                                    Column(
                                       children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              AutoSizeText(
-                                                '${asProvider.getString('Starts from')}:',
-                                                textAlign: TextAlign.start,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: cc.greyFour
-                                                      .withOpacity(.6),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 6,
-                                              ),
-                                              Consumer<RtlService>(
-                                                builder:
-                                                    (context, rtlP, child) =>
-                                                        Expanded(
-                                                  child: AutoSizeText(
-                                                    rtlP.currencyDirection ==
-                                                            'left'
-                                                        ? '${rtlP.currency} ${provider.myJobsListMap[i]['price']}'
-                                                        : '${provider.myJobsListMap[i]['price']}${rtlP.currency}',
-                                                    textAlign: TextAlign.start,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      color: cc.greyFour,
-                                                      fontSize: 19,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                        for (int i = 0;
+                                            i < provider.myJobsListMap.length;
+                                            i++)
+                                          InkWell(
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () {
+                                              print(provider.myJobsListMap[i]
+                                                      ['id']
+                                                  .toString());
+                                            },
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 20),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: cc.borderColor),
+                                                  borderRadius:
+                                                      BorderRadius.circular(9)),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      13, 0, 13, 4),
+                                              child: Column(
+                                                children: [
+                                                  //popup button
+                                                  //==============>
+                                                  MyJobsPopupMenu(
+                                                    jobId: provider
+                                                        .myJobsListMap[i]['id'],
+                                                    imageLink:
+                                                        provider.imageList[i],
                                                   ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
 
-                                        //on off button
-                                        Switch(
-                                          // This bool value toggles the switch.
-                                          value: provider.myJobsListMap[i]
-                                              ['isActive'],
-                                          activeColor: cc.successColor,
-                                          onChanged: (bool value) {
-                                            provider.setActiveStatus(value, i);
-                                          },
-                                        ),
+                                                  MyJobsCardContents(
+                                                    cc: cc,
+                                                    imageLink:
+                                                        provider.imageList[i],
+                                                    title: provider
+                                                            .myJobsListMap[i]
+                                                        ['title'],
+                                                    viewCount: provider
+                                                            .myJobsListMap[i]
+                                                        ['viewCount'],
+                                                    price: provider
+                                                            .myJobsListMap[i]
+                                                        ['price'],
+                                                  ),
+
+                                                  const SizedBox(
+                                                    height: 18,
+                                                  ),
+
+                                                  CommonHelper()
+                                                      .dividerCommon(),
+                                                  sizedBoxCustom(3),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            AutoSizeText(
+                                                              '${asProvider.getString('Starts from')}:',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                color: cc
+                                                                    .greyFour
+                                                                    .withOpacity(
+                                                                        .6),
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 6,
+                                                            ),
+                                                            Consumer<
+                                                                RtlService>(
+                                                              builder: (context,
+                                                                      rtlP,
+                                                                      child) =>
+                                                                  Expanded(
+                                                                child:
+                                                                    AutoSizeText(
+                                                                  rtlP.currencyDirection ==
+                                                                          'left'
+                                                                      ? '${rtlP.currency} ${provider.myJobsListMap[i]['price']}'
+                                                                      : '${provider.myJobsListMap[i]['price']}${rtlP.currency}',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .start,
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: cc
+                                                                        .greyFour,
+                                                                    fontSize:
+                                                                        19,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                      //on off button
+                                                      Switch(
+                                                        // This bool value toggles the switch.
+                                                        value: provider
+                                                                .myJobsListMap[
+                                                            i]['isActive'],
+                                                        activeColor:
+                                                            cc.successColor,
+                                                        onChanged:
+                                                            (bool value) {
+                                                          provider
+                                                              .setActiveStatus(
+                                                                  value, i);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
                                       ],
                                     )
-                                  ],
-                                ),
-                              )
-                          ],
-                        )
 
-                        //
-                      ]),
-                ),
-              )),
+                                    //
+                                  ])
+                            : OthersHelper()
+                                .showError(context, msg: 'No jobs found')
+                        : Container(),
+                  ),
+                )),
+          ),
         ),
       ),
     );
   }
 }
-
-// class SwitchButton extends StatefulWidget {
-//   const SwitchButton({Key? key, required this.switchOn}) : super(key: key);
-
-//   final bool switchOn;
-
-//   @override
-//   State<SwitchButton> createState() => _SwitchButtonState();
-// }
-
-// class _SwitchButtonState extends State<SwitchButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final cc = ConstantColors();
-//     return Switch(
-//       // This bool value toggles the switch.
-//       value: widget.switchOn,
-//       activeColor: cc.successColor,
-//       onChanged: (bool value) {},
-//     );
-//   }
-// }

@@ -4,6 +4,7 @@ import 'package:qixer/view/jobs/job_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 class JobRequestPage extends StatefulWidget {
   const JobRequestPage({Key? key}) : super(key: key);
@@ -73,7 +74,9 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                   context,
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
-                                        const JobDetailsPage(),
+                                        JobDetailsPage(
+                                      imageLink: placeHolderUrl,
+                                    ),
                                   ),
                                 );
                               });

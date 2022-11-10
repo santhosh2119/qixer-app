@@ -29,10 +29,7 @@ class MyJobsCardContents extends StatelessWidget {
       builder: (context, asProvider, child) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CommonHelper().profileImage(
-              'https://cdn.pixabay.com/photo/2022/10/23/00/05/flower-7540214__480.jpg',
-              75,
-              78),
+          CommonHelper().profileImage(imageLink, 75, 78),
           const SizedBox(
             width: 13,
           ),
@@ -42,7 +39,7 @@ class MyJobsCardContents extends StatelessWidget {
               children: [
                 //service name ======>
                 Text(
-                  title,
+                  title.toString(),
                   textAlign: TextAlign.start,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -58,22 +55,23 @@ class MyJobsCardContents extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+
                 Row(
                   children: [
-                    Text(
-                      'Orders: 17',
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
+                    // Text(
+                    //   'Orders: 17',
+                    //   textAlign: TextAlign.start,
+                    //   maxLines: 1,
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: TextStyle(
+                    //     color: cc.greyFour,
+                    //     fontSize: 13,
+                    //     fontWeight: FontWeight.w600,
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   width: 16,
+                    // ),
                     Icon(
                       Icons.remove_red_eye_outlined,
                       size: 18,
@@ -83,7 +81,7 @@ class MyJobsCardContents extends StatelessWidget {
                       width: 6,
                     ),
                     Text(
-                      viewCount ?? '',
+                      viewCount.toString(),
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

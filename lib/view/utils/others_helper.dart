@@ -7,7 +7,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 
 String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
 
-String placeHolderUrl = 'https://i.postimg.cc/3RKkSRDb/placeholder.png';
+String placeHolderUrl = 'https://i.postimg.cc/rpsKNndW/New-Project.png';
 String userPlaceHolderUrl =
     'https://i.postimg.cc/ZYQp5Xv1/blank-profile-picture-gb26b7fbdf-1280.png';
 
@@ -22,11 +22,11 @@ class OthersHelper with ChangeNotifier {
     );
   }
 
-  showError(BuildContext context) {
+  showError(BuildContext context, {String msg = "Something went wrong"}) {
     return Container(
         height: MediaQuery.of(context).size.height - 180,
         alignment: Alignment.center,
-        child: const Text("Something went wrong"));
+        child: Text(msg));
   }
 
   void showToast(String msg, Color? color) {

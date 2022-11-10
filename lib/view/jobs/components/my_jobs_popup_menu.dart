@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/view/jobs/components/my_jobs_helper.dart';
 import 'package:qixer/view/jobs/job_details_page.dart';
 
 class MyJobsPopupMenu extends StatelessWidget {
   const MyJobsPopupMenu({
     Key? key,
+    required this.jobId,
+    required this.imageLink,
   }) : super(key: key);
+
+  final jobId;
+  final imageLink;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class MyJobsPopupMenu extends StatelessWidget {
               PopupMenuItem(
                 onTap: () {
                   Future.delayed(Duration.zero, () {
-                    navigate(i, context);
+                    navigate(i, context, jobId, imageLink);
                   });
                 },
                 child: Text(popupMenuList[i]),
@@ -31,14 +38,20 @@ class MyJobsPopupMenu extends StatelessWidget {
     );
   }
 
-  navigate(int i, BuildContext context) {
+  navigate(int i, BuildContext context, jobId, imageLink) {
     if (i == 0) {
-      return Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => const JobDetailsPage(),
-        ),
-      );
+      Provider.of<MyJobsService>(context, listen: false)
+          .fetchJobDetails(jobId, context);
+      Future.delayed(const Duration(microseconds: 500), () {
+        return Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => JobDetailsPage(
+              imageLink: imageLink,
+            ),
+          ),
+        );
+      });
     } else if (i == 1) {
       // return Navigator.push(
       //   context,

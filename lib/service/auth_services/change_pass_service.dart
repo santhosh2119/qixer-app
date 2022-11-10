@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -34,7 +33,7 @@ class ChangePassService with ChangeNotifier {
         //internet connection is on
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var token = prefs.getString('token');
-        var email = prefs.getString('token');
+
         var header = {
           //if header type is application/json then the data should be in jsonEncode method
           "Accept": "application/json",
