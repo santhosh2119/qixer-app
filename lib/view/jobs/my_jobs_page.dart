@@ -36,7 +36,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(80),
+        preferredSize: Size.fromHeight(60),
         child: MyJobsPageAppbar(),
       ),
       body: SafeArea(
