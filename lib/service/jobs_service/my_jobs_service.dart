@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyJobsService with ChangeNotifier {
-  List myJobsListMap = [];
+  var myJobsListMap = [];
   List imageList = [];
 
   bool isLoading = true;
@@ -92,14 +92,16 @@ class MyJobsService with ChangeNotifier {
 
         setTotalPage(data.jobLists.lastPage);
 
-        for (int i = 0; i < data.jobLists.data.length; i++) {
+        for (int i = 0; i < data.jobImage.length; i++) {
           String? serviceImage;
 
-          if (data.jobImage.length > i) {
-            serviceImage = data.jobImage[i]?.imgUrl ?? placeHolderUrl;
+          if (i == 0) {
+            //api giving an unnecessary null for first one, so skip it
+            continue;
           } else {
-            serviceImage = null;
+            serviceImage = data.jobImage[i]?.imgUrl ?? placeHolderUrl;
           }
+
           imageList.add(serviceImage);
         }
 
