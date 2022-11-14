@@ -39,6 +39,13 @@ class MyJobsService with ChangeNotifier {
     notifyListeners();
   }
 
+  setDefault() {
+    myJobsListMap = [];
+    imageList = [];
+    currentPage = 1;
+    notifyListeners();
+  }
+
   fetchMyJobs(context, {bool isrefresh = false}) async {
     if (isrefresh) {
       //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)

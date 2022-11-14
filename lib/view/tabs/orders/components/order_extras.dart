@@ -37,11 +37,11 @@ class OrderExtras extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CommonHelper().titleCommon(
-                              provider.orderExtra[i]['title'],
+                              provider.orderExtra[i].title,
                               fontsize: 15),
                           sizedBoxCustom(5),
                           CommonHelper().paragraphCommon(
-                              'Unit price: \$${provider.orderExtra[i]['price'].toStringAsFixed(2)}    Quantity: ${provider.orderExtra[i]['quantity']}    Total: \$${provider.orderExtra[i]['total'].toStringAsFixed(2)}',
+                              'Unit price: \$${provider.orderExtra[i].price.toStringAsFixed(2)}    Quantity: ${provider.orderExtra[i].quantity}    Total: \$${provider.orderExtra[i].total.toStringAsFixed(2)}',
                               TextAlign.left),
                           sizedBoxCustom(12),
                           Row(

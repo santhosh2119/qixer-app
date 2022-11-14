@@ -91,7 +91,7 @@ class OrderDetailsService with ChangeNotifier {
 
       final decodedData = jsonDecode(response.body);
 
-      isLoading = false;
+      setLoadingStatus(false);
 
       print(response.body);
 

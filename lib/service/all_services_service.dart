@@ -13,14 +13,14 @@ import 'package:qixer/view/utils/others_helper.dart';
 class AllServicesService with ChangeNotifier {
   bool isLoading = true;
 
-  var categoryDropdownList = ['All'];
+  var categoryDropdownList = ['Select Category'];
   var categoryDropdownIndexList = [0];
-  var selectedCategory = 'All';
+  var selectedCategory = 'Select Category';
   var selectedCategoryId = 0;
 
-  var subcatDropdownList = ['All'];
+  var subcatDropdownList = ['Select Subcategory'];
   var subcatDropdownIndexList = [0];
-  var selectedSubcat = 'All';
+  var selectedSubcat = 'Select Subcategory';
   var selectedSubcatId = 0;
 
   var ratingDropdownList = [
@@ -106,9 +106,9 @@ class AllServicesService with ChangeNotifier {
   }
 
   defaultSubcategory() {
-    subcatDropdownList = ['All'];
+    subcatDropdownList = ['Select Subcategory'];
     subcatDropdownIndexList = [0];
-    selectedSubcat = 'All';
+    selectedSubcat = 'Select Subcategory';
     selectedSubcatId = 0;
     notifyListeners();
   }

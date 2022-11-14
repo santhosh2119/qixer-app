@@ -26,7 +26,6 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_all_services_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
-import 'package:qixer/service/jobs_service/job_create_dropdown_service.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/live_chat/chat_list_service.dart';
@@ -120,7 +119,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChatListService()),
         ChangeNotifierProvider(create: (_) => ChatMessagesService()),
         ChangeNotifierProvider(create: (_) => MyJobsService()),
-        ChangeNotifierProvider(create: (_) => JobCreateDropdownService()),
         ChangeNotifierProvider(create: (_) => CreateJobService()),
       ],
       child: MaterialApp(
