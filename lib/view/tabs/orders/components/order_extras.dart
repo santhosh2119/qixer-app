@@ -49,7 +49,9 @@ class OrderExtras extends StatelessWidget {
                               Expanded(
                                   child:
                                       CommonHelper().buttonOrange('Delete', () {
-                                OrderDetailsHelper().deletePopup(context);
+                                OrderDetailsHelper().deletePopup(context,
+                                    extraId: provider.orderExtra[i].title,
+                                    orderId: orderId);
                               }, bgColor: Colors.red, paddingVerticle: 14)),
                               const SizedBox(
                                 width: 15,
