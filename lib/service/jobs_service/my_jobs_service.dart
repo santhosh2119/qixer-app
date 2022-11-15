@@ -192,4 +192,41 @@ class MyJobsService with ChangeNotifier {
       }
     }
   }
+
+  // ==============>
+  //job on off
+  jobOnOff(BuildContext context, {required index, required jobId}) async {
+    var connection = await checkConnection();
+    if (!connection) return;
+    //internet connection is on
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var data = jsonEncode({'job_post_id': jobId});
+
+    var response = await http.post(Uri.parse('$baseApi/user/job/on-off'),
+        headers: header, body: data);
+
+    print(response.body);
+
+    if (response.statusCode == 201) {
+      final decodedData = jsonDecode(response.body);
+      final statusData = decodedData['status'];
+
+      final bool status;
+      if (statusData == 1) {
+        status = true;
+      } else {
+        status = false;
+      }
+
+      setActiveStatus(status, index);
+    } else {}
+  }
 }

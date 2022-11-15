@@ -230,6 +230,12 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                           provider
                                                               .setActiveStatus(
                                                                   value, i);
+                                                          provider.jobOnOff(
+                                                              context,
+                                                              index: i,
+                                                              jobId: provider
+                                                                      .myJobsListMap[
+                                                                  i]['id']);
                                                         },
                                                       ),
                                                     ],

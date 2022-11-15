@@ -57,8 +57,12 @@ class OrderExtras extends StatelessWidget {
                                 width: 15,
                               ),
                               Expanded(
-                                  child: CommonHelper().buttonOrange(
-                                      'Accept', () {},
+                                  child: CommonHelper().buttonOrange('Accept',
+                                      () {
+                                provider.setExtraAndOrderId(
+                                    orderId: orderId,
+                                    extraId: provider.orderExtra[i].id);
+                              },
                                       bgColor: cc.successColor,
                                       paddingVerticle: 15)),
                             ],

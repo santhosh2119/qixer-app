@@ -108,7 +108,65 @@ class OrderDetailsService with ChangeNotifier {
     }
   }
 
-  //fetch order extra list
+  var selectedExtraId;
+  var selectedOrderIdForExtra;
+
+  setExtraAndOrderId({required orderId, required extraId}) {
+    selectedOrderIdForExtra = orderId;
+    selectedExtraId = extraId;
+    print(
+        'selected order id $selectedOrderIdForExtra , selected extra id $selectedExtraId');
+    notifyListeners();
+  }
+
+  //============>
+  acceptOrderExtra({required selectedPayment}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+
+      var data = jsonEncode({
+        'id': selectedExtraId,
+        'order_id': selectedOrderIdForExtra,
+        'selected_payment_gateway': selectedPayment,
+      });
+
+      var response = await http.post(
+          Uri.parse('$baseApi/user/order/extra-service/accept'),
+          headers: header);
+
+      final decodedData = jsonDecode(response.body);
+
+      setLoadingStatus(false);
+
+      print(response.body);
+
+      // if (response.statusCode == 201 &&
+      //     decodedData.containsKey('extra_service_list')) {
+      //   var data = OrderExtraModel.fromJson(decodedData);
+
+      //   orderExtra = data.extraServiceList;
+
+      //   notifyListeners();
+      // } else {
+      //   print('error fetching order extra ${response.body}');
+      // }
+    }
+  }
+
+  //==============>
+
   declineOrderExtra({required extraId, required orderId}) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
