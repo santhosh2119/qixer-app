@@ -77,6 +77,12 @@ class AllServicesService with ChangeNotifier {
     notifyListeners();
   }
 
+  setSelectedCategoryId(value) {
+    selectedCategoryId = value;
+    print('selected category id $selectedCategoryId');
+    notifyListeners();
+  }
+
   setSubcatValue(value) {
     selectedSubcat = value;
     notifyListeners();
@@ -84,12 +90,6 @@ class AllServicesService with ChangeNotifier {
 
   setRatingValue(value) {
     selectedRating = value;
-    notifyListeners();
-  }
-
-  setSelectedCategoryId(value) {
-    selectedCategoryId = value;
-    print('selected category id $selectedCategoryId');
     notifyListeners();
   }
 
@@ -185,10 +185,11 @@ class AllServicesService with ChangeNotifier {
     }
   }
 
-  fetchSubcategory(categoryId) async {
+  Future<bool> fetchSubcategory(categoryId) async {
     //make sub category list to default first
     if (selectedCategoryId == 0) {
       defaultSubcategory();
+      return true;
     } else {
       // defaultSubcategory();
 
@@ -213,11 +214,13 @@ class AllServicesService with ChangeNotifier {
         // selectedSubcat = data.subCategories[0].name!;
         // selectedSubcatId = data.subCategories[0].id!;
         notifyListeners();
+        return true;
       } else {
         //error fetching data // no data found
         // subcatDropdownList = [];
         // notifyListeners();
         defaultSubcategory();
+        return false;
       }
     }
   }

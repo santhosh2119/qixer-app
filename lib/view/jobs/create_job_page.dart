@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
-import 'package:qixer/service/create_job_service.dart';
+import 'package:qixer/service/jobs_service/create_job_service.dart';
 import 'package:qixer/view/booking/components/textarea_field.dart';
 import 'package:qixer/view/jobs/components/create_job_image_upload.dart';
 import 'package:qixer/view/jobs/components/job_create_dropdowns.dart';

@@ -129,6 +129,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                         .myJobsListMap[i]['id'],
                                                     imageLink:
                                                         provider.imageList[i],
+                                                    jobIndex: i,
                                                   ),
 
                                                   MyJobsCardContents(
@@ -218,25 +219,34 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                       ),
 
                                                       //on off button
-                                                      Switch(
-                                                        // This bool value toggles the switch.
-                                                        value: provider
-                                                                .myJobsListMap[
-                                                            i]['isActive'],
-                                                        activeColor:
-                                                            cc.successColor,
-                                                        onChanged:
-                                                            (bool value) {
-                                                          provider
-                                                              .setActiveStatus(
-                                                                  value, i);
-                                                          provider.jobOnOff(
-                                                              context,
-                                                              index: i,
-                                                              jobId: provider
-                                                                      .myJobsListMap[
-                                                                  i]['id']);
-                                                        },
+                                                      Row(
+                                                        children: [
+                                                          CommonHelper()
+                                                              .paragraphCommon(
+                                                                  'On/Off',
+                                                                  TextAlign
+                                                                      .left),
+                                                          Switch(
+                                                            // This bool value toggles the switch.
+                                                            value: provider
+                                                                    .myJobsListMap[
+                                                                i]['isActive'],
+                                                            activeColor:
+                                                                cc.successColor,
+                                                            onChanged:
+                                                                (bool value) {
+                                                              provider
+                                                                  .setActiveStatus(
+                                                                      value, i);
+                                                              provider.jobOnOff(
+                                                                  context,
+                                                                  index: i,
+                                                                  jobId: provider
+                                                                          .myJobsListMap[
+                                                                      i]['id']);
+                                                            },
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   )

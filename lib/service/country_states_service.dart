@@ -38,11 +38,13 @@ class CountryStatesService with ChangeNotifier {
 
   setCountryValue(value) {
     selectedCountry = value;
+    print('selected country $selectedCountry');
     notifyListeners();
   }
 
   setStatesValue(value) {
     selectedState = value;
+    print('selected state $selectedState');
     notifyListeners();
   }
 

@@ -7,14 +7,14 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
-class JobCreateDropdowns extends StatefulWidget {
-  const JobCreateDropdowns({Key? key}) : super(key: key);
+class JobEditDropdowns extends StatefulWidget {
+  const JobEditDropdowns({Key? key}) : super(key: key);
 
   @override
-  State<JobCreateDropdowns> createState() => _JobCreateDropdownsState();
+  State<JobEditDropdowns> createState() => _JobEditDropdownsState();
 }
 
-class _JobCreateDropdownsState extends State<JobCreateDropdowns> {
+class _JobEditDropdownsState extends State<JobEditDropdowns> {
   @override
   void initState() {
     super.initState();
@@ -37,6 +37,7 @@ class _JobCreateDropdownsState extends State<JobCreateDropdowns> {
           const SizedBox(
             width: 17,
           ),
+
           // Category dropdown ===============>
           ServiceFilterDropdownHelper().categoryDropdown(cc, context),
 

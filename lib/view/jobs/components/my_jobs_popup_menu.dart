@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/view/jobs/components/my_jobs_helper.dart';
+import 'package:qixer/view/jobs/edit_job_page.dart';
 import 'package:qixer/view/jobs/job_details_page.dart';
 
 class MyJobsPopupMenu extends StatelessWidget {
@@ -9,10 +10,12 @@ class MyJobsPopupMenu extends StatelessWidget {
     Key? key,
     required this.jobId,
     required this.imageLink,
+    required this.jobIndex,
   }) : super(key: key);
 
   final jobId;
   final imageLink;
+  final jobIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +56,14 @@ class MyJobsPopupMenu extends StatelessWidget {
         );
       });
     } else if (i == 1) {
-      // return Navigator.push(
-      //   context,
-      //   MaterialPageRoute<void>(
-      //     builder: (BuildContext context) => const JobConversationPage(
-      //       title: 'Those medals you wear on your moth',
-      //       jobId: '1',
-      //     ),
-      //   ),
-      // );
+      return Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => EditJobPage(
+            jobIndex: jobIndex,
+          ),
+        ),
+      );
     } else if (i == 2) {
       MyJobsHelper().deletePopup(context);
     } else if (i == 3) {

@@ -40,7 +40,6 @@ class ServiceFilterDropdownHelper {
                                 .categoryDropdownIndexList[
                             provider.categoryDropdownList.indexOf(newValue!)]);
 
-                        //fetch states based on selected country
                         provider.setEverythingToDefault();
                         provider.fetchSubcategory(provider.selectedCategoryId);
                         //fetch service

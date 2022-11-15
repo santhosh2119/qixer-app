@@ -141,6 +141,12 @@ class MyJobsService with ChangeNotifier {
         'price': data[i].price,
         'image': imageList[i],
         'viewCount': data[i].view,
+        'description': data[i].description,
+        'deadLine': data[i].deadLine,
+        'categoryId': data[i].categoryId,
+        'subcategoryId': data[i].subcategoryId,
+        'countryId': data[i].countryId,
+        'cityId': data[i].cityId,
       });
     }
   }

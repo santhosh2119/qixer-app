@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
-import 'package:qixer/service/create_job_service.dart';
+import 'package:qixer/service/jobs_service/create_job_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
 class CreateJobUploadImage extends StatelessWidget {
