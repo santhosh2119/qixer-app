@@ -9,6 +9,7 @@ import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {
   const JobConversationPage(
@@ -133,12 +134,12 @@ class _JobConversationPageState extends State<JobConversationPage> {
                             return Row(
                               mainAxisAlignment: provider.messagesList[index]
                                           ['type'] ==
-                                      "buyer"
+                                      "seller"
                                   ? MainAxisAlignment.start
                                   : MainAxisAlignment.end,
                               children: [
                                 //small show profile pic
-                                // provider.messagesList[index].type == "buyer"
+                                // provider.messagesList[index].type == "seller"
                                 //     ? Container(
                                 //         margin: const EdgeInsets.only(
                                 //           left: 13,
@@ -163,7 +164,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                       padding: EdgeInsets.only(
                                           left: provider.messagesList[index]
                                                       ['type'] ==
-                                                  "buyer"
+                                                  "seller"
                                               ? rtlP.direction == 'ltr'
                                                   ? 10
                                                   : 90
@@ -172,7 +173,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                   : 10,
                                           right: provider.messagesList[index]
                                                       ['type'] ==
-                                                  "buyer"
+                                                  "seller"
                                               ? rtlP.direction == 'ltr'
                                                   ? 90
                                                   : 10
@@ -184,14 +185,14 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                       child: Align(
                                         alignment: (provider.messagesList[index]
                                                     ['type'] ==
-                                                "buyer"
+                                                "seller"
                                             ? Alignment.topLeft
                                             : Alignment.topRight),
                                         child: Column(
                                           crossAxisAlignment:
                                               (provider.messagesList[index]
                                                           ['type'] ==
-                                                      "buyer"
+                                                      "seller"
                                                   ? CrossAxisAlignment.start
                                                   : CrossAxisAlignment.end),
                                           children: [
@@ -201,7 +202,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                     BorderRadius.circular(20),
                                                 color: (provider.messagesList[
                                                             index]['type'] ==
-                                                        "buyer"
+                                                        "seller"
                                                     ? Colors.grey.shade200
                                                     : cc.primaryColor),
                                               ),
@@ -216,94 +217,127 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                         (provider.messagesList[
                                                                         index]
                                                                     ['type'] ==
-                                                                "buyer"
+                                                                "seller"
                                                             ? Colors.grey[800]
                                                             : Colors.white)),
                                               ),
                                             ),
-                                            // provider.messagesList[index]
-                                            //             ['attachment'] !=
-                                            //         null
-                                            // ? Container(
-                                            //     margin:
-                                            //         const EdgeInsets.only(
-                                            //             top: 11),
-                                            //     child: provider.messagesList[
-                                            //                     index][
-                                            //                 'imagePicked'] ==
-                                            //             false
-                                            //         ? InkWell(
-                                            //             onTap: () {
-                                            //               Navigator.push(
-                                            //                 context,
-                                            //                 MaterialPageRoute<
-                                            //                     void>(
-                                            //                   builder: (BuildContext
-                                            //                           context) =>
-                                            //                       ImageBigPreviewPage(
-                                            //                     networkImgLink:
-                                            //                         provider.messagesList[index]
-                                            //                             [
-                                            //                             'attachment'],
-                                            //                   ),
-                                            //                 ),
-                                            //               );
-                                            //             },
-                                            //             child:
-                                            //                 CachedNetworkImage(
-                                            //               imageUrl: provider
-                                            //                               .messagesList[
-                                            //                           index]
-                                            //                       [
-                                            //                       'attachment'] ??
-                                            //                   placeHolderUrl,
-                                            //               placeholder:
-                                            //                   (context,
-                                            //                       url) {
-                                            //                 return Image.asset(
-                                            //                     'assets/images/placeholder.png');
-                                            //               },
-                                            //               height: 150,
-                                            //               width:
-                                            //                   screenWidth /
-                                            //                           2 -
-                                            //                       50,
-                                            //               fit: BoxFit
-                                            //                   .fitWidth,
-                                            //             ),
-                                            //           )
-                                            //         : InkWell(
-                                            //             onTap: () {
-                                            //               Navigator.push(
-                                            //                 context,
-                                            //                 MaterialPageRoute<
-                                            //                     void>(
-                                            //                   builder: (BuildContext
-                                            //                           context) =>
-                                            //                       ImageBigPreviewPage(
-                                            //                     assetImgLink:
-                                            //                         provider.messagesList[index]
-                                            //                             [
-                                            //                             'attachment'],
-                                            //                   ),
-                                            //                 ),
-                                            //               );
-                                            //             },
-                                            //             child: Image.file(
-                                            //               File(provider
-                                            //                           .messagesList[
-                                            //                       index][
-                                            //                   'attachment']),
-                                            //               height: 150,
-                                            //               width:
-                                            //                   screenWidth /
-                                            //                           2 -
-                                            //                       50,
-                                            //               fit: BoxFit.cover,
-                                            //             ),
-                                            //           ),
-                                            //   )
-                                            // : Container()
+                                            //Attachment =============>
+                                            provider.messagesList[index]
+                                                        ['attachment'] !=
+                                                    null
+                                                ? Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 11),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16),
+                                                    height: 50,
+                                                    width:
+                                                        screenWidth / 3 - 130,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color:
+                                                          (provider.messagesList[
+                                                                          index]
+                                                                      [
+                                                                      'type'] ==
+                                                                  "admin"
+                                                              ? Colors
+                                                                  .grey.shade200
+                                                              : cc.primaryColor),
+                                                    ),
+                                                    child: provider.messagesList[
+                                                                    index][
+                                                                'filePicked'] ==
+                                                            false
+                                                        ?
+                                                        //that means file is fetching from server
+                                                        InkWell(
+                                                            onTap: () {
+                                                              launchUrl(
+                                                                  Uri.parse(provider
+                                                                              .messagesList[
+                                                                          index]
+                                                                      [
+                                                                      'attachment']),
+                                                                  mode: LaunchMode
+                                                                      .externalApplication);
+                                                            },
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  'Attachment',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: (provider.messagesList[index]['type'] ==
+                                                                              "seller"
+                                                                          ? Colors.grey[
+                                                                              800]
+                                                                          : Colors
+                                                                              .white)),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 8,
+                                                                ),
+                                                                Icon(
+                                                                    Icons
+                                                                        .download,
+                                                                    size: 17,
+                                                                    color: (provider.messagesList[index]['type'] ==
+                                                                            "seller"
+                                                                        ? Colors.grey[
+                                                                            800]
+                                                                        : Colors
+                                                                            .white))
+                                                              ],
+                                                            ))
+
+                                                        //local file====>
+                                                        : InkWell(
+                                                            onTap: () {},
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  'Attachment',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: (provider.messagesList[index]['type'] ==
+                                                                              "seller"
+                                                                          ? Colors.grey[
+                                                                              800]
+                                                                          : Colors
+                                                                              .white)),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 8,
+                                                                ),
+                                                                Icon(
+                                                                    Icons
+                                                                        .check_box,
+                                                                    size: 17,
+                                                                    color: (provider.messagesList[index]['type'] ==
+                                                                            "seller"
+                                                                        ? Colors.grey[
+                                                                            800]
+                                                                        : Colors
+                                                                            .white))
+                                                              ],
+                                                            )))
+                                                : Container()
                                           ],
                                         ),
                                       ),
@@ -311,7 +345,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                   ),
                                 ),
 
-                                // provider.messagesList[index].type == "buyer"
+                                // provider.messagesList[index].type == "seller"
                                 //     ? Container(
                                 //         margin: const EdgeInsets.only(
                                 //           right: 13,

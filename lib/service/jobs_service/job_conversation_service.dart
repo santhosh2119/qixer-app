@@ -169,7 +169,7 @@ class JobConversationService with ChangeNotifier {
       'notify': 'off',
       'attachment': imagePath,
       'type': 'buyer',
-      'imagePicked':
+      'filePicked':
           true //check if this image is just got picked from device in that case we will show it from device location
     });
     notifyListeners();
