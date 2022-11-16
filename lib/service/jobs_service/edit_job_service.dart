@@ -36,7 +36,9 @@ class EditJobService with ChangeNotifier {
       required desc,
       required onlineOrOffline,
       required price,
-      required deadline}) async {
+      required deadline,
+      required jobId,
+      required imagelink}) async {
     var selectedCategoryId =
         Provider.of<AllServicesService>(context, listen: false)
             .selectedCategoryId;
@@ -53,7 +55,7 @@ class EditJobService with ChangeNotifier {
         Provider.of<CountryStatesService>(context, listen: false)
             .selectedStateId;
 
-    if (pickedImage == null) {
+    if (pickedImage == null && imagelink == null) {
       OthersHelper()
           .showSnackBar(context, 'You must select an image', Colors.red);
       return false;
@@ -68,6 +70,7 @@ class EditJobService with ChangeNotifier {
     var isOnline = onlineOrOffline == 0 ? 0 : 1;
 
     setLoadingStatus(true);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
@@ -77,30 +80,46 @@ class EditJobService with ChangeNotifier {
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = "Bearer $token";
 
-    formData = FormData.fromMap({
-      'category': selectedCategoryId,
-      'subcategory': selectedSubCategoryId,
-      'country_id': selectedCountryId,
-      'city_id': selectedStateId,
-      'title': title,
-      'description': desc,
-      'is_job_online': isOnline,
-      'price': price,
-      'dead_line': deadline,
-      'image': await MultipartFile.fromFile(pickedImage.path,
-          filename: 'campaing${pickedImage.path}.jpg'),
-    });
+    if (imagelink != null) {
+      formData = FormData.fromMap({
+        'category': selectedCategoryId,
+        'subcategory': selectedSubCategoryId,
+        'country_id': selectedCountryId,
+        'city_id': selectedStateId,
+        'title': title,
+        'description': desc,
+        'is_job_online': isOnline,
+        'price': price,
+        'dead_line': deadline,
+      });
+    } else {
+      formData = FormData.fromMap({
+        'category': selectedCategoryId,
+        'subcategory': selectedSubCategoryId,
+        'country_id': selectedCountryId,
+        'city_id': selectedStateId,
+        'title': title,
+        'description': desc,
+        'is_job_online': isOnline,
+        'price': price,
+        'dead_line': deadline,
+        'image': await MultipartFile.fromFile(pickedImage.path,
+            filename: 'campaing${pickedImage.path}.jpg'),
+      });
+    }
 
     var response = await dio.post(
-      '$baseApi/user/job/add-job',
+      '$baseApi/user/job/edit-job/$jobId',
       data: formData,
     );
 
     setLoadingStatus(false);
     final data = response.data;
 
+    print(data);
+
     if (response.statusCode == 201 && data.containsKey('msg')) {
-      OthersHelper().showToast('Job posted successfully', Colors.black);
+      OthersHelper().showToast('Job updated successfully', Colors.black);
 
       Provider.of<MyJobsService>(context, listen: false).setDefault();
 
@@ -119,7 +138,7 @@ class EditJobService with ChangeNotifier {
   //================>
 
   fillInitialCategorySubcategory(BuildContext context, jobIndex) {
-    Future.delayed(const Duration(milliseconds: 600), () async {
+    Future.delayed(const Duration(seconds: 1), () async {
       //set category id
       var categoryId = Provider.of<MyJobsService>(context, listen: false)
           .myJobsListMap[jobIndex]['categoryId'];
@@ -143,12 +162,11 @@ class EditJobService with ChangeNotifier {
       var subCategoryId = Provider.of<MyJobsService>(context, listen: false)
           .myJobsListMap[jobIndex]['subcategoryId'];
 
-      Provider.of<AllServicesService>(context, listen: false)
-          .setSelectedSubcatsId(subCategoryId);
-
-      //set subcategory name
       await Provider.of<AllServicesService>(context, listen: false)
           .fetchSubcategory(categoryId);
+
+      Provider.of<AllServicesService>(context, listen: false)
+          .setSelectedSubcatsId(subCategoryId);
       var subcategoryList =
           Provider.of<AllServicesService>(context, listen: false)
               .subcatDropdownList;
@@ -168,7 +186,7 @@ class EditJobService with ChangeNotifier {
   //initial country state id
 
   fillInitialCountryState(BuildContext context, jobIndex) {
-    Future.delayed(const Duration(milliseconds: 600), () async {
+    Future.delayed(const Duration(seconds: 1), () async {
       //set country id
       var countryId = Provider.of<MyJobsService>(context, listen: false)
           .myJobsListMap[jobIndex]['countryId'];
@@ -189,28 +207,27 @@ class EditJobService with ChangeNotifier {
       Provider.of<CountryStatesService>(context, listen: false)
           .setCountryValue(countryName);
 
-      //set subcategory id
-      // var subCategoryId = Provider.of<MyJobsService>(context, listen: false)
-      //     .myJobsListMap[jobIndex]['subcategoryId'];
+      //set state id
+      var stateId = Provider.of<MyJobsService>(context, listen: false)
+          .myJobsListMap[jobIndex]['cityId'];
 
-      // Provider.of<AllServicesService>(context, listen: false)
-      //     .setSelectedSubcatsId(subCategoryId);
+      //set subcategory name
+      await Provider.of<CountryStatesService>(context, listen: false)
+          .fetchStates(countryId, context);
 
-      // //set subcategory name
-      // await Provider.of<AllServicesService>(context, listen: false)
-      //     .fetchSubcategory(categoryId);
-      // var subcategoryList =
-      //     Provider.of<AllServicesService>(context, listen: false)
-      //         .subcatDropdownList;
-      // var subcategoryIndexList =
-      //     Provider.of<AllServicesService>(context, listen: false)
-      //         .subcatDropdownIndexList;
+      Provider.of<CountryStatesService>(context, listen: false)
+          .setSelectedStatesId(stateId);
 
-      // var subcategoryName =
-      //     subcategoryList[subcategoryIndexList.indexOf(subCategoryId)];
+      var stateList = Provider.of<CountryStatesService>(context, listen: false)
+          .statesDropdownList;
+      var stateIndexList =
+          Provider.of<CountryStatesService>(context, listen: false)
+              .statesDropdownIndexList;
 
-      // Provider.of<AllServicesService>(context, listen: false)
-      //     .setSubcatValue(subcategoryName);
+      var stateName = stateList[stateIndexList.indexOf(stateId)];
+
+      Provider.of<CountryStatesService>(context, listen: false)
+          .setStatesValue(stateName);
     });
   }
 }

@@ -61,6 +61,7 @@ class MyJobsPopupMenu extends StatelessWidget {
         MaterialPageRoute<void>(
           builder: (BuildContext context) => EditJobPage(
             jobIndex: jobIndex,
+            jobId: jobId,
           ),
         ),
       );

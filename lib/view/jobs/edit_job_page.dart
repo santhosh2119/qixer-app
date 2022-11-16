@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
-import 'package:qixer/service/jobs_service/create_job_service.dart';
 import 'package:qixer/service/jobs_service/edit_job_service.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/view/booking/components/textarea_field.dart';
@@ -19,9 +18,11 @@ class EditJobPage extends StatefulWidget {
   const EditJobPage({
     Key? key,
     required this.jobIndex,
+    required this.jobId,
   }) : super(key: key);
 
   final jobIndex;
+  final jobId;
 
   @override
   _EditJobPageState createState() => _EditJobPageState();
@@ -112,7 +113,7 @@ class _EditJobPageState extends State<EditJobPage> {
         },
         child: SingleChildScrollView(
           physics: physicsCommon,
-          child: Consumer<CreateJobService>(
+          child: Consumer<EditJobService>(
             builder: (context, provider, child) => Consumer<AppStringService>(
               builder: (context, asProvider, child) => Container(
                 padding: EdgeInsets.symmetric(
@@ -294,12 +295,14 @@ class _EditJobPageState extends State<EditJobPage> {
                         }
 
                         if (_formKey.currentState!.validate()) {
-                          provider.createJob(context,
+                          provider.editJob(context,
                               title: titleController.text,
                               desc: descController.text,
                               onlineOrOffline: selectedIndex,
                               price: budgetController.text,
-                              deadline: onlyDate[0]);
+                              deadline: onlyDate[0],
+                              jobId: widget.jobId,
+                              imagelink: imageLink);
                         }
                       },
                           bgColor: cc.successColor,

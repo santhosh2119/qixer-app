@@ -183,7 +183,7 @@ class CountryStatesService with ChangeNotifier {
     }
   }
 
-  fetchStates(countryId, BuildContext context) async {
+  Future<bool> fetchStates(countryId, BuildContext context) async {
     //make states list empty first
     statesDropdownList = [];
     statesDropdownIndexList = [];
@@ -209,6 +209,7 @@ class CountryStatesService with ChangeNotifier {
       set_State(context, data: data);
       notifyListeners();
       fetchArea(countryId, selectedStateId, context);
+      return true;
     } else {
       fetchArea(countryId, selectedStateId, context);
       //error fetching data
@@ -217,6 +218,7 @@ class CountryStatesService with ChangeNotifier {
       selectedState = 'Select State';
       selectedStateId = '0';
       notifyListeners();
+      return false;
     }
   }
 
