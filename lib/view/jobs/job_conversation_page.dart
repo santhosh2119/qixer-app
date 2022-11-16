@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/jobs_service/job_conversation_service.dart';
 import 'package:qixer/service/rtl_service.dart';
-import 'package:qixer/service/support_ticket/support_messages_service.dart';
-import 'package:qixer/view/tabs/settings/supports/image_big_preview.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -107,7 +105,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
           ),
         ),
         body: Consumer<AppStringService>(
-          builder: (context, ln, child) => Consumer<SupportMessagesService>(
+          builder: (context, ln, child) => Consumer<JobConversationService>(
               builder: (context, provider, child) {
             if (provider.messagesList.isNotEmpty &&
                 provider.sendLoading == false) {
@@ -223,89 +221,89 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                             : Colors.white)),
                                               ),
                                             ),
-                                            provider.messagesList[index]
-                                                        ['attachment'] !=
-                                                    null
-                                                ? Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            top: 11),
-                                                    child: provider.messagesList[
-                                                                    index][
-                                                                'imagePicked'] ==
-                                                            false
-                                                        ? InkWell(
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute<
-                                                                    void>(
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      ImageBigPreviewPage(
-                                                                    networkImgLink:
-                                                                        provider.messagesList[index]
-                                                                            [
-                                                                            'attachment'],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl: provider
-                                                                              .messagesList[
-                                                                          index]
-                                                                      [
-                                                                      'attachment'] ??
-                                                                  placeHolderUrl,
-                                                              placeholder:
-                                                                  (context,
-                                                                      url) {
-                                                                return Image.asset(
-                                                                    'assets/images/placeholder.png');
-                                                              },
-                                                              height: 150,
-                                                              width:
-                                                                  screenWidth /
-                                                                          2 -
-                                                                      50,
-                                                              fit: BoxFit
-                                                                  .fitWidth,
-                                                            ),
-                                                          )
-                                                        : InkWell(
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute<
-                                                                    void>(
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      ImageBigPreviewPage(
-                                                                    assetImgLink:
-                                                                        provider.messagesList[index]
-                                                                            [
-                                                                            'attachment'],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Image.file(
-                                                              File(provider
-                                                                          .messagesList[
-                                                                      index][
-                                                                  'attachment']),
-                                                              height: 150,
-                                                              width:
-                                                                  screenWidth /
-                                                                          2 -
-                                                                      50,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                  )
-                                                : Container()
+                                            // provider.messagesList[index]
+                                            //             ['attachment'] !=
+                                            //         null
+                                            // ? Container(
+                                            //     margin:
+                                            //         const EdgeInsets.only(
+                                            //             top: 11),
+                                            //     child: provider.messagesList[
+                                            //                     index][
+                                            //                 'imagePicked'] ==
+                                            //             false
+                                            //         ? InkWell(
+                                            //             onTap: () {
+                                            //               Navigator.push(
+                                            //                 context,
+                                            //                 MaterialPageRoute<
+                                            //                     void>(
+                                            //                   builder: (BuildContext
+                                            //                           context) =>
+                                            //                       ImageBigPreviewPage(
+                                            //                     networkImgLink:
+                                            //                         provider.messagesList[index]
+                                            //                             [
+                                            //                             'attachment'],
+                                            //                   ),
+                                            //                 ),
+                                            //               );
+                                            //             },
+                                            //             child:
+                                            //                 CachedNetworkImage(
+                                            //               imageUrl: provider
+                                            //                               .messagesList[
+                                            //                           index]
+                                            //                       [
+                                            //                       'attachment'] ??
+                                            //                   placeHolderUrl,
+                                            //               placeholder:
+                                            //                   (context,
+                                            //                       url) {
+                                            //                 return Image.asset(
+                                            //                     'assets/images/placeholder.png');
+                                            //               },
+                                            //               height: 150,
+                                            //               width:
+                                            //                   screenWidth /
+                                            //                           2 -
+                                            //                       50,
+                                            //               fit: BoxFit
+                                            //                   .fitWidth,
+                                            //             ),
+                                            //           )
+                                            //         : InkWell(
+                                            //             onTap: () {
+                                            //               Navigator.push(
+                                            //                 context,
+                                            //                 MaterialPageRoute<
+                                            //                     void>(
+                                            //                   builder: (BuildContext
+                                            //                           context) =>
+                                            //                       ImageBigPreviewPage(
+                                            //                     assetImgLink:
+                                            //                         provider.messagesList[index]
+                                            //                             [
+                                            //                             'attachment'],
+                                            //                   ),
+                                            //                 ),
+                                            //               );
+                                            //             },
+                                            //             child: Image.file(
+                                            //               File(provider
+                                            //                           .messagesList[
+                                            //                       index][
+                                            //                   'attachment']),
+                                            //               height: 150,
+                                            //               width:
+                                            //                   screenWidth /
+                                            //                           2 -
+                                            //                       50,
+                                            //               fit: BoxFit.cover,
+                                            //             ),
+                                            //           ),
+                                            //   )
+                                            // : Container()
                                           ],
                                         ),
                                       ),

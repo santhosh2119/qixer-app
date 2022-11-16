@@ -186,7 +186,7 @@ class EditJobService with ChangeNotifier {
   //initial country state id
 
   fillInitialCountryState(BuildContext context, jobIndex) {
-    Future.delayed(const Duration(seconds: 1), () async {
+    Future.delayed(const Duration(milliseconds: 1500), () async {
       //set country id
       var countryId = Provider.of<MyJobsService>(context, listen: false)
           .myJobsListMap[jobIndex]['countryId'];

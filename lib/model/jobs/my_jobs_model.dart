@@ -20,8 +20,13 @@ class MyJobsModel {
 
   factory MyJobsModel.fromJson(Map<String, dynamic>? json) => MyJobsModel(
         jobLists: JobLists.fromJson(json?["job_lists"]),
-        jobImage: List<JobImage?>.from(json?["job_image"]
-            .map((x) => x == null ? null : JobImage.fromJson(x))),
+        jobImage: List<JobImage?>.from(json?["job_image"].map((x) {
+          if (x is List) {
+            return null;
+          } else {
+            return x == null ? null : JobImage.fromJson(x);
+          }
+        })),
       );
 
   Map<String, dynamic> toJson() => {
