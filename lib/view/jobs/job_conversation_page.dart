@@ -1,7 +1,5 @@
-import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/jobs_service/job_conversation_service.dart';
@@ -13,11 +11,16 @@ import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {
   const JobConversationPage(
-      {Key? key, required this.title, required this.jobId})
+      {Key? key,
+      required this.title,
+      required this.jobId,
+      required this.jobRequestId})
       : super(key: key);
 
   final String title;
   final jobId;
+
+  final jobRequestId;
 
   @override
   State<JobConversationPage> createState() => _JobConversationPageState();
@@ -30,14 +33,16 @@ class _JobConversationPageState extends State<JobConversationPage> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent + 10,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.fastOutSlowIn,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 10,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
-  XFile? pickedImage;
+  FilePickerResult? pickedFile;
 
   @override
   Widget build(BuildContext context) {
@@ -138,24 +143,6 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                   ? MainAxisAlignment.start
                                   : MainAxisAlignment.end,
                               children: [
-                                //small show profile pic
-                                // provider.messagesList[index].type == "seller"
-                                //     ? Container(
-                                //         margin: const EdgeInsets.only(
-                                //           left: 13,
-                                //         ),
-                                //         width: 18,
-                                //         height: 18,
-                                //         decoration: const BoxDecoration(
-                                //             shape: BoxShape.circle,
-                                //             color: Colors.white),
-                                //         child: ClipRRect(
-                                //           child: Image.asset(
-                                //             'assets/images/logo.png',
-                                //           ),
-                                //         ),
-                                //       )
-                                //     : Container(),
                                 //the message
                                 Expanded(
                                   child: Consumer<RtlService>(
@@ -344,26 +331,6 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                     ),
                                   ),
                                 ),
-
-                                // provider.messagesList[index].type == "seller"
-                                //     ? Container(
-                                //         margin: const EdgeInsets.only(
-                                //           right: 13,
-                                //         ),
-                                //         width: 15,
-                                //         height: 15,
-                                //         decoration: const BoxDecoration(
-                                //             shape: BoxShape.circle,
-                                //             color: Colors.white),
-                                //         child: ClipRRect(
-                                //           borderRadius: BorderRadius.circular(100),
-                                //           child: Image.network(
-                                //             'https://cdn.pixabay.com/photo/2016/09/08/13/58/desert-1654439__340.jpg',
-                                //             fit: BoxFit.cover,
-                                //           ),
-                                //         ),
-                                //       )
-                                //     : Container(),
                               ],
                             );
                           },
@@ -382,13 +349,18 @@ class _JobConversationPageState extends State<JobConversationPage> {
                     color: Colors.white,
                     child: Row(
                       children: <Widget>[
-                        pickedImage != null
-                            ? Image.file(
-                                File(pickedImage!.path),
+                        pickedFile != null
+                            ? Container(
                                 height: 40,
                                 width: 40,
-                                fit: BoxFit.cover,
-                              )
+                                decoration: BoxDecoration(
+                                    color: cc.primaryColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Icon(
+                                  Icons.file_copy,
+                                  color: Colors.white,
+                                  size: 18,
+                                ))
                             : Container(),
                         const SizedBox(
                           width: 13,
@@ -409,7 +381,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                         //pick image =====>
                         IconButton(
                             onPressed: () async {
-                              pickedImage = await provider.pickImage();
+                              pickedFile = await provider.pickFile();
                               setState(() {});
                             },
                             icon: const Icon(Icons.attachment)),
@@ -425,16 +397,16 @@ class _JobConversationPageState extends State<JobConversationPage> {
                               FocusScope.of(context).unfocus();
                               //send message
                               provider.sendMessage(
-                                widget.jobId,
+                                widget.jobRequestId,
                                 sendMessageController.text,
-                                pickedImage?.path,
+                                pickedFile?.files.single.path,
                               );
 
                               //clear input field
                               sendMessageController.clear();
                               //clear image
                               setState(() {
-                                pickedImage = null;
+                                pickedFile = null;
                               });
                             } else {
                               OthersHelper().showToast(

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:qixer/model/jobs/job_conversation_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,13 +36,16 @@ class JobConversationService with ChangeNotifier {
     notifyListeners();
   }
 
-  final ImagePicker _picker = ImagePicker();
-  Future pickImage() async {
-    final XFile? imageFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+  // final ImagePicker _picker = ImagePicker();
+  Future pickFile() async {
+    OthersHelper()
+        .showToast('Only zip file is supported', ConstantColors().primaryColor);
 
-    if (imageFile != null) {
-      return imageFile;
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['zip']);
+
+    if (result != null) {
+      return result;
     } else {
       return null;
     }
@@ -57,9 +61,6 @@ class JobConversationService with ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
       var header = {
-        //if header type is application/json then the data should be in jsonEncode method
-        // "Accept": "application/json",
-        // "Content-Type": "application/json"
         "Authorization": "Bearer $token",
       };
       var response = await http.get(
@@ -104,34 +105,30 @@ class JobConversationService with ChangeNotifier {
 
 //Send new message ======>
 
-  sendMessage(ticketId, message, imagePath) async {
+  sendMessage(jobRequestId, message, filePath) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
-
-    // var data = jsonEncode({
-    //   'ticket_id': ticketId,
-    //   'user_type': 'buyer',
-    //   'message': message,
-    // });
 
     var dio = Dio();
     dio.options.headers['Content-Type'] = 'multipart/form-data';
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = "Bearer $token";
     FormData formData;
-    if (imagePath != null) {
+    if (filePath != null) {
       formData = FormData.fromMap({
-        'ticket_id': ticketId,
+        'job_request_id': jobRequestId,
         'user_type': 'buyer',
         'message': message,
-        'file': await MultipartFile.fromFile(imagePath,
-            filename: 'ticket$imagePath.jpg')
+        'send_notify_mail': 'off',
+        'file':
+            await MultipartFile.fromFile(filePath, filename: 'image$filePath')
       });
     } else {
       formData = FormData.fromMap({
-        'ticket_id': ticketId,
+        'job_request_id': jobRequestId,
         'user_type': 'buyer',
         'message': message,
+        'send_notify_mail': 'off',
       });
     }
 
@@ -141,14 +138,16 @@ class JobConversationService with ChangeNotifier {
       //if connection is ok
 
       var response = await dio.post(
-        '$baseApi/user/ticket/message-send',
+        '$baseApi/user/job/request/conversation/send',
         data: formData,
       );
       setSendLoadingFalse();
 
       if (response.statusCode == 201) {
         print(response.data);
-        addNewMessage(message, imagePath);
+
+        addNewMessage(message, filePath);
+
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -162,16 +161,17 @@ class JobConversationService with ChangeNotifier {
     }
   }
 
-  addNewMessage(newMessage, imagePath) {
+  addNewMessage(newMessage, filePath) {
     messagesList.add({
       'id': '',
       'message': newMessage,
       'notify': 'off',
-      'attachment': imagePath,
+      'attachment': filePath,
       'type': 'buyer',
       'filePicked':
           true //check if this image is just got picked from device in that case we will show it from device location
     });
+
     notifyListeners();
   }
 }
