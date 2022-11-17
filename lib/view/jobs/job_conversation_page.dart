@@ -11,14 +11,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {
   const JobConversationPage(
-      {Key? key,
-      required this.title,
-      required this.jobId,
-      required this.jobRequestId})
+      {Key? key, required this.title, required this.jobRequestId})
       : super(key: key);
 
   final String title;
-  final jobId;
 
   final jobRequestId;
 
@@ -94,7 +90,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                           height: 4,
                         ),
                         Text(
-                          "Job ID: #${widget.jobId}",
+                          "Job Request ID: #${widget.jobRequestId}",
                           style:
                               TextStyle(color: cc.primaryColor, fontSize: 13),
                         ),
@@ -234,7 +230,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                                           index]
                                                                       [
                                                                       'type'] ==
-                                                                  "admin"
+                                                                  "seller"
                                                               ? Colors
                                                                   .grey.shade200
                                                               : cc.primaryColor),

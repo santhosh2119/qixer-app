@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/view/jobs/components/my_jobs_helper.dart';
 import 'package:qixer/view/jobs/edit_job_page.dart';
-import 'package:qixer/view/jobs/job_details_page.dart';
 
 class MyJobsPopupMenu extends StatelessWidget {
   const MyJobsPopupMenu({
@@ -19,7 +16,7 @@ class MyJobsPopupMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List popupMenuList = ['View', 'Edit', 'Delete'];
+    List popupMenuList = ['Edit', 'Delete'];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -42,20 +39,18 @@ class MyJobsPopupMenu extends StatelessWidget {
   }
 
   navigate(int i, BuildContext context, jobId, imageLink) {
+    // if (i == 0) {
+    //   return Navigator.push(
+    //     context,
+    //     MaterialPageRoute<void>(
+    //       builder: (BuildContext context) => JobDetailsPage(
+    //         imageLink: imageLink,
+    //         jobId: jobId,
+    //       ),
+    //     ),
+    //   );
+    // } else
     if (i == 0) {
-      Provider.of<MyJobsService>(context, listen: false)
-          .fetchJobDetails(jobId, context);
-      Future.delayed(const Duration(microseconds: 500), () {
-        return Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => JobDetailsPage(
-              imageLink: imageLink,
-            ),
-          ),
-        );
-      });
-    } else if (i == 1) {
       return Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -65,7 +60,7 @@ class MyJobsPopupMenu extends StatelessWidget {
           ),
         ),
       );
-    } else if (i == 2) {
+    } else if (i == 1) {
       MyJobsHelper().deletePopup(context);
     } else if (i == 3) {
 // return Navigator.push(

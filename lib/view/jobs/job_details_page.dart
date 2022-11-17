@@ -13,15 +13,26 @@ class JobDetailsPage extends StatefulWidget {
   const JobDetailsPage({
     Key? key,
     required this.imageLink,
+    required this.jobId,
   }) : super(key: key);
 
   final imageLink;
+  final jobId;
 
   @override
   State<JobDetailsPage> createState() => _JobDetailsPageState();
 }
 
 class _JobDetailsPageState extends State<JobDetailsPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Provider.of<MyJobsService>(context, listen: false)
+        .fetchJobDetails(widget.jobId, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();

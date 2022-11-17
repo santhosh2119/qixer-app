@@ -8,6 +8,7 @@ import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/jobs/components/my_jobs_card.dart';
 import 'package:qixer/view/jobs/components/my_jobs_page_appbar.dart';
 import 'package:qixer/view/jobs/components/my_jobs_popup_menu.dart';
+import 'package:qixer/view/jobs/job_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -106,6 +107,28 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                               print(provider.myJobsListMap[i]
                                                       ['id']
                                                   .toString());
+
+                                              Provider.of<MyJobsService>(
+                                                      context,
+                                                      listen: false)
+                                                  .fetchJobDetails(
+                                                      provider.myJobsListMap[i]
+                                                          ['id'],
+                                                      context);
+
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          JobDetailsPage(
+                                                    imageLink:
+                                                        provider.imageList[i],
+                                                    jobId: provider
+                                                        .myJobsListMap[i]['id'],
+                                                  ),
+                                                ),
+                                              );
                                             },
                                             child: Container(
                                               alignment: Alignment.center,

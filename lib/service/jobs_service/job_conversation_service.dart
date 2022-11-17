@@ -76,8 +76,6 @@ class JobConversationService with ChangeNotifier {
         var data = JobConversationModel.fromJson(jsonDecode(response.body));
 
         setMessageList(data.allMessages);
-
-        notifyListeners();
       } else {
         //Something went wrong
         print(response.body);

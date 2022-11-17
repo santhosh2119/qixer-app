@@ -179,6 +179,7 @@ class MyJobsService with ChangeNotifier {
       };
 
       setOrderDetailsLoadingStatus(true);
+      print('fun ran');
 
       var response = await http.get(
         Uri.parse('$baseApi/job/details/$jobId'),

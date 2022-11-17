@@ -128,6 +128,8 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                     (BuildContext context) =>
                                                         JobDetailsPage(
                                                   imageLink: placeHolderUrl,
+                                                  jobId: provider
+                                                      .jobReqList[i].job.id,
                                                 ),
                                               ),
                                             );
@@ -152,7 +154,6 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                 builder:
                                                     (BuildContext context) =>
                                                         JobConversationPage(
-                                                  jobId: 1,
                                                   title: provider
                                                       .jobReqList[i].job.title,
                                                   jobRequestId:

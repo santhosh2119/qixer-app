@@ -188,46 +188,45 @@ class EditJobService with ChangeNotifier {
   fillInitialCountryState(BuildContext context, jobIndex) {
     Future.delayed(const Duration(milliseconds: 1500), () async {
       //set country id
-      var countryId = Provider.of<MyJobsService>(context, listen: false)
-          .myJobsListMap[jobIndex]['countryId'];
+      // var countryId = Provider.of<MyJobsService>(context, listen: false)
+      //     .myJobsListMap[jobIndex]['countryId'];
 
-      Provider.of<CountryStatesService>(context, listen: false)
-          .setSelectedCountryId(countryId);
+      // Provider.of<CountryStatesService>(context, listen: false)
+      //     .setSelectedCountryId(countryId);
 
-      //set country name
-      var countryList =
-          Provider.of<CountryStatesService>(context, listen: false)
-              .countryDropdownList;
-      var countryIndexList =
-          Provider.of<CountryStatesService>(context, listen: false)
-              .countryDropdownIndexList;
+      // //set country name
+      // var countryList =
+      //     Provider.of<CountryStatesService>(context, listen: false)
+      //         .countryDropdownList;
+      // var countryIndexList =
+      //     Provider.of<CountryStatesService>(context, listen: false)
+      //         .countryDropdownIndexList;
 
-      var countryName = countryList[countryIndexList.indexOf(countryId)];
+      // var countryName = countryList[countryIndexList.indexOf(countryId)];
 
-      Provider.of<CountryStatesService>(context, listen: false)
-          .setCountryValue(countryName);
+      // Provider.of<CountryStatesService>(context, listen: false)
+      //     .setCountryValue(countryName);
 
       //set state id
-      var stateId = Provider.of<MyJobsService>(context, listen: false)
-          .myJobsListMap[jobIndex]['cityId'];
+      // var stateId = Provider.of<MyJobsService>(context, listen: false)
+      //     .myJobsListMap[jobIndex]['cityId'];
+      // Provider.of<CountryStatesService>(context, listen: false)
+      //     .setSelectedStatesId(stateId);
+      // //set subcategory name
+      // await Provider.of<CountryStatesService>(context, listen: false)
+      //     .fetchStates(countryId, context);
 
-      //set subcategory name
-      await Provider.of<CountryStatesService>(context, listen: false)
-          .fetchStates(countryId, context);
+      // var stateList = Provider.of<CountryStatesService>(context, listen: false)
+      //     .statesDropdownList;
 
-      Provider.of<CountryStatesService>(context, listen: false)
-          .setSelectedStatesId(stateId);
+      // var stateIndexList =
+      //     Provider.of<CountryStatesService>(context, listen: false)
+      //         .statesDropdownIndexList;
 
-      var stateList = Provider.of<CountryStatesService>(context, listen: false)
-          .statesDropdownList;
-      var stateIndexList =
-          Provider.of<CountryStatesService>(context, listen: false)
-              .statesDropdownIndexList;
+      // var stateName = stateList[stateIndexList.indexOf(stateId)];
 
-      var stateName = stateList[stateIndexList.indexOf(stateId)];
-
-      Provider.of<CountryStatesService>(context, listen: false)
-          .setStatesValue(stateName);
+      // Provider.of<CountryStatesService>(context, listen: false)
+      //     .setStatesValue(stateName);
     });
   }
 }
