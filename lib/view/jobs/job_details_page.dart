@@ -26,7 +26,6 @@ class JobDetailsPage extends StatefulWidget {
 class _JobDetailsPageState extends State<JobDetailsPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Provider.of<MyJobsService>(context, listen: false)
@@ -149,36 +148,43 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                               const SizedBox(
                                 width: 15,
                               ),
-                              const OverviewBox(
-                                title: 'Location',
-                                subtitle: 'Dhaka, Bangladesh',
+
+                              OverviewBox(
+                                title: 'Deadline',
+                                subtitle:
+                                    '${getDate(provider.jobDetails.deadLine)}',
                               ),
+
+                              // const OverviewBox(
+                              //   title: 'Location',
+                              //   subtitle: 'Dhaka, Bangladesh',
+                              // ),
                             ],
                           ),
 
                           sizedBoxCustom(14),
 
                           //Overview
-                          Row(
-                            children: [
-                              OverviewBox(
-                                title: 'Deadline',
-                                subtitle:
-                                    '${getDate(provider.jobDetails.deadLine)}',
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              const OverviewBox(
-                                title: 'Category',
-                                subtitle: 'Medical',
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     OverviewBox(
+                          //       title: 'Deadline',
+                          //       subtitle:
+                          //           '${getDate(provider.jobDetails.deadLine)}',
+                          //     ),
+                          //     const SizedBox(
+                          //       width: 15,
+                          //     ),
+                          //     // const OverviewBox(
+                          //     //   title: 'Category',
+                          //     //   subtitle: 'Medical',
+                          //     // ),
+                          //   ],
+                          // ),
 
                           //Description
                           // ===============>
-                          sizedBoxCustom(15),
+                          // sizedBoxCustom(15),
                           CommonHelper().paragraphCommon(
                               provider.jobDetails.description.toString(),
                               TextAlign.left),

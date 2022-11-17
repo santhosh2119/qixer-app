@@ -108,6 +108,12 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                       ['id']
                                                   .toString());
 
+                                              Provider.of<MyJobsService>(
+                                                      context,
+                                                      listen: false)
+                                                  .setOrderDetailsLoadingStatus(
+                                                      true);
+
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute<void>(
