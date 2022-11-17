@@ -108,14 +108,6 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                       ['id']
                                                   .toString());
 
-                                              Provider.of<MyJobsService>(
-                                                      context,
-                                                      listen: false)
-                                                  .fetchJobDetails(
-                                                      provider.myJobsListMap[i]
-                                                          ['id'],
-                                                      context);
-
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute<void>(
