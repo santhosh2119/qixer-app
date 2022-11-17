@@ -27,7 +27,7 @@ class MyJobsPopupMenu extends StatelessWidget {
               PopupMenuItem(
                 onTap: () {
                   Future.delayed(Duration.zero, () {
-                    navigate(i, context, jobId, imageLink);
+                    navigate(i, context, jobId, imageLink, jobIndex);
                   });
                 },
                 child: Text(popupMenuList[i]),
@@ -38,7 +38,7 @@ class MyJobsPopupMenu extends StatelessWidget {
     );
   }
 
-  navigate(int i, BuildContext context, jobId, imageLink) {
+  navigate(int i, BuildContext context, jobId, imageLink, jobIndex) {
     // if (i == 0) {
     //   return Navigator.push(
     //     context,
@@ -61,7 +61,7 @@ class MyJobsPopupMenu extends StatelessWidget {
         ),
       );
     } else if (i == 1) {
-      MyJobsHelper().deletePopup(context);
+      MyJobsHelper().deletePopup(context, index: jobIndex, jobId: jobId);
     } else if (i == 3) {
 // return Navigator.push(
 //         context,

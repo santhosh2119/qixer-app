@@ -39,6 +39,11 @@ class MyJobsService with ChangeNotifier {
     notifyListeners();
   }
 
+  removeJobFromList(int i) {
+    myJobsListMap.removeAt(i);
+    notifyListeners();
+  }
+
   setDefault() {
     myJobsListMap = [];
     imageList = [];
@@ -48,19 +53,12 @@ class MyJobsService with ChangeNotifier {
 
   fetchMyJobs(context, {bool isrefresh = false}) async {
     if (isrefresh) {
-      //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
-      //we are make the list empty when the sub category or brand is selected because then the refresh is true
       myJobsListMap = [];
       notifyListeners();
 
       Provider.of<MyJobsService>(context, listen: false)
           .setCurrentPage(currentPage);
-    } else {
-      // if (currentPage > 2) {
-      //   refreshController.loadNoData();
-      //   return false;
-      // }
-    }
+    } else {}
 
     var connection = await checkConnection();
     if (connection) {
@@ -235,5 +233,46 @@ class MyJobsService with ChangeNotifier {
 
       setActiveStatus(status, index);
     } else {}
+  }
+
+  //============
+  //delete a job
+  bool loadingDeleteJob = false;
+
+  setLoadingDeleteJobStatus(bool status) {
+    loadingDeleteJob = status;
+    notifyListeners();
+  }
+
+  deleteJob(BuildContext context, {required index, required jobId}) async {
+    var connection = await checkConnection();
+    if (!connection) return;
+    //internet connection is on
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    setLoadingDeleteJobStatus(true);
+
+    var response = await http.post(
+        Uri.parse('$baseApi/user/job/delete-job/$jobId'),
+        headers: header);
+
+    setLoadingDeleteJobStatus(false);
+
+    if (response.statusCode == 201) {
+      removeJobFromList(index);
+
+      OthersHelper().showToast('Job deleted successfully', Colors.black);
+
+      Navigator.pop(context);
+    } else {
+      OthersHelper().showToast('Something went wrong', Colors.black);
+    }
   }
 }

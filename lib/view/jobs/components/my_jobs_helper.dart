@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/jobs_service/my_jobs_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -8,7 +9,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class MyJobsHelper {
   final cc = ConstantColors();
 
-  deletePopup(BuildContext context) {
+  deletePopup(BuildContext context, {required index, required jobId}) {
     return Alert(
         context: context,
         style: AlertStyle(
@@ -39,31 +40,36 @@ class MyJobsHelper {
             ],
           ),
           child: Consumer<AppStringService>(
-            builder: (context, asProvider, child) => Column(
-              children: [
-                Text(
-                  '${asProvider.getString('Are you sure')}?',
-                  style: TextStyle(color: cc.greyPrimary, fontSize: 17),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: CommonHelper().borderButtonOrange(
-                            asProvider.getString('Cancel'), () {
-                      Navigator.pop(context);
-                    }, bgColor: Colors.grey)),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                        child: CommonHelper()
-                            .buttonOrange('Delete', () {}, bgColor: Colors.red))
-                  ],
-                )
-              ],
+            builder: (context, asProvider, child) => Consumer<MyJobsService>(
+              builder: (context, provider, child) => Column(
+                children: [
+                  Text(
+                    '${asProvider.getString('Are you sure')}?',
+                    style: TextStyle(color: cc.greyPrimary, fontSize: 17),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: CommonHelper().borderButtonOrange(
+                              asProvider.getString('Cancel'), () {
+                        Navigator.pop(context);
+                      }, bgColor: Colors.grey)),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                          child: CommonHelper().buttonOrange('Delete', () {
+                        provider.deleteJob(context, index: index, jobId: jobId);
+                      },
+                              bgColor: Colors.red,
+                              isloading: provider.loadingDeleteJob))
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         )).show();
