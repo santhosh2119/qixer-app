@@ -26,6 +26,7 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_all_services_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
+import 'package:qixer/service/jobs_service/edit_job_country_states_service.dart';
 import 'package:qixer/service/jobs_service/edit_job_service.dart';
 import 'package:qixer/service/jobs_service/job_conversation_service.dart';
 import 'package:qixer/service/jobs_service/job_request_service.dart';
@@ -126,6 +127,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EditJobService()),
         ChangeNotifierProvider(create: (_) => JobRequestService()),
         ChangeNotifierProvider(create: (_) => JobConversationService()),
+        ChangeNotifierProvider(create: (_) => EditJobCountryStatesService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

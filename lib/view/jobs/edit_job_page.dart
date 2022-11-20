@@ -58,7 +58,6 @@ class _EditJobPageState extends State<EditJobPage> {
         DateTime.now();
 
     EditJobService().fillInitialCategorySubcategory(context, widget.jobIndex);
-    EditJobService().fillInitialCountryState(context, widget.jobIndex);
 
     var isOnline = Provider.of<MyJobsService>(context, listen: false)
         .myJobsListMap[widget.jobIndex]['isJobOnline'];
@@ -175,8 +174,24 @@ class _EditJobPageState extends State<EditJobPage> {
                       ),
 
                       // ============>
+                      //Dropdowns
+
                       sizedBoxCustom(25),
+
                       const JobCreateDropdowns(),
+                      // Category dropdown ===============>
+                      // ServiceFilterDropdownHelper()
+                      //     .categoryDropdown(cc, context),
+
+                      // const SizedBox(
+                      //   height: 25,
+                      // ),
+
+                      // // States dropdown ===============>
+                      // ServiceFilterDropdownHelper()
+                      //     .subCategoryDropdown(cc, context),
+
+                      // EditJobCountryStates(jobIndex: widget.jobIndex),
 
                       sizedBoxCustom(20),
 

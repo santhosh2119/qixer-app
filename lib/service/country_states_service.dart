@@ -193,7 +193,6 @@ class CountryStatesService with ChangeNotifier {
 
     var response =
         await http.get(Uri.parse('$baseApi/country/service-city/$countryId'));
-    print(response.body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       var data = StatesDropdownModel.fromJson(jsonDecode(response.body));

@@ -29,158 +29,151 @@ class _JobCreateDropdownsState extends State<JobCreateDropdowns> {
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
-    return Consumer<AllServicesService>(
-      builder: (context, filterProvider, child) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //dropdown and search box
-          const SizedBox(
-            width: 17,
-          ),
-          // Category dropdown ===============>
-          ServiceFilterDropdownHelper().categoryDropdown(cc, context),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          width: 17,
+        ),
+        // Category dropdown ===============>
+        ServiceFilterDropdownHelper().categoryDropdown(cc, context),
 
-          const SizedBox(
-            height: 25,
-          ),
+        const SizedBox(
+          height: 25,
+        ),
 
-          // States dropdown ===============>
-          ServiceFilterDropdownHelper().subCategoryDropdown(cc, context),
+        // States dropdown ===============>
+        ServiceFilterDropdownHelper().subCategoryDropdown(cc, context),
 
-          const SizedBox(
-            height: 25,
-          ),
+        const SizedBox(
+          height: 25,
+        ),
 
-          Consumer<CountryStatesService>(
-              builder: (context, provider, child) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //dropdown and search box
+        Consumer<CountryStatesService>(
+            builder: (context, provider, child) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //dropdown and search box
 
-                      // Country dropdown ===============>
-                      CommonHelper().labelCommon("Choose country"),
-                      provider.countryDropdownList.isNotEmpty
-                          ? Container(
-                              width: double.infinity,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: cc.greyFive),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  // menuMaxHeight: 200,
-                                  // isExpanded: true,
-                                  value: provider.selectedCountry,
-                                  icon: Icon(Icons.keyboard_arrow_down_rounded,
-                                      color: cc.greyFour),
-                                  iconSize: 26,
-                                  elevation: 17,
-                                  style: TextStyle(color: cc.greyFour),
-                                  onChanged: (newValue) {
-                                    provider.setCountryValue(newValue);
-
-                                    // setting the id of selected value
-                                    provider.setSelectedCountryId(
-                                        provider.countryDropdownIndexList[
-                                            provider.countryDropdownList
-                                                .indexOf(newValue)]);
-
-                                    //fetch states based on selected country
-                                    provider.fetchStates(
-                                        provider.selectedCountryId, context);
-                                  },
-                                  items: provider.countryDropdownList
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            color:
-                                                cc.greyPrimary.withOpacity(.8)),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                OthersHelper().showLoading(cc.primaryColor)
-                              ],
+                    // Country dropdown ===============>
+                    CommonHelper().labelCommon("Choose country"),
+                    provider.countryDropdownList.isNotEmpty
+                        ? Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: cc.greyFive),
+                              borderRadius: BorderRadius.circular(6),
                             ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                // menuMaxHeight: 200,
+                                // isExpanded: true,
+                                value: provider.selectedCountry,
+                                icon: Icon(Icons.keyboard_arrow_down_rounded,
+                                    color: cc.greyFour),
+                                iconSize: 26,
+                                elevation: 17,
+                                style: TextStyle(color: cc.greyFour),
+                                onChanged: (newValue) {
+                                  provider.setCountryValue(newValue);
 
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      // States dropdown ===============>
-                      CommonHelper().labelCommon("Choose states"),
-                      provider.statesDropdownList.isNotEmpty
-                          ? Container(
-                              width: double.infinity,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: cc.greyFive),
-                                borderRadius: BorderRadius.circular(6),
+                                  // setting the id of selected value
+                                  provider.setSelectedCountryId(
+                                      provider.countryDropdownIndexList[provider
+                                          .countryDropdownList
+                                          .indexOf(newValue)]);
+
+                                  //fetch states based on selected country
+                                  provider.fetchStates(
+                                      provider.selectedCountryId, context);
+                                },
+                                items: provider.countryDropdownList
+                                    .map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color:
+                                              cc.greyPrimary.withOpacity(.8)),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  // menuMaxHeight: 200,
-                                  // isExpanded: true,
-                                  value: provider.selectedState,
-                                  icon: Icon(Icons.keyboard_arrow_down_rounded,
-                                      color: cc.greyFour),
-                                  iconSize: 26,
-                                  elevation: 17,
-                                  style: TextStyle(color: cc.greyFour),
-                                  onChanged: (newValue) {
-                                    provider.setStatesValue(newValue);
-
-                                    //setting the id of selected value
-                                    provider.setSelectedStatesId(
-                                        provider.statesDropdownIndexList[
-                                            provider.statesDropdownList
-                                                .indexOf(newValue)]);
-                                    // //fetch area based on selected country and state
-
-                                    provider.fetchArea(
-                                        provider.selectedCountryId,
-                                        provider.selectedStateId,
-                                        context);
-
-                                    // print(provider.statesDropdownIndexList[provider
-                                    //     .statesDropdownList
-                                    //     .indexOf(newValue)]);
-                                  },
-                                  items: provider.statesDropdownList
-                                      .map<DropdownMenuItem<String>>((value) {
-                                    return DropdownMenuItem(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                            color:
-                                                cc.greyPrimary.withOpacity(.8)),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                OthersHelper().showLoading(cc.primaryColor)
-                              ],
                             ),
-                    ],
-                  ))
-        ],
-      ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              OthersHelper().showLoading(cc.primaryColor)
+                            ],
+                          ),
+
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    // States dropdown ===============>
+                    CommonHelper().labelCommon("Choose states"),
+                    provider.statesDropdownList.isNotEmpty
+                        ? Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: cc.greyFive),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                // menuMaxHeight: 200,
+                                // isExpanded: true,
+                                value: provider.selectedState,
+                                icon: Icon(Icons.keyboard_arrow_down_rounded,
+                                    color: cc.greyFour),
+                                iconSize: 26,
+                                elevation: 17,
+                                style: TextStyle(color: cc.greyFour),
+                                onChanged: (newValue) {
+                                  provider.setStatesValue(newValue);
+
+                                  //setting the id of selected value
+                                  provider.setSelectedStatesId(
+                                      provider.statesDropdownIndexList[provider
+                                          .statesDropdownList
+                                          .indexOf(newValue)]);
+                                  // //fetch area based on selected country and state
+
+                                  provider.fetchArea(provider.selectedCountryId,
+                                      provider.selectedStateId, context);
+
+                                  // print(provider.statesDropdownIndexList[provider
+                                  //     .statesDropdownList
+                                  //     .indexOf(newValue)]);
+                                },
+                                items: provider.statesDropdownList
+                                    .map<DropdownMenuItem<String>>((value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color:
+                                              cc.greyPrimary.withOpacity(.8)),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              OthersHelper().showLoading(cc.primaryColor)
+                            ],
+                          ),
+                  ],
+                ))
+      ],
     );
   }
 }
