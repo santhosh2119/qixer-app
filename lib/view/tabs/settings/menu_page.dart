@@ -7,6 +7,7 @@ import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/jobs/job_request_page.dart';
 import 'package:qixer/view/jobs/my_jobs_page.dart';
 import 'package:qixer/view/live_chat/chat_list_page.dart';
+import 'package:qixer/view/tabs/settings/components/chat_icon.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
 import 'package:qixer/view/tabs/settings/profile_edit.dart';
@@ -352,45 +353,7 @@ class _MenuPageState extends State<MenuPage> {
               ),
 
               //chat icon ========>
-              Positioned(
-                right: 20,
-                bottom: 20,
-                child: InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    //=====>
-                    Provider.of<ChatListService>(context, listen: false)
-                        .fetchChatList(context);
-
-                    //======>
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const ChatListPage(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 3,
-                          blurRadius: 12,
-                          offset:
-                              const Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/svg/message-green.svg',
-                      height: 48,
-                    ),
-                  ),
-                ),
-              ),
+              const ChatIcon(),
             ],
           ),
         ));

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
@@ -185,9 +186,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                           //Description
                           // ===============>
                           // sizedBoxCustom(15),
-                          CommonHelper().paragraphCommon(
-                              provider.jobDetails.description.toString(),
-                              TextAlign.left),
+
+                          HtmlWidget('''${provider.jobDetails.description}'''),
+                          // CommonHelper().paragraphCommon(
+                          //     provider.jobDetails.description.toString(),
+                          //     TextAlign.left),
 
                           sizedBoxCustom(20),
                         ]),

@@ -80,6 +80,9 @@ class EditJobService with ChangeNotifier {
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = "Bearer $token";
 
+    print('selected city id $selectedStateId');
+    print('selected country id $selectedCountryId');
+
     if (imagelink != null) {
       formData = FormData.fromMap({
         'category': selectedCategoryId,
@@ -114,6 +117,7 @@ class EditJobService with ChangeNotifier {
     );
 
     setLoadingStatus(false);
+    setImageNull();
     final data = response.data;
 
     print(data);

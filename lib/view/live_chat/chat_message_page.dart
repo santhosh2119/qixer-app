@@ -16,13 +16,11 @@ import 'package:qixer/view/utils/others_helper.dart';
 class ChatMessagePage extends StatefulWidget {
   const ChatMessagePage({
     Key? key,
-    required this.title,
     required this.receiverId,
     required this.currentUserId,
     required this.userName,
   }) : super(key: key);
 
-  final String title;
   final receiverId;
   final currentUserId;
   final userName;

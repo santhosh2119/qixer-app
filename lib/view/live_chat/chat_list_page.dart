@@ -90,8 +90,6 @@ class _ChatListPageState extends State<ChatListPage> {
                                                 builder:
                                                     (BuildContext context) =>
                                                         ChatMessagePage(
-                                                  title: provider.chatList[i]
-                                                      .sellerList.name,
                                                   receiverId: provider
                                                       .chatList[i]
                                                       .sellerList

@@ -4,6 +4,7 @@ import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/booking/service_personalization_page.dart';
+import 'package:qixer/view/live_chat/chat_message_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
 import 'package:qixer/view/services/components/overview_tab.dart';
@@ -12,6 +13,7 @@ import 'package:qixer/view/services/review/write_review_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/booking_services/personalization_service.dart';
 import '../utils/common_helper.dart';
@@ -196,54 +198,66 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                         ],
                                       )
                                     : Container(),
-                                CommonHelper().buttonOrange(
-                                    asProvider.getString('Book Appointment'),
-                                    () {
-                                  print(
-                                      'seller id ${provider.serviceAllDetails.serviceDetails.sellerId}');
-                                  Provider.of<BookService>(context,
-                                          listen: false)
-                                      .setData(
-                                    provider
-                                        .serviceAllDetails.serviceDetails.id,
-                                    provider
-                                        .serviceAllDetails.serviceDetails.title,
-                                    provider
-                                        .serviceAllDetails.serviceDetails.price,
-                                    provider.serviceAllDetails.serviceDetails
-                                        .sellerId,
-                                    image: provider.serviceAllDetails
-                                                .serviceImage !=
-                                            null
-                                        ? provider.serviceAllDetails
-                                            .serviceImage.imgUrl
-                                        : placeHolderUrl,
-                                  );
-
-                                  //==========>
-                                  Provider.of<PersonalizationService>(context,
-                                          listen: false)
-                                      .setDefaultPrice(Provider.of<BookService>(
-                                              context,
-                                              listen: false)
-                                          .totalPrice);
-                                  //fetch service extra
-                                  Provider.of<PersonalizationService>(context,
-                                          listen: false)
-                                      .fetchServiceExtra(
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CommonHelper().buttonOrange(
+                                          asProvider.getString(
+                                              'Book Appointment'), () {
+                                        print(
+                                            'seller id ${provider.serviceAllDetails.serviceDetails.sellerId}');
+                                        Provider.of<BookService>(context,
+                                                listen: false)
+                                            .setData(
                                           provider.serviceAllDetails
                                               .serviceDetails.id,
-                                          context);
+                                          provider.serviceAllDetails
+                                              .serviceDetails.title,
+                                          provider.serviceAllDetails
+                                              .serviceDetails.price,
+                                          provider.serviceAllDetails
+                                              .serviceDetails.sellerId,
+                                          image: provider.serviceAllDetails
+                                                      .serviceImage !=
+                                                  null
+                                              ? provider.serviceAllDetails
+                                                  .serviceImage.imgUrl
+                                              : placeHolderUrl,
+                                        );
 
-                                  //=============>
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (BuildContext context) =>
-                                          const ServicePersonalizationPage(),
+                                        //==========>
+                                        Provider.of<PersonalizationService>(
+                                                context,
+                                                listen: false)
+                                            .setDefaultPrice(
+                                                Provider.of<BookService>(
+                                                        context,
+                                                        listen: false)
+                                                    .totalPrice);
+                                        //fetch service extra
+                                        Provider.of<PersonalizationService>(
+                                                context,
+                                                listen: false)
+                                            .fetchServiceExtra(
+                                                provider.serviceAllDetails
+                                                    .serviceDetails.id,
+                                                context);
+
+                                        //=============>
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                const ServicePersonalizationPage(),
+                                          ),
+                                        );
+                                      }),
                                     ),
-                                  );
-                                }),
+
+                                    // chat icon
+                                    const ServiceDetailsChatIcon()
+                                  ],
+                                ),
                               ],
                             )),
                         const SizedBox(
@@ -256,6 +270,45 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                       child: Text(asProvider.getString('Something went wrong')),
                     )
               : OthersHelper().showLoading(cc.primaryColor),
+        ),
+      ),
+    );
+  }
+}
+
+class ServiceDetailsChatIcon extends StatelessWidget {
+  const ServiceDetailsChatIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cc = ConstantColors();
+    return Consumer<ServiceDetailsService>(
+      builder: (context, provider, child) => InkWell(
+        onTap: () async {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          var currentUserId = prefs.getInt('userId')!;
+
+          //======>
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => ChatMessagePage(
+                receiverId: provider.sellerId,
+                currentUserId: currentUserId,
+                userName: provider.serviceAllDetails.serviceSellerName,
+              ),
+            ),
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.only(left: 13, bottom: 6, top: 6),
+          child: Icon(
+            Icons.message_outlined,
+            size: 40,
+            color: cc.greyFour,
+          ),
         ),
       ),
     );

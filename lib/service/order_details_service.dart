@@ -183,17 +183,26 @@ class OrderDetailsService with ChangeNotifier {
     if (connection) {
       //if connection is ok
 
+      // setLoadingStatus(true);
+
       var data = jsonEncode({'id': extraId, 'order_id': orderId});
 
       var response = await http.post(
-          Uri.parse('$baseApi/user/order/extra-service/accept'),
-          headers: header);
+          Uri.parse('$baseApi/user/order/extra-service/decline'),
+          headers: header,
+          body: data);
 
-      final decodedData = jsonDecode(response.body);
+      print('extra id $extraId');
+      print('order id $orderId');
 
-      setLoadingStatus(false);
+      return;
+
+      // final decodedData = jsonDecode(response.body);
 
       print(response.body);
+      print(response.statusCode);
+
+      setLoadingStatus(false);
 
       // if (response.statusCode == 201 &&
       //     decodedData.containsKey('extra_service_list')) {
