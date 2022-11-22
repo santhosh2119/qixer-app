@@ -83,7 +83,7 @@ class EditJobService with ChangeNotifier {
     print('selected city id $selectedStateId');
     print('selected country id $selectedCountryId');
 
-    if (imagelink != null) {
+    if (pickedImage == null) {
       formData = FormData.fromMap({
         'category': selectedCategoryId,
         'subcategory': selectedSubCategoryId,

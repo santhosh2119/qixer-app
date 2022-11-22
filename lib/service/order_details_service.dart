@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/model/order_details_model.dart';
 import 'package:qixer/model/order_extra_model.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -110,17 +111,17 @@ class OrderDetailsService with ChangeNotifier {
 
   var selectedExtraId;
   var selectedOrderIdForExtra;
+  var selectedExtraPrice;
 
-  setExtraAndOrderId({required orderId, required extraId}) {
+  setExtraDetails({required orderId, required extraId, required extraPrice}) {
     selectedOrderIdForExtra = orderId;
     selectedExtraId = extraId;
-    print(
-        'selected order id $selectedOrderIdForExtra , selected extra id $selectedExtraId');
+    selectedExtraPrice = extraPrice;
     notifyListeners();
   }
 
   //============>
-  acceptOrderExtra({required selectedPayment}) async {
+  acceptOrderExtra(BuildContext context) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -136,6 +137,10 @@ class OrderDetailsService with ChangeNotifier {
     if (connection) {
       //if connection is ok
 
+      var selectedPayment =
+          Provider.of<PaymentGatewayListService>(context, listen: false)
+              .selectedMethodName;
+
       var data = jsonEncode({
         'id': selectedExtraId,
         'order_id': selectedOrderIdForExtra,
@@ -144,7 +149,8 @@ class OrderDetailsService with ChangeNotifier {
 
       var response = await http.post(
           Uri.parse('$baseApi/user/order/extra-service/accept'),
-          headers: header);
+          headers: header,
+          body: data);
 
       final decodedData = jsonDecode(response.body);
 
@@ -152,16 +158,12 @@ class OrderDetailsService with ChangeNotifier {
 
       print(response.body);
 
-      // if (response.statusCode == 201 &&
-      //     decodedData.containsKey('extra_service_list')) {
-      //   var data = OrderExtraModel.fromJson(decodedData);
-
-      //   orderExtra = data.extraServiceList;
-
-      //   notifyListeners();
-      // } else {
-      //   print('error fetching order extra ${response.body}');
-      // }
+      if (response.statusCode == 201) {
+        print('order extra accepted');
+        Navigator.pop(context);
+      } else {
+        print('error accepting order extra ${response.body}');
+      }
     }
   }
 

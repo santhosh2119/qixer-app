@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/view/booking/payment_choose_page.dart';
 import 'package:qixer/view/tabs/orders/components/order_details_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -59,9 +60,20 @@ class OrderExtras extends StatelessWidget {
                               Expanded(
                                   child: CommonHelper().buttonOrange('Accept',
                                       () {
-                                provider.setExtraAndOrderId(
+                                provider.setExtraDetails(
                                     orderId: orderId,
-                                    extraId: provider.orderExtra[i].id);
+                                    extraId: provider.orderExtra[i].id,
+                                    extraPrice: provider.orderExtra[i].total
+                                        .toStringAsFixed(2));
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PaymentChoosePage(
+                                            isFromOrderExtraAccept: true,
+                                          )),
+                                );
                               },
                                       bgColor: cc.successColor,
                                       paddingVerticle: 15)),

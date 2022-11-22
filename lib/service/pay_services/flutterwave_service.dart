@@ -6,7 +6,9 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:uuid/uuid.dart';
 
 class FlutterwaveService {
@@ -16,8 +18,9 @@ class FlutterwaveService {
   String currency = 'USD';
   // String amount = '200';
 
-  payByFlutterwave(BuildContext context) {
-    _handlePaymentInitialization(context);
+  payByFlutterwave(BuildContext context,
+      {bool isFromOrderExtraAccept = false}) {
+    _handlePaymentInitialization(context, isFromOrderExtraAccept);
     // Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) => const FlutterwavePaymentPage(),
@@ -25,22 +28,51 @@ class FlutterwaveService {
     // );
   }
 
-  _handlePaymentInitialization(BuildContext context) async {
+  _handlePaymentInitialization(
+      BuildContext context, isFromOrderExtraAccept) async {
     String amount;
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
-    var bookProvider = Provider.of<BookService>(context, listen: false);
 
-    // var name = bookProvider.name ?? '';
-    var phone = bookProvider.phone ?? '';
-    var email = bookProvider.email ?? '';
+    String name;
+    String phone;
+    String email;
 
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    if (isFromOrderExtraAccept == true) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+      name = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .name ??
+          'test';
+      phone = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .phone ??
+          '111111111';
+      email = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .email ??
+          'test@test.com';
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-          .toStringAsFixed(2);
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+      var bookProvider = Provider.of<BookService>(context, listen: false);
+
+      // var name = bookProvider.name ?? '';
+      phone = bookProvider.phone ?? '';
+      email = bookProvider.email ?? '';
+
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+            .toStringAsFixed(2);
+      }
     }
 
     // String publicKey = 'FLWPUBK_TEST-86cce2ec43c63e09a517290a8347fcab-X';
@@ -108,8 +140,14 @@ class FlutterwaveService {
     if (response != null) {
       showLoading(response.status!, context);
       print('flutterwave payment successfull');
-      Provider.of<PlaceOrderService>(context, listen: false)
-          .makePaymentSuccess(context);
+
+      if (isFromOrderExtraAccept == true) {
+        Provider.of<OrderDetailsService>(context, listen: false)
+            .acceptOrderExtra(context);
+      } else {
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .makePaymentSuccess(context);
+      }
       // print("${response.toJson()}");
     } else {
       //User cancelled the payment

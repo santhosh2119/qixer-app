@@ -9,6 +9,8 @@ import 'common_service.dart';
 
 class PaymentGatewayListService with ChangeNotifier {
   List paymentList = [];
+  var selectedMethodName;
+
   bool? isTestMode;
   var publicKey;
   var secretKey;
@@ -21,6 +23,11 @@ class PaymentGatewayListService with ChangeNotifier {
   var zitopayUserName;
 
   bool isloading = false;
+
+  setSelectedMethodName(newName) {
+    selectedMethodName = newName;
+    notifyListeners();
+  }
 
   setLoadingTrue() {
     isloading = true;

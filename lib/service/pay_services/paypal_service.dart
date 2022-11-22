@@ -9,28 +9,55 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/payments/PaypalPayment.dart';
 
 import '../booking_services/place_order_service.dart';
 
 class PaypalService {
-  payByPaypal(BuildContext context) {
+  payByPaypal(BuildContext context, {bool isFromOrderExtraAccept = false}) {
     String amount;
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
-    var bookProvider = Provider.of<BookService>(context, listen: false);
+    String name;
+    String phone;
+    String email;
 
-    var name = bookProvider.name ?? '';
-    var phone = bookProvider.phone ?? '';
-    var email = bookProvider.email ?? '';
-
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    if (isFromOrderExtraAccept == true) {
+      name = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .name ??
+          'test';
+      phone = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .phone ??
+          '111111111';
+      email = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .email ??
+          'test@test.com';
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-          .toStringAsFixed(2);
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+      var bookProvider = Provider.of<BookService>(context, listen: false);
+
+      name = bookProvider.name ?? '';
+      phone = bookProvider.phone ?? '';
+      email = bookProvider.email ?? '';
+
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+            .toStringAsFixed(2);
+      }
     }
 
     Navigator.of(context).push(
@@ -39,11 +66,16 @@ class PaypalService {
           onFinish: (number) async {
             print('paypal payment successfull');
 
-            //make payment status success
-            Provider.of<PlaceOrderService>(context, listen: false)
-                .makePaymentSuccess(context);
-            // payment done
-            print('order id: ' + number);
+            if (isFromOrderExtraAccept == true) {
+              Provider.of<OrderDetailsService>(context, listen: false)
+                  .acceptOrderExtra(context);
+            } else {
+              //make payment status success
+              Provider.of<PlaceOrderService>(context, listen: false)
+                  .makePaymentSuccess(context);
+              // payment done
+              print('order id: ' + number);
+            }
           },
           amount: amount,
           name: name,

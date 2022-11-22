@@ -7,31 +7,67 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 import '../booking_services/place_order_service.dart';
 
 class CashfreeService {
-  getTokenAndPay(BuildContext context) async {
+  getTokenAndPay(BuildContext context,
+      {bool isFromOrderExtraAccept = false}) async {
     //========>
-    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     String amount;
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
-    var bookProvider = Provider.of<BookService>(context, listen: false);
 
-    var name = bookProvider.name ?? '';
-    var phone = bookProvider.phone ?? '';
-    var email = bookProvider.email ?? '';
+    String name;
+    String phone;
+    String email;
+    String orderId;
 
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    if (isFromOrderExtraAccept == true) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+      name = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .name ??
+          'test';
+      phone = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .phone ??
+          '111111111';
+      email = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .email ??
+          'test@test.com';
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
+
+      orderId = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraId
+          .toString();
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-          .toStringAsFixed(2);
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+      var bookProvider = Provider.of<BookService>(context, listen: false);
+      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
+
+      name = bookProvider.name ?? '';
+      phone = bookProvider.phone ?? '';
+      email = bookProvider.email ?? '';
+
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+            .toStringAsFixed(2);
+      }
     }
 
     var header = {
@@ -48,8 +84,6 @@ class CashfreeService {
       "Content-Type": "application/json"
     };
 
-    String orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
     String orderCurrency = "INR";
     var data = jsonEncode({
       'orderId': orderId,
@@ -65,9 +99,11 @@ class CashfreeService {
     );
     print(response.body);
 
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+
     if (jsonDecode(response.body)['status'] == "OK") {
       cashFreePay(jsonDecode(response.body)['cftoken'], orderId, orderCurrency,
-          context, amount, name, phone, email);
+          context, amount, name, phone, email, isFromOrderExtraAccept);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
@@ -75,7 +111,7 @@ class CashfreeService {
   }
 
   cashFreePay(token, orderId, orderCurrency, BuildContext context, amount, name,
-      phone, email) {
+      phone, email, isFromOrderExtraAccept) {
     //Replace with actual values
     //has to be unique every time
     String stage = "TEST"; // PROD when in production mode// TEST when in test
@@ -99,12 +135,6 @@ class CashfreeService {
       "notifyUrl": notifyUrl
     };
 
-    // CashfreePGSDK.doPayment(inputParams)
-    //     .then((value) => value?.forEach((key, value) {
-    //           print("$key : $value");
-    //           print('it worked');
-    //           //Do something with the result
-    //         }));
     CashfreePGSDK.doPayment(
       inputParams,
     ).then((value) {
@@ -112,8 +142,14 @@ class CashfreeService {
       if (value != null) {
         if (value['txStatus'] == "SUCCESS") {
           print('Cashfree Payment successfull. Do something here');
-          Provider.of<PlaceOrderService>(context, listen: false)
-              .makePaymentSuccess(context);
+
+          if (isFromOrderExtraAccept == true) {
+            Provider.of<OrderDetailsService>(context, listen: false)
+                .acceptOrderExtra(context);
+          } else {
+            Provider.of<PlaceOrderService>(context, listen: false)
+                .makePaymentSuccess(context);
+          }
         }
       }
     });

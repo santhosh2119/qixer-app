@@ -29,30 +29,53 @@ randomOrderId() {
   return rng.nextInt(100).toString();
 }
 
-payAction(String method, BuildContext context, imagePath) {
+payAction(String method, BuildContext context, imagePath,
+    {bool isFromOrderExtraAccept = false}) {
   //to know method names visit PaymentGatewayListService class where payment
   //methods list are fetching with method name
 
   switch (method) {
     case 'paypal':
-      makePaymentToGetOrderId(context, () {
-        PaypalService().payByPaypal(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        PaypalService().payByPaypal(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          PaypalService().payByPaypal(context);
+        });
+      }
+
       break;
     case 'cashfree':
-      makePaymentToGetOrderId(context, () {
-        CashfreeService().getTokenAndPay(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        CashfreeService().getTokenAndPay(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          CashfreeService().getTokenAndPay(context);
+        });
+      }
+
       break;
     case 'flutterwave':
-      makePaymentToGetOrderId(context, () {
-        FlutterwaveService().payByFlutterwave(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        FlutterwaveService()
+            .payByFlutterwave(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          FlutterwaveService().payByFlutterwave(context);
+        });
+      }
+
       break;
     case 'instamojo':
-      makePaymentToGetOrderId(context, () {
-        InstamojoService().payByInstamojo(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        InstamojoService()
+            .payByInstamojo(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          InstamojoService().payByInstamojo(context);
+        });
+      }
+
       break;
     case 'marcadopago':
       makePaymentToGetOrderId(context, () {
@@ -137,7 +160,7 @@ payAction(String method, BuildContext context, imagePath) {
         Provider.of<PlaceOrderService>(context, listen: false)
             .placeOrder(context, imagePath.path, isManualOrCod: true);
       }
-      // StripeService().makePayment(context);
+
       break;
     case 'cash_on_delivery':
       Provider.of<PlaceOrderService>(context, listen: false)
