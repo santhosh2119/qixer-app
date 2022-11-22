@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -15,13 +16,15 @@ class PayfastPayment extends StatelessWidget {
       required this.amount,
       required this.name,
       required this.phone,
-      required this.email})
+      required this.email,
+      required this.isFromOrderExtraAccept})
       : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromOrderExtraAccept;
 
   String? url;
   late WebViewController _controller;
@@ -67,8 +70,14 @@ class PayfastPayment extends StatelessWidget {
                 if (value.contains('finish')) {
                   bool paySuccess = await verifyPayment(value);
                   if (paySuccess) {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
+                    if (isFromOrderExtraAccept == true) {
+                      Provider.of<OrderDetailsService>(context, listen: false)
+                          .acceptOrderExtra(context);
+                    } else {
+                      await Provider.of<PlaceOrderService>(context,
+                              listen: false)
+                          .makePaymentSuccess(context);
+                    }
                     return;
                   }
                 }
@@ -91,7 +100,7 @@ class PayfastPayment extends StatelessWidget {
 
     // final merchantKey = '77jcu5v4ufdod';
 
-    this.url =
+    url =
         'https://sandbox.payfast.co.za/eng/process?merchant_id=$merchantId&merchant_key=$merchantKey&amount=$amount&item_name=GrenmartGroceries';
     //   return;
     // }

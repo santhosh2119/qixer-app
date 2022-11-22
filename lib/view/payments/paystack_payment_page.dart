@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,14 +7,20 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class PaystackPaymentPage extends StatelessWidget {
-  PaystackPaymentPage({Key? key}) : super(key: key);
+  PaystackPaymentPage({Key? key, required this.isFromOrderExtraAccept})
+      : super(key: key);
+
   String? url;
+  final isFromOrderExtraAccept;
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -49,7 +54,7 @@ class PaystackPaymentPage extends StatelessWidget {
           return false;
         },
         child: FutureBuilder(
-            future: waitForIt(context),
+            future: waitForIt(context, isFromOrderExtraAccept),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -145,7 +150,7 @@ class PaystackPaymentPage extends StatelessWidget {
     );
   }
 
-  Future<void> waitForIt(BuildContext context) async {
+  Future<void> waitForIt(BuildContext context, isFromOrderExtraAccept) async {
     final uri = Uri.parse('https://api.paystack.co/transaction/initialize');
 
     String paystackSecretKey =
@@ -153,24 +158,55 @@ class PaystackPaymentPage extends StatelessWidget {
                 .secretKey ??
             '';
 
-    var amount;
+    String amount;
 
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
-    var bookProvider = Provider.of<BookService>(context, listen: false);
+    String name;
+    String phone;
+    String email;
+    String orderId;
 
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    if (isFromOrderExtraAccept == true) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+      name = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .name ??
+          'test';
+      phone = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .phone ??
+          '111111111';
+      email = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .email ??
+          'test@test.com';
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
+
+      orderId = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraId
+          .toString();
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-          .toStringAsFixed(2);
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+      var bookProvider = Provider.of<BookService>(context, listen: false);
+
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+            .toStringAsFixed(2);
+      }
+
+      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
+
+      email = bookProvider.email ?? '';
     }
-
-    final orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
-
-    var email = bookProvider.email ?? '';
 
     print(orderId);
 
@@ -194,7 +230,7 @@ class PaystackPaymentPage extends StatelessWidget {
         }));
     print(response.body);
     if (response.statusCode == 200) {
-      this.url = jsonDecode(response.body)['data']['authorization_url'];
+      url = jsonDecode(response.body)['data']['authorization_url'];
       print(url);
       return;
     }

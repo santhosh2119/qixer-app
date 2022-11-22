@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -16,13 +16,15 @@ class MidtransPayment extends StatelessWidget {
       required this.amount,
       required this.name,
       required this.phone,
-      required this.email})
+      required this.email,
+      required this.isFromOrderExtraAccept})
       : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromOrderExtraAccept;
 
   String? url;
   @override
@@ -55,8 +57,13 @@ class MidtransPayment extends StatelessWidget {
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
                 if (value.contains('success')) {
-                  await Provider.of<PlaceOrderService>(context, listen: false)
-                      .makePaymentSuccess(context);
+                  if (isFromOrderExtraAccept == true) {
+                    Provider.of<OrderDetailsService>(context, listen: false)
+                        .acceptOrderExtra(context);
+                  } else {
+                    Provider.of<PlaceOrderService>(context, listen: false)
+                        .makePaymentSuccess(context);
+                  }
                 }
               },
             );

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -15,13 +16,15 @@ class MolliePayment extends StatelessWidget {
       required this.amount,
       required this.name,
       required this.phone,
-      required this.email})
+      required this.email,
+      required this.isFromOrderExtraAccept})
       : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromOrderExtraAccept;
 
   String? url;
   String? statusURl;
@@ -59,8 +62,13 @@ class MolliePayment extends StatelessWidget {
                 if (value.contains(redirectUrl)) {
                   String status = await verifyPayment(context);
                   if (status == 'paid') {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
+                    if (isFromOrderExtraAccept == true) {
+                      Provider.of<OrderDetailsService>(context, listen: false)
+                          .acceptOrderExtra(context);
+                    } else {
+                      Provider.of<PlaceOrderService>(context, listen: false)
+                          .makePaymentSuccess(context);
+                    }
                   }
                   if (status == 'open') {
                     await showDialog(
@@ -135,7 +143,7 @@ class MolliePayment extends StatelessWidget {
     if (response.statusCode == 201) {
       this.url = jsonDecode(response.body)['_links']['checkout']['href'];
       print('url link is ${this.url}');
-      this.statusURl = jsonDecode(response.body)['_links']['self']['href'];
+      statusURl = jsonDecode(response.body)['_links']['self']['href'];
       print(statusURl);
       return;
     } else {

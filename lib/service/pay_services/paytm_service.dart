@@ -5,28 +5,38 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/view/payments/paytm_payment.dart';
 
 class PaytmService {
-  payByPaytm(BuildContext context) {
+  payByPaytm(BuildContext context, {bool isFromOrderExtraAccept = false}) {
     //========>
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     var amount;
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
 
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    if (isFromOrderExtraAccept == true) {
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-          .toStringAsFixed(2);
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+            .toStringAsFixed(2);
+      }
     }
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => PaytmPayment(),
+        builder: (BuildContext context) => PaytmPayment(
+          isFromOrderExtraAccept: isFromOrderExtraAccept,
+        ),
       ),
     );
   }

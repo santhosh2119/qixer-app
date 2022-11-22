@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../service/booking_services/place_order_service.dart';
@@ -13,30 +14,21 @@ class RazorpayPaymentPage extends StatefulWidget {
       required this.amount,
       required this.name,
       required this.phone,
-      required this.email})
+      required this.email,
+      required this.isFromOrderExtraAccept})
       : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromOrderExtraAccept;
 
   @override
   _RazorpayPaymentPageState createState() => _RazorpayPaymentPageState();
 }
 
 class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
-  // final TextEditingController name = TextEditingController();
-  // final TextEditingController phoneNo = TextEditingController();
-  // final TextEditingController email = TextEditingController();
-  // final TextEditingController description = TextEditingController();
-  // final TextEditingController amount = TextEditingController();
-
-  // String amount = '200';
-  // String name = 'saleheen';
-  // String phone = '54545133511';
-  // String email = 'test@test.com';
-
   late Razorpay _razorpay;
 
   @override
@@ -87,8 +79,13 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print("Payment Sucessfull");
 
-    Provider.of<PlaceOrderService>(context, listen: false)
-        .makePaymentSuccess(context);
+    if (widget.isFromOrderExtraAccept == true) {
+      Provider.of<OrderDetailsService>(context, listen: false)
+          .acceptOrderExtra(context);
+    } else {
+      Provider.of<PlaceOrderService>(context, listen: false)
+          .makePaymentSuccess(context);
+    }
 
     // print(
     //     "${response.orderId} \n${response.paymentId} \n${response.signature}");

@@ -11,13 +11,19 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
-import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MercadopagoPaymentPage extends StatefulWidget {
-  MercadopagoPaymentPage({Key? key}) : super(key: key);
+  const MercadopagoPaymentPage({
+    Key? key,
+    required this.isFromOrderExtraAccept,
+  }) : super(key: key);
+
+  final bool isFromOrderExtraAccept;
 
   @override
   State<MercadopagoPaymentPage> createState() => _MercadopagoPaymentPageState();
@@ -33,7 +39,6 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cc = ConstantColors();
     return Scaffold(
       appBar: AppBar(title: const Text('Mercado pago')),
       body: FutureBuilder(
@@ -72,8 +77,13 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
               navigationDelegate: (NavigationRequest request) async {
                 if (request.url.contains('https://www.google.com/')) {
                   print('payment success');
-                  await Provider.of<PlaceOrderService>(context, listen: false)
-                      .makePaymentSuccess(context);
+                  if (widget.isFromOrderExtraAccept == true) {
+                    Provider.of<OrderDetailsService>(context, listen: false)
+                        .acceptOrderExtra(context);
+                  } else {
+                    await Provider.of<PlaceOrderService>(context, listen: false)
+                        .makePaymentSuccess(context);
+                  }
 
                   return NavigationDecision.prevent;
                 }
@@ -93,28 +103,46 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
   }
 
   Future<dynamic> getPaymentUrl(BuildContext context) async {
-    var amount;
+    Object amount;
 
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
-    var bookProvider = Provider.of<BookService>(context, listen: false);
+    String orderId;
+    String email;
 
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+    if (widget.isFromOrderExtraAccept == true) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+      email = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .email ??
+          'test@test.com';
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
+
+      orderId = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraId
+          .toString();
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation;
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+      var bookProvider = Provider.of<BookService>(context, listen: false);
+
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation;
+      }
+      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
+
+      email = bookProvider.email ?? '';
     }
 
     String mercadoKey =
         Provider.of<PaymentGatewayListService>(context, listen: false)
                 .secretKey ??
             '';
-
-    final orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
-
-    var email = bookProvider.email ?? '';
 
     var header = {
       "Accept": "application/json",
@@ -150,7 +178,7 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
 
     // print(response.body);
     if (response.statusCode == 201) {
-      this.url = jsonDecode(response.body)['init_point'];
+      url = jsonDecode(response.body)['init_point'];
 
       return;
     }

@@ -78,48 +78,88 @@ payAction(String method, BuildContext context, imagePath,
 
       break;
     case 'marcadopago':
-      makePaymentToGetOrderId(context, () {
-        MercadoPagoService().payByMercado(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        MercadoPagoService()
+            .payByMercado(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          MercadoPagoService().payByMercado(context);
+        });
+      }
+
       break;
     case 'midtrans':
-      makePaymentToGetOrderId(context, () {
-        MidtransService().payByMidtrans(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        MidtransService().payByMidtrans(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          MidtransService().payByMidtrans(context);
+        });
+      }
+
       break;
     case 'mollie':
-      makePaymentToGetOrderId(context, () {
-        MollieService().payByMollie(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        MollieService().payByMollie(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          MollieService().payByMollie(context);
+        });
+      }
+
       break;
 
     case 'payfast':
-      makePaymentToGetOrderId(context, () {
-        PayfastService().payByPayfast(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        PayfastService().payByPayfast(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          PayfastService().payByPayfast(context);
+        });
+      }
+
       break;
 
     case 'paystack':
-      makePaymentToGetOrderId(context, () {
-        PaystackService().payByPaystack(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        PaystackService().payByPaystack(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          PaystackService().payByPaystack(context);
+        });
+      }
 
       break;
     case 'paytm':
-      makePaymentToGetOrderId(context, () {
-        PaytmService().payByPaytm(context);
-      }, paytmPaymentSelected: true);
+      if (isFromOrderExtraAccept == true) {
+        PaytmService().payByPaytm(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          PaytmService().payByPaytm(context);
+        }, paytmPaymentSelected: true);
+      }
+
       break;
 
     case 'razorpay':
-      makePaymentToGetOrderId(context, () {
-        RazorpayService().payByRazorpay(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        RazorpayService().payByRazorpay(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          RazorpayService().payByRazorpay(context);
+        });
+      }
+
       break;
     case 'stripe':
-      makePaymentToGetOrderId(context, () {
-        StripeService().makePayment(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        StripeService().makePayment(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          StripeService().makePayment(context);
+        });
+      }
+
       break;
 
     case 'squareup':

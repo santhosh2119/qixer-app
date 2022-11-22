@@ -9,7 +9,9 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +30,7 @@ class StripeService with ChangeNotifier {
 
   Map<String, dynamic>? paymentIntentData;
 
-  displayPaymentSheet(BuildContext context) async {
+  displayPaymentSheet(BuildContext context, isFromOrderExtraAccept) async {
     try {
       await Stripe.instance
           .presentPaymentSheet(
@@ -38,16 +40,14 @@ class StripeService with ChangeNotifier {
       ))
           .then((newValue) async {
         print('stripe payment successfull');
-        Provider.of<PlaceOrderService>(context, listen: false)
-            .makePaymentSuccess(context);
-        // print('payment id' + paymentIntentData!['id'].toString());
-        // print('payment client secret' +
-        //     paymentIntentData!['client_secret'].toString());
-        // print('payment amount' + paymentIntentData!['amount'].toString());
-        // print('payment intent full data' + paymentIntentData.toString());
-        //orderPlaceApi(paymentIntentData!['id'].toString());
-        // OthersHelper().showToast("Payment Successful", Colors.black);
 
+        if (isFromOrderExtraAccept == true) {
+          Provider.of<OrderDetailsService>(context, listen: false)
+              .acceptOrderExtra(context);
+        } else {
+          Provider.of<PlaceOrderService>(context, listen: false)
+              .makePaymentSuccess(context);
+        }
         //payment successs ================>
 
         paymentIntentData = null;
@@ -100,21 +100,53 @@ class StripeService with ChangeNotifier {
     }
   }
 
-  Future<void> makePayment(BuildContext context) async {
+  Future<void> makePayment(BuildContext context,
+      {bool isFromOrderExtraAccept = false}) async {
     var amount;
-    var name;
 
-    var bcProvider =
-        Provider.of<BookConfirmationService>(context, listen: false);
-    var pProvider = Provider.of<PersonalizationService>(context, listen: false);
-    var bookProvider = Provider.of<BookService>(context, listen: false);
+    String name;
+    String phone;
+    String email;
+    String orderId;
 
-    name = bookProvider.name ?? '';
-    if (pProvider.isOnline == 0) {
-      amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(0);
+    if (isFromOrderExtraAccept == true) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+      name = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .name ??
+          'test';
+      phone = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .phone ??
+          '111111111';
+      email = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .email ??
+          'test@test.com';
+      amount = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraPrice;
+
+      orderId = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraId
+          .toString();
     } else {
-      amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-          .toStringAsFixed(0);
+      var bcProvider =
+          Provider.of<BookConfirmationService>(context, listen: false);
+      var pProvider =
+          Provider.of<PersonalizationService>(context, listen: false);
+      var bookProvider = Provider.of<BookService>(context, listen: false);
+
+      name = bookProvider.name ?? '';
+      if (pProvider.isOnline == 0) {
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(0);
+      } else {
+        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+            .toStringAsFixed(0);
+      }
     }
 
     //Stripe takes only integer value
@@ -135,7 +167,7 @@ class StripeService with ChangeNotifier {
           .then((value) {});
 
       ///now finally display payment sheeet
-      displayPaymentSheet(context);
+      displayPaymentSheet(context, isFromOrderExtraAccept);
     } catch (e, s) {
       debugPrint('exception:$e$s');
     }

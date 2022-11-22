@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/payments/instamojo_payment_page.dart';
@@ -18,8 +17,6 @@ class InstamojoService {
     String orderId;
 
     if (isFromOrderExtraAccept == true) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
-
       name = Provider.of<ProfileService>(context, listen: false)
               .profileDetails
               .userDetails
@@ -66,6 +63,7 @@ class InstamojoService {
           amount: amount,
           name: name,
           email: email,
+          isFromOrderExtraAccept: isFromOrderExtraAccept,
         ),
       ),
     );

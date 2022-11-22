@@ -3,12 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:http/http.dart' as http;
 
 class PaytmPayment extends StatefulWidget {
-  PaytmPayment({Key? key}) : super(key: key);
+  const PaytmPayment({Key? key, required this.isFromOrderExtraAccept})
+      : super(key: key);
+
+  final isFromOrderExtraAccept;
 
   @override
   State<PaytmPayment> createState() => _PaytmPaymentState();
@@ -56,8 +59,13 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             //So, this alreadySuccess = true trick will prevent that
 
             print('payment success');
-            await Provider.of<PlaceOrderService>(context, listen: false)
-                .makePaymentSuccess(context);
+            if (widget.isFromOrderExtraAccept == true) {
+              Provider.of<OrderDetailsService>(context, listen: false)
+                  .acceptOrderExtra(context);
+            } else {
+              await Provider.of<PlaceOrderService>(context, listen: false)
+                  .makePaymentSuccess(context);
+            }
 
             return NavigationDecision.prevent;
           }
