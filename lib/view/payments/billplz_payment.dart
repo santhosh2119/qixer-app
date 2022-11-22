@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -18,13 +19,15 @@ class BillplzPayment extends StatelessWidget {
       required this.amount,
       required this.name,
       required this.phone,
-      required this.email})
+      required this.email,
+      required this.isFromOrderExtraAccept})
       : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromOrderExtraAccept;
 
   String? url;
   late WebViewController _controller;
@@ -68,7 +71,7 @@ class BillplzPayment extends StatelessWidget {
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
-                verifyPayment(value, context);
+                verifyPayment(value, context, isFromOrderExtraAccept);
               },
             );
           }),
@@ -129,13 +132,18 @@ class BillplzPayment extends StatelessWidget {
   }
 }
 
-Future verifyPayment(String url, BuildContext context) async {
+Future verifyPayment(
+    String url, BuildContext context, isFromOrderExtraAccept) async {
   final uri = Uri.parse(url);
   final response = await http.get(uri);
   if (response.body.contains('paid')) {
-    Provider.of<PlaceOrderService>(context, listen: false)
-        .makePaymentSuccess(context);
-
+    if (isFromOrderExtraAccept == true) {
+      Provider.of<OrderDetailsService>(context, listen: false)
+          .acceptOrderExtra(context);
+    } else {
+      Provider.of<PlaceOrderService>(context, listen: false)
+          .makePaymentSuccess(context);
+    }
     return;
   }
   if (response.body.contains('your payment was not')) {

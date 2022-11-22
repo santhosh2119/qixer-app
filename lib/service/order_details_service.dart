@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/model/order_details_model.dart';
@@ -115,13 +116,14 @@ class OrderDetailsService with ChangeNotifier {
 
   setExtraDetails({required orderId, required extraId, required extraPrice}) {
     selectedOrderIdForExtra = orderId;
-    selectedExtraId = extraId;
+    selectedExtraId = extraId.toString();
     selectedExtraPrice = extraPrice;
     notifyListeners();
   }
 
   //============>
-  acceptOrderExtra(BuildContext context) async {
+  Future<bool> acceptOrderExtra(BuildContext context,
+      {bool manualPaymentSelected = false, imagePath}) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -134,36 +136,51 @@ class OrderDetailsService with ChangeNotifier {
     };
 
     var connection = await checkConnection();
-    if (connection) {
-      //if connection is ok
+    if (!connection) return false;
+    //if connection is ok
 
-      var selectedPayment =
-          Provider.of<PaymentGatewayListService>(context, listen: false)
-              .selectedMethodName;
+    var selectedPayment =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .selectedMethodName;
 
-      var data = jsonEncode({
+    String data;
+    var dio = Dio();
+    dio.options.headers['Content-Type'] = 'multipart/form-data';
+    dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Authorization'] = "Bearer $token";
+
+    if (manualPaymentSelected == true) {
+      data = jsonEncode({
+        'id': selectedExtraId,
+        'order_id': selectedOrderIdForExtra,
+        'selected_payment_gateway': selectedPayment,
+        'manual_payment_image': await MultipartFile.fromFile(imagePath,
+            filename: 'bankTransfer.jpg'),
+      });
+    } else {
+      data = jsonEncode({
         'id': selectedExtraId,
         'order_id': selectedOrderIdForExtra,
         'selected_payment_gateway': selectedPayment,
       });
+    }
 
-      var response = await http.post(
-          Uri.parse('$baseApi/user/order/extra-service/accept'),
-          headers: header,
-          body: data);
+    var response = await dio.post(
+      '$baseApi/user/order/extra-service/accept',
+      data: data,
+    );
 
-      final decodedData = jsonDecode(response.body);
+    setLoadingStatus(false);
 
-      setLoadingStatus(false);
+    print(response.data);
 
-      print(response.body);
-
-      if (response.statusCode == 201) {
-        print('order extra accepted');
-        Navigator.pop(context);
-      } else {
-        print('error accepting order extra ${response.body}');
-      }
+    if (response.statusCode == 201) {
+      print('order extra accepted');
+      Navigator.pop(context);
+      return true;
+    } else {
+      print('error accepting order extra ${response.data}');
+      return false;
     }
   }
 

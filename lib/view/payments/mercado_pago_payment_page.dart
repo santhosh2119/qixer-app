@@ -78,7 +78,8 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
                 if (request.url.contains('https://www.google.com/')) {
                   print('payment success');
                   if (widget.isFromOrderExtraAccept == true) {
-                    Provider.of<OrderDetailsService>(context, listen: false)
+                    await Provider.of<OrderDetailsService>(context,
+                            listen: false)
                         .acceptOrderExtra(context);
                   } else {
                     await Provider.of<PlaceOrderService>(context, listen: false)

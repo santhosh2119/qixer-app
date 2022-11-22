@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/billplz_service.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
 import 'package:qixer/service/pay_services/cinetpay_service.dart';
@@ -163,33 +164,58 @@ payAction(String method, BuildContext context, imagePath,
       break;
 
     case 'squareup':
-      makePaymentToGetOrderId(context, () {
-        SquareService().payBySquare(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        SquareService().payBySquare(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          SquareService().payBySquare(context);
+        });
+      }
+
       break;
 
     case 'cinetpay':
-      makePaymentToGetOrderId(context, () {
-        CinetPayService().payByCinetpay(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        CinetPayService().payByCinetpay(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          CinetPayService().payByCinetpay(context);
+        });
+      }
+
       break;
 
     case 'paytabs':
-      makePaymentToGetOrderId(context, () {
-        PaytabsService().payByPaytabs(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        PaytabsService().payByPaytabs(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          PaytabsService().payByPaytabs(context);
+        });
+      }
+
       break;
 
     case 'billplz':
-      makePaymentToGetOrderId(context, () {
-        BillPlzService().payByBillPlz(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        BillPlzService().payByBillPlz(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          BillPlzService().payByBillPlz(context);
+        });
+      }
+
       break;
 
     case 'zitopay':
-      makePaymentToGetOrderId(context, () {
-        ZitopayService().payByZitopay(context);
-      });
+      if (isFromOrderExtraAccept == true) {
+        ZitopayService().payByZitopay(context, isFromOrderExtraAccept: true);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          ZitopayService().payByZitopay(context);
+        });
+      }
+
       break;
 
     case 'manual_payment':
@@ -197,14 +223,24 @@ payAction(String method, BuildContext context, imagePath,
         OthersHelper()
             .showToast('You must upload the cheque image', Colors.black);
       } else {
-        Provider.of<PlaceOrderService>(context, listen: false)
-            .placeOrder(context, imagePath.path, isManualOrCod: true);
+        if (isFromOrderExtraAccept == true) {
+          buyExtraCodOrManualPayment(context,
+              manualPaymentSelected: true, imagePath: imagePath.path);
+        } else {
+          Provider.of<PlaceOrderService>(context, listen: false)
+              .placeOrder(context, imagePath.path, isManualOrCod: true);
+        }
       }
 
       break;
     case 'cash_on_delivery':
-      Provider.of<PlaceOrderService>(context, listen: false)
-          .placeOrder(context, null, isManualOrCod: true);
+      if (isFromOrderExtraAccept == true) {
+        buyExtraCodOrManualPayment(context);
+      } else {
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .placeOrder(context, null, isManualOrCod: true);
+      }
+
       break;
     default:
       {
@@ -223,4 +259,14 @@ makePaymentToGetOrderId(BuildContext context, VoidCallback function,
   } else {
     print('order place unsuccessfull, visit payment_constants.dart file');
   }
+}
+
+buyExtraCodOrManualPayment(BuildContext context,
+    {bool manualPaymentSelected = false, imagePath}) async {
+  Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+  await Provider.of<OrderDetailsService>(context, listen: false)
+      .acceptOrderExtra(context, manualPaymentSelected: manualPaymentSelected);
+
+  Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 }

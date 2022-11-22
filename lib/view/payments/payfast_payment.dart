@@ -71,7 +71,8 @@ class PayfastPayment extends StatelessWidget {
                   bool paySuccess = await verifyPayment(value);
                   if (paySuccess) {
                     if (isFromOrderExtraAccept == true) {
-                      Provider.of<OrderDetailsService>(context, listen: false)
+                      await Provider.of<OrderDetailsService>(context,
+                              listen: false)
                           .acceptOrderExtra(context);
                     } else {
                       await Provider.of<PlaceOrderService>(context,

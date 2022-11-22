@@ -19,7 +19,6 @@ class MollieService {
     String name;
     String phone;
     String email;
-    String orderId;
 
     if (isFromOrderExtraAccept == true) {
       Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
@@ -41,10 +40,6 @@ class MollieService {
           'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
-
-      orderId = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraId
-          .toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
