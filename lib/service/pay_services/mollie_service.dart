@@ -12,13 +12,12 @@ import 'package:qixer/view/payments/mollie_payment.dart';
 
 class MollieService {
   payByMollie(BuildContext context, {bool isFromOrderExtraAccept = false}) {
-    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
-
     var amount;
 
     String name;
     String phone;
     String email;
+    var orderId;
 
     if (isFromOrderExtraAccept == true) {
       Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
@@ -40,6 +39,8 @@ class MollieService {
           'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+      orderId = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedOrderIdForExtra;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -50,6 +51,7 @@ class MollieService {
       name = bookProvider.name ?? '';
       phone = bookProvider.phone ?? '';
       email = bookProvider.email ?? '';
+      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
       if (pProvider.isOnline == 0) {
         amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
@@ -66,6 +68,7 @@ class MollieService {
           name: name,
           phone: phone,
           email: email,
+          orderId: orderId,
           isFromOrderExtraAccept: isFromOrderExtraAccept,
         ),
       ),

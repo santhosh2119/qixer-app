@@ -38,6 +38,10 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
+
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {

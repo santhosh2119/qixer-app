@@ -43,6 +43,10 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
+
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(

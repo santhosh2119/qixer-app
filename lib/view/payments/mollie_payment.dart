@@ -17,7 +17,8 @@ class MolliePayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromOrderExtraAccept})
+      required this.isFromOrderExtraAccept,
+      required this.orderId})
       : super(key: key);
 
   final amount;
@@ -25,17 +26,25 @@ class MolliePayment extends StatelessWidget {
   final phone;
   final email;
   final isFromOrderExtraAccept;
+  final orderId;
 
   String? url;
   String? statusURl;
   @override
   Widget build(BuildContext context) {
+    var successUrl =
+        Provider.of<PlaceOrderService>(context, listen: false).successUrl ??
+            'https://www.google.com/';
+
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mollie'),
       ),
       body: FutureBuilder(
-          future: waitForIt(context),
+          future: waitForIt(context, successUrl),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -55,9 +64,7 @@ class MolliePayment extends StatelessWidget {
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
               onPageStarted: (value) async {
-                var redirectUrl =
-                    Provider.of<PlaceOrderService>(context, listen: false)
-                        .successUrl;
+                var redirectUrl = successUrl;
 
                 if (value.contains(redirectUrl)) {
                   String status = await verifyPayment(context);
@@ -109,16 +116,12 @@ class MolliePayment extends StatelessWidget {
     );
   }
 
-  waitForIt(BuildContext context) async {
+  waitForIt(BuildContext context, successUrl) async {
     final publicKey =
         Provider.of<PaymentGatewayListService>(context, listen: false)
             .publicKey;
 
     // final publicKey = 'test_fVk76gNbAp6ryrtRjfAVvzjxSHxC2v';
-
-    String orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
-    // Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
     final url = Uri.parse('https://api.mollie.com/v2/payments');
     final header = {
@@ -133,11 +136,8 @@ class MolliePayment extends StatelessWidget {
         body: jsonEncode({
           "amount": {"value": amount, "currency": "USD"},
           "description": "Qixer payment",
-          "redirectUrl":
-              Provider.of<PlaceOrderService>(context, listen: false).successUrl,
-          "webhookUrl":
-              Provider.of<PlaceOrderService>(context, listen: false).successUrl,
-          "metadata": 'mollieQixer$orderId',
+          "redirectUrl": successUrl,
+          "webhookUrl": successUrl, "metadata": 'mollieQixer$orderId',
           // "method": "creditcard",
         }));
     if (response.statusCode == 201) {

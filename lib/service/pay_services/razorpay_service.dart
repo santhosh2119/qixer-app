@@ -42,7 +42,8 @@ class RazorpayService {
           'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
-
+      // amount = '10.0';
+      amount = double.parse(amount).toStringAsFixed(1);
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId
           .toString();

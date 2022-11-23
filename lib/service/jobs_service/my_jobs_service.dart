@@ -93,12 +93,7 @@ class MyJobsService with ChangeNotifier {
         for (int i = 0; i < data.jobImage.length; i++) {
           String? serviceImage;
 
-          if (i == 0) {
-            //api giving an unnecessary null for first one, so skip it
-            continue;
-          } else {
-            serviceImage = data.jobImage[i]?.imgUrl ?? placeHolderUrl;
-          }
+          serviceImage = data.jobImage[i]?.imgUrl ?? placeHolderUrl;
 
           imageList.add(serviceImage);
         }

@@ -63,7 +63,7 @@ class OrderDetailsHelper {
                       Expanded(
                           child: CommonHelper()
                               .buttonOrange(asProvider.getString('Delete'), () {
-                        provider.declineOrderExtra(
+                        provider.declineOrderExtra(context,
                             extraId: extraId, orderId: orderId);
                       }, isloading: provider.isLoading, bgColor: Colors.red)),
                     ],

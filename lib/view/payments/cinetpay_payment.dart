@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
@@ -29,6 +30,9 @@ class CinetPayPayment extends StatelessWidget {
   String? url;
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cinetpay'),

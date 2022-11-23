@@ -45,40 +45,43 @@ class OrderExtras extends StatelessWidget {
                               'Unit price: \$${provider.orderExtra[i].price.toStringAsFixed(2)}    Quantity: ${provider.orderExtra[i].quantity}    Total: \$${provider.orderExtra[i].total.toStringAsFixed(2)}',
                               TextAlign.left),
                           sizedBoxCustom(12),
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: CommonHelper().buttonOrange('Decline',
-                                      () {
-                                OrderDetailsHelper().deletePopup(context,
-                                    extraId: provider.orderExtra[i].id,
-                                    orderId: orderId);
-                              }, bgColor: Colors.red, paddingVerticle: 14)),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                  child: CommonHelper().buttonOrange('Accept',
-                                      () {
-                                provider.setExtraDetails(
-                                    orderId: orderId,
-                                    extraId: provider.orderExtra[i].id,
-                                    extraPrice: provider.orderExtra[i].total
-                                        .toStringAsFixed(2));
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PaymentChoosePage(
-                                            isFromOrderExtraAccept: true,
-                                          )),
-                                );
-                              },
-                                      bgColor: cc.successColor,
-                                      paddingVerticle: 15)),
-                            ],
-                          ),
+                          //0=pending,1=accept,2=decline
+                          if (provider.orderExtra[i].status == 0)
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: CommonHelper()
+                                        .buttonOrange('Decline', () {
+                                  OrderDetailsHelper().deletePopup(context,
+                                      extraId: provider.orderExtra[i].id,
+                                      orderId: orderId);
+                                }, bgColor: Colors.red, paddingVerticle: 14)),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Expanded(
+                                    child: CommonHelper().buttonOrange('Accept',
+                                        () {
+                                  provider.setExtraDetails(
+                                      orderId: orderId,
+                                      extraId: provider.orderExtra[i].id,
+                                      extraPrice: provider.orderExtra[i].total
+                                          .toStringAsFixed(2));
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const PaymentChoosePage(
+                                              isFromOrderExtraAccept: true,
+                                            )),
+                                  );
+                                },
+                                        bgColor: cc.successColor,
+                                        paddingVerticle: 15)),
+                              ],
+                            ),
                           sizedBoxCustom(22)
                         ])
                 ],

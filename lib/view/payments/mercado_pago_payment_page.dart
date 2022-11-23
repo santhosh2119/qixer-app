@@ -104,14 +104,12 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
   }
 
   Future<dynamic> getPaymentUrl(BuildContext context) async {
-    Object amount;
+    var amount;
 
     String orderId;
     String email;
 
     if (widget.isFromOrderExtraAccept == true) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
-
       email = Provider.of<ProfileService>(context, listen: false)
               .profileDetails
               .userDetails
@@ -119,6 +117,7 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
           'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+      amount = double.parse(amount);
 
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId

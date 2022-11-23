@@ -129,6 +129,7 @@ class StripeService with ChangeNotifier {
           'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+      amount = double.parse(amount).toStringAsFixed(0);
 
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId

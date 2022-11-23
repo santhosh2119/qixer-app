@@ -58,7 +58,7 @@ class LatestService {
   int? id;
   String? title;
   String? image;
-  int? price;
+  var price;
   int? sellerId;
   List<ReviewsForMobile> reviewsForMobile;
   SellerForMobile sellerForMobile;

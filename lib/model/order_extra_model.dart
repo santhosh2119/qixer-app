@@ -30,16 +30,16 @@ class OrderExtraModel {
 }
 
 class ExtraServiceList {
-  ExtraServiceList({
-    this.id,
-    this.orderId,
-    this.title,
-    this.quantity,
-    this.price,
-    this.tax,
-    this.subTotal,
-    this.total,
-  });
+  ExtraServiceList(
+      {this.id,
+      this.orderId,
+      this.title,
+      this.quantity,
+      this.price,
+      this.tax,
+      this.subTotal,
+      this.total,
+      this.status});
 
   int? id;
   int? orderId;
@@ -49,18 +49,19 @@ class ExtraServiceList {
   double? tax;
   int? subTotal;
   double? total;
+  var status;
 
   factory ExtraServiceList.fromJson(Map<String, dynamic> json) =>
       ExtraServiceList(
-        id: json["id"],
-        orderId: json["order_id"],
-        title: json["title"],
-        quantity: json["quantity"],
-        price: json["price"],
-        tax: json["tax"].toDouble(),
-        subTotal: json["sub_total"],
-        total: json["total"].toDouble(),
-      );
+          id: json["id"],
+          orderId: json["order_id"],
+          title: json["title"],
+          quantity: json["quantity"],
+          price: json["price"],
+          tax: json["tax"].toDouble(),
+          subTotal: json["sub_total"],
+          total: json["total"].toDouble(),
+          status: json["status"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -71,5 +72,6 @@ class ExtraServiceList {
         "tax": tax,
         "sub_total": subTotal,
         "total": total,
+        "status": status
       };
 }

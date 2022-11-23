@@ -29,6 +29,10 @@ class MidtransPayment extends StatelessWidget {
   String? url;
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Midtrans'),

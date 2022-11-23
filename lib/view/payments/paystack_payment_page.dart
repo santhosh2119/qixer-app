@@ -23,6 +23,9 @@ class PaystackPaymentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
     ConstantColors cc = ConstantColors();
 
     return Scaffold(
@@ -96,8 +99,13 @@ class PaystackPaymentPage extends StatelessWidget {
                   // if (response.body.contains('PAYMENT ID')) {
 
                   if (response.body.contains('Payment Successful')) {
-                    Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
+                    if (isFromOrderExtraAccept == true) {
+                      Provider.of<OrderDetailsService>(context, listen: false)
+                          .acceptOrderExtra(context);
+                    } else {
+                      Provider.of<PlaceOrderService>(context, listen: false)
+                          .makePaymentSuccess(context);
+                    }
 
                     return;
                   }
@@ -125,8 +133,15 @@ class PaystackPaymentPage extends StatelessWidget {
                 navigationDelegate: (navRequest) async {
                   print('nav req to .......................${navRequest.url}');
                   if (navRequest.url.contains('success')) {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
+                    if (isFromOrderExtraAccept == true) {
+                      await Provider.of<OrderDetailsService>(context,
+                              listen: false)
+                          .acceptOrderExtra(context);
+                    } else {
+                      await Provider.of<PlaceOrderService>(context,
+                              listen: false)
+                          .makePaymentSuccess(context);
+                    }
                     return NavigationDecision.prevent;
                   }
                   if (navRequest.url.contains('failed')) {
@@ -158,7 +173,7 @@ class PaystackPaymentPage extends StatelessWidget {
                 .secretKey ??
             '';
 
-    String amount;
+    var amount;
 
     String name;
     String phone;
@@ -166,8 +181,6 @@ class PaystackPaymentPage extends StatelessWidget {
     String orderId;
 
     if (isFromOrderExtraAccept == true) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
-
       name = Provider.of<ProfileService>(context, listen: false)
               .profileDetails
               .userDetails
@@ -186,6 +199,9 @@ class PaystackPaymentPage extends StatelessWidget {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
 
+      amount = double.parse(amount).toStringAsFixed(0);
+      amount = int.parse(amount);
+
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId
           .toString();
@@ -197,10 +213,12 @@ class PaystackPaymentPage extends StatelessWidget {
       var bookProvider = Provider.of<BookService>(context, listen: false);
 
       if (pProvider.isOnline == 0) {
-        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(0);
+        amount = int.parse(amount);
       } else {
         amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-            .toStringAsFixed(2);
+            .toStringAsFixed(0);
+        amount = int.parse(amount);
       }
 
       orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;

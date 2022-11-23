@@ -18,6 +18,7 @@ class PayTabsPayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
+      required this.orderId,
       required this.isFromOrderExtraAccept})
       : super(key: key);
 
@@ -25,11 +26,17 @@ class PayTabsPayment extends StatelessWidget {
   final name;
   final phone;
   final email;
+
+  final orderId;
   final isFromOrderExtraAccept;
 
   String? url;
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(microseconds: 600), () {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Paytabs'),
@@ -108,9 +115,6 @@ class PayTabsPayment extends StatelessWidget {
   }
 
   waitForIt(BuildContext context) async {
-    String orderId =
-        Provider.of<PlaceOrderService>(context, listen: false).orderId;
-
     // String profileId =
     //     Provider.of<PaymentGatewayListService>(context, listen: false)
     //         .paytabProfileId;

@@ -32,6 +32,9 @@ class PaytmService {
       }
     }
 
+    //paytm not implemented neither for place order nor extra accept,
+    if (isFromOrderExtraAccept) return;
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => PaytmPayment(

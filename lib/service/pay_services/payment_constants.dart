@@ -266,7 +266,6 @@ buyExtraCodOrManualPayment(BuildContext context,
   Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
 
   await Provider.of<OrderDetailsService>(context, listen: false)
-      .acceptOrderExtra(context, manualPaymentSelected: manualPaymentSelected);
-
-  Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      .acceptOrderExtra(context,
+          manualPaymentSelected: manualPaymentSelected, imagePath: imagePath);
 }

@@ -19,7 +19,7 @@ class PaytabsService {
     String name;
     String phone;
     String email;
-    String orderId;
+    var orderId;
 
     if (isFromOrderExtraAccept == true) {
       Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
@@ -55,6 +55,7 @@ class PaytabsService {
       name = bookProvider.name ?? '';
       phone = bookProvider.phone ?? '';
       email = bookProvider.email ?? '';
+      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
 
       if (pProvider.isOnline == 0) {
         amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
@@ -72,6 +73,7 @@ class PaytabsService {
           phone: phone,
           email: email,
           isFromOrderExtraAccept: isFromOrderExtraAccept,
+          orderId: orderId,
         ),
       ),
     );
