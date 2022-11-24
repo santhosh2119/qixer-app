@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/model/order_details_model.dart';
 import 'package:qixer/model/order_extra_model.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/orders_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/booking/components/order_extra_accept_success_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -57,17 +58,18 @@ class OrderDetailsService with ChangeNotifier {
         .post(Uri.parse('$baseApi/user/my-orders/$orderId'), headers: header);
 
     if (response.statusCode == 201) {
-      print(response.body);
       var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
-      print(data);
+
       orderDetails = data.orderInfo;
 
       var status = data.orderInfo.status;
 
       orderStatus = getOrderStatus(status ?? -1);
 
-      Provider.of<OrderDetailsService>(context, listen: false)
-          .fetchOrderExtraList(orderId);
+      await fetchOrderExtraList(orderId);
+
+      Provider.of<OrdersService>(context, listen: false)
+          .fetchDeclineHistory(context, orderId: orderId);
 
       notifyListeners();
       return true;
@@ -80,7 +82,7 @@ class OrderDetailsService with ChangeNotifier {
   }
 
   //fetch order extra list
-  fetchOrderExtraList(orderId) async {
+  Future<bool> fetchOrderExtraList(orderId) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -93,28 +95,29 @@ class OrderDetailsService with ChangeNotifier {
     };
 
     var connection = await checkConnection();
-    if (connection) {
-      //if connection is ok
-      var response = await http.get(
-          Uri.parse('$baseApi/user/order/extra-service/list/$orderId'),
-          headers: header);
+    if (!connection) return false;
 
-      final decodedData = jsonDecode(response.body);
+    //if connection is ok
+    var response = await http.get(
+        Uri.parse('$baseApi/user/order/extra-service/list/$orderId'),
+        headers: header);
 
-      setLoadingStatus(false);
+    final decodedData = jsonDecode(response.body);
 
-      print(response.body);
+    setLoadingStatus(false);
 
-      if (response.statusCode == 201 &&
-          decodedData.containsKey('extra_service_list')) {
-        var data = OrderExtraModel.fromJson(decodedData);
+    if (response.statusCode == 201 &&
+        decodedData.containsKey('extra_service_list')) {
+      var data = OrderExtraModel.fromJson(decodedData);
 
-        orderExtra = data.extraServiceList;
+      orderExtra = data.extraServiceList;
 
-        notifyListeners();
-      } else {
-        print('error fetching order extra ${response.body}');
-      }
+      notifyListeners();
+
+      return true;
+    } else {
+      print('error fetching order extra ${response.body}');
+      return false;
     }
   }
 
@@ -132,7 +135,6 @@ class OrderDetailsService with ChangeNotifier {
   //============>
   Future<bool> acceptOrderExtra(BuildContext context,
       {bool manualPaymentSelected = false, imagePath}) async {
-    print('accept exttt rn');
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -175,11 +177,7 @@ class OrderDetailsService with ChangeNotifier {
 
     setLoadingStatus(false);
 
-    print(response.data);
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
-      print('order extra accepted');
       await fetchOrderDetails(selectedOrderIdForExtra, context);
 
       Navigator.pop(context);
@@ -233,9 +231,6 @@ class OrderDetailsService with ChangeNotifier {
           Uri.parse('$baseApi/user/order/extra-service/decline'),
           headers: header,
           body: data);
-
-      print(response.body);
-      print(response.statusCode);
 
       if (response.statusCode == 201) {
         await fetchOrderDetails(orderId, context);

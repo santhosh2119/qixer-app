@@ -4,6 +4,7 @@ import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/view/tabs/orders/components/amount_details.dart';
 import 'package:qixer/view/tabs/orders/components/complete_request.dart';
+import 'package:qixer/view/tabs/orders/components/decline_history.dart';
 import 'package:qixer/view/tabs/orders/components/order_extras.dart';
 import 'package:qixer/view/tabs/orders/components/seller_details.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -133,6 +134,8 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           ),
                                         ]),
                                   ),
+
+                                  const DeclineHistory(),
 
                                   // order extras
                                   // ==============>
