@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/orders_service.dart';
+import 'package:qixer/view/tabs/orders/components/decline_order_page.dart';
 import 'package:qixer/view/tabs/orders/orders_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -72,9 +73,21 @@ class CompleteRequest extends StatelessWidget {
                                   Row(
                                     children: [
                                       Expanded(
-                                          child: CommonHelper().buttonOrange(
-                                              'Decline', () {},
-                                              bgColor: Colors.red)),
+                                          child: CommonHelper()
+                                              .buttonOrange('Decline', () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DeclineOrderPage(
+                                                    orderId: orderId,
+                                                    sellerId: provider
+                                                        .orderDetails
+                                                        .sellerDetails
+                                                        .id,
+                                                  )),
+                                        );
+                                      }, bgColor: Colors.red)),
                                       const SizedBox(
                                         width: 15,
                                       ),
