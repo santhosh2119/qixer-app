@@ -29,7 +29,8 @@ class OrderDetailsService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> fetchOrderDetails(orderId, BuildContext context) async {
+  Future<bool> fetchOrderDetails(orderId, BuildContext context,
+      {bool isFromOrderComplete = false}) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -45,7 +46,13 @@ class OrderDetailsService with ChangeNotifier {
     if (!connection) return false;
     //if connection is ok
 
-    setLoadingStatus(true);
+    if (!isFromOrderComplete) {
+      //if it is from order complete accept, then no need to show loading
+      //because it is causing some issue
+
+      setLoadingStatus(true);
+    }
+
     var response = await http
         .post(Uri.parse('$baseApi/user/my-orders/$orderId'), headers: header);
 

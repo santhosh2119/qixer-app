@@ -142,11 +142,11 @@ class CommonHelper {
     );
   }
 
-  titleCommon(String title, {double fontsize = 18}) {
+  titleCommon(String title, {double fontsize = 18, color}) {
     return Text(
       title,
       style: TextStyle(
-          color: cc.greyPrimary,
+          color: color ?? cc.greyPrimary,
           fontSize: fontsize,
           fontWeight: FontWeight.bold),
     );
