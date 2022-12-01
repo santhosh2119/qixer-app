@@ -8,10 +8,13 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/payments/mollie_payment.dart';
 
 class MollieService {
-  payByMollie(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByMollie(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     var amount;
 
     String name;
@@ -19,28 +22,32 @@ class MollieService {
     String email;
     var orderId;
 
-    if (isFromOrderExtraAccept == true) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
 
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
+
+    if (isFromOrderExtraAccept == true) {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedOrderIdForExtra;
+    } else if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      orderId = DateTime.now().toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -64,13 +71,13 @@ class MollieService {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => MolliePayment(
-          amount: amount,
-          name: name,
-          phone: phone,
-          email: email,
-          orderId: orderId,
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-        ),
+            amount: amount,
+            name: name,
+            phone: phone,
+            email: email,
+            orderId: orderId,
+            isFromOrderExtraAccept: isFromOrderExtraAccept,
+            isFromWalletDeposite: isFromWalletDeposite),
       ),
     );
   }

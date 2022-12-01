@@ -10,13 +10,15 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 import '../booking_services/place_order_service.dart';
 
 class CashfreeService {
   getTokenAndPay(BuildContext context,
-      {bool isFromOrderExtraAccept = false}) async {
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) async {
     //========>
 
     String amount;
@@ -25,31 +27,37 @@ class CashfreeService {
     String phone;
     String email;
     String orderId;
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
 
     if (isFromOrderExtraAccept == true) {
       Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
-
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
 
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId
           .toString();
+    } else if (isFromWalletDeposite) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+
+      orderId = DateTime.now().toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -102,8 +110,17 @@ class CashfreeService {
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     if (jsonDecode(response.body)['status'] == "OK") {
-      cashFreePay(jsonDecode(response.body)['cftoken'], orderId, orderCurrency,
-          context, amount, name, phone, email, isFromOrderExtraAccept);
+      cashFreePay(
+          jsonDecode(response.body)['cftoken'],
+          orderId,
+          orderCurrency,
+          context,
+          amount,
+          name,
+          phone,
+          email,
+          isFromOrderExtraAccept,
+          isFromWalletDeposite);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
@@ -111,7 +128,7 @@ class CashfreeService {
   }
 
   cashFreePay(token, orderId, orderCurrency, BuildContext context, amount, name,
-      phone, email, isFromOrderExtraAccept) {
+      phone, email, isFromOrderExtraAccept, isFromWalletDeposite) {
     //Replace with actual values
     //has to be unique every time
     String stage = "TEST"; // PROD when in production mode// TEST when in test
@@ -146,6 +163,9 @@ class CashfreeService {
           if (isFromOrderExtraAccept == true) {
             Provider.of<OrderDetailsService>(context, listen: false)
                 .acceptOrderExtra(context);
+          } else if (isFromWalletDeposite) {
+            Provider.of<WalletService>(context, listen: false)
+                .depositeToWallet(context);
           } else {
             Provider.of<PlaceOrderService>(context, listen: false)
                 .makePaymentSuccess(context);

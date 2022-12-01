@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +20,8 @@ class PayTabsPayment extends StatelessWidget {
       required this.phone,
       required this.email,
       required this.orderId,
-      required this.isFromOrderExtraAccept})
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
       : super(key: key);
 
   final amount;
@@ -29,6 +31,7 @@ class PayTabsPayment extends StatelessWidget {
 
   final orderId;
   final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   String? url;
   @override
@@ -89,6 +92,9 @@ class PayTabsPayment extends StatelessWidget {
                     await Provider.of<OrderDetailsService>(context,
                             listen: false)
                         .acceptOrderExtra(context);
+                  } else if (isFromWalletDeposite) {
+                    await Provider.of<WalletService>(context, listen: false)
+                        .depositeToWallet(context);
                   } else {
                     await Provider.of<PlaceOrderService>(context, listen: false)
                         .makePaymentSuccess(context);

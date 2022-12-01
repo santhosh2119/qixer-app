@@ -18,7 +18,8 @@ class SquareUpPayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromOrderExtraAccept})
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
       : super(key: key);
 
   final amount;
@@ -26,6 +27,7 @@ class SquareUpPayment extends StatelessWidget {
   final phone;
   final email;
   final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   String? url;
   @override

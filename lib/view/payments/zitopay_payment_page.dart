@@ -5,20 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ZitopayPaymentPage extends StatefulWidget {
-  const ZitopayPaymentPage({
-    Key? key,
-    required this.userName,
-    required this.amount,
-    required this.isFromOrderExtraAccept,
-  }) : super(key: key);
+  const ZitopayPaymentPage(
+      {Key? key,
+      required this.userName,
+      required this.amount,
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final userName;
   final amount;
   final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   @override
   _ZitopayPaymentPageState createState() => _ZitopayPaymentPageState();
@@ -75,6 +78,9 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
                     await Provider.of<OrderDetailsService>(context,
                             listen: false)
                         .acceptOrderExtra(context);
+                  } else if (widget.isFromWalletDeposite) {
+                    await Provider.of<WalletService>(context, listen: false)
+                        .depositeToWallet(context);
                   } else {
                     await Provider.of<PlaceOrderService>(context, listen: false)
                         .makePaymentSuccess(context);

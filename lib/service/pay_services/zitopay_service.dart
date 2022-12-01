@@ -7,10 +7,13 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/payments/zitopay_payment_page.dart';
 
 class ZitopayService {
-  payByZitopay(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByZitopay(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
@@ -19,6 +22,8 @@ class ZitopayService {
     if (isFromOrderExtraAccept == true) {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+    } else if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -39,10 +44,10 @@ class ZitopayService {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => ZitopayPaymentPage(
-          amount: amount,
-          userName: userName,
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-        ),
+            amount: amount,
+            userName: userName,
+            isFromOrderExtraAccept: isFromOrderExtraAccept,
+            isFromWalletDeposite: isFromWalletDeposite),
       ),
     );
   }

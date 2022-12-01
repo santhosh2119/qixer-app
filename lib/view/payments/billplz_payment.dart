@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,8 @@ class BillplzPayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromOrderExtraAccept})
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
       : super(key: key);
 
   final amount;
@@ -28,6 +30,7 @@ class BillplzPayment extends StatelessWidget {
   final phone;
   final email;
   final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   String? url;
   late WebViewController _controller;
@@ -75,7 +78,8 @@ class BillplzPayment extends StatelessWidget {
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
-                verifyPayment(value, context, isFromOrderExtraAccept);
+                verifyPayment(value, context, isFromOrderExtraAccept,
+                    isFromWalletDeposite);
               },
             );
           }),
@@ -136,14 +140,17 @@ class BillplzPayment extends StatelessWidget {
   }
 }
 
-Future verifyPayment(
-    String url, BuildContext context, isFromOrderExtraAccept) async {
+Future verifyPayment(String url, BuildContext context, isFromOrderExtraAccept,
+    isFromWalletDeposite) async {
   final uri = Uri.parse(url);
   final response = await http.get(uri);
   if (response.body.contains('paid')) {
     if (isFromOrderExtraAccept == true) {
       Provider.of<OrderDetailsService>(context, listen: false)
           .acceptOrderExtra(context);
+    } else if (isFromWalletDeposite) {
+      Provider.of<WalletService>(context, listen: false)
+          .depositeToWallet(context);
     } else {
       Provider.of<PlaceOrderService>(context, listen: false)
           .makePaymentSuccess(context);

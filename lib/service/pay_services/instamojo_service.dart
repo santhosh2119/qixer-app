@@ -3,12 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/payments/instamojo_payment_page.dart';
 
 class InstamojoService {
-  payByInstamojo(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByInstamojo(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     String amount;
 
     String name;
@@ -16,28 +20,34 @@ class InstamojoService {
     String email;
     String orderId;
 
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
     if (isFromOrderExtraAccept == true) {
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
 
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId
           .toString();
+    } else if (isFromWalletDeposite) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+
+      orderId = DateTime.now().toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -60,11 +70,11 @@ class InstamojoService {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => InstamojoPaymentPage(
-          amount: amount,
-          name: name,
-          email: email,
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-        ),
+            amount: amount,
+            name: name,
+            email: email,
+            isFromOrderExtraAccept: isFromOrderExtraAccept,
+            isFromWalletDeposite: isFromWalletDeposite),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +18,8 @@ class MidtransPayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromOrderExtraAccept})
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
       : super(key: key);
 
   final amount;
@@ -25,6 +27,7 @@ class MidtransPayment extends StatelessWidget {
   final phone;
   final email;
   final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   String? url;
   @override
@@ -64,6 +67,9 @@ class MidtransPayment extends StatelessWidget {
                   if (isFromOrderExtraAccept == true) {
                     Provider.of<OrderDetailsService>(context, listen: false)
                         .acceptOrderExtra(context);
+                  } else if (isFromWalletDeposite) {
+                    Provider.of<WalletService>(context, listen: false)
+                        .depositeToWallet(context);
                   } else {
                     Provider.of<PlaceOrderService>(context, listen: false)
                         .makePaymentSuccess(context);

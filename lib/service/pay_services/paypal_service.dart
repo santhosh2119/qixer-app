@@ -12,35 +12,42 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/payments/PaypalPayment.dart';
 
 import '../booking_services/place_order_service.dart';
 
 class PaypalService {
-  payByPaypal(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByPaypal(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
     String amount;
     String name;
     String phone;
     String email;
-
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
     if (isFromOrderExtraAccept == true) {
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+    } else if (isFromWalletDeposite) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -69,6 +76,9 @@ class PaypalService {
             if (isFromOrderExtraAccept == true) {
               Provider.of<OrderDetailsService>(context, listen: false)
                   .acceptOrderExtra(context);
+            } else if (isFromWalletDeposite) {
+              Provider.of<WalletService>(context, listen: false)
+                  .depositeToWallet(context);
             } else {
               //make payment status success
               Provider.of<PlaceOrderService>(context, listen: false)

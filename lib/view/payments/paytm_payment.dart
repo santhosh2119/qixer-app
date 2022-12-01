@@ -4,14 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaytmPayment extends StatefulWidget {
-  const PaytmPayment({Key? key, required this.isFromOrderExtraAccept})
+  const PaytmPayment(
+      {Key? key,
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
       : super(key: key);
 
   final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   @override
   State<PaytmPayment> createState() => _PaytmPaymentState();
@@ -62,6 +67,9 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             if (widget.isFromOrderExtraAccept == true) {
               Provider.of<OrderDetailsService>(context, listen: false)
                   .acceptOrderExtra(context);
+            } else if (widget.isFromWalletDeposite) {
+              Provider.of<WalletService>(context, listen: false)
+                  .depositeToWallet(context);
             } else {
               await Provider.of<PlaceOrderService>(context, listen: false)
                   .makePaymentSuccess(context);

@@ -31,14 +31,16 @@ randomOrderId() {
 }
 
 payAction(String method, BuildContext context, imagePath,
-    {bool isFromOrderExtraAccept = false}) {
+    {bool isFromOrderExtraAccept = false, bool isFromWalletDeposite = false}) {
   //to know method names visit PaymentGatewayListService class where payment
   //methods list are fetching with method name
 
   switch (method) {
     case 'paypal':
-      if (isFromOrderExtraAccept == true) {
+      if (isFromOrderExtraAccept) {
         PaypalService().payByPaypal(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        PaypalService().payByPaypal(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           PaypalService().payByPaypal(context);
@@ -49,6 +51,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'cashfree':
       if (isFromOrderExtraAccept == true) {
         CashfreeService().getTokenAndPay(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        CashfreeService().getTokenAndPay(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           CashfreeService().getTokenAndPay(context);
@@ -60,6 +64,9 @@ payAction(String method, BuildContext context, imagePath,
       if (isFromOrderExtraAccept == true) {
         FlutterwaveService()
             .payByFlutterwave(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        FlutterwaveService()
+            .payByFlutterwave(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           FlutterwaveService().payByFlutterwave(context);
@@ -71,6 +78,8 @@ payAction(String method, BuildContext context, imagePath,
       if (isFromOrderExtraAccept == true) {
         InstamojoService()
             .payByInstamojo(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        InstamojoService().payByInstamojo(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           InstamojoService().payByInstamojo(context);
@@ -82,6 +91,8 @@ payAction(String method, BuildContext context, imagePath,
       if (isFromOrderExtraAccept == true) {
         MercadoPagoService()
             .payByMercado(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        MercadoPagoService().payByMercado(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           MercadoPagoService().payByMercado(context);
@@ -92,6 +103,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'midtrans':
       if (isFromOrderExtraAccept == true) {
         MidtransService().payByMidtrans(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        MidtransService().payByMidtrans(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           MidtransService().payByMidtrans(context);
@@ -102,6 +115,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'mollie':
       if (isFromOrderExtraAccept == true) {
         MollieService().payByMollie(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        MollieService().payByMollie(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           MollieService().payByMollie(context);
@@ -113,6 +128,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'payfast':
       if (isFromOrderExtraAccept == true) {
         PayfastService().payByPayfast(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        PayfastService().payByPayfast(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           PayfastService().payByPayfast(context);
@@ -124,6 +141,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'paystack':
       if (isFromOrderExtraAccept == true) {
         PaystackService().payByPaystack(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        PaystackService().payByPaystack(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           PaystackService().payByPaystack(context);
@@ -134,6 +153,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'paytm':
       if (isFromOrderExtraAccept == true) {
         PaytmService().payByPaytm(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        PaytmService().payByPaytm(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           PaytmService().payByPaytm(context);
@@ -145,6 +166,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'razorpay':
       if (isFromOrderExtraAccept == true) {
         RazorpayService().payByRazorpay(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        RazorpayService().payByRazorpay(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           RazorpayService().payByRazorpay(context);
@@ -155,6 +178,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'stripe':
       if (isFromOrderExtraAccept == true) {
         StripeService().makePayment(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        StripeService().makePayment(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           StripeService().makePayment(context);
@@ -166,6 +191,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'squareup':
       if (isFromOrderExtraAccept == true) {
         SquareService().payBySquare(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        SquareService().payBySquare(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           SquareService().payBySquare(context);
@@ -177,6 +204,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'cinetpay':
       if (isFromOrderExtraAccept == true) {
         CinetPayService().payByCinetpay(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        CinetPayService().payByCinetpay(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           CinetPayService().payByCinetpay(context);
@@ -188,6 +217,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'paytabs':
       if (isFromOrderExtraAccept == true) {
         PaytabsService().payByPaytabs(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        PaytabsService().payByPaytabs(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           PaytabsService().payByPaytabs(context);
@@ -199,6 +230,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'billplz':
       if (isFromOrderExtraAccept == true) {
         BillPlzService().payByBillPlz(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        BillPlzService().payByBillPlz(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           BillPlzService().payByBillPlz(context);
@@ -210,6 +243,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'zitopay':
       if (isFromOrderExtraAccept == true) {
         ZitopayService().payByZitopay(context, isFromOrderExtraAccept: true);
+      } else if (isFromWalletDeposite) {
+        ZitopayService().payByZitopay(context, isFromWalletDeposite: true);
       } else {
         makePaymentToGetOrderId(context, () {
           ZitopayService().payByZitopay(context);
@@ -226,6 +261,9 @@ payAction(String method, BuildContext context, imagePath,
         if (isFromOrderExtraAccept == true) {
           buyExtraCodOrManualPayment(context,
               manualPaymentSelected: true, imagePath: imagePath.path);
+        } else if (isFromWalletDeposite) {
+          depositeWalletCodOrManual(context,
+              manualPaymentSelected: true, imagePath: imagePath.path);
         } else {
           Provider.of<PlaceOrderService>(context, listen: false)
               .placeOrder(context, imagePath.path, isManualOrCod: true);
@@ -236,6 +274,8 @@ payAction(String method, BuildContext context, imagePath,
     case 'cash_on_delivery':
       if (isFromOrderExtraAccept == true) {
         buyExtraCodOrManualPayment(context);
+      } else if (isFromWalletDeposite) {
+        depositeWalletCodOrManual(context);
       } else {
         Provider.of<PlaceOrderService>(context, listen: false)
             .placeOrder(context, null, isManualOrCod: true);
@@ -261,6 +301,8 @@ makePaymentToGetOrderId(BuildContext context, VoidCallback function,
   }
 }
 
+//===========>
+
 buyExtraCodOrManualPayment(BuildContext context,
     {bool manualPaymentSelected = false, imagePath}) async {
   Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
@@ -269,3 +311,8 @@ buyExtraCodOrManualPayment(BuildContext context,
       .acceptOrderExtra(context,
           manualPaymentSelected: manualPaymentSelected, imagePath: imagePath);
 }
+
+//============>
+
+depositeWalletCodOrManual(BuildContext context,
+    {bool manualPaymentSelected = false, imagePath}) {}

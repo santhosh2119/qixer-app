@@ -8,10 +8,13 @@ import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/payments/billplz_payment.dart';
 
 class BillPlzService {
-  payByBillPlz(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByBillPlz(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
     var amount;
@@ -20,26 +23,31 @@ class BillPlzService {
     String phone;
     String email;
 
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
+
     if (isFromOrderExtraAccept == true) {
       Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
 
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+    } else if (isFromWalletDeposite) {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -67,6 +75,7 @@ class BillPlzService {
           phone: phone,
           email: email,
           isFromOrderExtraAccept: isFromOrderExtraAccept,
+          isFromWalletDeposite: isFromWalletDeposite,
         ),
       ),
     );

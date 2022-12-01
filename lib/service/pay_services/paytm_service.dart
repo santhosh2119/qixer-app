@@ -6,10 +6,13 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/payments/paytm_payment.dart';
 
 class PaytmService {
-  payByPaytm(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByPaytm(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
@@ -18,6 +21,8 @@ class PaytmService {
     if (isFromOrderExtraAccept == true) {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+    } else if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -38,8 +43,8 @@ class PaytmService {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => PaytmPayment(
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-        ),
+            isFromOrderExtraAccept: isFromOrderExtraAccept,
+            isFromWalletDeposite: isFromWalletDeposite),
       ),
     );
   }

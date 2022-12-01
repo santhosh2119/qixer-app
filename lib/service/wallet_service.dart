@@ -19,6 +19,10 @@ class WalletService with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> depositeToWallet(BuildContext context) async {
+    return true;
+  }
+
   // Fetch subscription history
   // fetchWalletHistory(BuildContext context) async {
   //   var connection = await checkConnection();

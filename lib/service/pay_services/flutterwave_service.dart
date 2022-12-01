@@ -9,6 +9,7 @@ import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:uuid/uuid.dart';
 
 class FlutterwaveService {
@@ -19,8 +20,10 @@ class FlutterwaveService {
   // String amount = '200';
 
   payByFlutterwave(BuildContext context,
-      {bool isFromOrderExtraAccept = false}) {
-    _handlePaymentInitialization(context, isFromOrderExtraAccept);
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
+    _handlePaymentInitialization(
+        context, isFromOrderExtraAccept, isFromWalletDeposite);
     // Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) => const FlutterwavePaymentPage(),
@@ -28,34 +31,36 @@ class FlutterwaveService {
     // );
   }
 
-  _handlePaymentInitialization(
-      BuildContext context, isFromOrderExtraAccept) async {
+  _handlePaymentInitialization(BuildContext context, isFromOrderExtraAccept,
+      isFromWalletDeposite) async {
     String amount;
 
     String name;
     String phone;
     String email;
 
-    if (isFromOrderExtraAccept == true) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
 
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
+    if (isFromOrderExtraAccept == true) {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
+    } else if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -144,6 +149,9 @@ class FlutterwaveService {
       if (isFromOrderExtraAccept == true) {
         Provider.of<OrderDetailsService>(context, listen: false)
             .acceptOrderExtra(context);
+      } else if (isFromWalletDeposite) {
+        Provider.of<WalletService>(context, listen: false)
+            .depositeToWallet(context);
       } else {
         Provider.of<PlaceOrderService>(context, listen: false)
             .makePaymentSuccess(context);

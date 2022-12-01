@@ -12,6 +12,7 @@ import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +31,8 @@ class StripeService with ChangeNotifier {
 
   Map<String, dynamic>? paymentIntentData;
 
-  displayPaymentSheet(BuildContext context, isFromOrderExtraAccept) async {
+  displayPaymentSheet(BuildContext context, isFromOrderExtraAccept,
+      isFromWalletDeposite) async {
     try {
       await Stripe.instance
           .presentPaymentSheet(
@@ -44,6 +46,9 @@ class StripeService with ChangeNotifier {
         if (isFromOrderExtraAccept == true) {
           Provider.of<OrderDetailsService>(context, listen: false)
               .acceptOrderExtra(context);
+        } else if (isFromWalletDeposite) {
+          Provider.of<WalletService>(context, listen: false)
+              .depositeToWallet(context);
         } else {
           Provider.of<PlaceOrderService>(context, listen: false)
               .makePaymentSuccess(context);
@@ -101,32 +106,31 @@ class StripeService with ChangeNotifier {
   }
 
   Future<void> makePayment(BuildContext context,
-      {bool isFromOrderExtraAccept = false}) async {
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) async {
     var amount;
 
     String name;
     String phone;
     String email;
     String orderId;
-
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
     if (isFromOrderExtraAccept == true) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
-
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
       amount = double.parse(amount).toStringAsFixed(0);
@@ -134,6 +138,10 @@ class StripeService with ChangeNotifier {
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId
           .toString();
+    } else if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(0);
+      orderId = DateTime.now().toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -168,7 +176,8 @@ class StripeService with ChangeNotifier {
           .then((value) {});
 
       ///now finally display payment sheeet
-      displayPaymentSheet(context, isFromOrderExtraAccept);
+      displayPaymentSheet(
+          context, isFromOrderExtraAccept, isFromWalletDeposite);
     } catch (e, s) {
       debugPrint('exception:$e$s');
     }
