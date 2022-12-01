@@ -6,25 +6,28 @@ import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/payment_constants.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
-import 'package:qixer/view/booking/booking_helper.dart';
+import 'package:qixer/service/wallet_service.dart';
+import 'package:qixer/view/booking/components/deposite_amount_section.dart';
+import 'package:qixer/view/booking/components/total_payable.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
-import '../../service/book_confirmation_service.dart';
-
 class PaymentChoosePage extends StatefulWidget {
-  const PaymentChoosePage({Key? key, this.isFromOrderExtraAccept = false})
+  const PaymentChoosePage(
+      {Key? key,
+      this.isFromOrderExtraAccept = false,
+      this.isFromDepositeToWallet = false})
       : super(key: key);
 
   final bool isFromOrderExtraAccept;
+
+  final bool isFromDepositeToWallet;
 
   @override
   _PaymentChoosePageState createState() => _PaymentChoosePageState();
@@ -63,54 +66,26 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         builder: (context, provider, child) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // InkWell(
-                              //   onTap: () {
-                              //     MidtransService().payByMidtrans(context);
-                              //   },
-                              //   child: Text('pay'),
-                              // ),
                               //border
                               Container(
                                 margin: const EdgeInsets.only(bottom: 20),
                                 child: CommonHelper().dividerCommon(),
                               ),
-                              Consumer<BookConfirmationService>(
-                                  builder: (context, bcProvider, child) =>
-                                      Consumer<PersonalizationService>(
-                                        builder: (context, pProvider, child) {
-                                          var price;
-                                          if (widget.isFromOrderExtraAccept ==
-                                              true) {
-                                            price = Provider.of<
-                                                        OrderDetailsService>(
-                                                    context,
-                                                    listen: false)
-                                                .selectedExtraPrice;
-                                          } else {
-                                            if (pProvider.isOnline == 0) {
-                                              price = bcProvider
-                                                  .totalPriceAfterAllcalculation
-                                                  .toStringAsFixed(2);
-                                            } else {
-                                              price = bcProvider
-                                                  .totalPriceOnlineServiceAfterAllCalculation
-                                                  .toStringAsFixed(2);
-                                            }
-                                          }
 
-                                          return BookingHelper()
-                                              .detailsPanelRow(
-                                                  asProvider.getString(
-                                                      'Total Payable'),
-                                                  0,
-                                                  price);
-                                        },
-                                      )),
+                              //Total payable
+                              if (widget.isFromDepositeToWallet == false)
+                                TotalPayable(
+                                    isFromOrderExtraAccept:
+                                        widget.isFromOrderExtraAccept),
+
+                              //Deposite amount
+                              if (widget.isFromDepositeToWallet)
+                                const DepositeAmountSection(),
 
                               //border
                               Container(
                                 margin:
-                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                    const EdgeInsets.only(top: 10, bottom: 20),
                                 child: CommonHelper().dividerCommon(),
                               ),
 
@@ -232,11 +207,6 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                                                 shrinkWrap:
                                                                     true,
                                                                 children: [
-                                                                  // for (int i = 0;
-                                                                  //     i <
-                                                                  //         btProvider
-                                                                  //             .images!.length;
-                                                                  //     i++)
                                                                   InkWell(
                                                                     onTap:
                                                                         () {},
@@ -272,9 +242,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                   : Container(),
 
                               //Agreement checkbox ===========>
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              sizedBoxCustom(20),
+
                               CheckboxListTile(
                                 checkColor: Colors.white,
                                 activeColor: ConstantColors().primaryColor,
@@ -306,7 +275,16 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                 height: 20,
                               ),
                               CommonHelper().buttonOrange(
-                                  asProvider.getString('Pay & Confirm'), () {
+                                  asProvider.getString('Pay & Confirm'),
+                                  () async {
+                                var w = await Provider.of<WalletService>(
+                                        context,
+                                        listen: false)
+                                    .validate(
+                                        context, widget.isFromDepositeToWallet);
+
+                                if (w == false) return;
+
                                 if (termsAgree == false) {
                                   OthersHelper().showToast(
                                       asProvider.getString(
@@ -338,9 +316,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                       ? false
                                       : true),
 
-                              const SizedBox(
-                                height: 30,
-                              )
+                              sizedBoxCustom(30)
                             ]),
                       )
                     : Container(

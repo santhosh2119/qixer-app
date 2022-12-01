@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
-import 'package:qixer/service/live_chat/chat_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/jobs/job_request_page.dart';
 import 'package:qixer/view/jobs/my_jobs_page.dart';
-import 'package:qixer/view/live_chat/chat_list_page.dart';
 import 'package:qixer/view/tabs/settings/components/chat_icon.dart';
 import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
@@ -17,6 +14,7 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer/view/wallet/wallet_page.dart';
 
 import '../../booking/booking_helper.dart';
 
@@ -291,6 +289,22 @@ class _MenuPageState extends State<MenuPage> {
                                               ),
                                             );
                                           }),
+
+                                          CommonHelper().dividerCommon(),
+                                          SettingsHelper().settingOption(
+                                              'assets/svg/profile-edit.svg',
+                                              asProvider.getString("Wallet"),
+                                              () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const WalletPage(),
+                                              ),
+                                            );
+                                          }),
+
                                           CommonHelper().dividerCommon(),
                                           SettingsHelper().settingOption(
                                               'assets/svg/profile-edit.svg',

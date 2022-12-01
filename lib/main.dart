@@ -51,6 +51,7 @@ import 'package:qixer/service/serviceby_category_service.dart';
 import 'package:qixer/service/support_ticket/create_ticket_service.dart';
 import 'package:qixer/service/support_ticket/support_messages_service.dart';
 import 'package:qixer/service/support_ticket/support_ticket_service.dart';
+import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/intro/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -130,6 +131,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => JobConversationService()),
         ChangeNotifierProvider(create: (_) => EditJobCountryStatesService()),
         ChangeNotifierProvider(create: (_) => OrdersService()),
+        ChangeNotifierProvider(create: (_) => WalletService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
