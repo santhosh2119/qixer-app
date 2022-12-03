@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
-import 'package:qixer/service/live_chat/chat_message_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -63,6 +62,10 @@ checkPlatform() {
   }
 }
 
+removeUnderscore(value) {
+  return value.replaceAll(RegExp('_'), ' ');
+}
+
 runAtstart(BuildContext context) {
   Provider.of<RtlService>(context, listen: false).fetchCurrency();
   //language direction (ltr or rtl)
@@ -71,6 +74,4 @@ runAtstart(BuildContext context) {
 //fetch translated strings
   Provider.of<AppStringService>(context, listen: false)
       .fetchTranslatedStrings();
-
-
 }

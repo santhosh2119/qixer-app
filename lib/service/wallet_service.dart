@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:qixer/model/wallet_history_model.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletService with ChangeNotifier {
   var walletHistory;
@@ -24,42 +30,40 @@ class WalletService with ChangeNotifier {
   }
 
   // Fetch subscription history
-  // fetchWalletHistory(BuildContext context) async {
-  //   var connection = await checkConnection();
-  //   if (!connection) return;
+  fetchWalletHistory(BuildContext context) async {
+    var connection = await checkConnection();
+    if (!connection) return;
 
-  //   if (walletHistory != null) return;
+    if (walletHistory != null) return;
 
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var token = prefs.getString('token');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
 
-  //   setLoadingStatus(true);
+    setLoadingStatus(true);
 
-  //   var header = {
-  //     //if header type is application/json then the data should be in jsonEncode method
-  //     "Accept": "application/json",
-  //     // "Content-Type": "application/json"
-  //     "Authorization": "Bearer $token",
-  //   };
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      // "Content-Type": "application/json"
+      "Authorization": "Bearer $token",
+    };
 
-  //   var response = await http.get(
-  //       Uri.parse('$baseApi/seller/subscription/history'),
-  //       headers: header);
+    var response = await http.get(Uri.parse('$baseApi/user/wallet/history'),
+        headers: header);
 
-  //   final decodedData = jsonDecode(response.body);
+    final decodedData = jsonDecode(response.body);
 
-  //   if (response.statusCode == 201 &&
-  //       decodedData['subscription_history'].isNotEmpty) {
-  //     final data = SubscriptionHistoryModel.fromJson(jsonDecode(response.body));
-  //     subsHistoryList = data.subscriptionHistory;
-  //     notifyListeners();
-  //   } else {
-  //     print('Error fetching subscription history' + response.body);
+    if (response.statusCode == 200 && decodedData['history'].isNotEmpty) {
+      final data = WalletHistoryModel.fromJson(jsonDecode(response.body));
+      walletHistory = data.history;
+      notifyListeners();
+    } else {
+      print('Error fetching wallet history' + response.body);
 
-  //     hasSubsHistory = false;
-  //     notifyListeners();
-  //   }
-  // }
+      hasWalletHistory = false;
+      notifyListeners();
+    }
+  }
 
   Future<bool> validate(BuildContext context, isFromDepositeToWallet) async {
     if (isFromDepositeToWallet && amountToAdd == null) {
