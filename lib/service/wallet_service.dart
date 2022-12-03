@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletService with ChangeNotifier {
   var walletHistory;
+  var walletBalance = '\$0.0';
 
   bool isloading = false;
   bool hasWalletHistory = true;
@@ -33,8 +34,6 @@ class WalletService with ChangeNotifier {
   fetchWalletHistory(BuildContext context) async {
     var connection = await checkConnection();
     if (!connection) return;
-
-    if (walletHistory != null) return;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -61,6 +60,38 @@ class WalletService with ChangeNotifier {
       print('Error fetching wallet history' + response.body);
 
       hasWalletHistory = false;
+      notifyListeners();
+    }
+  }
+
+  // Fetch wallet balance
+  fetchWalletBalance(BuildContext context) async {
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    setLoadingStatus(true);
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      // "Content-Type": "application/json"
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.get(Uri.parse('$baseApi/user/wallet/balance'),
+        headers: header);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      walletBalance = decodedData['balance'];
+      notifyListeners();
+    } else {
+      print('Error fetching wallet balance' + response.body);
+
       notifyListeners();
     }
   }

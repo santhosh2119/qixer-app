@@ -24,6 +24,8 @@ class _WalletPageState extends State<WalletPage> {
     super.initState();
     Provider.of<WalletService>(context, listen: false)
         .fetchWalletHistory(context);
+    Provider.of<WalletService>(context, listen: false)
+        .fetchWalletBalance(context);
   }
 
   ConstantColors cc = ConstantColors();
@@ -57,9 +59,9 @@ class _WalletPageState extends State<WalletPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text(
-                                      '\$2000',
-                                      style: TextStyle(
+                                    Text(
+                                      provider.walletBalance,
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 25),
