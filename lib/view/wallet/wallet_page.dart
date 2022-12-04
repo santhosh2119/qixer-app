@@ -224,7 +224,7 @@ class _WalletPageState extends State<WalletPage> {
                                         .showLoading(cc.primaryColor),
                                   )
                             : Container(
-                                height: screenHeight - 120,
+                                height: screenHeight - 280,
                                 alignment: Alignment.center,
                                 child: const Text('No history found'),
                               ),

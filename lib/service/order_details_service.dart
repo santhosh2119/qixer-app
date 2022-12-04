@@ -200,8 +200,6 @@ class OrderDetailsService with ChangeNotifier {
       OthersHelper().showToast('Error accepting order extra', Colors.black);
       return false;
     }
-
-    return true;
   }
 
   //==============>
