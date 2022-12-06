@@ -49,6 +49,11 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
     Provider.of<PaymentGatewayListService>(context, listen: false)
         .fetchGatewayList();
 
+    Future.delayed(const Duration(microseconds: 500), () {
+      Provider.of<PlaceOrderService>(context, listen: false)
+          .setDepositeFromCurrent(false);
+    });
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonHelper().appbarCommon('Payment', context, () {
@@ -92,80 +97,83 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                               CommonHelper().titleCommon(asProvider
                                   .getString('Choose payment method')),
 
-                              //payment method card
-                              GridView.builder(
-                                gridDelegate: const FlutterzillaFixedGridView(
-                                    crossAxisCount: 3,
-                                    mainAxisSpacing: 15,
-                                    crossAxisSpacing: 15,
-                                    height: 60),
-                                padding: const EdgeInsets.only(top: 30),
-                                itemCount: pgProvider.paymentList.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                clipBehavior: Clip.none,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedMethod = index;
-                                      });
+                              if (provider.depositeFromCurrent == false)
+                                //payment method card
+                                GridView.builder(
+                                  gridDelegate: const FlutterzillaFixedGridView(
+                                      crossAxisCount: 3,
+                                      mainAxisSpacing: 15,
+                                      crossAxisSpacing: 15,
+                                      height: 60),
+                                  padding: const EdgeInsets.only(top: 30),
+                                  itemCount: pgProvider.paymentList.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  clipBehavior: Clip.none,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedMethod = index;
+                                        });
 
-                                      pgProvider.setSelectedMethodName(
-                                          pgProvider.paymentList[selectedMethod]
-                                              ['name']);
+                                        pgProvider.setSelectedMethodName(
+                                            pgProvider
+                                                    .paymentList[selectedMethod]
+                                                ['name']);
 
-                                      //set key
-                                      pgProvider.setKey(
-                                          pgProvider.paymentList[selectedMethod]
-                                              ['name'],
-                                          index);
+                                        //set key
+                                        pgProvider.setKey(
+                                            pgProvider
+                                                    .paymentList[selectedMethod]
+                                                ['name'],
+                                            index);
 
-                                      //save selected payment method name
-                                      Provider.of<BookService>(context,
-                                              listen: false)
-                                          .setSelectedPayment(pgProvider
-                                                  .paymentList[selectedMethod]
-                                              ['name']);
-                                    },
-                                    child: Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        Container(
-                                          width: double.infinity,
-                                          height: 60,
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                color: selectedMethod == index
-                                                    ? cc.primaryColor
-                                                    : cc.borderColor),
+                                        //save selected payment method name
+                                        Provider.of<BookService>(context,
+                                                listen: false)
+                                            .setSelectedPayment(pgProvider
+                                                    .paymentList[selectedMethod]
+                                                ['name']);
+                                      },
+                                      child: Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          Container(
+                                            width: double.infinity,
+                                            height: 60,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                  color: selectedMethod == index
+                                                      ? cc.primaryColor
+                                                      : cc.borderColor),
+                                            ),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  pgProvider.paymentList[index]
+                                                      ['logo_link'],
+                                              placeholder: (context, url) {
+                                                return Image.asset(
+                                                    'assets/images/placeholder.png');
+                                              },
+                                              // fit: BoxFit.fitWidth,
+                                            ),
                                           ),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                pgProvider.paymentList[index]
-                                                    ['logo_link'],
-                                            placeholder: (context, url) {
-                                              return Image.asset(
-                                                  'assets/images/placeholder.png');
-                                            },
-                                            // fit: BoxFit.fitWidth,
-                                          ),
-                                        ),
-                                        selectedMethod == index
-                                            ? Positioned(
-                                                right: -7,
-                                                top: -9,
-                                                child: CommonHelper()
-                                                    .checkCircle())
-                                            : Container()
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
+                                          selectedMethod == index
+                                              ? Positioned(
+                                                  right: -7,
+                                                  top: -9,
+                                                  child: CommonHelper()
+                                                      .checkCircle())
+                                              : Container()
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
 
                               pgProvider.paymentList[selectedMethod]['name'] ==
                                       'manual_payment'
@@ -309,7 +317,9 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                               .pickedImage
                                           : null,
                                       isFromOrderExtraAccept:
-                                          widget.isFromOrderExtraAccept);
+                                          widget.isFromOrderExtraAccept,
+                                      isFromWalletDeposite:
+                                          widget.isFromDepositeToWallet);
                                 }
                               },
                                   isloading: provider.isloading == false

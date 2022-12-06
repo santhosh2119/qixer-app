@@ -41,6 +41,13 @@ class PlaceOrderService with ChangeNotifier {
     notifyListeners();
   }
 
+  bool depositeFromCurrent = false;
+
+  setDepositeFromCurrent(bool status) {
+    depositeFromCurrent = status;
+    notifyListeners();
+  }
+
   Future<bool> placeOrder(BuildContext context, String? imagePath,
       {bool isManualOrCod = false, bool paytmPaymentSelected = false}) async {
     setLoadingTrue();
@@ -287,8 +294,6 @@ class PlaceOrderService with ChangeNotifier {
       OthersHelper().showToast('Something went wrong', Colors.black);
       return false;
     }
-
-    //
   }
 
   //make payment successfull
