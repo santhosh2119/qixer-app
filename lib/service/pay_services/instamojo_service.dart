@@ -44,7 +44,6 @@ class InstamojoService {
           .selectedExtraId
           .toString();
     } else if (isFromWalletDeposite) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
 
       orderId = DateTime.now().toString();

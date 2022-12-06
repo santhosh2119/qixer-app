@@ -39,7 +39,7 @@ class FlutterwaveService {
     String phone;
     String email;
 
-    Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     name = Provider.of<ProfileService>(context, listen: false)
             .profileDetails

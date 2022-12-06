@@ -43,8 +43,6 @@ class CinetPayService {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
     } else if (isFromWalletDeposite) {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
-
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
     } else {
       var bcProvider =
