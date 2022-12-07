@@ -163,6 +163,7 @@ class WalletService with ChangeNotifier {
       walletHistoryId = response.data['deposit_info']['wallet_history_id'];
 
       if (isManualOrCod == true) {
+        print('manual or code ran');
         doNext(context, 'Pending');
       }
 
@@ -179,18 +180,8 @@ class WalletService with ChangeNotifier {
 
   ///////////==========>
   doNext(BuildContext context, String paymentStatus) async {
-    // Navigator.of(context).pushAndRemoveUntil(
-    //     MaterialPageRoute(builder: (context) => const LandingPage()),
-    //     (Route<dynamic> route) => false);
-
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute<void>(
-    //     builder: (BuildContext context) => PaymentSuccessPage(
-    //       paymentStatus: paymentStatus,
-    //     ),
-    //   ),
-    // );
+    //no need to make payment status complete
+    inSuccess(context);
   }
 
   Future<bool> makeDepositeToWalletSuccess(BuildContext context) async {
@@ -223,27 +214,32 @@ class WalletService with ChangeNotifier {
     print(response.statusCode);
 
     if (response.statusCode == 200) {
-      setAmount(null);
-      OthersHelper().showToast('Wallet deposite success', Colors.black);
-
-      await fetchWalletBalance(context);
-      fetchWalletHistory(context);
-
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LandingPage()),
-          (Route<dynamic> route) => false);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => const WalletPage(),
-        ),
-      );
+      inSuccess(context);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
 
     return true;
+  }
+
+  // =========>
+  inSuccess(BuildContext context) async {
+    setAmount(null);
+    OthersHelper().showToast('Wallet deposite success', Colors.black);
+
+    await fetchWalletBalance(context);
+    fetchWalletHistory(context);
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LandingPage()),
+        (Route<dynamic> route) => false);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const WalletPage(),
+      ),
+    );
   }
 
   // =================>
