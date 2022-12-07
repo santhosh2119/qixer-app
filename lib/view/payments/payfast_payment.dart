@@ -83,7 +83,7 @@ class PayfastPayment extends StatelessWidget {
                           .acceptOrderExtra(context);
                     } else if (isFromWalletDeposite) {
                       await Provider.of<WalletService>(context, listen: false)
-                          .depositeToWallet(context);
+                          .makeDepositeToWalletSuccess(context);
                     } else {
                       await Provider.of<PlaceOrderService>(context,
                               listen: false)

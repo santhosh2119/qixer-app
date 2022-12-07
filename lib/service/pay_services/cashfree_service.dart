@@ -167,7 +167,7 @@ class CashfreeService {
                 .acceptOrderExtra(context);
           } else if (isFromWalletDeposite) {
             Provider.of<WalletService>(context, listen: false)
-                .depositeToWallet(context);
+                .makeDepositeToWalletSuccess(context);
           } else {
             Provider.of<PlaceOrderService>(context, listen: false)
                 .makePaymentSuccess(context);

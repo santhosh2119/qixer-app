@@ -77,7 +77,7 @@ class PaypalService {
                   .acceptOrderExtra(context);
             } else if (isFromWalletDeposite) {
               Provider.of<WalletService>(context, listen: false)
-                  .depositeToWallet(context);
+                  .makeDepositeToWalletSuccess(context);
             } else {
               //make payment status success
               Provider.of<PlaceOrderService>(context, listen: false)

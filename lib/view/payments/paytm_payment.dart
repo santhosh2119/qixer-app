@@ -69,7 +69,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
                   .acceptOrderExtra(context);
             } else if (widget.isFromWalletDeposite) {
               Provider.of<WalletService>(context, listen: false)
-                  .depositeToWallet(context);
+                  .makeDepositeToWalletSuccess(context);
             } else {
               await Provider.of<PlaceOrderService>(context, listen: false)
                   .makePaymentSuccess(context);

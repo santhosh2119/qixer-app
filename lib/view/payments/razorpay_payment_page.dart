@@ -88,7 +88,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
     }
     if (widget.isFromWalletDeposite) {
       Provider.of<WalletService>(context, listen: false)
-          .depositeToWallet(context);
+          .makeDepositeToWalletSuccess(context);
     } else {
       Provider.of<PlaceOrderService>(context, listen: false)
           .makePaymentSuccess(context);

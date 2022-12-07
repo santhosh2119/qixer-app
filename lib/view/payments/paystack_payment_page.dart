@@ -110,7 +110,7 @@ class PaystackPaymentPage extends StatelessWidget {
                           .acceptOrderExtra(context);
                     } else if (isFromWalletDeposite) {
                       Provider.of<WalletService>(context, listen: false)
-                          .depositeToWallet(context);
+                          .makeDepositeToWalletSuccess(context);
                     } else {
                       Provider.of<PlaceOrderService>(context, listen: false)
                           .makePaymentSuccess(context);
@@ -148,7 +148,7 @@ class PaystackPaymentPage extends StatelessWidget {
                           .acceptOrderExtra(context);
                     } else if (isFromWalletDeposite) {
                       Provider.of<WalletService>(context, listen: false)
-                          .depositeToWallet(context);
+                          .makeDepositeToWalletSuccess(context);
                     } else {
                       await Provider.of<PlaceOrderService>(context,
                               listen: false)

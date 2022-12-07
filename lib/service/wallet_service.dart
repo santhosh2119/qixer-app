@@ -157,9 +157,6 @@ class WalletService with ChangeNotifier {
       data: formData,
     );
 
-    print(response.data);
-    print(response.statusCode);
-
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     if (response.statusCode == 200) {
@@ -196,7 +193,7 @@ class WalletService with ChangeNotifier {
     // );
   }
 
-  Future<bool> depositeToWallet(BuildContext context) async {
+  Future<bool> makeDepositeToWalletSuccess(BuildContext context) async {
     //make payment success
 
     var connection = await checkConnection();
