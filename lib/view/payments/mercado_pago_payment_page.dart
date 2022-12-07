@@ -114,13 +114,13 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
 
     String orderId;
     String email;
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
 
     if (widget.isFromOrderExtraAccept == true) {
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
       amount = double.parse(amount);
@@ -128,6 +128,10 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
       orderId = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraId
           .toString();
+    } else if (widget.isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount);
+      orderId = DateTime.now().toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);

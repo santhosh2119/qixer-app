@@ -226,6 +226,7 @@ class WalletService with ChangeNotifier {
     print(response.statusCode);
 
     if (response.statusCode == 200) {
+      setAmount(null);
       OthersHelper().showToast('Wallet deposite success', Colors.black);
 
       await fetchWalletBalance(context);

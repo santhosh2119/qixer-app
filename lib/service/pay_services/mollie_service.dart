@@ -47,7 +47,12 @@ class MollieService {
           .selectedOrderIdForExtra;
     } else if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
-      orderId = DateTime.now().toString();
+      amount = double.parse(amount).toStringAsFixed(2);
+
+      orderId = 'wallet' +
+          Provider.of<WalletService>(context, listen: false)
+              .walletHistoryId
+              .toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);

@@ -113,7 +113,6 @@ class StripeService with ChangeNotifier {
     String name;
     String phone;
     String email;
-    String orderId;
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
     name = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
@@ -134,14 +133,9 @@ class StripeService with ChangeNotifier {
       amount = Provider.of<OrderDetailsService>(context, listen: false)
           .selectedExtraPrice;
       amount = double.parse(amount).toStringAsFixed(0);
-
-      orderId = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraId
-          .toString();
     } else if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
       amount = double.parse(amount).toStringAsFixed(0);
-      orderId = DateTime.now().toString();
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
