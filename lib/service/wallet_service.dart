@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -164,7 +166,7 @@ class WalletService with ChangeNotifier {
 
       if (isManualOrCod == true) {
         print('manual or code ran');
-        doNext(context, 'Pending');
+        inSuccess(context);
       }
 
       notifyListeners();
@@ -176,12 +178,6 @@ class WalletService with ChangeNotifier {
       OthersHelper().showToast('Something went wrong', Colors.black);
       return false;
     }
-  }
-
-  ///////////==========>
-  doNext(BuildContext context, String paymentStatus) async {
-    //no need to make payment status complete
-    inSuccess(context);
   }
 
   Future<bool> makeDepositeToWalletSuccess(BuildContext context) async {
@@ -278,6 +274,8 @@ class WalletService with ChangeNotifier {
       print('Error deposite from current balance' + response.body);
     }
   }
+
+  //
 
   //=====================>
   //================>

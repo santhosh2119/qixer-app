@@ -49,11 +49,6 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
     Provider.of<PaymentGatewayListService>(context, listen: false)
         .fetchGatewayList();
 
-    Future.delayed(const Duration(microseconds: 500), () {
-      Provider.of<PlaceOrderService>(context, listen: false)
-          .setDepositeFromCurrent(false);
-    });
-
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonHelper().appbarCommon('Payment', context, () {
@@ -87,166 +82,134 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                               if (widget.isFromDepositeToWallet)
                                 const DepositeAmountSection(),
 
-                              //border
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: 10, bottom: 20),
-                                child: CommonHelper().dividerCommon(),
-                              ),
+                              if (!widget.isFromDepositeToWallet)
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 10, bottom: 20),
+                                  child: CommonHelper().dividerCommon(),
+                                ),
 
                               CommonHelper().titleCommon(asProvider
                                   .getString('Choose payment method')),
 
-                              if (provider.depositeFromCurrent == false)
-                                //payment method card
-                                GridView.builder(
-                                  gridDelegate: const FlutterzillaFixedGridView(
-                                      crossAxisCount: 3,
-                                      mainAxisSpacing: 15,
-                                      crossAxisSpacing: 15,
-                                      height: 60),
-                                  padding: const EdgeInsets.only(top: 30),
-                                  itemCount: pgProvider.paymentList.length,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  clipBehavior: Clip.none,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedMethod = index;
-                                        });
+                              //payment method card
+                              GridView.builder(
+                                gridDelegate: const FlutterzillaFixedGridView(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 15,
+                                    crossAxisSpacing: 15,
+                                    height: 60),
+                                padding: const EdgeInsets.only(top: 30),
+                                itemCount: pgProvider.paymentList.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                clipBehavior: Clip.none,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedMethod = index;
+                                      });
 
-                                        pgProvider.setSelectedMethodName(
-                                            pgProvider
-                                                    .paymentList[selectedMethod]
-                                                ['name']);
+                                      pgProvider.setSelectedMethodName(
+                                          pgProvider.paymentList[selectedMethod]
+                                              ['name']);
 
-                                        //set key
-                                        pgProvider.setKey(
-                                            pgProvider
-                                                    .paymentList[selectedMethod]
-                                                ['name'],
-                                            index);
+                                      //set key
+                                      pgProvider.setKey(
+                                          pgProvider.paymentList[selectedMethod]
+                                              ['name'],
+                                          index);
 
-                                        //save selected payment method name
-                                        Provider.of<BookService>(context,
-                                                listen: false)
-                                            .setSelectedPayment(pgProvider
-                                                    .paymentList[selectedMethod]
-                                                ['name']);
-                                      },
-                                      child: Stack(
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          Container(
-                                            width: double.infinity,
-                                            height: 60,
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                  color: selectedMethod == index
-                                                      ? cc.primaryColor
-                                                      : cc.borderColor),
-                                            ),
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  pgProvider.paymentList[index]
-                                                      ['logo_link'],
-                                              placeholder: (context, url) {
-                                                return Image.asset(
-                                                    'assets/images/placeholder.png');
-                                              },
-                                              // fit: BoxFit.fitWidth,
-                                            ),
+                                      //save selected payment method name
+                                      Provider.of<BookService>(context,
+                                              listen: false)
+                                          .setSelectedPayment(pgProvider
+                                                  .paymentList[selectedMethod]
+                                              ['name']);
+                                    },
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          height: 60,
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                                color: selectedMethod == index
+                                                    ? cc.primaryColor
+                                                    : cc.borderColor),
                                           ),
-                                          selectedMethod == index
-                                              ? Positioned(
-                                                  right: -7,
-                                                  top: -9,
-                                                  child: CommonHelper()
-                                                      .checkCircle())
-                                              : Container()
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                pgProvider.paymentList[index]
+                                                    ['logo_link'],
+                                            placeholder: (context, url) {
+                                              return Image.asset(
+                                                  'assets/images/placeholder.png');
+                                            },
+                                            // fit: BoxFit.fitWidth,
+                                          ),
+                                        ),
+                                        selectedMethod == index
+                                            ? Positioned(
+                                                right: -7,
+                                                top: -9,
+                                                child: CommonHelper()
+                                                    .checkCircle())
+                                            : Container()
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
 
                               pgProvider.paymentList[selectedMethod]['name'] ==
                                       'manual_payment'
                                   ?
                                   //pick image ==========>
                                   Consumer<BankTransferService>(
-                                      builder:
-                                          (context, btProvider, child) =>
+                                      builder: (context, btProvider, child) =>
+                                          Column(
+                                            children: [
+                                              //pick image button =====>
                                               Column(
                                                 children: [
-                                                  //pick image button =====>
-                                                  Column(
-                                                    children: [
-                                                      const SizedBox(
-                                                        height: 30,
-                                                      ),
-                                                      CommonHelper().buttonOrange(
-                                                          asProvider.getString(
-                                                              'Choose images'),
-                                                          () {
-                                                        btProvider
-                                                            .pickImage(context);
-                                                      }),
-                                                    ],
+                                                  const SizedBox(
+                                                    height: 30,
                                                   ),
-                                                  btProvider.pickedImage != null
-                                                      ? Column(
-                                                          children: [
-                                                            const SizedBox(
-                                                              height: 30,
-                                                            ),
-                                                            SizedBox(
-                                                              height: 80,
-                                                              child: ListView(
-                                                                clipBehavior:
-                                                                    Clip.none,
-                                                                scrollDirection:
-                                                                    Axis.horizontal,
-                                                                shrinkWrap:
-                                                                    true,
-                                                                children: [
-                                                                  InkWell(
-                                                                    onTap:
-                                                                        () {},
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        Container(
-                                                                          margin:
-                                                                              const EdgeInsets.only(right: 10),
-                                                                          child:
-                                                                              Image.file(
-                                                                            // File(provider.images[i].path),
-                                                                            File(btProvider.pickedImage.path),
-                                                                            height:
-                                                                                80,
-                                                                            width:
-                                                                                80,
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      : Container(),
+                                                  CommonHelper().buttonOrange(
+                                                      asProvider.getString(
+                                                          'Choose image'), () {
+                                                    btProvider
+                                                        .pickImage(context);
+                                                  }),
                                                 ],
-                                              ))
+                                              ),
+                                              btProvider.pickedImage != null
+                                                  ? Column(
+                                                      children: [
+                                                        sizedBoxCustom(30),
+                                                        SizedBox(
+                                                          height: 80,
+                                                          child: Image.file(
+                                                            // File(provider.images[i].path),
+                                                            File(btProvider
+                                                                .pickedImage
+                                                                .path),
+                                                            height: 80,
+                                                            width: 80,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                            ],
+                                          ))
                                   : Container(),
 
                               //Agreement checkbox ===========>
@@ -303,6 +266,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                 if (provider.isloading == true) {
                                   return;
                                 } else {
+                                  // if deposite from current balance is selected
+
                                   payAction(
                                       pgProvider.paymentList[selectedMethod]
                                           ['name'],
