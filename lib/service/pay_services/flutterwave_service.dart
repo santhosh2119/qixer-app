@@ -142,7 +142,7 @@ class FlutterwaveService {
         redirectUrl: "https://www.google.com",
         isTestMode: false);
     var response = await flutterwave.charge();
-    if (response != null) {
+    if (response.success != false) {
       showLoading(response.status!, context);
       print('flutterwave payment successfull');
 
