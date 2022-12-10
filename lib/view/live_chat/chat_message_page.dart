@@ -57,11 +57,13 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   final eventName = 'client-message.sent';
 
   void _scrollDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent + 10,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.fastOutSlowIn,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 10,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
   void connectToPusher() async {
@@ -106,11 +108,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           .addNewMessage(messageReceived, null, receivedUserId);
     }
   }
-
-  // void sendMessageToPusher() async {
-  //   pusher.trigger(PusherEvent(
-  //       channelName: channelName, eventName: eventName, data: 'nazmul'));
-  // }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
     print("onSubscriptionSucceeded: $channelName data: $data");
@@ -261,25 +258,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                     ? MainAxisAlignment.start
                                     : MainAxisAlignment.end,
                                 children: [
-                                  //small show profile pic
-                                  // provider.messagesList[index].type == "seller"
-                                  //     ? Container(
-                                  //         margin: const EdgeInsets.only(
-                                  //           left: 13,
-                                  //         ),
-                                  //         width: 18,
-                                  //         height: 18,
-                                  //         decoration: const BoxDecoration(
-                                  //             shape: BoxShape.circle,
-                                  //             color: Colors.white),
-                                  //         child: ClipRRect(
-                                  //           child: Image.asset(
-                                  //             'assets/images/logo.png',
-                                  //           ),
-                                  //         ),
-                                  //       )
-                                  //     : Container(),
-                                  //the message
                                   Expanded(
                                     child: Consumer<RtlService>(
                                       builder: (context, rtlP, child) =>

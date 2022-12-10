@@ -98,7 +98,7 @@ class TopRatedServices extends StatelessWidget {
                                           provider.topServiceMap[i]['rating']),
                                       i,
                                       context,
-                                      provider.topServiceMap[i]['s÷ellerId']);
+                                      provider.topServiceMap[i]['sellerId']);
                                 },
                                 isSaved:
                                     provider.topServiceMap[i]['isSaved'] == true

@@ -31,11 +31,13 @@ class _TicketChatPageState extends State<TicketChatPage> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent + 10,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.fastOutSlowIn,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 10,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
   XFile? pickedImage;
@@ -73,20 +75,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                   const SizedBox(
                     width: 2,
                   ),
-                  // CircleAvatar(
-                  //   backgroundColor: Colors.white,
-                  //   child: Container(
-                  //     padding: const EdgeInsets.all(5),
-                  //     decoration: const BoxDecoration(
-                  //         shape: BoxShape.circle, color: Colors.white),
-                  //     child: ClipRRect(
-                  //       child: Image.asset(
-                  //         'assets/images/logo.png',
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   maxRadius: 22,
-                  // ),
+
                   const SizedBox(
                     width: 12,
                   ),
