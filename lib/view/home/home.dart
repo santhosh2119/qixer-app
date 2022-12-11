@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/country_states_service.dart';
 import 'package:qixer/service/home_services/category_service.dart';
 import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/live_chat/chat_message_service.dart';
 import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/service/serachbar_with_dropdown_service.dart';
 import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
@@ -41,8 +41,8 @@ class _HomepageState extends State<Homepage> {
     Provider.of<RecentServicesService>(context, listen: false)
         .fetchRecentService();
     Provider.of<ProfileService>(context, listen: false).getProfileDetails();
-    Provider.of<SearchBarWithDropdownService>(context, listen: false)
-        .fetchStates();
+    Provider.of<CountryStatesService>(context, listen: false)
+        .fetchCountries(context);
     Provider.of<ChatMessagesService>(context, listen: false)
         .fetchPusherCredential(context);
   }

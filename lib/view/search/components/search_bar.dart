@@ -3,6 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/view/auth/signup/components/area_dropdown.dart';
+import 'package:qixer/view/auth/signup/components/country_dropdown.dart';
+import 'package:qixer/view/auth/signup/components/state_dropdown.dart';
+import 'package:qixer/view/search/components/online_offline_dropdown.dart';
+import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 import '../../../service/service_details_service.dart';
@@ -69,75 +74,38 @@ class SearchBar extends StatelessWidget {
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 15)),
                           ))),
+                ],
+              ),
 
-                  // dropdown ===========
-                  provider.userStateId == null
-                      ? provider.cityDropdownList.isNotEmpty
-                          ? Row(
-                              children: [
-                                const SizedBox(
-                                  width: 17,
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffF5F5F5),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.01),
-                                          spreadRadius: -2,
-                                          blurRadius: 13,
-                                          offset: const Offset(0, 13)),
-                                    ],
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      // menuMaxHeight: 200,
-                                      // isExpanded: true,
-                                      value: provider.selectedCity,
-                                      icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: cc.greyFour),
-                                      iconSize: 26,
-                                      elevation: 17,
-                                      style: const TextStyle(
-                                          color: Color(0xff646464)),
-                                      onChanged: (newValue) {
-                                        provider.setCityValue(newValue);
+              sizedBoxCustom(20),
 
-                                        // setting the id of selected value
-                                        provider.setSelectedCityId(
-                                            provider.cityDropdownIndexList[
-                                                provider.cityDropdownList
-                                                    .indexOf(newValue!)]);
+              //Country state
+              Row(
+                children: const [
+                  Expanded(
+                    child: CountryDropdown(),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(child: StateDropdown())
+                ],
+              ),
 
-                                        provider.fetchService(
-                                          context,
-                                          searchController.text,
-                                        );
-                                      },
-                                      items: provider.cityDropdownList
-                                          .map<DropdownMenuItem<String>>(
-                                              (value) {
-                                        return DropdownMenuItem(
-                                          value: value,
-                                          child: Text(
-                                            value,
-                                            style: TextStyle(
-                                                color: cc.greyPrimary
-                                                    .withOpacity(.8)),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container()
-                      : Container(),
+              //Area, online/offline
+              sizedBoxCustom(15),
+              Row(
+                children: [
+                  const Expanded(
+                    child: AreaDropdown(),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                      child: OnlineOfflineDropdown(
+                    searchText: searchController.text,
+                  ))
                 ],
               ),
 

@@ -147,6 +147,8 @@ class CountryStatesService with ChangeNotifier {
   }
 
   fetchCountries(BuildContext context) async {
+    if (countryDropdownList.isNotEmpty) return;
+
     if (countryDropdownList.isEmpty) {
       Future.delayed(const Duration(milliseconds: 500), () {
         setLoadingTrue();

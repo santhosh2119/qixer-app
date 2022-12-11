@@ -2,34 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:qixer/model/all_city_dropdown_model.dart';
 import 'package:qixer/model/search_bar_with_dropdown_service_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/db/db_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchBarWithDropdownService with ChangeNotifier {
   var serviceMap = [];
 
+  var userStateId;
+
   var cityDropdownList = [
     'Select City',
   ];
-
-  var userStateId;
-
   var selectedCity = 'Select City';
   List cityDropdownIndexList = [0];
   var selectedCityId = 0;
-
-  bool isLoading = false;
-  bool alreadySaved = false;
-
-  List averageRateList = [];
-  List imageList = [];
-
-  int currentPage = 1;
-  late int totalPages;
 
   setCityValue(value) {
     selectedCity = value;
@@ -42,6 +30,35 @@ class SearchBarWithDropdownService with ChangeNotifier {
     print('selected city id $selectedCityId');
     notifyListeners();
   }
+
+  //Online offline
+  //===========>
+  var onlineOfflineDropdownList = [
+    'Online',
+    'Offline',
+  ];
+  var selectedonlineOffline = 'Online';
+  List onlineOfflineDropdownIndexList = [0, 1];
+  var selectedonlineOfflineId = 0;
+
+  setOnlineOfflineValue(value) {
+    selectedonlineOffline = value;
+    notifyListeners();
+  }
+
+  setSelectedOnlineOfflineId(value) {
+    selectedonlineOfflineId = value;
+    notifyListeners();
+  }
+
+  // List averageRateList = [];
+  // List imageList = [];
+
+  bool isLoading = false;
+  bool alreadySaved = false;
+
+  int currentPage = 1;
+  late int totalPages;
 
   setLoadingTrue() {
     isLoading = true;
@@ -63,32 +80,34 @@ class SearchBarWithDropdownService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchStates() async {
-    if (cityDropdownList.length < 2) {
-      //=================>
+  // fetchStates() async {
+  //   // all city / state
+  //   if (cityDropdownList.length < 2) {
+  //     //city means state
+  //     //=================>
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      userStateId = prefs.getString('state');
-      //====================>
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     userStateId = prefs.getString('state');
+  //     //====================>
 
-      var response = await http.get(Uri.parse('$baseApi/city/service-city'));
+  //     var response = await http.get(Uri.parse('$baseApi/city/service-city'));
 
-      if (response.statusCode == 201) {
-        var data = AllCityDropdownModel.fromJson(jsonDecode(response.body));
-        for (int i = 0; i < data.serviceCity.length; i++) {
-          cityDropdownList.add(data.serviceCity[i].serviceCity);
-          cityDropdownIndexList.add(data.serviceCity[i].id);
-        }
-      } else {
-        print('error fetching city list ${response.body}');
-        //error fetching data
-        cityDropdownList = [];
-      }
-      notifyListeners();
-    } else {
-      //country list already loaded from api
-    }
-  }
+  //     if (response.statusCode == 201) {
+  //       var data = AllCityDropdownModel.fromJson(jsonDecode(response.body));
+  //       for (int i = 0; i < data.serviceCity.length; i++) {
+  //         cityDropdownList.add(data.serviceCity[i].serviceCity);
+  //         cityDropdownIndexList.add(data.serviceCity[i].id);
+  //       }
+  //     } else {
+  //       print('error fetching city list ${response.body}');
+  //       //error fetching data
+  //       cityDropdownList = [];
+  //     }
+  //     notifyListeners();
+  //   } else {
+  //     //country list already loaded from api
+  //   }
+  // }
 
   fetchService(context, String searchText) async {
     var connection = await checkConnection();
@@ -131,7 +150,6 @@ class SearchBarWithDropdownService with ChangeNotifier {
         serviceMap = [];
         var data = SearchBarWithDropdownServiceModel.fromJson(
             jsonDecode(response.body));
-        print(data.serviceImage);
 
         for (int i = 0; i < data.services.length; i++) {
           String? serviceImage;
