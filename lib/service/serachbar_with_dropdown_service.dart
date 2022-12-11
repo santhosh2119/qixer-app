@@ -34,10 +34,10 @@ class SearchBarWithDropdownService with ChangeNotifier {
   //Online offline
   //===========>
   var onlineOfflineDropdownList = [
-    'Online',
     'Offline',
+    'Online',
   ];
-  var selectedonlineOffline = 'Online';
+  var selectedonlineOffline = 'Offline';
   List onlineOfflineDropdownIndexList = [0, 1];
   var selectedonlineOfflineId = 0;
 
@@ -113,27 +113,13 @@ class SearchBarWithDropdownService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       String data;
-      if (selectedCityId == 0) {
-        if (userStateId == null) {
-          //if user doesn't have any state id (meaning, he logged in using google or facebook)
-          //and he didn't select any state from dropdown, then search from all state
-          data = jsonEncode({
-            'search_text': searchText,
-          });
-        } else {
-          //user has state id by default, so he deosn't need to select any state from dropdown
-          //service should be fetched by his default state id
-          data = jsonEncode({
-            'service_city_id': userStateId,
-            'search_text': searchText,
-          });
-        }
-      } else {
-        data = jsonEncode({
-          'service_city_id': selectedCityId,
-          'search_text': searchText,
-        });
-      }
+
+      data = jsonEncode({
+        'service_city_id': selectedCityId,
+        'search_text': searchText,
+        'is_service_online': selectedonlineOfflineId
+      });
+
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",

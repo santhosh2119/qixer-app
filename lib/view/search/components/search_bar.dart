@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/serachbar_with_dropdown_service.dart';
-import 'package:qixer/view/auth/signup/components/area_dropdown.dart';
 import 'package:qixer/view/auth/signup/components/country_dropdown.dart';
 import 'package:qixer/view/auth/signup/components/state_dropdown.dart';
 import 'package:qixer/view/search/components/online_offline_dropdown.dart';
@@ -96,12 +95,12 @@ class SearchBar extends StatelessWidget {
               sizedBoxCustom(15),
               Row(
                 children: [
-                  const Expanded(
-                    child: AreaDropdown(),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  // const Expanded(
+                  //   child: AreaDropdown(),
+                  // ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
                   Expanded(
                       child: OnlineOfflineDropdown(
                     searchText: searchController.text,

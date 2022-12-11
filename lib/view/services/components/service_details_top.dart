@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/service_details_service.dart';
-import 'package:qixer/view/services/components/watch_video_page.dart';
+import 'package:qixer/view/services/seller_all_service_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 import '../../utils/constant_styles.dart';
@@ -33,8 +33,20 @@ class ServiceDetailsTop extends StatelessWidget {
                 cc: cc,
                 title: provider.serviceAllDetails.serviceDetails.title,
                 userImg: provider.serviceAllDetails.serviceSellerImage.imgUrl,
-                userName: provider.serviceAllDetails.serviceSellerName,
+                sellerName: provider.serviceAllDetails.serviceSellerName,
+                sellerId: provider.serviceAllDetails.sellerId,
                 videoLink: provider.serviceAllDetails.videoUrl,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SellerAllServicePage(
+                              sellerId: provider.serviceAllDetails.sellerId,
+                              sellerName:
+                                  provider.serviceAllDetails.serviceSellerName,
+                            )),
+                  );
+                },
               ),
 
               //package price
@@ -159,14 +171,18 @@ class ServiceTitleAndUser extends StatelessWidget {
       required this.cc,
       required this.title,
       this.userImg,
-      required this.userName,
-      required this.videoLink})
+      required this.sellerName,
+      required this.videoLink,
+      required this.sellerId,
+      required this.onTap})
       : super(key: key);
   final ConstantColors cc;
   final String title;
   final userImg;
-  final String userName;
+  final String sellerName;
   final videoLink;
+  final sellerId;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +204,7 @@ class ServiceTitleAndUser extends StatelessWidget {
                 },
                 child: const Text('Watch video'),
                 style: ElevatedButton.styleFrom(
-                    elevation: 0, primary: cc.successColor))
+                    elevation: 0, backgroundColor: cc.successColor))
             : Container(),
 
         const SizedBox(
@@ -207,41 +223,46 @@ class ServiceTitleAndUser extends StatelessWidget {
           height: 20,
         ),
         //profile image and name
-        Row(
-          children: [
-            userImg != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      imageUrl: userImg,
-                      placeholder: (context, url) {
-                        return Image.asset('assets/images/placeholder.png');
-                      },
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
+        InkWell(
+          onTap: () {
+            onTap.call();
+          },
+          child: Row(
+            children: [
+              userImg != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        imageUrl: userImg,
+                        placeholder: (context, url) {
+                          return Image.asset('assets/images/placeholder.png');
+                        },
+                        height: 40,
+                        width: 40,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        'assets/images/avatar.png',
+                        height: 40,
+                        width: 40,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      'assets/images/avatar.png',
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              userName,
-              style: TextStyle(
-                color: cc.greyFour,
-                fontSize: 15,
+              const SizedBox(
+                width: 10,
               ),
-            ),
-          ],
+              Text(
+                sellerName,
+                style: TextStyle(
+                  color: cc.greyFour,
+                  fontSize: 15,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
