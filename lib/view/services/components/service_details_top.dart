@@ -34,14 +34,14 @@ class ServiceDetailsTop extends StatelessWidget {
                 title: provider.serviceAllDetails.serviceDetails.title,
                 userImg: provider.serviceAllDetails.serviceSellerImage.imgUrl,
                 sellerName: provider.serviceAllDetails.serviceSellerName,
-                sellerId: provider.serviceAllDetails.sellerId,
+                sellerId: provider.sellerId,
                 videoLink: provider.serviceAllDetails.videoUrl,
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => SellerAllServicePage(
-                              sellerId: provider.serviceAllDetails.sellerId,
+                              sellerId: provider.sellerId,
                               sellerName:
                                   provider.serviceAllDetails.serviceSellerName,
                             )),

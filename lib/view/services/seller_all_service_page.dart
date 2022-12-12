@@ -4,13 +4,12 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/seller_all_services_service.dart';
 import 'package:qixer/service/service_details_service.dart';
+import 'package:qixer/view/home/components/service_card.dart';
 import 'package:qixer/view/services/service_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:qixer/view/utils/responsive.dart';
-
-import '../home/components/service_card.dart';
 
 class SellerAllServicePage extends StatefulWidget {
   const SellerAllServicePage(
@@ -34,6 +33,7 @@ class _ServicebyCategoryPageState extends State<SellerAllServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('seller id ${widget.sellerId}');
     ConstantColors cc = ConstantColors();
     return Scaffold(
       backgroundColor: Colors.white,

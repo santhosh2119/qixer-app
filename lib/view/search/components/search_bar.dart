@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/common_service.dart';
-import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/service/searchbar_with_dropdown_service.dart';
 import 'package:qixer/view/auth/signup/components/country_dropdown.dart';
 import 'package:qixer/view/auth/signup/components/state_dropdown.dart';
 import 'package:qixer/view/search/components/online_offline_dropdown.dart';

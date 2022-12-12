@@ -44,7 +44,8 @@ import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
-import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/service/seller_all_services_service.dart';
+import 'package:qixer/service/searchbar_with_dropdown_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
 import 'package:qixer/service/serviceby_category_service.dart';
@@ -132,6 +133,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EditJobCountryStatesService()),
         ChangeNotifierProvider(create: (_) => OrdersService()),
         ChangeNotifierProvider(create: (_) => WalletService()),
+        ChangeNotifierProvider(create: (_) => SellerAllServicesService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

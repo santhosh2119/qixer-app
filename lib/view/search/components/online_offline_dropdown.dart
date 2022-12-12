@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/serachbar_with_dropdown_service.dart';
+import 'package:qixer/service/searchbar_with_dropdown_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 class OnlineOfflineDropdown extends StatelessWidget {
