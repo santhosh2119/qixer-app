@@ -158,6 +158,8 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                       .jobReqList[i].job.title,
                                                   jobRequestId:
                                                       provider.jobReqList[i].id,
+                                                  sellerId: provider
+                                                      .jobReqList[i].sellerId,
                                                 ),
                                               ),
                                             );

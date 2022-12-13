@@ -150,7 +150,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                 const SizedBox(
                   width: 2,
                 ),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -166,10 +165,6 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                     ],
                   ),
                 ),
-                // Icon(
-                //   Icons.settings,
-                //   color: Colors.black54,
-                // ),
               ],
             ),
           ),
@@ -495,8 +490,11 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                             FocusScope.of(context).unfocus();
                             //send message
 
-                            provider.sendMessage(widget.receiverId,
-                                sendMessageController.text.trim(), null);
+                            provider.sendMessage(
+                                widget.receiverId,
+                                sendMessageController.text.trim(),
+                                null,
+                                context);
                             //clear input field
                             sendMessageController.clear();
                             //clear image

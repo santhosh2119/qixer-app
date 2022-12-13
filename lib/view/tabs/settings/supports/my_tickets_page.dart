@@ -148,10 +148,9 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                   i++)
                                 InkWell(
                                   onTap: () {
-                                    provider.goToMessagePage(
-                                        context,
+                                    provider.goToMessagePage(context,
                                         provider.ticketList[i]['subject'],
-                                        provider.ticketList[i]['id']);
+                                        ticketId: provider.ticketList[i]['id']);
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -197,7 +196,8 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                                             context,
                                                             provider.ticketList[
                                                                 i]['subject'],
-                                                            provider.ticketList[
+                                                            ticketId: provider
+                                                                    .ticketList[
                                                                 i]['id']);
                                                       },
                                                       value: index,

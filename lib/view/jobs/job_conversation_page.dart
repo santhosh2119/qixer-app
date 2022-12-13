@@ -11,12 +11,16 @@ import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {
   const JobConversationPage(
-      {Key? key, required this.title, required this.jobRequestId})
+      {Key? key,
+      required this.title,
+      required this.jobRequestId,
+      required this.sellerId})
       : super(key: key);
 
   final String title;
 
   final jobRequestId;
+  final sellerId;
 
   @override
   State<JobConversationPage> createState() => _JobConversationPageState();
@@ -393,10 +397,11 @@ class _JobConversationPageState extends State<JobConversationPage> {
                               FocusScope.of(context).unfocus();
                               //send message
                               provider.sendMessage(
-                                widget.jobRequestId,
-                                sendMessageController.text,
-                                pickedFile?.files.single.path,
-                              );
+                                  widget.jobRequestId,
+                                  sendMessageController.text,
+                                  pickedFile?.files.single.path,
+                                  context,
+                                  sellerId: widget.sellerId);
 
                               //clear input field
                               sendMessageController.clear();

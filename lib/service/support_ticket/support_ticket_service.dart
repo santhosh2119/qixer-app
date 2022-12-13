@@ -110,19 +110,19 @@ class SupportTicketService with ChangeNotifier {
     notifyListeners();
   }
 
-  goToMessagePage(BuildContext context, title, id) {
+  goToMessagePage(BuildContext context, title, {required ticketId}) {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
         builder: (BuildContext context) => TicketChatPage(
           title: title,
-          ticketId: id,
+          ticketId: ticketId,
         ),
       ),
     );
 
     //fetch message
     Provider.of<SupportMessagesService>(context, listen: false)
-        .fetchMessages(id);
+        .fetchMessages(ticketId);
   }
 }

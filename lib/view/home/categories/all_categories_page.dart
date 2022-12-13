@@ -52,7 +52,6 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
               padding: const EdgeInsets.only(top: 12),
               itemCount: provider.categories.category.length,
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return provider.categories != null
                     ? provider.categories != 'error'
@@ -67,7 +66,6 @@ class _AllCategoriesPageState extends State<AllCategoriesPage> {
                           )
                         : const Text("Something went wrong")
                     : OthersHelper().showLoading(cc.primaryColor);
-                ;
               },
             ),
           ),

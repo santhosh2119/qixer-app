@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:qixer/model/chat_messages_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -145,7 +147,7 @@ class ChatMessagesService with ChangeNotifier {
 
 //Send new message ======>
 
-  sendMessage(toUser, message, imagePath) async {
+  sendMessage(toUser, message, imagePath, BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
@@ -184,6 +186,8 @@ class ChatMessagesService with ChangeNotifier {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var currentUserId = prefs.getInt('userId')!;
         addNewMessage(message, imagePath, currentUserId);
+
+        sendNotification(context, sellerId: toUser, msg: message);
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -214,6 +218,8 @@ class ChatMessagesService with ChangeNotifier {
 
   var apiKey;
   var secret;
+  var pusherToken;
+  var pusherApiUrl;
 
   fetchPusherCredential(BuildContext context) async {
     var connection = await checkConnection();
@@ -240,9 +246,23 @@ class ChatMessagesService with ChangeNotifier {
       pusherCredentialLoaded = true;
       apiKey = jsonData['pusher_app_key'];
       secret = jsonData['pusher_app_secret'];
+      pusherToken = jsonData['pusher_app_push_notification_auth_token'];
+      pusherApiUrl = jsonData['pusher_app_push_notification_auth_url'];
+
       notifyListeners();
     } else {
       print(response.body);
     }
+  }
+
+  sendNotification(BuildContext context, {required sellerId, required msg}) {
+    //Send notification to seller
+    var username = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        '';
+    PushNotificationService().sendNotificationToSeller(context,
+        sellerId: sellerId, title: "New chat message: $username", body: '$msg');
   }
 }

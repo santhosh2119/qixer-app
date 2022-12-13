@@ -354,6 +354,14 @@ class PlaceOrderService with ChangeNotifier {
 
     //Send notification to seller
     var sellerId = Provider.of<BookService>(context, listen: false).sellerId;
-    PushNotificationService().sendNotificationToSeller(sellerId, context);
+    var username = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        '';
+    PushNotificationService().sendNotificationToSeller(context,
+        sellerId: sellerId,
+        title: "You have received an order from $username",
+        body: '');
   }
 }

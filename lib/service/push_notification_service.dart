@@ -5,15 +5,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/live_chat/chat_message_service.dart';
 
 class PushNotificationService with ChangeNotifier {
-  sendNotificationToSeller(sellerId, BuildContext context) async {
-    var username = Provider.of<ProfileService>(context, listen: false)
-            .profileDetails
-            .userDetails
-            .name ??
-        '';
+  sendNotificationToSeller(BuildContext context,
+      {required sellerId, required title, required body}) async {
+    var pusherToken =
+        Provider.of<ChatMessagesService>(context, listen: false).pusherToken;
+    var pusherApiUrl =
+        Provider.of<ChatMessagesService>(context, listen: false).pusherApiUrl;
 
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
@@ -26,10 +26,7 @@ class PushNotificationService with ChangeNotifier {
     var data = jsonEncode({
       "interests": ["debug-seller$sellerId"],
       "fcm": {
-        "notification": {
-          "title": "You have received an order from $username",
-          "body": ""
-        }
+        "notification": {"title": "$title", "body": "$body"}
       }
     });
 
