@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
+import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer/service/all_services_service.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/auth_services/change_pass_service.dart';
@@ -62,6 +63,8 @@ void main() async {
   var publishableKey = await StripeService().getStripeKey();
   Stripe.publishableKey = publishableKey;
   Stripe.instance.applySettings();
+
+  await PusherBeams.instance.start('aa8d8bb4-1030-48a1-a4ac-ad1d5fbd99d3');
 
   await Firebase.initializeApp();
   runApp(const MyApp());
