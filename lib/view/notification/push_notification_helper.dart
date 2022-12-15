@@ -51,6 +51,8 @@ class PushNotificationHelper {
               sizedBoxCustom(7),
               Text(
                 "$desc",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: cc.greyPrimary, fontSize: 14),
               ),

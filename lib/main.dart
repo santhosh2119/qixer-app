@@ -43,6 +43,7 @@ import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
 import 'package:qixer/service/seller_all_services_service.dart';
@@ -64,6 +65,7 @@ void main() async {
   Stripe.publishableKey = publishableKey;
   Stripe.instance.applySettings();
 
+  // var pusherInstance = await PushNotificationService().fetchPusherCredential();
   await PusherBeams.instance.start('aa8d8bb4-1030-48a1-a4ac-ad1d5fbd99d3');
 
   await Firebase.initializeApp();
@@ -137,6 +139,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OrdersService()),
         ChangeNotifierProvider(create: (_) => WalletService()),
         ChangeNotifierProvider(create: (_) => SellerAllServicesService()),
+        ChangeNotifierProvider(create: (_) => PushNotificationService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

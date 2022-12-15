@@ -255,6 +255,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               controller: phoneController,
                               decoration: SignupHelper().phoneFieldDecoration(),
                               initialCountryCode: countryCode,
+                              disableLengthCheck: true,
                               textAlign: rtlP.direction == 'ltr'
                                   ? TextAlign.left
                                   : TextAlign.right,

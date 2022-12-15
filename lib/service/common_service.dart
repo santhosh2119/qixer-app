@@ -5,6 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/country_states_service.dart';
+import 'package:qixer/service/home_services/category_service.dart';
+import 'package:qixer/service/home_services/recent_services_service.dart';
+import 'package:qixer/service/home_services/slider_service.dart';
+import 'package:qixer/service/home_services/top_rated_services_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
@@ -74,4 +80,18 @@ runAtstart(BuildContext context) {
 //fetch translated strings
   Provider.of<AppStringService>(context, listen: false)
       .fetchTranslatedStrings();
+}
+
+runAtHome(BuildContext context) async {
+  Provider.of<SliderService>(context, listen: false).loadSlider();
+  Provider.of<CategoryService>(context, listen: false).fetchCategory();
+  Provider.of<TopRatedServicesSerivce>(context, listen: false)
+      .fetchTopService();
+  Provider.of<RecentServicesService>(context, listen: false)
+      .fetchRecentService();
+  Provider.of<ProfileService>(context, listen: false).getProfileDetails();
+  Provider.of<CountryStatesService>(context, listen: false)
+      .fetchCountries(context);
+
+  //
 }

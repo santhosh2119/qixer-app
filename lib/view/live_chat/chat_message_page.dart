@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:qixer/service/live_chat/chat_message_service.dart';
+import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -34,8 +35,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   void initState() {
     super.initState();
 
-    apiKey = Provider.of<ChatMessagesService>(context, listen: false).apiKey;
-    secret = Provider.of<ChatMessagesService>(context, listen: false).secret;
+    apiKey =
+        Provider.of<PushNotificationService>(context, listen: false).apiKey;
+    secret =
+        Provider.of<PushNotificationService>(context, listen: false).secret;
 
     connectToPusher();
     channelName = 'private-chat-message.${widget.currentUserId}';

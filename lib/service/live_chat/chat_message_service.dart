@@ -19,7 +19,6 @@ class ChatMessagesService with ChangeNotifier {
 
   bool isloading = false;
   bool sendLoading = false;
-  bool pusherCredentialLoaded = false;
 
   late int totalPages;
   int currentPage = 1;
@@ -211,48 +210,6 @@ class ChatMessagesService with ChangeNotifier {
           false //check if this image is just got picked from device in that case we will show it from device location
     });
     notifyListeners();
-  }
-
-  //get pusher credential
-  //======================>
-
-  var apiKey;
-  var secret;
-  var pusherToken;
-  var pusherApiUrl;
-
-  fetchPusherCredential(BuildContext context) async {
-    var connection = await checkConnection();
-    if (!connection) return;
-    if (pusherCredentialLoaded == true) return;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    var header = {
-      //if header type is application/json then the data should be in jsonEncode method
-      "Accept": "application/json",
-      // "Content-Type": "application/json"
-      "Authorization": "Bearer $token",
-    };
-
-    var response = await http.get(
-        Uri.parse("$baseApi/user/chat/pusher/credentials"),
-        headers: header);
-
-    print(response.body);
-
-    if (response.statusCode == 201) {
-      final jsonData = jsonDecode(response.body);
-      pusherCredentialLoaded = true;
-      apiKey = jsonData['pusher_app_key'];
-      secret = jsonData['pusher_app_secret'];
-      pusherToken = jsonData['pusher_app_push_notification_auth_token'];
-      pusherApiUrl = jsonData['pusher_app_push_notification_auth_url'];
-
-      notifyListeners();
-    } else {
-      print(response.body);
-    }
   }
 
   sendNotification(BuildContext context, {required sellerId, required msg}) {

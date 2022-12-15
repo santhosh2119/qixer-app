@@ -19,6 +19,13 @@ class LandingPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<LandingPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initPusherBeams(context);
+  }
+
   DateTime? currentBackPressTime;
 
   void onTabTapped(int index) {
@@ -61,6 +68,7 @@ class _HomePageState extends State<LandingPage> {
   }
 
   void _onMessageReceivedInTheForeground(Map<Object?, Object?> data) {
+    print('notification received');
     PushNotificationHelper().notificationAlert(
         context, data["title"].toString(), data["body"].toString());
   }
