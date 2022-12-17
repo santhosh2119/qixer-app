@@ -1,7 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/pay_services/stripe_service.dart';
+import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -47,26 +52,40 @@ class LoginService with ChangeNotifier {
         }
         setLoadingFalse();
 
+        String token = jsonDecode(response.body)['token'];
+        int userId = jsonDecode(response.body)['users']['id'];
+        String state = jsonDecode(response.body)['users']['state'].toString();
+        String countryId =
+            jsonDecode(response.body)['users']['country_id'].toString();
+
+        if (keepLoggedIn) {
+          saveDetails(email, pass, token, userId, state, countryId);
+        } else {
+          setKeepLoggedInFalseSaveToken(token);
+        }
+
+        //start pusher
+        //============>
+        await Provider.of<PushNotificationService>(context, listen: false)
+            .fetchPusherCredential();
+        var pusherInstance =
+            Provider.of<PushNotificationService>(context, listen: false)
+                .pusherInstance;
+        await PusherBeams.instance.start(pusherInstance);
+
+        //start stripe
+        //============>
+        var publishableKey = await StripeService().getStripeKey();
+        Stripe.publishableKey = publishableKey;
+        Stripe.instance.applySettings();
+
+        // =======>
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => const LandingPage(),
           ),
         );
-
-        String token = jsonDecode(response.body)['token'];
-        int userId = jsonDecode(response.body)['users']['id'];
-        String state = jsonDecode(response.body)['users']['state'].toString();
-        String country_id =
-            jsonDecode(response.body)['users']['country_id'].toString();
-
-        if (keepLoggedIn) {
-          saveDetails(email, pass, token, userId, state, country_id);
-        } else {
-          setKeepLoggedInFalseSaveToken(token);
-        }
-
-        print(response.body);
 
         return true;
       } else {
@@ -86,7 +105,7 @@ class LoginService with ChangeNotifier {
   }
 
   saveDetails(
-      String email, pass, String token, int userId, state, country_id) async {
+      String email, pass, String token, int userId, state, countryId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("email", email);
     prefs.setBool('keepLoggedIn', true);
@@ -94,7 +113,7 @@ class LoginService with ChangeNotifier {
     prefs.setString("token", token);
     prefs.setInt('userId', userId);
     prefs.setString("state", state);
-    prefs.setString("countryId", country_id);
+    prefs.setString("countryId", countryId);
     print('token is $token');
     print('user id is $userId');
     print('user state id is $state');

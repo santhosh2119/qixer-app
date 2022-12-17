@@ -49,7 +49,7 @@ class PushNotificationService with ChangeNotifier {
   var pusherApiUrl;
   var pusherInstance;
 
-  Future fetchPusherCredential({context}) async {
+  Future<bool> fetchPusherCredential({context}) async {
     var connection = await checkConnection();
     if (!connection) return false;
     if (pusherCredentialLoaded == true) return false;
@@ -79,10 +79,10 @@ class PushNotificationService with ChangeNotifier {
       pusherInstance = jsonData['pusher_app_push_notification_instanceId'];
 
       notifyListeners();
-      return pusherInstance;
+      return true;
     } else {
       print(response.body);
-      return null;
+      return false;
     }
   }
 
