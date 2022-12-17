@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,11 +15,16 @@ class PushNotificationService with ChangeNotifier {
   //
   sendNotificationToSeller(BuildContext context,
       {required sellerId, required title, required body}) async {
+    var pUrl = Provider.of<PushNotificationService>(context, listen: false)
+        .pusherApiUrl;
+
+    var pToken = Provider.of<PushNotificationService>(context, listen: false)
+        .pusherToken;
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       // "Accept": "application/json",
       "Content-Type": "application/json",
-      "Authorization": "$pusherToken",
+      "Authorization": "$pToken",
     };
 
     var data = jsonEncode({
@@ -30,7 +35,7 @@ class PushNotificationService with ChangeNotifier {
     });
 
     var response =
-        await http.post(Uri.parse(pusherApiUrl), headers: header, body: data);
+        await http.post(Uri.parse(pUrl), headers: header, body: data);
 
     if (response.statusCode == 200) {
       print('send notification to seller success');
@@ -47,6 +52,7 @@ class PushNotificationService with ChangeNotifier {
   var secret;
   var pusherToken;
   var pusherApiUrl;
+  var pusherCluster;
   var pusherInstance;
 
   Future<bool> fetchPusherCredential({context}) async {
@@ -76,6 +82,7 @@ class PushNotificationService with ChangeNotifier {
       secret = jsonData['pusher_app_secret'];
       pusherToken = jsonData['pusher_app_push_notification_auth_token'];
       pusherApiUrl = jsonData['pusher_app_push_notification_auth_url'];
+      pusherCluster = jsonData['pusher_app_cluster'];
       pusherInstance = jsonData['pusher_app_push_notification_instanceId'];
 
       notifyListeners();
@@ -84,14 +91,5 @@ class PushNotificationService with ChangeNotifier {
       print(response.body);
       return false;
     }
-  }
-
-//
-
-  //
-
-  disconnect() {
-    PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
-    pusher.disconnect();
   }
 }

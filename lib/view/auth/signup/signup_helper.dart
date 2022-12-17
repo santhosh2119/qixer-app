@@ -41,7 +41,6 @@ class SignupHelper {
     return InputDecoration(
         labelText: 'Phone Number',
         // hintTextDirection: TextDirection.rtl,
-
         labelStyle: TextStyle(color: cc.greyFour, fontSize: 14),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: ConstantColors().greyFive),

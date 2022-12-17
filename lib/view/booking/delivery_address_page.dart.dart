@@ -185,6 +185,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                       builder: (context, rtlP, child) =>
                                           IntlPhoneField(
                                         controller: phoneController,
+                                        disableLengthCheck: true,
                                         textAlign: rtlP.direction == 'ltr'
                                             ? TextAlign.left
                                             : TextAlign.right,

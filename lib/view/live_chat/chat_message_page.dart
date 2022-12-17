@@ -39,6 +39,8 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
         Provider.of<PushNotificationService>(context, listen: false).apiKey;
     secret =
         Provider.of<PushNotificationService>(context, listen: false).secret;
+    cluster = Provider.of<PushNotificationService>(context, listen: false)
+        .pusherCluster;
 
     connectToPusher();
     channelName = 'private-chat-message.${widget.currentUserId}';
@@ -55,7 +57,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
   late String apiKey;
   late String secret;
-  final cluster = 'ap2';
+  var cluster;
   late String channelName;
   final eventName = 'client-message.sent';
 

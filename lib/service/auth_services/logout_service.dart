@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,9 +57,6 @@ class LogoutService with ChangeNotifier {
 
         clear();
         setLoadingFalse();
-
-        Provider.of<PushNotificationService>(context, listen: false)
-            .disconnect();
       } else {
         print(response.body);
         OthersHelper().showToast('Something went wrong', Colors.black);

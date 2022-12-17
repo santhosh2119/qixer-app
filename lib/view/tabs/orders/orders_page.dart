@@ -75,85 +75,75 @@ class _OrdersPageState extends State<OrdersPage> {
                                             top: 20,
                                             bottom: 10,
                                           ),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 18),
                                           decoration: BoxDecoration(
                                               border: Border.all(
                                                   color: cc.borderColor),
                                               borderRadius:
                                                   BorderRadius.circular(5)),
                                           child: Column(children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                AutoSizeText(
-                                                  '#${provider.myServices[i].id}',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: cc.primaryColor,
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      15, 6, 0, 0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  AutoSizeText(
+                                                    '#${provider.myServices[i].id}',
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      color: cc.primaryColor,
+                                                    ),
                                                   ),
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    OrdersHelper().statusCapsule(
-                                                        OrderDetailsService()
-                                                            .getOrderStatus(
-                                                                provider
-                                                                    .myServices[
-                                                                        i]
-                                                                    .status),
-                                                        cc.greyFour),
+                                                  Row(
+                                                    children: [
+                                                      OrdersHelper().statusCapsule(
+                                                          OrderDetailsService()
+                                                              .getOrderStatus(
+                                                                  provider
+                                                                      .myServices[
+                                                                          i]
+                                                                      .status),
+                                                          cc.greyFour),
 
-                                                    //popup button
-                                                    // Container(
-                                                    //   margin:
-                                                    //       const EdgeInsets.only(
-                                                    //           left: 8),
-                                                    //   child: PopupMenuButton(
-                                                    //     // initialValue: 2,
-                                                    //     child: const Icon(
-                                                    //         Icons.more_vert),
-                                                    //     itemBuilder: (c) {
-                                                    //       return List.generate(1,
-                                                    //           (index) {
-                                                    //         return PopupMenuItem(
-                                                    //           value: index,
-                                                    //           onTap: () async {
-                                                    //             //without the below line, navigation won't work
-                                                    //             await Future
-                                                    //                 .delayed(
-                                                    //                     Duration
-                                                    //                         .zero);
-                                                    //             Navigator.push(
-                                                    //               context,
-                                                    //               MaterialPageRoute<
-                                                    //                   void>(
-                                                    //                 builder: (BuildContext
-                                                    //                         context) =>
-                                                    //                     const OrderDetailsPage(),
-                                                    //               ),
-                                                    //             );
-                                                    //           },
-                                                    //           child: const Text(
-                                                    //               'Details'),
-                                                    //         );
-                                                    //       });
-                                                    //     },
-                                                    //   ),
-                                                    // )
-                                                  ],
-                                                )
-                                              ],
+                                                      //popup button
+                                                      PopupMenuButton(
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context) =>
+                                                                <PopupMenuEntry>[
+                                                          for (int i = 0;
+                                                              i <
+                                                                  ordersPopupMenuList
+                                                                      .length;
+                                                              i++)
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                Future.delayed(
+                                                                    Duration
+                                                                        .zero,
+                                                                    () {});
+                                                              },
+                                                              child: Text(
+                                                                  ordersPopupMenuList[
+                                                                      i]),
+                                                            ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
                                             ),
 
                                             //Divider
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  top: 17, bottom: 20),
+                                                  top: 6, bottom: 17),
                                               child: CommonHelper()
                                                   .dividerCommon(),
                                             ),
@@ -200,14 +190,21 @@ class _OrdersPageState extends State<OrdersPage> {
                                                   )
                                                 : Container(),
 
-                                            Consumer<RtlService>(
-                                              builder: (context, rtlP, child) =>
-                                                  OrdersHelper().orderRow(
-                                                'assets/svg/bill.svg',
-                                                'Billed',
-                                                rtlP.currencyDirection == 'left'
-                                                    ? '${rtlP.currency}${provider.myServices[i].total.toStringAsFixed(2)}'
-                                                    : '${provider.myServices[i].total.toStringAsFixed(2)}${rtlP.currency}',
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      15, 0, 15, 15),
+                                              child: Consumer<RtlService>(
+                                                builder:
+                                                    (context, rtlP, child) =>
+                                                        OrdersHelper().orderRow(
+                                                  'assets/svg/bill.svg',
+                                                  'Billed',
+                                                  rtlP.currencyDirection ==
+                                                          'left'
+                                                      ? '${rtlP.currency}${provider.myServices[i].total.toStringAsFixed(2)}'
+                                                      : '${provider.myServices[i].total.toStringAsFixed(2)}${rtlP.currency}',
+                                                ),
                                               ),
                                             )
                                           ]),
@@ -230,3 +227,33 @@ class _OrdersPageState extends State<OrdersPage> {
         ));
   }
 }
+
+List ordersPopupMenuList = [
+  'Leave feedback',
+  'Cancel order',
+  'Report to admin'
+];
+
+//  Row(
+//                                               mainAxisAlignment =
+//                                                   MainAxisAlignment
+//                                                       .spaceBetween,
+//                                               children = [
+//                                                 SizedBox(
+//                                                   width: 100,
+//                                                   child: CommonHelper()
+//                                                       .buttonOrange(
+//                                                           'Report', () {},
+//                                                           paddingVerticle: 13,
+//                                                           bgColor:
+//                                                               Colors.black),
+//                                                 ),
+//                                                 SizedBox(
+//                                                   width: 113,
+//                                                   child: CommonHelper()
+//                                                       .buttonOrange(
+//                                                           'Leave Review', () {},
+//                                                           paddingVerticle: 13),
+//                                                 )
+//                                               ],
+//                                             )

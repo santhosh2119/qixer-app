@@ -53,6 +53,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                   builder: (context, rtlP, child) => IntlPhoneField(
                     decoration: SignupHelper().phoneFieldDecoration(),
                     initialCountryCode: provider.countryCode,
+                    disableLengthCheck: true,
                     textAlign: rtlP.direction == 'ltr'
                         ? TextAlign.left
                         : TextAlign.right,
