@@ -177,17 +177,6 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                                       .serviceAllDetails
                                                       .serviceDetails
                                                       .id,
-                                                  title: provider
-                                                      .serviceAllDetails
-                                                      .serviceDetails
-                                                      .title,
-                                                  userImg: provider
-                                                      .serviceAllDetails
-                                                      .serviceSellerImage
-                                                      .imgUrl,
-                                                  userName: provider
-                                                      .serviceAllDetails
-                                                      .serviceSellerName,
                                                 ),
                                               ),
                                             );

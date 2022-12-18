@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
+import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
+import 'package:qixer/view/booking/payment_choose_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 
 class AmountDetails extends StatelessWidget {
@@ -66,11 +72,69 @@ class AmountDetails extends StatelessWidget {
 
                     Container(
                       child: BookingHelper().bRow(
+                        'null',
+                        asProvider.getString('Payment status'),
+                        provider.orderDetails.paymentStatus,
+                      ),
+                    ),
+
+                    Container(
+                      child: BookingHelper().bRow(
                           'null',
-                          asProvider.getString('Payment status'),
-                          provider.orderDetails.paymentStatus,
+                          asProvider.getString('Payment method'),
+                          removeUnderscore(
+                              provider.orderDetails.paymentGateway),
                           lastBorder: false),
                     ),
+
+                    if (provider.orderDetails.paymentStatus == 'pending' &&
+                        provider.orderDetails.paymentGateway !=
+                            "cash_on_delivery" &&
+                        provider.orderDetails.paymentGateway !=
+                            "manual_payment")
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: CommonHelper().buttonOrange('Pay now', () {
+                          //At first, set the address details
+                          Provider.of<BookService>(context, listen: false)
+                              .setDeliveryDetailsBasedOnProfile(context);
+
+                          //set if online or offline
+                          var isOnline = provider.orderDetails.isOrderOnline;
+                          Provider.of<PersonalizationService>(context,
+                                  listen: false)
+                              .setOnlineOffline(isOnline);
+
+                          //set total amount
+                          var total = double.parse(
+                              removeDollar(provider.orderDetails.total));
+
+                          if (isOnline == 1) {
+                            Provider.of<BookConfirmationService>(context,
+                                    listen: false)
+                                .setTotalOnlineService(total);
+                          } else {
+                            Provider.of<BookConfirmationService>(context,
+                                    listen: false)
+                                .setTotalOfflineService(total);
+                          }
+
+                          // set order id
+                          Provider.of<PlaceOrderService>(context, listen: false)
+                              .setOrderId(provider.orderDetails.id);
+                          //
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const PaymentChoosePage(
+                                payAgain: true,
+                              ),
+                            ),
+                          );
+                        }, paddingVerticle: 16),
+                      )
                   ]),
             ),
           ],

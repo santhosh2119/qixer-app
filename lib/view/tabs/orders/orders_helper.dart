@@ -1,9 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qixer/view/report/write_report_page.dart';
+import 'package:qixer/view/services/review/write_review_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 
 class OrdersHelper {
+  List ordersPopupMenuList = [
+    'Leave feedback',
+    'Cancel order',
+    'Report to admin'
+  ];
+
+  navigateMyOrders(BuildContext context, {required index, required serviceId}) {
+    if (index == 0) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => WriteReviewPage(
+            serviceId: serviceId,
+          ),
+        ),
+      );
+    } else if (index == 2) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => WriteReportPage(
+            serviceId: serviceId,
+            orderId: '',
+            sellerId: '',
+          ),
+        ),
+      );
+    }
+  }
+
   ConstantColors cc = ConstantColors();
+
   statusCapsule(String capsuleText, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 11),

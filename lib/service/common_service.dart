@@ -72,6 +72,10 @@ removeUnderscore(value) {
   return value.replaceAll(RegExp('_'), ' ');
 }
 
+removeDollar(value) {
+  return value.replaceAll(RegExp('[^0-9.]'), '');
+}
+
 runAtstart(BuildContext context) {
   Provider.of<RtlService>(context, listen: false).fetchCurrency();
   //language direction (ltr or rtl)

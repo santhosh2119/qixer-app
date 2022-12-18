@@ -89,46 +89,45 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
                                 ),
 
                                 //Date and Time =================>
-                                pProvider.isOnline == 0
-                                    ? Container(
-                                        alignment: Alignment.center,
-                                        margin: const EdgeInsets.only(
-                                          top: 30,
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 18),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: cc.borderColor),
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: BookingHelper()
-                                                  .bdetailsContainer(
-                                                      'assets/svg/calendar.svg',
-                                                      asProvider
-                                                          .getString('Date'),
-                                                      "${bookProvider.weekDay ?? ''}, ${bookProvider.selectedDateAndMonth ?? ''}"),
-                                            ),
-                                            const SizedBox(
-                                              width: 13,
-                                            ),
-                                            Expanded(
-                                              child: BookingHelper()
-                                                  .bdetailsContainer(
-                                                      'assets/svg/clock.svg',
-                                                      asProvider
-                                                          .getString('Time'),
-                                                      bookProvider
-                                                              .selectedTime ??
-                                                          ''),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    : Container(),
+                                if (pProvider.isOnline == 0)
+                                  if (bookProvider.weekDay != null)
+                                    Container(
+                                      alignment: Alignment.center,
+                                      margin: const EdgeInsets.only(
+                                        top: 30,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 18),
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: cc.borderColor),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: BookingHelper()
+                                                .bdetailsContainer(
+                                                    'assets/svg/calendar.svg',
+                                                    asProvider
+                                                        .getString('Date'),
+                                                    "${bookProvider.weekDay ?? ''}, ${bookProvider.selectedDateAndMonth ?? ''}"),
+                                          ),
+                                          const SizedBox(
+                                            width: 13,
+                                          ),
+                                          Expanded(
+                                            child: BookingHelper()
+                                                .bdetailsContainer(
+                                                    'assets/svg/clock.svg',
+                                                    asProvider
+                                                        .getString('Time'),
+                                                    bookProvider.selectedTime ??
+                                                        ''),
+                                          )
+                                        ],
+                                      ),
+                                    ),
 
                                 const SizedBox(
                                   height: 30,

@@ -31,6 +31,11 @@ class PersonalizationService with ChangeNotifier {
 
   var isOnline = 0;
 
+  setOnlineOffline(status) {
+    isOnline = status;
+    notifyListeners();
+  }
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();

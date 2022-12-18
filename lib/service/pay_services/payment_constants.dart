@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
 
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
@@ -18,7 +17,6 @@ import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:qixer/service/pay_services/paystack_service.dart';
 import 'package:qixer/service/pay_services/paytabs_service.dart';
 import 'package:qixer/service/pay_services/paytm_service.dart';
-
 import 'package:qixer/service/pay_services/razorpay_service.dart';
 import 'package:qixer/service/pay_services/square_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
@@ -26,13 +24,10 @@ import 'package:qixer/service/pay_services/zitopay_service.dart';
 import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
-randomOrderId() {
-  var rng = Random();
-  return rng.nextInt(100).toString();
-}
-
 payAction(String method, BuildContext context, imagePath,
-    {bool isFromOrderExtraAccept = false, bool isFromWalletDeposite = false}) {
+    {bool isFromOrderExtraAccept = false,
+    bool isFromWalletDeposite = false,
+    bool payAgain = false}) {
   //to know method names visit PaymentGatewayListService class where payment
   //methods list are fetching with method name
 
@@ -47,7 +42,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           PaypalService().payByPaypal(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -61,7 +56,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           CashfreeService().getTokenAndPay(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -77,7 +72,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           FlutterwaveService().payByFlutterwave(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -93,7 +88,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           InstamojoService().payByInstamojo(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -109,7 +104,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           MercadoPagoService().payByMercado(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -123,7 +118,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           MidtransService().payByMidtrans(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -137,7 +132,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           MollieService().payByMollie(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -152,7 +147,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           PayfastService().payByPayfast(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -167,7 +162,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           PaystackService().payByPaystack(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -181,7 +176,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           PaytmService().payByPaytm(context);
-        }, paytmPaymentSelected: true);
+        }, paytmPaymentSelected: true, payAgain: payAgain);
       }
 
       break;
@@ -196,7 +191,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           RazorpayService().payByRazorpay(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -210,7 +205,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           StripeService().makePayment(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -225,7 +220,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           SquareService().payBySquare(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -240,7 +235,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           CinetPayService().payByCinetpay(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -255,7 +250,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           PaytabsService().payByPaytabs(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -270,7 +265,7 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           BillPlzService().payByBillPlz(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
@@ -285,31 +280,46 @@ payAction(String method, BuildContext context, imagePath,
       } else {
         makePaymentToGetOrderId(context, () {
           ZitopayService().payByZitopay(context);
-        });
+        }, payAgain: payAgain);
       }
 
       break;
 
     case 'manual_payment':
+      if (payAgain) {
+        OthersHelper().showToast(
+            'Manual payment is not available for second attempt payment',
+            Colors.black);
+        return;
+      }
+
       if (imagePath == null) {
         OthersHelper()
             .showToast('You must upload the cheque image', Colors.black);
+        return;
+      }
+
+      if (isFromOrderExtraAccept == true) {
+        buyExtraCodOrManualPayment(context,
+            manualPaymentSelected: true, imagePath: imagePath.path);
+      } else if (isFromWalletDeposite) {
+        Provider.of<WalletService>(context, listen: false)
+            .createDepositeRequest(context,
+                imagePath: imagePath.path, isManualOrCod: true);
       } else {
-        if (isFromOrderExtraAccept == true) {
-          buyExtraCodOrManualPayment(context,
-              manualPaymentSelected: true, imagePath: imagePath.path);
-        } else if (isFromWalletDeposite) {
-          Provider.of<WalletService>(context, listen: false)
-              .createDepositeRequest(context,
-                  imagePath: imagePath.path, isManualOrCod: true);
-        } else {
-          Provider.of<PlaceOrderService>(context, listen: false)
-              .placeOrder(context, imagePath.path, isManualOrCod: true);
-        }
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .placeOrder(context, imagePath.path, isManualOrCod: true);
       }
 
       break;
     case 'cash_on_delivery':
+      if (payAgain) {
+        OthersHelper().showToast(
+            'Cash on delivery is not available for second attempt payment',
+            Colors.black);
+        return;
+      }
+
       if (isFromOrderExtraAccept == true) {
         buyExtraCodOrManualPayment(context);
       } else if (isFromWalletDeposite) {
@@ -330,10 +340,13 @@ payAction(String method, BuildContext context, imagePath,
 }
 
 makePaymentToGetOrderId(BuildContext context, VoidCallback function,
-    {bool paytmPaymentSelected = false}) async {
-  var res = await Provider.of<PlaceOrderService>(context, listen: false)
-      .placeOrder(context, null, paytmPaymentSelected: paytmPaymentSelected);
-
+    {bool paytmPaymentSelected = false, bool payAgain = false}) async {
+  var res = true;
+  if (payAgain == false) {
+    res = await Provider.of<PlaceOrderService>(context, listen: false)
+        .placeOrder(context, null, paytmPaymentSelected: paytmPaymentSelected);
+  }
+  //
   if (res == true) {
     function();
   } else {

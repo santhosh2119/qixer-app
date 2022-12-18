@@ -7,6 +7,7 @@ import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/auth/signup/signup_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class SignupPhonePass extends StatefulWidget {
@@ -65,9 +66,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                   ),
                 ),
 
-                const SizedBox(
-                  height: 10,
-                ),
+                sizedBoxCustom(20),
 
                 //New password =========================>
                 CommonHelper().labelCommon(asProvider.getString("Password")),

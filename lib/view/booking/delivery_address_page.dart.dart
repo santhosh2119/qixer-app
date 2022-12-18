@@ -199,6 +199,8 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                       ),
                                     ),
 
+                                    sizedBoxCustom(20),
+
                                     personalizatioProvider.isOnline == 0
                                         ? Column(
                                             crossAxisAlignment:
@@ -256,15 +258,7 @@ class _DeliveryAddressPageState extends State<DeliveryAddressPage> {
                                             ],
                                           )
                                         : Container(),
-                                    // const SizedBox(
-                                    //   height: 2,
-                                    // ),
-                                    // CommonHelper().labelCommon("Order note"),
 
-                                    // TextareaField(
-                                    //   hintText: 'e.g. come with ideal brushes...',
-                                    //   notesController: notesController,
-                                    // ),
                                     const SizedBox(
                                       height: 100,
                                     ),

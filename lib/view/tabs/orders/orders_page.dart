@@ -118,7 +118,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                 <PopupMenuEntry>[
                                                           for (int i = 0;
                                                               i <
-                                                                  ordersPopupMenuList
+                                                                  OrdersHelper()
+                                                                      .ordersPopupMenuList
                                                                       .length;
                                                               i++)
                                                             PopupMenuItem(
@@ -126,11 +127,19 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                 Future.delayed(
                                                                     Duration
                                                                         .zero,
-                                                                    () {});
+                                                                    () {
+                                                                  OrdersHelper().navigateMyOrders(
+                                                                      context,
+                                                                      index: i,
+                                                                      serviceId: provider
+                                                                          .myServices[
+                                                                              i]
+                                                                          .serviceId);
+                                                                });
                                                               },
                                                               child: Text(
-                                                                  ordersPopupMenuList[
-                                                                      i]),
+                                                                  OrdersHelper()
+                                                                      .ordersPopupMenuList[i]),
                                                             ),
                                                         ],
                                                       )
@@ -150,43 +159,55 @@ class _OrdersPageState extends State<OrdersPage> {
 
                                             provider.myServices[i].date !=
                                                     "00.00.00"
-                                                ? Column(
-                                                    children: [
-                                                      OrdersHelper().orderRow(
-                                                        'assets/svg/calendar.svg',
-                                                        'Date',
-                                                        provider
-                                                            .myServices[i].date,
-                                                      ),
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                                .symmetric(
-                                                            vertical: 14),
-                                                        child: CommonHelper()
-                                                            .dividerCommon(),
-                                                      ),
-                                                    ],
+                                                ? Container(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 15),
+                                                    child: Column(
+                                                      children: [
+                                                        OrdersHelper().orderRow(
+                                                          'assets/svg/calendar.svg',
+                                                          'Date',
+                                                          provider.myServices[i]
+                                                              .date,
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 14),
+                                                          child: CommonHelper()
+                                                              .dividerCommon(),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   )
                                                 : Container(),
 
                                             provider.myServices[i].schedule !=
                                                     "00.00.00"
-                                                ? Column(
-                                                    children: [
-                                                      OrdersHelper().orderRow(
-                                                        'assets/svg/clock.svg',
-                                                        'Schedule',
-                                                        provider.myServices[i]
-                                                            .schedule,
-                                                      ),
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                                .symmetric(
-                                                            vertical: 14),
-                                                        child: CommonHelper()
-                                                            .dividerCommon(),
-                                                      ),
-                                                    ],
+                                                ? Container(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 15),
+                                                    child: Column(
+                                                      children: [
+                                                        OrdersHelper().orderRow(
+                                                          'assets/svg/clock.svg',
+                                                          'Schedule',
+                                                          provider.myServices[i]
+                                                              .schedule,
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 14),
+                                                          child: CommonHelper()
+                                                              .dividerCommon(),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   )
                                                 : Container(),
 
@@ -227,33 +248,3 @@ class _OrdersPageState extends State<OrdersPage> {
         ));
   }
 }
-
-List ordersPopupMenuList = [
-  'Leave feedback',
-  'Cancel order',
-  'Report to admin'
-];
-
-//  Row(
-//                                               mainAxisAlignment =
-//                                                   MainAxisAlignment
-//                                                       .spaceBetween,
-//                                               children = [
-//                                                 SizedBox(
-//                                                   width: 100,
-//                                                   child: CommonHelper()
-//                                                       .buttonOrange(
-//                                                           'Report', () {},
-//                                                           paddingVerticle: 13,
-//                                                           bgColor:
-//                                                               Colors.black),
-//                                                 ),
-//                                                 SizedBox(
-//                                                   width: 113,
-//                                                   child: CommonHelper()
-//                                                       .buttonOrange(
-//                                                           'Leave Review', () {},
-//                                                           paddingVerticle: 13),
-//                                                 )
-//                                               ],
-//                                             )

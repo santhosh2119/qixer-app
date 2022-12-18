@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 
 class BookConfirmationService with ChangeNotifier {
@@ -13,6 +12,16 @@ class BookConfirmationService with ChangeNotifier {
 
   var taxPrice;
   var taxPriceOnline;
+
+  setTotalOnlineService(v) {
+    totalPriceOnlineServiceAfterAllCalculation = v;
+    notifyListeners();
+  }
+
+  setTotalOfflineService(v) {
+    totalPriceAfterAllcalculation = v;
+    notifyListeners();
+  }
 
   setPanelOpenedTrue() {
     isPanelOpened = true;

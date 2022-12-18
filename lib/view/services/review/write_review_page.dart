@@ -4,24 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/booking/components/textarea_field.dart';
-import 'package:qixer/view/services/components/service_details_top.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 class WriteReviewPage extends StatefulWidget {
-  const WriteReviewPage(
-      {Key? key,
-      required this.serviceId,
-      required this.title,
-      required this.userImg,
-      required this.userName})
-      : super(key: key);
+  const WriteReviewPage({
+    Key? key,
+    required this.serviceId,
+  }) : super(key: key);
 
   final serviceId;
-  final String title;
-  final String userImg;
-  final String userName;
   @override
   State<WriteReviewPage> createState() => _WriteReviewPageState();
 }
@@ -47,18 +40,16 @@ class _WriteReviewPageState extends State<WriteReviewPage> {
               const SizedBox(
                 height: 15,
               ),
-              ServiceTitleAndUser(
-                cc: cc,
-                title: widget.title,
-                userImg: widget.userImg,
-                sellerName: widget.userName,
-                sellerId: '',
-                videoLink: null,
-                onTap: () {},
-              ),
-              const SizedBox(
-                height: 28,
-              ),
+              // ServiceTitleAndUser(
+              //   cc: cc,
+              //   title: widget.title,
+              //   userImg: widget.userImg,
+              //   sellerName: widget.userName,
+              //   sellerId: '',
+              //   videoLink: null,
+              //   onTap: () {},
+              // ),
+
               RatingBar.builder(
                 initialRating: 1,
                 minRating: 1,

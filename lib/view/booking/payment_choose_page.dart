@@ -22,11 +22,12 @@ class PaymentChoosePage extends StatefulWidget {
   const PaymentChoosePage(
       {Key? key,
       this.isFromOrderExtraAccept = false,
-      this.isFromDepositeToWallet = false})
+      this.isFromDepositeToWallet = false,
+      this.payAgain = false})
       : super(key: key);
 
   final bool isFromOrderExtraAccept;
-
+  final bool payAgain;
   final bool isFromDepositeToWallet;
 
   @override
@@ -196,7 +197,6 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                                         SizedBox(
                                                           height: 80,
                                                           child: Image.file(
-                                                            // File(provider.images[i].path),
                                                             File(btProvider
                                                                 .pickedImage
                                                                 .path),
@@ -284,7 +284,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                       isFromOrderExtraAccept:
                                           widget.isFromOrderExtraAccept,
                                       isFromWalletDeposite:
-                                          widget.isFromDepositeToWallet);
+                                          widget.isFromDepositeToWallet,
+                                      payAgain: widget.payAgain);
                                 }
                               },
                                   isloading: provider.isloading == false

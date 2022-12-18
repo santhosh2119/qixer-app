@@ -31,6 +31,11 @@ class PlaceOrderService with ChangeNotifier {
 
   var paytmHtmlForm;
 
+  setOrderId(v) {
+    orderId = v;
+    notifyListeners();
+  }
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -315,11 +320,12 @@ class PlaceOrderService with ChangeNotifier {
           headers: header,
           body: data);
       setLoadingFalse();
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 404) {
         OthersHelper().showToast('Order placed successfully', Colors.black);
         doNext(context, 'Complete');
       } else {
         print(response.body);
+        print(response.statusCode);
         OthersHelper().showToast(
             'Failed to make payment status successfull', Colors.black);
         doNext(context, 'Pending');

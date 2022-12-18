@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
 class BookService with ChangeNotifier {
@@ -45,6 +47,25 @@ class BookService with ChangeNotifier {
     postCode = newPostCode;
     address = newAddress;
     orderNote = newOrderNote;
+    notifyListeners();
+  }
+
+  setDeliveryDetailsBasedOnProfile(BuildContext context) {
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .userDetails
+            .email ??
+        'test@test.com';
     notifyListeners();
   }
 
