@@ -9,7 +9,6 @@ import 'package:qixer/view/services/components/about_seller_tab.dart';
 import 'package:qixer/view/services/components/image_big.dart';
 import 'package:qixer/view/services/components/overview_tab.dart';
 import 'package:qixer/view/services/components/review_tab.dart';
-import 'package:qixer/view/services/review/write_review_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -161,32 +160,32 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                 EdgeInsets.symmetric(horizontal: screenPadding),
                             child: Column(
                               children: [
-                                currentTab == 2
-                                    ? Column(
-                                        children: [
-                                          CommonHelper().borderButtonOrange(
-                                              asProvider.getString(
-                                                  'Write a review'), () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        WriteReviewPage(
-                                                  serviceId: provider
-                                                      .serviceAllDetails
-                                                      .serviceDetails
-                                                      .id,
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                          const SizedBox(
-                                            height: 14,
-                                          ),
-                                        ],
-                                      )
-                                    : Container(),
+                                // currentTab == 2
+                                //     ? Column(
+                                //         children: [
+                                //           CommonHelper().borderButtonOrange(
+                                //               asProvider.getString(
+                                //                   'Write a review'), () {
+                                //             Navigator.push(
+                                //               context,
+                                //               MaterialPageRoute<void>(
+                                //                 builder:
+                                //                     (BuildContext context) =>
+                                //                         WriteReviewPage(
+                                //                   serviceId: provider
+                                //                       .serviceAllDetails
+                                //                       .serviceDetails
+                                //                       .id,
+                                //                 ),
+                                //               ),
+                                //             );
+                                //           }),
+                                //           const SizedBox(
+                                //             height: 14,
+                                //           ),
+                                //         ],
+                                //       )
+                                //     : Container(),
                                 Row(
                                   children: [
                                     Expanded(

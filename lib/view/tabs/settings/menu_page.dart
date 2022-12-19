@@ -4,8 +4,10 @@ import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/jobs/job_request_page.dart';
 import 'package:qixer/view/jobs/my_jobs_page.dart';
+import 'package:qixer/view/report/my_reports_list.dart';
 import 'package:qixer/view/tabs/settings/components/chat_icon.dart';
-import 'package:qixer/view/tabs/settings/components/settings_page_grid.dart';
+import 'package:qixer/view/tabs/settings/components/menu_name_image_section.dart';
+import 'package:qixer/view/tabs/settings/components/menu_personal_info_section.dart';
 import 'package:qixer/view/tabs/settings/password/change_password_page.dart';
 import 'package:qixer/view/tabs/settings/profile_edit.dart';
 import 'package:qixer/view/tabs/settings/settings_helper.dart';
@@ -15,8 +17,6 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:qixer/view/wallet/wallet_page.dart';
-
-import '../../booking/booking_helper.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -52,189 +52,11 @@ class _MenuPageState extends State<MenuPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: screenPadding),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              //profile image, name ,desc
-                                              Column(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  //Profile image section =======>
-                                                  InkWell(
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute<void>(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              const ProfileEditPage(),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        profileProvider
-                                                                    .profileImage !=
-                                                                null
-                                                            ? CommonHelper()
-                                                                .profileImage(
-                                                                    profileProvider
-                                                                        .profileImage,
-                                                                    62,
-                                                                    62)
-                                                            : ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                child:
-                                                                    Image.asset(
-                                                                  'assets/images/avatar.png',
-                                                                  height: 62,
-                                                                  width: 62,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              ),
-
-                                                        const SizedBox(
-                                                          height: 12,
-                                                        ),
-
-                                                        //user name
-                                                        CommonHelper().titleCommon(
-                                                            profileProvider
-                                                                    .profileDetails
-                                                                    .userDetails
-                                                                    .name ??
-                                                                ''),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        //phone
-                                                        CommonHelper().paragraphCommon(
-                                                            profileProvider
-                                                                    .profileDetails
-                                                                    .userDetails
-                                                                    .phone ??
-                                                                '',
-                                                            TextAlign.center),
-                                                        // const SizedBox(
-                                                        //   height: 10,
-                                                        // ),
-                                                        profileProvider
-                                                                    .profileDetails
-                                                                    .userDetails
-                                                                    .about !=
-                                                                null
-                                                            ? CommonHelper()
-                                                                .paragraphCommon(
-                                                                    profileProvider
-                                                                        .profileDetails
-                                                                        .userDetails
-                                                                        .about,
-                                                                    TextAlign
-                                                                        .center)
-                                                            : Container(),
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                  //Grid cards
-                                                  SettingsPageGrid(
-                                                    cc: cc,
-                                                    asProvider: asProvider,
-                                                  ),
-                                                ],
-                                              ),
-
-                                              //
-                                            ]),
-                                      ),
-                                      SettingsHelper().borderBold(30, 20),
+                                      //
+                                      const MenuNameImageSection(),
 
                                       // Personal information ==========>
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: screenPadding),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CommonHelper().titleCommon(
-                                                  asProvider.getString(
-                                                      "Personal informations")),
-                                              const SizedBox(
-                                                height: 25,
-                                              ),
-                                              BookingHelper().bRow(
-                                                  'null',
-                                                  asProvider.getString("Email"),
-                                                  profileProvider.profileDetails
-                                                          .userDetails.email ??
-                                                      ''),
-                                              BookingHelper().bRow(
-                                                  'null',
-                                                  asProvider.getString("City"),
-                                                  profileProvider
-                                                          .profileDetails
-                                                          .userDetails
-                                                          .city
-                                                          .serviceCity ??
-                                                      ''),
-                                              BookingHelper().bRow(
-                                                  'null',
-                                                  asProvider.getString("Area"),
-                                                  profileProvider
-                                                          .profileDetails
-                                                          .userDetails
-                                                          .area
-                                                          .serviceArea ??
-                                                      ''),
-                                              BookingHelper().bRow(
-                                                  'null',
-                                                  asProvider
-                                                      .getString("Country"),
-                                                  profileProvider
-                                                          .profileDetails
-                                                          .userDetails
-                                                          .country
-                                                          .country ??
-                                                      ''),
-                                              BookingHelper().bRow(
-                                                  'null',
-                                                  asProvider
-                                                      .getString("Post Code"),
-                                                  profileProvider
-                                                          .profileDetails
-                                                          .userDetails
-                                                          .postCode ??
-                                                      ''),
-                                              BookingHelper().bRow(
-                                                  'null',
-                                                  asProvider
-                                                      .getString("Address"),
-                                                  profileProvider
-                                                          .profileDetails
-                                                          .userDetails
-                                                          .address ??
-                                                      '',
-                                                  lastBorder: false),
-                                            ]),
-                                      ),
+                                      const MenuPersonalInfoSection(),
 
                                       SettingsHelper().borderBold(35, 8),
 
@@ -301,6 +123,21 @@ class _MenuPageState extends State<MenuPage> {
                                                 builder:
                                                     (BuildContext context) =>
                                                         const WalletPage(),
+                                              ),
+                                            );
+                                          }),
+
+                                          CommonHelper().dividerCommon(),
+                                          SettingsHelper().settingOption(
+                                              'assets/svg/profile-edit.svg',
+                                              asProvider.getString(
+                                                  "My report list"), () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const MyReportsList(),
                                               ),
                                             );
                                           }),
