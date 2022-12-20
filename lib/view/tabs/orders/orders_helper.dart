@@ -11,7 +11,8 @@ class OrdersHelper {
     'Report to admin'
   ];
 
-  navigateMyOrders(BuildContext context, {required index, required serviceId}) {
+  navigateMyOrders(BuildContext context,
+      {required index, required serviceId, required orderId}) {
     if (index == 0) {
       return Navigator.push(
         context,
@@ -27,8 +28,7 @@ class OrdersHelper {
         MaterialPageRoute<void>(
           builder: (BuildContext context) => WriteReportPage(
             serviceId: serviceId,
-            orderId: '',
-            sellerId: '',
+            orderId: orderId,
           ),
         ),
       );

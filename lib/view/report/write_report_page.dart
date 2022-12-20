@@ -8,25 +8,24 @@ import 'package:qixer/view/booking/components/textarea_field.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
+import 'package:qixer/view/utils/others_helper.dart';
 
 class WriteReportPage extends StatefulWidget {
   const WriteReportPage({
     Key? key,
     required this.serviceId,
     required this.orderId,
-    required this.sellerId,
   }) : super(key: key);
 
   final serviceId;
   final orderId;
-  final sellerId;
   @override
   State<WriteReportPage> createState() => _WriteReportPageState();
 }
 
 class _WriteReportPageState extends State<WriteReportPage> {
   double rating = 1;
-  TextEditingController reviewController = TextEditingController();
+  TextEditingController reportController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -57,15 +56,25 @@ class _WriteReportPageState extends State<WriteReportPage> {
                 height: 14,
               ),
               TextareaField(
-                notesController: reviewController,
+                notesController: reportController,
                 hintText: 'Write the issue',
               ),
               sizedBox20(),
               Consumer<LeaveFeedbackService>(
                 builder: (context, lfProvider, child) =>
-                    CommonHelper().buttonOrange('Report to admin', () {
-                  if (lfProvider.isloading == false) {}
-                }, isloading: lfProvider.isloading == false ? false : true),
+                    CommonHelper().buttonOrange('Submit Report', () {
+                  if (lfProvider.isloading == false) {
+                    if (reportController.text.trim().isEmpty) {
+                      OthersHelper().showToast(
+                          'You must write a report to submit', Colors.black);
+                      return;
+                    }
+                    lfProvider.leaveReport(context,
+                        message: reportController.text,
+                        orderId: widget.orderId,
+                        serviceId: widget.serviceId);
+                  }
+                }, isloading: lfProvider.reportLoading),
               )
             ]),
           ),

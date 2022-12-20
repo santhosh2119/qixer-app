@@ -42,6 +42,8 @@ import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/push_notification_service.dart';
+import 'package:qixer/service/report_services/report_message_service.dart';
+import 'package:qixer/service/report_services/report_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/service/saved_items_service.dart';
 import 'package:qixer/service/seller_all_services_service.dart';
@@ -131,6 +133,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WalletService()),
         ChangeNotifierProvider(create: (_) => SellerAllServicesService()),
         ChangeNotifierProvider(create: (_) => PushNotificationService()),
+        ChangeNotifierProvider(create: (_) => ReportService()),
+        ChangeNotifierProvider(create: (_) => ReportMessagesService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

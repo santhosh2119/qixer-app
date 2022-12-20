@@ -6,7 +6,6 @@ import 'package:qixer/service/report_services/report_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
-import 'package:qixer/view/utils/responsive.dart';
 
 class MyReportsList extends StatefulWidget {
   const MyReportsList({Key? key}) : super(key: key);
@@ -141,155 +140,54 @@ class _MyReportsListState extends State<MyReportsList> {
                               for (int i = 0;
                                   i < provider.reportList.length;
                                   i++)
-                                InkWell(
-                                  onTap: () {
-                                    // provider.goToMessagePage(
-                                    //     context,
-                                    //     provider.reportList[i]['subject'],
-                                    //     provider.reportList[i]['id']);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(
-                                      top: 20,
-                                      bottom: 3,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
-                                    decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: cc.borderColor),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          // Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.spaceBetween,
-                                          //   children: [
-                                          // AutoSizeText(
-                                          //   '#${provider.reportList[i]['id']}',
-                                          //   maxLines: 1,
-                                          //   overflow: TextOverflow.ellipsis,
-                                          //   style: TextStyle(
-                                          //     color: cc.primaryColor,
-                                          //   ),
-                                          // ),
-                                          // put the hamburger icon here
-                                          // PopupMenuButton(
-                                          //   // initialValue: 2,
-                                          //   child: const Icon(Icons.more_vert),
-                                          //   itemBuilder: (context) {
-                                          //     return List.generate(1, (index) {
-                                          //       return PopupMenuItem(
-                                          //         onTap: () async {
-                                          //           await Future.delayed(
-                                          //               Duration.zero);
-                                          //           provider.goToMessagePage(
-                                          //               context,
-                                          //               provider.ticketList[i]
-                                          //                   ['subject'],
-                                          //               provider.ticketList[i]
-                                          //                   ['id']);
-                                          //         },
-                                          //         value: index,
-                                          //         child: Text(asProvider
-                                          //             .getString('Chat')),
-                                          //       );
-                                          //     });
-                                          //   },
-                                          // ),
-                                          //   ],
-                                          // ),
-
-                                          //Ticket title
-                                          // const SizedBox(height: 7),
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: screenWidth - 200,
-                                                child:
-                                                    CommonHelper().labelCommon(
-                                                  'Report id: ' +
-                                                      provider.reportList[i]
-                                                              ['id']
-                                                          .toString(),
-                                                ),
-                                              ),
-                                              const Spacer(),
-                                              const SizedBox(width: 10),
-                                              ElevatedButton(
-                                                onPressed: () async {
-                                                  await Future.delayed(
-                                                      Duration.zero);
-                                                  // provider.goToMessagePage(
-                                                  //     context,
-                                                  //     provider.reportList[i]
-                                                  //         ['subject'],
-                                                  //     provider.reportList[i]
-                                                  //         ['id']);
-                                                },
-                                                child: const Text(
-                                                  'Chat Admin',
-                                                ),
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      cc.primaryColor,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15)),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          CommonHelper().labelCommon(
-                                            'Order id: ' +
-                                                provider.reportList[i]
-                                                        ['orderId']
-                                                    .toString(),
-                                          ),
-                                          //Divider
-                                          // Container(
-                                          //   margin: const EdgeInsets.only(
-                                          //       top: 17, bottom: 12),
-                                          //   child:
-                                          //       CommonHelper().dividerCommon(),
-                                          // ),
-                                          //Capsules
-                                          // Row(
-                                          //   crossAxisAlignment:
-                                          //       CrossAxisAlignment.center,
-                                          //   children: [
-                                          //     const Text(
-                                          //       'Description: ',
-                                          //       textAlign: TextAlign.start,
-                                          //       style: TextStyle(
-                                          //         height: 1.4,
-                                          //         fontSize: 15,
-                                          //         fontWeight: FontWeight.w400,
-                                          //       ),
-                                          //     ),
-                                          //     CommonHelper().paragraphCommon(
-                                          //         'falfdjl jlsf kjlhfdsljf ',
-                                          //         TextAlign.start)
-                                          //     // OrdersHelper().statusCapsule(
-                                          //     //     provider.ticketList[i]
-                                          //     //         ['priority'],
-                                          //     //     cc.greyThree),
-                                          //     // const SizedBox(
-                                          //     //   width: 11,
-                                          //     // ),
-                                          //     // OrdersHelper()
-                                          //     //     .statusCapsuleBordered(
-                                          //     //         provider.ticketList[i]
-                                          //     //             ['status'],
-                                          //     //         cc.greyParagraph),
-                                          //   ],
-                                          // )
-                                        ]),
+                                Container(
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 3,
                                   ),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 15, 15, 3),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: cc.borderColor),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //Ticket title
+
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              // width: screenWidth - 200,
+                                              child: CommonHelper().labelCommon(
+                                                'Report id: ' +
+                                                    provider.reportList[i]['id']
+                                                        .toString(),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 100,
+                                              child: CommonHelper()
+                                                  .buttonOrange('Chat admin',
+                                                      () {
+                                                provider.goToMessagePage(
+                                                    context,
+                                                    provider.reportList[i]
+                                                        ['subject'],
+                                                    provider.reportList[i]
+                                                        ['id']);
+                                              }, paddingVerticle: 10),
+                                            )
+                                          ],
+                                        ),
+                                        CommonHelper().labelCommon(
+                                          'Order id: ' +
+                                              provider.reportList[i]['orderId']
+                                                  .toString(),
+                                        ),
+                                      ]),
                                 )
                             ],
                           ),

@@ -46,7 +46,7 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CommonHelper().labelCommon("Choose states"),
+                    CommonHelper().labelCommon("Choose city"),
                     const StateDropdown(),
                   ],
                 ),

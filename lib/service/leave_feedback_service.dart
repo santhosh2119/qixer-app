@@ -71,4 +71,58 @@ class LeaveFeedbackService with ChangeNotifier {
       return false;
     }
   }
+
+  //===========>
+
+  bool reportLoading = false;
+
+  setRLoadingStatus(bool status) {
+    reportLoading = status;
+    notifyListeners();
+  }
+
+  Future<bool> leaveReport(BuildContext context,
+      {required message, required serviceId, required orderId}) async {
+    var connection = await checkConnection();
+    if (!connection) return false;
+
+    setRLoadingStatus(true);
+
+    var data = jsonEncode({
+      'report': message,
+      'order_id': orderId,
+      'service_id': serviceId,
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.post(Uri.parse('$baseApi/user/report/create'),
+        body: data, headers: header);
+
+    setRLoadingStatus(false);
+    if (response.statusCode == 200) {
+      print('reported succesfully');
+      OthersHelper().showToast('Report submitted', Colors.black);
+
+      Provider.of<ServiceDetailsService>(context, listen: false)
+          .fetchServiceDetails(serviceId);
+
+      Navigator.pop(context);
+
+      return true;
+    } else {
+      print(response.body);
+      //Sign up unsuccessful ==========>
+      OthersHelper().showToast(jsonDecode(response.body)['msg'], Colors.black);
+
+      return false;
+    }
+  }
 }

@@ -84,12 +84,6 @@ class _MyJobsPageState extends State<MyJobsPage> {
                           builder: (context, provider, child) {
                     return Column(
                       children: [
-                        // if (provider.isLoading == true)
-                        //   Container(
-                        //     height: screenHeight - 120,
-                        //     alignment: Alignment.center,
-                        //     child: OthersHelper().showLoading(cc.primaryColor),
-                        //   ),
                         provider.myJobsListMap.isNotEmpty
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

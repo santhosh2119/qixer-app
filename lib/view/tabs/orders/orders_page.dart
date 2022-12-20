@@ -134,7 +134,11 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                       serviceId: provider
                                                                           .myServices[
                                                                               i]
-                                                                          .serviceId);
+                                                                          .serviceId,
+                                                                      orderId: provider
+                                                                          .myServices[
+                                                                              i]
+                                                                          .id);
                                                                 });
                                                               },
                                                               child: Text(

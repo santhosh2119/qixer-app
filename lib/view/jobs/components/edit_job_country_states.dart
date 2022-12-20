@@ -95,7 +95,7 @@ class _EditJobCountryStatesState extends State<EditJobCountryStates> {
                   height: 25,
                 ),
                 // States dropdown ===============>
-                CommonHelper().labelCommon("Choose states"),
+                CommonHelper().labelCommon("Choose city"),
                 provider.statesDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,

@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:qixer/model/report_list_model.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:qixer/service/report_services/report_message_service.dart';
+import 'package:qixer/view/report/report_chat_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,6 +62,7 @@ class ReportService with ChangeNotifier {
           Uri.parse("$baseApi/user/report/list?page=$currentPage"),
           headers: header);
       print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200 &&
           jsonDecode(response.body)['data'].isNotEmpty) {
         var data = ReportListModel.fromJson(jsonDecode(response.body));
@@ -109,18 +112,18 @@ class ReportService with ChangeNotifier {
     notifyListeners();
   }
 
-  // goToMessagePage(BuildContext context, title, id) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute<void>(
-  //       builder: (BuildContext context) => ReportChatPage(
-  //         title: id.toString(),
-  //         ticketId: id,
-  //       ),
-  //     ),
-  //   );
-  //   //fetch message
-  //   Provider.of<ReportMessagesService>(context, listen: false)
-  //       .fetchMessages(id);
-  // }
+  goToMessagePage(BuildContext context, title, id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => ReportChatPage(
+          title: id.toString(),
+          ticketId: id,
+        ),
+      ),
+    );
+    //fetch message
+    Provider.of<ReportMessagesService>(context, listen: false)
+        .fetchMessages(id);
+  }
 }

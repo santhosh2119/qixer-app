@@ -73,8 +73,6 @@ class PushNotificationService with ChangeNotifier {
         Uri.parse("$baseApi/user/chat/pusher/credentials"),
         headers: header);
 
-    print(response.body);
-
     if (response.statusCode == 201) {
       final jsonData = jsonDecode(response.body);
       pusherCredentialLoaded = true;

@@ -56,7 +56,7 @@ var appStrings = {
   "About": "About",
   "Your Address": "Your Address",
   "Choose country": "Choose country",
-  "Choose states": "Choose states",
+  "Choose city": "Choose city",
   "Choose Area": "Choose Area",
   "Service Name": "Service Name",
   "Our Package": "Our Package",
