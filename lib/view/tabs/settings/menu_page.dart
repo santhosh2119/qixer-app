@@ -4,7 +4,7 @@ import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/jobs/job_request_page.dart';
 import 'package:qixer/view/jobs/my_jobs_page.dart';
-import 'package:qixer/view/report/my_reports_list.dart';
+import 'package:qixer/view/report/my_reports_list_page.dart';
 import 'package:qixer/view/tabs/settings/components/chat_icon.dart';
 import 'package:qixer/view/tabs/settings/components/menu_name_image_section.dart';
 import 'package:qixer/view/tabs/settings/components/menu_personal_info_section.dart';
@@ -135,9 +135,9 @@ class _MenuPageState extends State<MenuPage> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const MyReportsList(),
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    const MyReportListPage(),
                                               ),
                                             );
                                           }),

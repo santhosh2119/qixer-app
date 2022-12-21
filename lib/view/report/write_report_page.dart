@@ -63,7 +63,7 @@ class _WriteReportPageState extends State<WriteReportPage> {
               Consumer<LeaveFeedbackService>(
                 builder: (context, lfProvider, child) =>
                     CommonHelper().buttonOrange('Submit Report', () {
-                  if (lfProvider.isloading == false) {
+                  if (lfProvider.reportLoading == false) {
                     if (reportController.text.trim().isEmpty) {
                       OthersHelper().showToast(
                           'You must write a report to submit', Colors.black);

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/report_services/report_service.dart';
 import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,6 +87,9 @@ class LeaveFeedbackService with ChangeNotifier {
     var connection = await checkConnection();
     if (!connection) return false;
 
+    print('service id $serviceId');
+    print('order id $orderId');
+
     setRLoadingStatus(true);
 
     var data = jsonEncode({
@@ -108,12 +112,9 @@ class LeaveFeedbackService with ChangeNotifier {
 
     setRLoadingStatus(false);
     if (response.statusCode == 200) {
-      print('reported succesfully');
       OthersHelper().showToast('Report submitted', Colors.black);
-
-      Provider.of<ServiceDetailsService>(context, listen: false)
-          .fetchServiceDetails(serviceId);
-
+      Provider.of<ReportService>(context, listen: false)
+          .fetchReportList(context);
       Navigator.pop(context);
 
       return true;

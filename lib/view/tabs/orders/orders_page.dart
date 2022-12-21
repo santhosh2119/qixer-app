@@ -116,12 +116,12 @@ class _OrdersPageState extends State<OrdersPage> {
                                                             (BuildContext
                                                                     context) =>
                                                                 <PopupMenuEntry>[
-                                                          for (int i = 0;
-                                                              i <
+                                                          for (int j = 0;
+                                                              j <
                                                                   OrdersHelper()
                                                                       .ordersPopupMenuList
                                                                       .length;
-                                                              i++)
+                                                              j++)
                                                             PopupMenuItem(
                                                               onTap: () {
                                                                 Future.delayed(
@@ -130,7 +130,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                     () {
                                                                   OrdersHelper().navigateMyOrders(
                                                                       context,
-                                                                      index: i,
+                                                                      index: j,
                                                                       serviceId: provider
                                                                           .myServices[
                                                                               i]
@@ -143,7 +143,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                               },
                                                               child: Text(
                                                                   OrdersHelper()
-                                                                      .ordersPopupMenuList[i]),
+                                                                      .ordersPopupMenuList[j]),
                                                             ),
                                                         ],
                                                       )

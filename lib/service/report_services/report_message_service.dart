@@ -47,7 +47,7 @@ class ReportMessagesService with ChangeNotifier {
     }
   }
 
-  fetchMessages(ticketId) async {
+  fetchMessages(reportId) async {
     var connection = await checkConnection();
     if (connection) {
       messagesList = [];
@@ -63,7 +63,7 @@ class ReportMessagesService with ChangeNotifier {
         "Authorization": "Bearer $token",
       };
       var response = await http.get(
-          Uri.parse('$baseApi/user/report/details/$ticketId'),
+          Uri.parse('$baseApi/user/report/details/$reportId'),
           headers: header);
       setLoadingFalse();
 

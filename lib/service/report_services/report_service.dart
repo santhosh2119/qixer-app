@@ -26,6 +26,12 @@ class ReportService with ChangeNotifier {
     notifyListeners();
   }
 
+  setReportListDefault() {
+    currentPage = 1;
+    reportList = [];
+    notifyListeners();
+  }
+
   addNewDataReportList(subject, id, priority, status) {
     reportList.add(
         {'subject': subject, 'id': id, 'priority': priority, 'status': status});
@@ -112,18 +118,18 @@ class ReportService with ChangeNotifier {
     notifyListeners();
   }
 
-  goToMessagePage(BuildContext context, title, id) {
+  goToMessagePage(BuildContext context, title, reportId) {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
         builder: (BuildContext context) => ReportChatPage(
-          title: id.toString(),
-          ticketId: id,
+          title: reportId.toString(),
+          ticketId: reportId,
         ),
       ),
     );
     //fetch message
     Provider.of<ReportMessagesService>(context, listen: false)
-        .fetchMessages(id);
+        .fetchMessages(reportId);
   }
 }
