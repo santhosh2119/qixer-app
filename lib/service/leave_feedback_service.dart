@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/report_services/report_service.dart';
-import 'package:qixer/service/service_details_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +25,8 @@ class LeaveFeedbackService with ChangeNotifier {
       rating, name, email, message, serviceId, BuildContext context) async {
     var connection = await checkConnection();
     if (connection) {
+      print('service id $serviceId');
+
       setLoadingTrue();
 
       var data = jsonEncode({
@@ -54,8 +55,7 @@ class LeaveFeedbackService with ChangeNotifier {
 
         print('review posted succesfully');
 
-        Provider.of<ServiceDetailsService>(context, listen: false)
-            .fetchServiceDetails(serviceId);
+        OthersHelper().showToast('review posted succesfully', Colors.black);
 
         Navigator.pop(context);
 

@@ -41,6 +41,7 @@ class ServiceDetailsService with ChangeNotifier {
           Uri.parse('$baseApi/service-details/$serviceId'),
           headers: header);
 
+      print(response.body);
       if (response.statusCode == 201) {
         // serviceAllDetails =
         //     ServiceDetailsModel.fromJson(jsonDecode(response.body));
@@ -56,6 +57,7 @@ class ServiceDetailsService with ChangeNotifier {
         setLoadingFalse();
       } else {
         serviceAllDetails == 'error';
+
         setLoadingFalse();
         OthersHelper().showToast('Something went wrong', Colors.black);
         notifyListeners();

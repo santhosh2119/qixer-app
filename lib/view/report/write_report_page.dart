@@ -66,7 +66,8 @@ class _WriteReportPageState extends State<WriteReportPage> {
                   if (lfProvider.reportLoading == false) {
                     if (reportController.text.trim().isEmpty) {
                       OthersHelper().showToast(
-                          'You must write a report to submit', Colors.black);
+                          'You must write something to submit report',
+                          Colors.black);
                       return;
                     }
                     lfProvider.leaveReport(context,

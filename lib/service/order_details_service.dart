@@ -57,6 +57,8 @@ class OrderDetailsService with ChangeNotifier {
     var response = await http
         .post(Uri.parse('$baseApi/user/my-orders/$orderId'), headers: header);
 
+    print('order details response ${response.body}');
+
     if (response.statusCode == 201) {
       var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
 

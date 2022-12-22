@@ -128,6 +128,18 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                     Duration
                                                                         .zero,
                                                                     () {
+                                                                  //
+                                                                  if (j == 1 &&
+                                                                      (provider.myServices[i].paymentStatus !=
+                                                                              'pending' ||
+                                                                          provider.myServices[i].status !=
+                                                                              0)) {
+                                                                    OthersHelper().showToast(
+                                                                        'You can not cancel this order',
+                                                                        Colors
+                                                                            .black);
+                                                                    return;
+                                                                  }
                                                                   OrdersHelper().navigateMyOrders(
                                                                       context,
                                                                       index: j,
