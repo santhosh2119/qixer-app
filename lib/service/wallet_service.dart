@@ -8,12 +8,15 @@ import 'package:provider/provider.dart';
 import 'package:qixer/model/wallet_history_model.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer/view/wallet/wallet_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../view/booking/components/order_extra_accept_success_page.dart';
 
 class WalletService with ChangeNotifier {
   var walletHistory;
@@ -240,42 +243,75 @@ class WalletService with ChangeNotifier {
 
   // =================>
   //===============>
-  // deposite from current balance
-  depositeFromCurrentBalance(BuildContext context, {required amount}) async {
+  // Deduct money from wallet
+  Future<bool> deductFromWallet(BuildContext context,
+      {required amount,
+      isFromOrderExtraAccept = false,
+      isFromWalletDeposite = false}) async {
     var connection = await checkConnection();
-    if (!connection) return;
+    if (!connection) return false;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    setLoadingStatus(true);
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
 
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       "Accept": "application/json",
-      // "Content-Type": "application/json"
+      "Content-Type": "application/json",
       "Authorization": "Bearer $token",
     };
 
     var data = jsonEncode({'amount': amount});
 
-    var response = await http.post(
-        Uri.parse('$baseApi/seller/wallet/diposit-from-balance'),
-        headers: header,
-        body: data);
+    var response = await http.post(Uri.parse('$baseApi/user/wallet/deduct'),
+        headers: header, body: data);
+
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     final decodedData = jsonDecode(response.body);
 
     print(response.body);
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
-      notifyListeners();
+      //
+      if (isFromOrderExtraAccept == true) {
+        var orderDetailsProvider =
+            Provider.of<OrderDetailsService>(context, listen: false);
+
+        var selectedOrderIdForExtra =
+            orderDetailsProvider.selectedOrderIdForExtra;
+
+        await orderDetailsProvider.fetchOrderDetails(
+            selectedOrderIdForExtra, context);
+
+        Navigator.pop(context);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) =>
+                const OrderExtraAcceptSuccessPage(),
+          ),
+        );
+        return true;
+      }
+
+      //
+      else {
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .makePaymentSuccess(context);
+      }
+// go to success page
+
+      return true;
     } else {
-      print('Error deposite from current balance' + response.body);
+      print('Error deposite to wallet' + response.body);
+      return false;
     }
   }
-
-  //
 
   //=====================>
   //================>

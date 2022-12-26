@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/book_confirmation_service.dart';
+import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/billplz_service.dart';
@@ -285,6 +287,40 @@ payAction(String method, BuildContext context, imagePath,
 
       break;
 
+    case 'wallet':
+      if (isFromOrderExtraAccept == true) {
+        //minus amount from wallet
+      } else if (isFromWalletDeposite) {
+        OthersHelper().showToast(
+            'Pay by wallet is not available for wallet deposite', Colors.black);
+      } else {
+        makePaymentToGetOrderId(context, () {
+          var amount;
+          var pProvider =
+              Provider.of<PersonalizationService>(context, listen: false);
+          var bcProvider =
+              Provider.of<BookConfirmationService>(context, listen: false);
+
+          if (isFromOrderExtraAccept == true) {
+            amount = Provider.of<OrderDetailsService>(context, listen: false)
+                .selectedExtraPrice;
+          } else {
+            if (pProvider.isOnline == 0) {
+              amount =
+                  bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
+            } else {
+              amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
+                  .toStringAsFixed(2);
+            }
+          }
+
+          Provider.of<WalletService>(context, listen: false)
+              .deductFromWallet(context, amount: amount);
+        }, payAgain: payAgain);
+      }
+
+      break;
+
     case 'manual_payment':
       if (payAgain) {
         OthersHelper().showToast(
@@ -341,6 +377,9 @@ payAction(String method, BuildContext context, imagePath,
 
 makePaymentToGetOrderId(BuildContext context, VoidCallback function,
     {bool paytmPaymentSelected = false, bool payAgain = false}) async {
+  //payAgain means,
+  // if payment failed before and use want to pay again
+  // then no need to place order again, just do the payment
   var res = true;
   if (payAgain == false) {
     res = await Provider.of<PlaceOrderService>(context, listen: false)

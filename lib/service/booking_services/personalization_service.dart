@@ -13,7 +13,7 @@ class PersonalizationService with ChangeNotifier {
 
   List includedList = [];
   List extrasList = [];
-  var tax = 0;
+  var tax = 0.0;
 
   int defaultprice = 0;
   setDefaultPrice(price) {
@@ -154,7 +154,7 @@ class PersonalizationService with ChangeNotifier {
         isOnline = data.service.isServiceOnline ?? 0;
         print('tax is ${data.service.tax}');
 
-        tax = data.service.tax ?? 0;
+        tax = (data.service.tax).toDouble() ?? 0.0;
 
         //adding included list
         for (int i = 0; i < data.service.serviceInclude.length; i++) {

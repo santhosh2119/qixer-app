@@ -70,6 +70,12 @@ class PaymentGatewayListService with ChangeNotifier {
 
       if (response.statusCode == 201) {
         paymentList = jsonDecode(response.body)['gateway_list'];
+
+        // add wallet payment
+        paymentList.add({
+          "name": "wallet",
+          "logo_link": "https://i.postimg.cc/y8pMmqF4/wallet.png"
+        });
       } else {
         //something went wrong
         print(response.body);
