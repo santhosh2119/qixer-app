@@ -368,6 +368,6 @@ class PlaceOrderService with ChangeNotifier {
     PushNotificationService().sendNotificationToSeller(context,
         sellerId: sellerId,
         title: "You have received an order from $username",
-        body: '');
+        body: '-');
   }
 }

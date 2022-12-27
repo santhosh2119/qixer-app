@@ -16,8 +16,6 @@ import 'package:http/http.dart' as http;
 import 'package:qixer/view/wallet/wallet_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../view/booking/components/order_extra_accept_success_page.dart';
-
 class WalletService with ChangeNotifier {
   var walletHistory;
   var walletBalance = '\$0.0';
@@ -245,9 +243,7 @@ class WalletService with ChangeNotifier {
   //===============>
   // Deduct money from wallet
   Future<bool> deductFromWallet(BuildContext context,
-      {required amount,
-      isFromOrderExtraAccept = false,
-      isFromWalletDeposite = false}) async {
+      {required amount, isFromOrderExtraAccept = false}) async {
     var connection = await checkConnection();
     if (!connection) return false;
 
@@ -268,46 +264,31 @@ class WalletService with ChangeNotifier {
     var response = await http.post(Uri.parse('$baseApi/user/wallet/deduct'),
         headers: header, body: data);
 
-    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
-
-    final decodedData = jsonDecode(response.body);
-
     print(response.body);
     print(response.statusCode);
 
     if (response.statusCode == 200) {
       //
       if (isFromOrderExtraAccept == true) {
-        var orderDetailsProvider =
-            Provider.of<OrderDetailsService>(context, listen: false);
+        await Provider.of<OrderDetailsService>(context, listen: false)
+            .acceptOrderExtra(context);
 
-        var selectedOrderIdForExtra =
-            orderDetailsProvider.selectedOrderIdForExtra;
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .setLoadingFalse();
 
-        await orderDetailsProvider.fetchOrderDetails(
-            selectedOrderIdForExtra, context);
-
-        Navigator.pop(context);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) =>
-                const OrderExtraAcceptSuccessPage(),
-          ),
-        );
         return true;
-      }
-
-      //
-      else {
+      } else {
         Provider.of<PlaceOrderService>(context, listen: false)
             .makePaymentSuccess(context);
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .setLoadingFalse();
       }
 // go to success page
 
       return true;
     } else {
+      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+
       print('Error deposite to wallet' + response.body);
       return false;
     }

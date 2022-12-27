@@ -10,7 +10,7 @@ class BookService with ChangeNotifier {
   int totalPrice = 0;
   int? sellerId;
 
-  String? selectedPayment;
+  String selectedPayment = 'cash_on_delivery';
 
   //address variables
   String? name;
@@ -36,6 +36,7 @@ class BookService with ChangeNotifier {
 
   setSelectedPayment(String value) {
     selectedPayment = value;
+    print('selected payment $selectedPayment');
     notifyListeners();
   }
 

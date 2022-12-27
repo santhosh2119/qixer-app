@@ -290,6 +290,14 @@ payAction(String method, BuildContext context, imagePath,
     case 'wallet':
       if (isFromOrderExtraAccept == true) {
         //minus amount from wallet
+
+        var amount = Provider.of<OrderDetailsService>(context, listen: false)
+            .selectedExtraPrice;
+
+        Provider.of<WalletService>(context, listen: false).deductFromWallet(
+            context,
+            amount: amount,
+            isFromOrderExtraAccept: true);
       } else if (isFromWalletDeposite) {
         OthersHelper().showToast(
             'Pay by wallet is not available for wallet deposite', Colors.black);
