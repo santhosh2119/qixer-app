@@ -10,6 +10,8 @@ import 'package:qixer/model/order_extra_model.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/orders_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/profile_service.dart';
+import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/view/booking/components/order_extra_accept_success_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,11 +128,17 @@ class OrderDetailsService with ChangeNotifier {
   var selectedExtraId;
   var selectedOrderIdForExtra;
   var selectedExtraPrice;
+  var selectedExtraSellerId;
 
-  setExtraDetails({required orderId, required extraId, required extraPrice}) {
+  setExtraDetails(
+      {required orderId,
+      required extraId,
+      required extraPrice,
+      required sellerId}) {
     selectedOrderIdForExtra = orderId;
     selectedExtraId = extraId.toString();
     selectedExtraPrice = extraPrice.toString();
+    selectedExtraSellerId = sellerId;
     notifyListeners();
   }
 
@@ -192,6 +200,20 @@ class OrderDetailsService with ChangeNotifier {
               const OrderExtraAcceptSuccessPage(),
         ),
       );
+
+      //Send notification to seller
+      var sellerId = Provider.of<OrderDetailsService>(context, listen: false)
+          .selectedExtraSellerId;
+      var username = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .userDetails
+              .name ??
+          '';
+      PushNotificationService().sendNotificationToSeller(context,
+          sellerId: sellerId,
+          title: "$username accepted your order extra request",
+          body: '-');
+
       return true;
     } else {
       print('error accepting order extra ${response.data}');

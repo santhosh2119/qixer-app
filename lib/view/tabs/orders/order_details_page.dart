@@ -141,6 +141,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                   // ==============>
                                   OrderExtras(
                                     orderId: widget.orderId,
+                                    sellerId: provider.orderDetails.sellerId,
                                   ),
 
                                   //complete request

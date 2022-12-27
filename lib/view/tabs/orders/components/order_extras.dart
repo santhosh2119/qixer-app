@@ -8,11 +8,10 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 class OrderExtras extends StatelessWidget {
-  const OrderExtras({
-    Key? key,
-    required this.orderId,
-  }) : super(key: key);
+  const OrderExtras({Key? key, required this.orderId, required this.sellerId})
+      : super(key: key);
   final orderId;
+  final sellerId;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +66,8 @@ class OrderExtras extends StatelessWidget {
                                       orderId: orderId,
                                       extraId: provider.orderExtra[i].id,
                                       extraPrice: provider.orderExtra[i].total
-                                          .toStringAsFixed(2));
+                                          .toStringAsFixed(2),
+                                      sellerId: sellerId);
 
                                   Navigator.push(
                                     context,
