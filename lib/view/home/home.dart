@@ -151,20 +151,6 @@ class _HomepageState extends State<Homepage> {
                           child:
                               HomepageHelper().searchbar(asProvider, context)),
                     ),
-                    // Container(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                    //   child: SearchBar(
-                    //     cc: cc,
-                    //     isHomePage: true,
-                    //   ),
-                    // ),
-                    // Container(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                    //   child: SearchBarWithDropdown(
-                    //     cc: cc,
-                    //     isHomePage: true,
-                    //   ),
-                    // ),
 
                     const SizedBox(
                       height: 10,
