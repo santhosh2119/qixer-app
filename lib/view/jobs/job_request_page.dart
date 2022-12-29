@@ -118,6 +118,7 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                   PopupMenuButton(
                                     itemBuilder: (BuildContext context) =>
                                         <PopupMenuEntry>[
+                                      //View details
                                       PopupMenuItem(
                                         onTap: () {
                                           Future.delayed(Duration.zero, () {
@@ -137,6 +138,8 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                         },
                                         child: Text(menuNames[0]),
                                       ),
+
+                                      //Conversation
                                       PopupMenuItem(
                                         onTap: () {
                                           Future.delayed(Duration.zero, () {
@@ -163,6 +166,16 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                 ),
                                               ),
                                             );
+                                          });
+                                        },
+                                        child: Text(menuNames[1]),
+                                      ),
+
+                                      //Hire now
+                                      PopupMenuItem(
+                                        onTap: () {
+                                          Future.delayed(Duration.zero, () {
+                                            //
                                           });
                                         },
                                         child: Text(menuNames[1]),

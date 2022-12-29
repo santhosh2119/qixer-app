@@ -109,4 +109,8 @@ class JobRequestService with ChangeNotifier {
 
     notifyListeners();
   }
+
+  //hire
+  // =========>
+
 }
