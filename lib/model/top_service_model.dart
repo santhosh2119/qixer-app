@@ -128,7 +128,7 @@ class ReviewsForMobile {
   int? rating;
   String? message;
   int? buyerId;
-  BuyerForMobile buyerForMobile;
+  BuyerForMobile? buyerForMobile;
 
   factory ReviewsForMobile.fromJson(Map<String, dynamic> json) =>
       ReviewsForMobile(
@@ -146,7 +146,7 @@ class ReviewsForMobile {
         "rating": rating,
         "message": message,
         "buyer_id": buyerId,
-        "buyer_for_mobile": buyerForMobile.toJson(),
+        "buyer_for_mobile": buyerForMobile?.toJson(),
       };
 }
 
@@ -159,9 +159,9 @@ class BuyerForMobile {
   int? id;
   String? image;
 
-  factory BuyerForMobile.fromJson(Map<String, dynamic> json) => BuyerForMobile(
-        id: json["id"],
-        image: json["image"],
+  factory BuyerForMobile.fromJson(Map<String, dynamic>? json) => BuyerForMobile(
+        id: json?["id"],
+        image: json?["image"],
       );
 
   Map<String, dynamic> toJson() => {

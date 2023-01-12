@@ -266,16 +266,16 @@ class ServiceReview {
   String? message;
   String? buyerName;
   int? buyerId;
-  BuyerForMobile buyerForMobile;
+  BuyerForMobile? buyerForMobile;
 
-  factory ServiceReview.fromJson(Map<String, dynamic> json) => ServiceReview(
-        id: json["id"],
-        serviceId: json["service_id"],
-        rating: json["rating"],
-        message: json["message"],
-        buyerName: json["buyer_name"],
-        buyerId: json["buyer_id"],
-        buyerForMobile: BuyerForMobile.fromJson(json["buyer_for_mobile"]),
+  factory ServiceReview.fromJson(Map<String, dynamic>? json) => ServiceReview(
+        id: json?["id"],
+        serviceId: json?["service_id"],
+        rating: json?["rating"],
+        message: json?["message"],
+        buyerName: json?["buyer_name"],
+        buyerId: json?["buyer_id"],
+        buyerForMobile: BuyerForMobile.fromJson(json?["buyer_for_mobile"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -285,7 +285,7 @@ class ServiceReview {
         "message": message,
         "buyerName": buyerName,
         "buyer_id": buyerId,
-        "buyer_for_mobile": buyerForMobile.toJson(),
+        "buyer_for_mobile": buyerForMobile?.toJson(),
       };
 }
 
@@ -330,9 +330,9 @@ class BuyerForMobile {
   int? id;
   String? image;
 
-  factory BuyerForMobile.fromJson(Map<String, dynamic> json) => BuyerForMobile(
-        id: json["id"],
-        image: json["image"],
+  factory BuyerForMobile.fromJson(Map<String, dynamic>? json) => BuyerForMobile(
+        id: json?["id"],
+        image: json?["image"],
       );
 
   Map<String, dynamic> toJson() => {

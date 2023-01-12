@@ -172,14 +172,14 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                       ),
 
                                       //Hire now
-                                      PopupMenuItem(
-                                        onTap: () {
-                                          Future.delayed(Duration.zero, () {
-                                            //
-                                          });
-                                        },
-                                        child: Text(menuNames[1]),
-                                      ),
+                                      // PopupMenuItem(
+                                      //   onTap: () {
+                                      //     Future.delayed(Duration.zero, () {
+                                      //       //
+                                      //     });
+                                      //   },
+                                      //   child: Text(menuNames[1]),
+                                      // ),
                                     ],
                                   ),
                                 ],
