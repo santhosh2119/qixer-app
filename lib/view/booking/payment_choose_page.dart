@@ -23,12 +23,14 @@ class PaymentChoosePage extends StatefulWidget {
       {Key? key,
       this.isFromOrderExtraAccept = false,
       this.isFromDepositeToWallet = false,
-      this.payAgain = false})
+      this.payAgain = false,
+      this.isFromHireJob = false})
       : super(key: key);
 
   final bool isFromOrderExtraAccept;
   final bool payAgain;
   final bool isFromDepositeToWallet;
+  final bool isFromHireJob;
 
   @override
   _PaymentChoosePageState createState() => _PaymentChoosePageState();
@@ -76,8 +78,10 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                               //Total payable
                               if (widget.isFromDepositeToWallet == false)
                                 TotalPayable(
-                                    isFromOrderExtraAccept:
-                                        widget.isFromOrderExtraAccept),
+                                  isFromOrderExtraAccept:
+                                      widget.isFromOrderExtraAccept,
+                                  isFromJobHire: widget.isFromHireJob,
+                                ),
 
                               //Deposite amount
                               if (widget.isFromDepositeToWallet)
@@ -285,7 +289,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                           widget.isFromOrderExtraAccept,
                                       isFromWalletDeposite:
                                           widget.isFromDepositeToWallet,
-                                      payAgain: widget.payAgain);
+                                      payAgain: widget.payAgain,
+                                      isFromHireJob: widget.isFromHireJob);
                                 }
                               },
                                   isloading: provider.isloading == false

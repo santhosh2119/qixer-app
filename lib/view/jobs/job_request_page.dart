@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer/service/jobs_service/job_conversation_service.dart';
 import 'package:qixer/service/jobs_service/job_request_service.dart';
+import 'package:qixer/view/booking/payment_choose_page.dart';
 import 'package:qixer/view/jobs/job_conversation_page.dart';
 import 'package:qixer/view/jobs/job_details_page.dart';
 import 'package:qixer/view/utils/common_helper.dart';
@@ -27,7 +28,7 @@ class _JobRequestPageState extends State<JobRequestPage> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
 
-  List menuNames = ['View details', 'Conversation'];
+  List menuNames = ['View details', 'Conversation', 'Hire now'];
 
   @override
   Widget build(BuildContext context) {
@@ -172,14 +173,33 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                       ),
 
                                       //Hire now
-                                      // PopupMenuItem(
-                                      //   onTap: () {
-                                      //     Future.delayed(Duration.zero, () {
-                                      //       //
-                                      //     });
-                                      //   },
-                                      //   child: Text(menuNames[1]),
-                                      // ),
+                                      PopupMenuItem(
+                                        onTap: () {
+                                          //set price
+                                          Provider.of<JobRequestService>(
+                                                  context,
+                                                  listen: false)
+                                              .setSelectedJobPriceAndId(
+                                                  price: provider.jobReqList[i]
+                                                      .expectedSalary,
+                                                  id: provider
+                                                      .jobReqList[i].id);
+
+                                          Future.delayed(Duration.zero, () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const PaymentChoosePage(
+                                                  isFromHireJob: true,
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                        },
+                                        child: Text(menuNames[2]),
+                                      ),
                                     ],
                                   ),
                                 ],

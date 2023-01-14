@@ -7,6 +7,7 @@ import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
+import 'package:qixer/view/home/components/recent_jobs.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
@@ -193,7 +194,6 @@ class _HomepageState extends State<Homepage> {
                                 ),
                               );
                             },
-                            asProvider: asProvider,
                           ),
 
                           const SizedBox(
@@ -221,9 +221,9 @@ class _HomepageState extends State<Homepage> {
                           ),
 
                           //Discount images
-                          const SizedBox(
-                            height: 25,
-                          ),
+                          const RecentJobs(),
+
+                          sizedBoxCustom(30)
                         ],
                       ),
                     ),

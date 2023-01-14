@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/billplz_service.dart';
 import 'package:qixer/service/pay_services/cashfree_service.dart';
@@ -29,7 +30,8 @@ import 'package:qixer/view/utils/others_helper.dart';
 payAction(String method, BuildContext context, imagePath,
     {bool isFromOrderExtraAccept = false,
     bool isFromWalletDeposite = false,
-    bool payAgain = false}) {
+    bool payAgain = false,
+    required bool isFromHireJob}) {
   //to know method names visit PaymentGatewayListService class where payment
   //methods list are fetching with method name
 
@@ -405,8 +407,7 @@ makePaymentToGetOrderId(BuildContext context, VoidCallback function,
 createDepositeRequestAndPay(BuildContext context, VoidCallback function,
     {bool paytmPaymentSelected = false}) async {
   var res = await Provider.of<WalletService>(context, listen: false)
-      .createDepositeRequest(context,
-          imagePath: null, paytmPaymentSelected: paytmPaymentSelected);
+      .createDepositeRequest(context, imagePath: null);
 
   if (res == true) {
     function();
@@ -427,3 +428,20 @@ buyExtraCodOrManualPayment(BuildContext context,
 }
 
 //============>
+//=============>
+createHireRequestAndPay(
+  BuildContext context,
+  VoidCallback function,
+) async {
+  var res = await Provider.of<JobRequestService>(context, listen: false)
+      .createDepositeRequest(
+    context,
+    imagePath: null,
+  );
+
+  if (res == true) {
+    function();
+  } else {
+    print('adding balance to wallet unsuccessfull');
+  }
+}

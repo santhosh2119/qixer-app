@@ -56,7 +56,6 @@ class RecentServices extends StatelessWidget {
                                 ),
                               );
                             },
-                            asProvider: asProvider,
                           ),
                         ),
                         const SizedBox(

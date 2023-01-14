@@ -30,6 +30,7 @@ import 'package:qixer/service/jobs_service/edit_job_service.dart';
 import 'package:qixer/service/jobs_service/job_conversation_service.dart';
 import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/jobs_service/my_jobs_service.dart';
+import 'package:qixer/service/jobs_service/recent_jobs_service.dart';
 import 'package:qixer/service/leave_feedback_service.dart';
 import 'package:qixer/service/live_chat/chat_list_service.dart';
 import 'package:qixer/service/live_chat/chat_message_service.dart';
@@ -135,6 +136,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PushNotificationService()),
         ChangeNotifierProvider(create: (_) => ReportService()),
         ChangeNotifierProvider(create: (_) => ReportMessagesService()),
+        ChangeNotifierProvider(create: (_) => RecentJobsService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

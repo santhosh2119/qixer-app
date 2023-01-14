@@ -42,7 +42,6 @@ class TopRatedServices extends StatelessWidget {
                           ),
                         );
                       },
-                      asProvider: asProvider,
                     ),
                     const SizedBox(
                       height: 18,

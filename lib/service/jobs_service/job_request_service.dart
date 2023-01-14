@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/model/job_request_model.dart';
+import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +18,15 @@ class JobRequestService with ChangeNotifier {
   late int totalPages;
 
   int currentPage = 1;
+
+  var selectedJobPrice = 0;
+  var selectedRequestId;
+
+  setSelectedJobPriceAndId({required price, required id}) {
+    selectedJobPrice = price;
+    selectedRequestId = id;
+    notifyListeners();
+  }
 
   setLoadingStatus(bool status) {
     isloading = status;
@@ -112,5 +124,74 @@ class JobRequestService with ChangeNotifier {
 
   //hire
   // =========>
+  //=========>
 
+  Future<bool> createHireJobRequest(BuildContext context,
+      {imagePath, bool isManualOrCod = false}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var connection = await checkConnection();
+    if (!connection) return false;
+    //if connection is ok
+
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+
+    var selectedPayment =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+                .selectedMethodName ??
+            'cash_on_delivery';
+
+    FormData formData;
+    var dio = Dio();
+    dio.options.headers['Content-Type'] = 'multipart/form-data';
+    dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Authorization'] = "Bearer $token";
+
+    formData = FormData.fromMap({
+      'selected_payment_gateway': selectedPayment,
+      'manual_payment_image':
+          await MultipartFile.fromFile(imagePath, filename: 'bankTransfer.jpg'),
+    });
+
+    var response = await dio.post(
+      '$baseApi/user/job/request/seller-hire/$selectedRequestId',
+      data: formData,
+    );
+
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+
+    if (response.statusCode == 200) {
+      if (isManualOrCod == true) {
+        print('manual or cod ran');
+        inSuccess(context);
+      }
+
+      notifyListeners();
+
+      return true;
+    } else {
+      print('error ${response.data}');
+
+      OthersHelper().showToast('Something went wrong', Colors.black);
+      return false;
+    }
+  }
+
+  // =========>
+  inSuccess(BuildContext context) async {
+    OthersHelper().showToast('Hiring successful', Colors.black);
+
+    // Navigator.of(context).pushAndRemoveUntil(
+    //     MaterialPageRoute(builder: (context) => const LandingPage()),
+    //     (Route<dynamic> route) => false);
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute<void>(
+    //     builder: (BuildContext context) => const WalletPage(),
+    //   ),
+    // );
+  }
 }

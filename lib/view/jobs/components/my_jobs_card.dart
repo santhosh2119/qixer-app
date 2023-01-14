@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,20 +58,6 @@ class MyJobsCardContents extends StatelessWidget {
 
                 Row(
                   children: [
-                    // Text(
-                    //   'Orders: 17',
-                    //   textAlign: TextAlign.start,
-                    //   maxLines: 1,
-                    //   overflow: TextOverflow.ellipsis,
-                    //   style: TextStyle(
-                    //     color: cc.greyFour,
-                    //     fontSize: 13,
-                    //     fontWeight: FontWeight.w600,
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   width: 16,
-                    // ),
                     Icon(
                       Icons.remove_red_eye_outlined,
                       size: 18,

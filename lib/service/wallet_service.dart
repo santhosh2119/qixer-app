@@ -117,9 +117,7 @@ class WalletService with ChangeNotifier {
   //=========>
 
   Future<bool> createDepositeRequest(BuildContext context,
-      {imagePath,
-      bool isManualOrCod = false,
-      bool paytmPaymentSelected = false}) async {
+      {imagePath, bool isManualOrCod = false}) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');

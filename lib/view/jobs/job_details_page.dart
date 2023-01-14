@@ -9,6 +9,7 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer/view/utils/responsive.dart';
 
 class JobDetailsPage extends StatefulWidget {
   const JobDetailsPage({
@@ -129,7 +130,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                           sizedBoxCustom(20),
                         ]),
                   )
-                : OthersHelper().showLoading(cc.primaryColor),
+                : Container(
+                    height: screenHeight - 120,
+                    alignment: Alignment.center,
+                    child: OthersHelper().showLoading(cc.primaryColor),
+                  ),
       )),
     );
   }

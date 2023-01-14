@@ -5,15 +5,20 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
 class TotalPayable extends StatelessWidget {
-  const TotalPayable({Key? key, required this.isFromOrderExtraAccept})
+  const TotalPayable(
+      {Key? key,
+      required this.isFromOrderExtraAccept,
+      required this.isFromJobHire})
       : super(key: key);
 
   final isFromOrderExtraAccept;
+  final isFromJobHire;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,11 @@ class TotalPayable extends StatelessWidget {
                         price = Provider.of<OrderDetailsService>(context,
                                 listen: false)
                             .selectedExtraPrice;
+                      } else if (isFromJobHire) {
+                        price = Provider.of<JobRequestService>(context,
+                                listen: false)
+                            .selectedJobPrice
+                            .toStringAsFixed(2);
                       } else {
                         if (pProvider.isOnline == 0) {
                           price = bcProvider.totalPriceAfterAllcalculation
