@@ -209,7 +209,7 @@ class _JobRequestPageState extends State<JobRequestPage> {
                       ],
                     ),
                   )
-                : OthersHelper().showError(context, msg: 'No new jobs found'),
+                : OthersHelper().showError(context, msg: 'No request found'),
           ),
         ),
       ),

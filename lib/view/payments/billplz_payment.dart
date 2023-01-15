@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/wallet_service.dart';
@@ -22,7 +23,8 @@ class BillplzPayment extends StatelessWidget {
       required this.phone,
       required this.email,
       required this.isFromOrderExtraAccept,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   final amount;
@@ -31,6 +33,7 @@ class BillplzPayment extends StatelessWidget {
   final email;
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
 
   String? url;
   late WebViewController _controller;
@@ -79,7 +82,7 @@ class BillplzPayment extends StatelessWidget {
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
                 verifyPayment(value, context, isFromOrderExtraAccept,
-                    isFromWalletDeposite);
+                    isFromWalletDeposite, isFromHireJob);
               },
             );
           }),
@@ -141,7 +144,7 @@ class BillplzPayment extends StatelessWidget {
 }
 
 Future verifyPayment(String url, BuildContext context, isFromOrderExtraAccept,
-    isFromWalletDeposite) async {
+    isFromWalletDeposite, isFromHireJob) async {
   final uri = Uri.parse(url);
   final response = await http.get(uri);
   if (response.body.contains('paid')) {
@@ -151,6 +154,9 @@ Future verifyPayment(String url, BuildContext context, isFromOrderExtraAccept,
     } else if (isFromWalletDeposite) {
       Provider.of<WalletService>(context, listen: false)
           .makeDepositeToWalletSuccess(context);
+    } else if (isFromHireJob) {
+      Provider.of<JobRequestService>(context, listen: false)
+          .goToJobSuccessPage(context);
     } else {
       Provider.of<PlaceOrderService>(context, listen: false)
           .makePaymentSuccess(context);

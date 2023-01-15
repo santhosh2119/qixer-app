@@ -38,8 +38,7 @@ class TotalPayable extends StatelessWidget {
                       } else if (isFromJobHire) {
                         price = Provider.of<JobRequestService>(context,
                                 listen: false)
-                            .selectedJobPrice
-                            .toStringAsFixed(2);
+                            .selectedJobPrice;
                       } else {
                         if (pProvider.isOnline == 0) {
                           price = bcProvider.totalPriceAfterAllcalculation

@@ -7,6 +7,7 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
@@ -19,12 +20,14 @@ class PaystackPaymentPage extends StatelessWidget {
   PaystackPaymentPage(
       {Key? key,
       required this.isFromOrderExtraAccept,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   String? url;
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +65,8 @@ class PaystackPaymentPage extends StatelessWidget {
           return false;
         },
         child: FutureBuilder(
-            future: waitForIt(
-                context, isFromOrderExtraAccept, isFromWalletDeposite),
+            future: waitForIt(context, isFromOrderExtraAccept,
+                isFromWalletDeposite, isFromHireJob),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -111,6 +114,9 @@ class PaystackPaymentPage extends StatelessWidget {
                     } else if (isFromWalletDeposite) {
                       Provider.of<WalletService>(context, listen: false)
                           .makeDepositeToWalletSuccess(context);
+                    } else if (isFromHireJob) {
+                      Provider.of<JobRequestService>(context, listen: false)
+                          .goToJobSuccessPage(context);
                     } else {
                       Provider.of<PlaceOrderService>(context, listen: false)
                           .makePaymentSuccess(context);
@@ -149,6 +155,9 @@ class PaystackPaymentPage extends StatelessWidget {
                     } else if (isFromWalletDeposite) {
                       Provider.of<WalletService>(context, listen: false)
                           .makeDepositeToWalletSuccess(context);
+                    } else if (isFromHireJob) {
+                      Provider.of<JobRequestService>(context, listen: false)
+                          .goToJobSuccessPage(context);
                     } else {
                       await Provider.of<PlaceOrderService>(context,
                               listen: false)
@@ -178,7 +187,7 @@ class PaystackPaymentPage extends StatelessWidget {
   }
 
   Future<void> waitForIt(BuildContext context, isFromOrderExtraAccept,
-      isFromWalletDeposite) async {
+      isFromWalletDeposite, isFromHireJob) async {
     final uri = Uri.parse('https://api.paystack.co/transaction/initialize');
 
     String paystackSecretKey =
@@ -220,6 +229,13 @@ class PaystackPaymentPage extends StatelessWidget {
           .toString();
     } else if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(0);
+      amount = int.parse(amount);
+
+      orderId = DateTime.now().toString();
+    } else if (isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
       amount = double.parse(amount).toStringAsFixed(0);
       amount = int.parse(amount);
 

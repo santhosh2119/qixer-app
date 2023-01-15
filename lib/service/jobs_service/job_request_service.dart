@@ -7,6 +7,8 @@ import 'package:qixer/model/job_request_model.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/view/home/landing_page.dart';
+import 'package:qixer/view/jobs/components/hire_job_success_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -19,12 +21,14 @@ class JobRequestService with ChangeNotifier {
 
   int currentPage = 1;
 
-  var selectedJobPrice = 0;
+  var selectedJobPrice = '0';
   var selectedRequestId;
 
   setSelectedJobPriceAndId({required price, required id}) {
-    selectedJobPrice = price;
+    selectedJobPrice = price.toString();
     selectedRequestId = id;
+
+    print('req id $id and price $price');
     notifyListeners();
   }
 
@@ -151,8 +155,10 @@ class JobRequestService with ChangeNotifier {
 
     formData = FormData.fromMap({
       'selected_payment_gateway': selectedPayment,
-      'manual_payment_image':
-          await MultipartFile.fromFile(imagePath, filename: 'bankTransfer.jpg'),
+      'manual_payment_image': imagePath != null
+          ? await MultipartFile.fromFile(imagePath,
+              filename: 'hireJobbankTransfer.jpg')
+          : null,
     });
 
     var response = await dio.post(
@@ -162,10 +168,13 @@ class JobRequestService with ChangeNotifier {
 
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
+    print(response.data);
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
       if (isManualOrCod == true) {
         print('manual or cod ran');
-        inSuccess(context);
+        goToJobSuccessPage(context);
       }
 
       notifyListeners();
@@ -180,18 +189,18 @@ class JobRequestService with ChangeNotifier {
   }
 
   // =========>
-  inSuccess(BuildContext context) async {
+  goToJobSuccessPage(BuildContext context) async {
     OthersHelper().showToast('Hiring successful', Colors.black);
 
-    // Navigator.of(context).pushAndRemoveUntil(
-    //     MaterialPageRoute(builder: (context) => const LandingPage()),
-    //     (Route<dynamic> route) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LandingPage()),
+        (Route<dynamic> route) => false);
 
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute<void>(
-    //     builder: (BuildContext context) => const WalletPage(),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const HireJobSuccessPage(),
+      ),
+    );
   }
 }

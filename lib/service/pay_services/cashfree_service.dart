@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
@@ -18,7 +19,8 @@ import '../booking_services/place_order_service.dart';
 class CashfreeService {
   getTokenAndPay(BuildContext context,
       {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) async {
+      bool isFromWalletDeposite = false,
+      bool isFromHireJob = false}) async {
     //========>
 
     String amount;
@@ -60,6 +62,11 @@ class CashfreeService {
           Provider.of<WalletService>(context, listen: false)
               .walletHistoryId
               .toString();
+    } else if (isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
+
+      orderId = "$name$amount";
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -122,15 +129,26 @@ class CashfreeService {
           phone,
           email,
           isFromOrderExtraAccept,
-          isFromWalletDeposite);
+          isFromWalletDeposite,
+          isFromHireJob);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
     // if()
   }
 
-  cashFreePay(token, orderId, orderCurrency, BuildContext context, amount, name,
-      phone, email, isFromOrderExtraAccept, isFromWalletDeposite) {
+  cashFreePay(
+      token,
+      orderId,
+      orderCurrency,
+      BuildContext context,
+      amount,
+      name,
+      phone,
+      email,
+      isFromOrderExtraAccept,
+      isFromWalletDeposite,
+      isFromHireJob) {
     //Replace with actual values
     //has to be unique every time
     String stage = "TEST"; // PROD when in production mode// TEST when in test
@@ -168,6 +186,9 @@ class CashfreeService {
           } else if (isFromWalletDeposite) {
             Provider.of<WalletService>(context, listen: false)
                 .makeDepositeToWalletSuccess(context);
+          } else if (isFromHireJob) {
+            Provider.of<JobRequestService>(context, listen: false)
+                .goToJobSuccessPage(context);
           } else {
             Provider.of<PlaceOrderService>(context, listen: false)
                 .makePaymentSuccess(context);

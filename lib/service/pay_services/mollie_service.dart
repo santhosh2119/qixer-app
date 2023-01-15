@@ -6,6 +6,7 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/wallet_service.dart';
@@ -14,7 +15,8 @@ import 'package:qixer/view/payments/mollie_payment.dart';
 class MollieService {
   payByMollie(BuildContext context,
       {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      bool isFromWalletDeposite = false,
+      bool isFromHireJob = false}) {
     var amount;
 
     String name;
@@ -53,6 +55,12 @@ class MollieService {
           Provider.of<WalletService>(context, listen: false)
               .walletHistoryId
               .toString();
+    } else if (isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
+      amount = double.parse(amount).toStringAsFixed(2);
+
+      orderId = 'jobHire$name';
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -82,7 +90,8 @@ class MollieService {
             email: email,
             orderId: orderId,
             isFromOrderExtraAccept: isFromOrderExtraAccept,
-            isFromWalletDeposite: isFromWalletDeposite),
+            isFromWalletDeposite: isFromWalletDeposite,
+            isFromHireJob: isFromHireJob),
       ),
     );
   }

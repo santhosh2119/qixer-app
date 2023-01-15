@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/wallet_service.dart';
 import 'dart:async';
@@ -20,13 +21,15 @@ class InstamojoPaymentPage extends StatefulWidget {
       required this.name,
       required this.email,
       required this.isFromOrderExtraAccept,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   final amount;
   final name;
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
   final email;
   @override
   _InstamojoPaymentPageState createState() => _InstamojoPaymentPageState();
@@ -144,6 +147,9 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
         } else if (widget.isFromWalletDeposite) {
           Provider.of<WalletService>(context, listen: false)
               .makeDepositeToWalletSuccess(context);
+        } else if (widget.isFromHireJob) {
+          Provider.of<JobRequestService>(context, listen: false)
+              .goToJobSuccessPage(context);
         } else {
           Provider.of<PlaceOrderService>(context, listen: false)
               .makePaymentSuccess(context);

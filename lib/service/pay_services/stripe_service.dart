@@ -9,6 +9,7 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
@@ -32,7 +33,7 @@ class StripeService with ChangeNotifier {
   Map<String, dynamic>? paymentIntentData;
 
   displayPaymentSheet(BuildContext context, isFromOrderExtraAccept,
-      isFromWalletDeposite) async {
+      isFromWalletDeposite, isFromHireJob) async {
     try {
       await Stripe.instance
           .presentPaymentSheet(
@@ -49,6 +50,9 @@ class StripeService with ChangeNotifier {
         } else if (isFromWalletDeposite) {
           Provider.of<WalletService>(context, listen: false)
               .makeDepositeToWalletSuccess(context);
+        } else if (isFromHireJob) {
+          Provider.of<JobRequestService>(context, listen: false)
+              .goToJobSuccessPage(context);
         } else {
           Provider.of<PlaceOrderService>(context, listen: false)
               .makePaymentSuccess(context);
@@ -107,7 +111,8 @@ class StripeService with ChangeNotifier {
 
   Future<void> makePayment(BuildContext context,
       {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) async {
+      bool isFromWalletDeposite = false,
+      bool isFromHireJob = false}) async {
     var amount;
 
     String name;
@@ -135,6 +140,11 @@ class StripeService with ChangeNotifier {
       amount = double.parse(amount).toStringAsFixed(0);
     } else if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(0);
+    } else if (isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
+
       amount = double.parse(amount).toStringAsFixed(0);
     } else {
       var bcProvider =
@@ -171,7 +181,7 @@ class StripeService with ChangeNotifier {
 
       ///now finally display payment sheeet
       displayPaymentSheet(
-          context, isFromOrderExtraAccept, isFromWalletDeposite);
+          context, isFromOrderExtraAccept, isFromWalletDeposite, isFromHireJob);
     } catch (e, s) {
       debugPrint('exception:$e$s');
     }

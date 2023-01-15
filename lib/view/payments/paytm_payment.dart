@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -12,11 +13,13 @@ class PaytmPayment extends StatefulWidget {
   const PaytmPayment(
       {Key? key,
       required this.isFromOrderExtraAccept,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
 
   @override
   State<PaytmPayment> createState() => _PaytmPaymentState();
@@ -70,6 +73,9 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             } else if (widget.isFromWalletDeposite) {
               Provider.of<WalletService>(context, listen: false)
                   .makeDepositeToWalletSuccess(context);
+            } else if (widget.isFromHireJob) {
+              Provider.of<JobRequestService>(context, listen: false)
+                  .goToJobSuccessPage(context);
             } else {
               await Provider.of<PlaceOrderService>(context, listen: false)
                   .makePaymentSuccess(context);

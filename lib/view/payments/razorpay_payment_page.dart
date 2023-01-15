@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/wallet_service.dart';
 import 'package:qixer/view/booking/booking_helper.dart';
@@ -17,7 +18,8 @@ class RazorpayPaymentPage extends StatefulWidget {
       required this.phone,
       required this.email,
       required this.isFromOrderExtraAccept,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   final amount;
@@ -26,6 +28,7 @@ class RazorpayPaymentPage extends StatefulWidget {
   final email;
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
 
   @override
   _RazorpayPaymentPageState createState() => _RazorpayPaymentPageState();
@@ -89,6 +92,9 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
     if (widget.isFromWalletDeposite) {
       Provider.of<WalletService>(context, listen: false)
           .makeDepositeToWalletSuccess(context);
+    } else if (widget.isFromHireJob) {
+      Provider.of<JobRequestService>(context, listen: false)
+          .goToJobSuccessPage(context);
     } else {
       Provider.of<PlaceOrderService>(context, listen: false)
           .makePaymentSuccess(context);

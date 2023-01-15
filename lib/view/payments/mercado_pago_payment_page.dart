@@ -11,6 +11,7 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/profile_service.dart';
@@ -23,10 +24,12 @@ class MercadopagoPaymentPage extends StatefulWidget {
     Key? key,
     required this.isFromOrderExtraAccept,
     required this.isFromWalletDeposite,
+    required this.isFromHireJob,
   }) : super(key: key);
 
   final bool isFromOrderExtraAccept;
   final bool isFromWalletDeposite;
+  final bool isFromHireJob;
 
   @override
   State<MercadopagoPaymentPage> createState() => _MercadopagoPaymentPageState();
@@ -87,6 +90,9 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
                   } else if (widget.isFromWalletDeposite) {
                     await Provider.of<WalletService>(context, listen: false)
                         .makeDepositeToWalletSuccess(context);
+                  } else if (widget.isFromHireJob) {
+                    Provider.of<JobRequestService>(context, listen: false)
+                        .goToJobSuccessPage(context);
                   } else {
                     await Provider.of<PlaceOrderService>(context, listen: false)
                         .makePaymentSuccess(context);
@@ -130,6 +136,11 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
           .toString();
     } else if (widget.isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount);
+      orderId = DateTime.now().toString();
+    } else if (widget.isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
       amount = double.parse(amount);
       orderId = DateTime.now().toString();
     } else {

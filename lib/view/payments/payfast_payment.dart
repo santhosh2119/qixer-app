@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/wallet_service.dart';
@@ -19,7 +20,8 @@ class PayfastPayment extends StatelessWidget {
       required this.phone,
       required this.email,
       required this.isFromOrderExtraAccept,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   final amount;
@@ -28,6 +30,7 @@ class PayfastPayment extends StatelessWidget {
   final email;
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
 
   String? url;
   late WebViewController _controller;
@@ -84,6 +87,9 @@ class PayfastPayment extends StatelessWidget {
                     } else if (isFromWalletDeposite) {
                       await Provider.of<WalletService>(context, listen: false)
                           .makeDepositeToWalletSuccess(context);
+                    } else if (isFromHireJob) {
+                      Provider.of<JobRequestService>(context, listen: false)
+                          .goToJobSuccessPage(context);
                     } else {
                       await Provider.of<PlaceOrderService>(context,
                               listen: false)

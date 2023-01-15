@@ -6,6 +6,7 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/wallet_service.dart';
@@ -14,7 +15,8 @@ import 'package:qixer/view/payments/razorpay_payment_page.dart';
 class RazorpayService {
   payByRazorpay(BuildContext context,
       {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      bool isFromWalletDeposite = false,
+      bool isFromHireJob = false}) {
     //========>
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
@@ -55,6 +57,12 @@ class RazorpayService {
           Provider.of<WalletService>(context, listen: false)
               .walletHistoryId
               .toString();
+    } else if (isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
+
+      amount = double.parse(amount).toStringAsFixed(1);
+      orderId = 'hireJob$name';
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -77,13 +85,13 @@ class RazorpayService {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => RazorpayPaymentPage(
-          amount: amount,
-          name: name,
-          phone: phone,
-          email: email,
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-          isFromWalletDeposite: isFromWalletDeposite,
-        ),
+            amount: amount,
+            name: name,
+            phone: phone,
+            email: email,
+            isFromOrderExtraAccept: isFromOrderExtraAccept,
+            isFromWalletDeposite: isFromWalletDeposite,
+            isFromHireJob: isFromHireJob),
       ),
     );
   }

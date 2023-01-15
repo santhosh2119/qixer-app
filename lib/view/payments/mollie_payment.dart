@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/wallet_service.dart';
@@ -20,7 +21,8 @@ class MolliePayment extends StatelessWidget {
       required this.email,
       required this.isFromOrderExtraAccept,
       required this.orderId,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.isFromHireJob})
       : super(key: key);
 
   final amount;
@@ -29,6 +31,7 @@ class MolliePayment extends StatelessWidget {
   final email;
   final isFromOrderExtraAccept;
   final isFromWalletDeposite;
+  final isFromHireJob;
   final orderId;
 
   String? url;
@@ -78,6 +81,9 @@ class MolliePayment extends StatelessWidget {
                     } else if (isFromWalletDeposite) {
                       Provider.of<WalletService>(context, listen: false)
                           .makeDepositeToWalletSuccess(context);
+                    } else if (isFromHireJob) {
+                      Provider.of<JobRequestService>(context, listen: false)
+                          .goToJobSuccessPage(context);
                     } else {
                       Provider.of<PlaceOrderService>(context, listen: false)
                           .makePaymentSuccess(context);

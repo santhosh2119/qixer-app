@@ -6,6 +6,7 @@ import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/wallet_service.dart';
@@ -14,7 +15,8 @@ import 'package:qixer/view/payments/squareup_payment.dart';
 class SquareService {
   payBySquare(BuildContext context,
       {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      bool isFromWalletDeposite = false,
+      bool isFromHireJob = false}) {
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     var amount;
@@ -45,6 +47,9 @@ class SquareService {
           .selectedExtraPrice;
     } else if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    } else if (isFromHireJob) {
+      amount = Provider.of<JobRequestService>(context, listen: false)
+          .selectedJobPrice;
     } else {
       var bcProvider =
           Provider.of<BookConfirmationService>(context, listen: false);
@@ -72,7 +77,8 @@ class SquareService {
             phone: phone,
             email: email,
             isFromOrderExtraAccept: isFromOrderExtraAccept,
-            isFromWalletDeposite: isFromWalletDeposite),
+            isFromWalletDeposite: isFromWalletDeposite,
+            isFromHireJob: isFromHireJob),
       ),
     );
   }

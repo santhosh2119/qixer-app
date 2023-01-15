@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/model/wallet_history_model.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
 import 'package:qixer/service/common_service.dart';
+import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
@@ -158,6 +159,9 @@ class WalletService with ChangeNotifier {
       data: formData,
     );
 
+    print(response.data);
+    print(response.statusCode);
+
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
 
     if (response.statusCode == 200) {
@@ -241,12 +245,16 @@ class WalletService with ChangeNotifier {
   //===============>
   // Deduct money from wallet
   Future<bool> deductFromWallet(BuildContext context,
-      {required amount, isFromOrderExtraAccept = false}) async {
+      {required amount,
+      isFromOrderExtraAccept = false,
+      isFromHireJob = false}) async {
     var connection = await checkConnection();
     if (!connection) return false;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
+
+    print('amount is $amount');
 
     Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
 
@@ -275,6 +283,13 @@ class WalletService with ChangeNotifier {
             .setLoadingFalse();
 
         return true;
+      } else if (isFromHireJob) {
+        print('is from hire job');
+        Provider.of<PlaceOrderService>(context, listen: false)
+            .setLoadingFalse();
+
+        Provider.of<JobRequestService>(context, listen: false)
+            .goToJobSuccessPage(context);
       } else {
         Provider.of<PlaceOrderService>(context, listen: false)
             .makePaymentSuccess(context);

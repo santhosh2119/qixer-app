@@ -43,6 +43,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaypalService().payByPaypal(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          PaypalService().payByPaypal(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           PaypalService().payByPaypal(context);
@@ -56,6 +60,10 @@ payAction(String method, BuildContext context, imagePath,
       } else if (isFromWalletDeposite) {
         createDepositeRequestAndPay(context, () {
           CashfreeService().getTokenAndPay(context, isFromWalletDeposite: true);
+        });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          CashfreeService().getTokenAndPay(context, isFromHireJob: true);
         });
       } else {
         makePaymentToGetOrderId(context, () {
@@ -73,6 +81,10 @@ payAction(String method, BuildContext context, imagePath,
           FlutterwaveService()
               .payByFlutterwave(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          FlutterwaveService().payByFlutterwave(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           FlutterwaveService().payByFlutterwave(context);
@@ -88,6 +100,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           InstamojoService()
               .payByInstamojo(context, isFromWalletDeposite: true);
+        });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          InstamojoService().payByInstamojo(context, isFromHireJob: true);
         });
       } else {
         makePaymentToGetOrderId(context, () {
@@ -105,6 +121,10 @@ payAction(String method, BuildContext context, imagePath,
           MercadoPagoService()
               .payByMercado(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          MercadoPagoService().payByMercado(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           MercadoPagoService().payByMercado(context);
@@ -119,6 +139,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           MidtransService().payByMidtrans(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          MidtransService().payByMidtrans(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           MidtransService().payByMidtrans(context);
@@ -132,6 +156,10 @@ payAction(String method, BuildContext context, imagePath,
       } else if (isFromWalletDeposite) {
         createDepositeRequestAndPay(context, () {
           MollieService().payByMollie(context, isFromWalletDeposite: true);
+        });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          MollieService().payByMollie(context, isFromHireJob: true);
         });
       } else {
         makePaymentToGetOrderId(context, () {
@@ -148,6 +176,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PayfastService().payByPayfast(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          PayfastService().payByPayfast(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           PayfastService().payByPayfast(context);
@@ -163,6 +195,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaystackService().payByPaystack(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          PaystackService().payByPaystack(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           PaystackService().payByPaystack(context);
@@ -177,6 +213,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaytmService().payByPaytm(context, isFromWalletDeposite: true);
         }, paytmPaymentSelected: true);
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          PaytmService().payByPaytm(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           PaytmService().payByPaytm(context);
@@ -192,6 +232,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           RazorpayService().payByRazorpay(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          RazorpayService().payByRazorpay(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           RazorpayService().payByRazorpay(context);
@@ -205,6 +249,10 @@ payAction(String method, BuildContext context, imagePath,
       } else if (isFromWalletDeposite) {
         createDepositeRequestAndPay(context, () {
           StripeService().makePayment(context, isFromWalletDeposite: true);
+        });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          StripeService().makePayment(context, isFromHireJob: true);
         });
       } else {
         makePaymentToGetOrderId(context, () {
@@ -221,6 +269,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           SquareService().payBySquare(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          SquareService().payBySquare(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           SquareService().payBySquare(context);
@@ -235,6 +287,10 @@ payAction(String method, BuildContext context, imagePath,
       } else if (isFromWalletDeposite) {
         createDepositeRequestAndPay(context, () {
           CinetPayService().payByCinetpay(context, isFromWalletDeposite: true);
+        });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          CinetPayService().payByCinetpay(context, isFromHireJob: true);
         });
       } else {
         makePaymentToGetOrderId(context, () {
@@ -251,6 +307,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaytabsService().payByPaytabs(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          PaytabsService().payByPaytabs(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           PaytabsService().payByPaytabs(context);
@@ -266,6 +326,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           BillPlzService().payByBillPlz(context, isFromWalletDeposite: true);
         });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          BillPlzService().payByBillPlz(context, isFromHireJob: true);
+        });
       } else {
         makePaymentToGetOrderId(context, () {
           BillPlzService().payByBillPlz(context);
@@ -280,6 +344,10 @@ payAction(String method, BuildContext context, imagePath,
       } else if (isFromWalletDeposite) {
         createDepositeRequestAndPay(context, () {
           ZitopayService().payByZitopay(context, isFromWalletDeposite: true);
+        });
+      } else if (isFromHireJob) {
+        createHireRequestAndPay(context, () {
+          ZitopayService().payByZitopay(context, isFromHireJob: true);
         });
       } else {
         makePaymentToGetOrderId(context, () {
@@ -303,6 +371,12 @@ payAction(String method, BuildContext context, imagePath,
       } else if (isFromWalletDeposite) {
         OthersHelper().showToast(
             'Pay by wallet is not available for wallet deposite', Colors.black);
+      } else if (isFromHireJob) {
+        var amount = Provider.of<JobRequestService>(context, listen: false)
+            .selectedJobPrice;
+
+        Provider.of<WalletService>(context, listen: false)
+            .deductFromWallet(context, amount: amount, isFromHireJob: true);
       } else {
         makePaymentToGetOrderId(context, () {
           var amount;
@@ -352,6 +426,10 @@ payAction(String method, BuildContext context, imagePath,
         Provider.of<WalletService>(context, listen: false)
             .createDepositeRequest(context,
                 imagePath: imagePath.path, isManualOrCod: true);
+      } else if (isFromHireJob) {
+        Provider.of<JobRequestService>(context, listen: false)
+            .createHireJobRequest(context,
+                imagePath: imagePath.path, isManualOrCod: true);
       } else {
         Provider.of<PlaceOrderService>(context, listen: false)
             .placeOrder(context, imagePath.path, isManualOrCod: true);
@@ -362,6 +440,12 @@ payAction(String method, BuildContext context, imagePath,
       if (payAgain) {
         OthersHelper().showToast(
             'Cash on delivery is not available for second attempt payment',
+            Colors.black);
+        return;
+      }
+      if (isFromHireJob) {
+        OthersHelper().showToast(
+            'Cash on delivery is not available for hiring in job',
             Colors.black);
         return;
       }
@@ -433,8 +517,9 @@ createHireRequestAndPay(
   BuildContext context,
   VoidCallback function,
 ) async {
+  //image will be send if user selects manual payment
   var res = await Provider.of<JobRequestService>(context, listen: false)
-      .createDepositeRequest(
+      .createHireJobRequest(
     context,
     imagePath: null,
   );
@@ -442,6 +527,6 @@ createHireRequestAndPay(
   if (res == true) {
     function();
   } else {
-    print('adding balance to wallet unsuccessfull');
+    print('Something went wrong');
   }
 }
