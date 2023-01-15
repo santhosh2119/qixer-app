@@ -289,7 +289,7 @@ class WalletService with ChangeNotifier {
             .setLoadingFalse();
 
         Provider.of<JobRequestService>(context, listen: false)
-            .goToJobSuccessPage(context);
+            .createHireJobRequest(context, isManualOrCod: true);
       } else {
         Provider.of<PlaceOrderService>(context, listen: false)
             .makePaymentSuccess(context);

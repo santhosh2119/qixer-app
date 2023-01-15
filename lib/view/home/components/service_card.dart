@@ -251,6 +251,7 @@ class ServiceCardContents extends StatelessWidget {
         ),
         Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //service name ======>
               Text(

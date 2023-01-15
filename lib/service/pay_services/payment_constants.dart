@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/book_confirmation_service.dart';
 import 'package:qixer/service/booking_services/personalization_service.dart';
 import 'package:qixer/service/booking_services/place_order_service.dart';
+import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/pay_services/billplz_service.dart';
@@ -372,11 +373,7 @@ payAction(String method, BuildContext context, imagePath,
         OthersHelper().showToast(
             'Pay by wallet is not available for wallet deposite', Colors.black);
       } else if (isFromHireJob) {
-        var amount = Provider.of<JobRequestService>(context, listen: false)
-            .selectedJobPrice;
-
-        Provider.of<WalletService>(context, listen: false)
-            .deductFromWallet(context, amount: amount, isFromHireJob: true);
+        hireUsingWallet(context);
       } else {
         makePaymentToGetOrderId(context, () {
           var amount;
@@ -529,4 +526,26 @@ createHireRequestAndPay(
   } else {
     print('Something went wrong');
   }
+}
+
+hireUsingWallet(BuildContext context) async {
+  var amount =
+      Provider.of<JobRequestService>(context, listen: false).selectedJobPrice;
+
+  Provider.of<PlaceOrderService>(context, listen: false).setLoadingTrue();
+  await Provider.of<WalletService>(context, listen: false)
+      .fetchWalletBalance(context);
+
+  var walletBalance =
+      Provider.of<WalletService>(context, listen: false).walletBalance;
+
+  if (double.parse(amount) > double.parse(removeDollar(walletBalance))) {
+    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    OthersHelper()
+        .showToast('You don\'t have enough wallet balance', Colors.black);
+    return;
+  }
+
+  Provider.of<WalletService>(context, listen: false)
+      .deductFromWallet(context, amount: amount, isFromHireJob: true);
 }
