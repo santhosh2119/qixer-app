@@ -11,6 +11,7 @@ import 'package:qixer/service/home_services/recent_services_service.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/home_services/top_rated_services_service.dart';
 import 'package:qixer/service/jobs_service/recent_jobs_service.dart';
+import 'package:qixer/service/permissions_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/rtl_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
@@ -99,6 +100,9 @@ runAtHome(BuildContext context) async {
   Provider.of<ProfileService>(context, listen: false).getProfileDetails();
   Provider.of<CountryStatesService>(context, listen: false)
       .fetchCountries(context);
+
+  Provider.of<PermissionsService>(context, listen: false)
+      .fetchUserPermissions(context);
 
   //
 }

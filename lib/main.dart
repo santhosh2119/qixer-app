@@ -40,6 +40,7 @@ import 'package:qixer/service/orders_service.dart';
 import 'package:qixer/service/pay_services/bank_transfer_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer/service/permissions_service.dart';
 import 'package:qixer/service/profile_edit_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/push_notification_service.dart';
@@ -137,6 +138,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ReportService()),
         ChangeNotifierProvider(create: (_) => ReportMessagesService()),
         ChangeNotifierProvider(create: (_) => RecentJobsService()),
+        ChangeNotifierProvider(create: (_) => PermissionsService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

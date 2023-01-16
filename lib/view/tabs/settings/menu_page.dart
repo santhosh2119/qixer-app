@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
+import 'package:qixer/service/permissions_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/jobs/job_request_page.dart';
 import 'package:qixer/view/jobs/my_jobs_page.dart';
@@ -42,163 +43,185 @@ class _MenuPageState extends State<MenuPage> {
             children: [
               SingleChildScrollView(
                 physics: physicsCommon,
-                child: Consumer<AppStringService>(
-                  builder: (context, asProvider, child) =>
-                      Consumer<ProfileService>(
-                    builder: (context, profileProvider, child) =>
-                        profileProvider.profileDetails != null
-                            ? profileProvider.profileDetails != 'error'
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //
-                                      const MenuNameImageSection(),
+                child: Consumer<PermissionsService>(
+                  builder: (context, pProvider, child) =>
+                      Consumer<AppStringService>(
+                    builder: (context, asProvider, child) =>
+                        Consumer<ProfileService>(
+                      builder: (context, profileProvider, child) =>
+                          profileProvider.profileDetails != null
+                              ? profileProvider.profileDetails != 'error'
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //
+                                        const MenuNameImageSection(),
 
-                                      // Personal information ==========>
-                                      const MenuPersonalInfoSection(),
+                                        // Personal information ==========>
+                                        const MenuPersonalInfoSection(),
 
-                                      SettingsHelper().borderBold(35, 8),
+                                        SettingsHelper().borderBold(35, 8),
 
-                                      //Other settings options ========>
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(children: [
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/message-circle.svg',
-                                              asProvider.getString("My jobs"),
-                                              () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const MyJobsPage(),
-                                              ),
-                                            );
-                                          }),
-                                          //============>
-                                          CommonHelper().dividerCommon(),
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/message-circle.svg',
-                                              asProvider.getString(
-                                                  "Job requests"), () {
-                                            //=====>
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const JobRequestPage(),
-                                              ),
-                                            );
-                                          }),
+                                        //Other settings options ========>
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Column(children: [
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/message-circle.svg',
+                                                asProvider.getString("My jobs"),
+                                                () {
+                                              if (!pProvider.jobPermission) {
+                                                OthersHelper().showToast(
+                                                    'You don\'t have permission to access this feature',
+                                                    Colors.black);
+                                                return;
+                                              }
 
-                                          //===========>
-                                          CommonHelper().dividerCommon(),
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/message-circle.svg',
-                                              asProvider.getString(
-                                                  "Support Ticket"), () {
-                                            //=====>
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const MyTicketsPage(),
-                                              ),
-                                            );
-                                          }),
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          const MyJobsPage(),
+                                                ),
+                                              );
+                                            }),
+                                            //============>
+                                            CommonHelper().dividerCommon(),
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/message-circle.svg',
+                                                asProvider.getString(
+                                                    "Job requests"), () {
+                                              if (!pProvider.jobPermission) {
+                                                OthersHelper().showToast(
+                                                    'You don\'t have permission to access this feature',
+                                                    Colors.black);
+                                                return;
+                                              }
+                                              //=====>
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      const JobRequestPage(),
+                                                ),
+                                              );
+                                            }),
 
-                                          CommonHelper().dividerCommon(),
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/profile-edit.svg',
-                                              asProvider.getString("Wallet"),
-                                              () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const WalletPage(),
-                                              ),
-                                            );
-                                          }),
+                                            //===========>
+                                            CommonHelper().dividerCommon(),
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/message-circle.svg',
+                                                asProvider.getString(
+                                                    "Support Ticket"), () {
+                                              //=====>
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          const MyTicketsPage(),
+                                                ),
+                                              );
+                                            }),
 
-                                          CommonHelper().dividerCommon(),
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/profile-edit.svg',
-                                              asProvider.getString(
-                                                  "My report list"), () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    const MyReportListPage(),
-                                              ),
-                                            );
-                                          }),
+                                            CommonHelper().dividerCommon(),
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/profile-edit.svg',
+                                                asProvider.getString("Wallet"),
+                                                () {
+                                              if (!pProvider.walletPermission) {
+                                                OthersHelper().showToast(
+                                                    'You don\'t have permission to access this feature',
+                                                    Colors.black);
+                                                return;
+                                              }
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          const WalletPage(),
+                                                ),
+                                              );
+                                            }),
 
-                                          CommonHelper().dividerCommon(),
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/profile-edit.svg',
-                                              asProvider.getString(
-                                                  "Edit Profile"), () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const ProfileEditPage(),
-                                              ),
-                                            );
-                                          }),
-                                          CommonHelper().dividerCommon(),
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/lock-circle.svg',
-                                              asProvider.getString(
-                                                  "Change Password"), () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    const ChangePasswordPage(),
-                                              ),
-                                            );
-                                          }),
-                                        ]),
-                                      ),
+                                            CommonHelper().dividerCommon(),
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/profile-edit.svg',
+                                                asProvider.getString(
+                                                    "My report list"), () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      const MyReportListPage(),
+                                                ),
+                                              );
+                                            }),
 
-                                      // logout
-                                      SettingsHelper().borderBold(12, 5),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(children: [
-                                          SettingsHelper().settingOption(
-                                              'assets/svg/logout-circle.svg',
-                                              asProvider.getString("Logout"),
-                                              () {
-                                            SettingsHelper()
-                                                .logoutPopup(context);
-                                          }),
-                                          sizedBox20()
-                                        ]),
-                                      )
-                                    ],
-                                  )
-                                : OthersHelper().showError(context)
-                            : Container(
-                                alignment: Alignment.center,
-                                height:
-                                    MediaQuery.of(context).size.height - 150,
-                                child:
-                                    OthersHelper().showLoading(cc.primaryColor),
-                              ),
+                                            CommonHelper().dividerCommon(),
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/profile-edit.svg',
+                                                asProvider.getString(
+                                                    "Edit Profile"), () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      const ProfileEditPage(),
+                                                ),
+                                              );
+                                            }),
+                                            CommonHelper().dividerCommon(),
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/lock-circle.svg',
+                                                asProvider.getString(
+                                                    "Change Password"), () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      const ChangePasswordPage(),
+                                                ),
+                                              );
+                                            }),
+                                          ]),
+                                        ),
+
+                                        // logout
+                                        SettingsHelper().borderBold(12, 5),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: Column(children: [
+                                            SettingsHelper().settingOption(
+                                                'assets/svg/logout-circle.svg',
+                                                asProvider.getString("Logout"),
+                                                () {
+                                              SettingsHelper()
+                                                  .logoutPopup(context);
+                                            }),
+                                            sizedBox20()
+                                          ]),
+                                        )
+                                      ],
+                                    )
+                                  : OthersHelper().showError(context)
+                              : Container(
+                                  alignment: Alignment.center,
+                                  height:
+                                      MediaQuery.of(context).size.height - 150,
+                                  child: OthersHelper()
+                                      .showLoading(cc.primaryColor),
+                                ),
+                    ),
                   ),
                 ),
               ),
