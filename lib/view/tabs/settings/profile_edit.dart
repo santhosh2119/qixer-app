@@ -155,7 +155,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                                   85,
                                                   85)
                                               : Image.asset(
-                                                  'assets/images/avatar.png',
+                                                  'assets/images/avatar.jpg',
                                                   height: 85,
                                                   width: 85,
                                                   fit: BoxFit.cover,

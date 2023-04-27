@@ -110,7 +110,7 @@ class ServiceDetailsTop extends StatelessWidget {
                       provider.serviceAllDetails.sellerCompleteOrder.toString(),
                       style: TextStyle(
                           color: cc.successColor,
-                          fontSize: 23,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
@@ -141,7 +141,7 @@ class ServiceDetailsTop extends StatelessWidget {
                     provider.serviceAllDetails.sellerRating.toString(),
                     style: TextStyle(
                         color: cc.primaryColor,
-                        fontSize: 23,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
@@ -245,7 +245,7 @@ class ServiceTitleAndUser extends StatelessWidget {
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Image.asset(
-                        'assets/images/avatar.png',
+                        'assets/images/avatar.jpg',
                         height: 40,
                         width: 40,
                         fit: BoxFit.cover,

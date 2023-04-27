@@ -19,6 +19,7 @@ class ImageBig extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: imageLink,
               errorWidget: (context, url, error) => const Icon(Icons.error),
+              alignment: Alignment.centerLeft,
               fit: BoxFit.cover,
             )),
         Container(

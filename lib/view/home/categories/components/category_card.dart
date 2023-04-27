@@ -25,11 +25,11 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return  InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: () {
-        Navigator.push(
+     Navigator.push(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => ServicebyCategoryPage(
@@ -41,19 +41,13 @@ class CategoryCard extends StatelessWidget {
       },
       child: Container(
         alignment: Alignment.center,
-        width: 100,
-        margin: EdgeInsets.only(
-          right: marginRight,
-        ),
-        decoration: BoxDecoration(
-            border: Border.all(color: cc.borderColor),
-            borderRadius: BorderRadius.circular(9)),
-        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-        child: Column(
+        width: 130,
+       
+         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-                height: 35,
+                height: 45,
                 width: double.infinity,
                 child: CachedNetworkImage(
                   imageUrl: imagelink ?? placeHolderUrl,

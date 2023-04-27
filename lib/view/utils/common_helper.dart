@@ -18,6 +18,7 @@ class CommonHelper {
         builder: (context, asProvider, child) => Text(
           asProvider.getString(title),
           style: TextStyle(
+            fontFamily: "Comfortaa",
               color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
@@ -87,6 +88,7 @@ class CommonHelper {
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
+                       fontFamily: "Comfortaa",
                   ),
                 )
               : OthersHelper().showLoading(Colors.white)),
@@ -109,6 +111,7 @@ class CommonHelper {
             style: TextStyle(
               color: bgColor ?? cc.primaryColor,
               fontSize: 14,
+                 fontFamily: "Comfortaa",
             ),
           )),
     );
@@ -123,6 +126,7 @@ class CommonHelper {
           color: cc.greyThree,
           fontSize: 14,
           fontWeight: FontWeight.w600,
+             fontFamily: "Comfortaa",
         ),
       ),
     );
@@ -138,6 +142,7 @@ class CommonHelper {
         height: 1.4,
         fontSize: fontsize,
         fontWeight: FontWeight.w400,
+          fontFamily: "Poppins"
       ),
     );
   }
@@ -148,7 +153,7 @@ class CommonHelper {
       style: TextStyle(
           color: color ?? cc.greyPrimary,
           fontSize: fontsize,
-          height: lineheight,
+          height: lineheight,   fontFamily: "Comfortaa",
           fontWeight: FontWeight.bold),
     );
   }
@@ -183,7 +188,8 @@ class CommonHelper {
         },
         height: height,
         width: width,
-        fit: BoxFit.cover,
+        fit: BoxFit.fitHeight,
+        alignment: Alignment.centerLeft,
       ),
     );
   }
@@ -206,7 +212,8 @@ class CommonHelper {
             ),
             Text(
               title,
-              style: TextStyle(color: cc.greyFour),
+              style: TextStyle(
+                   fontFamily: "Comfortaa",color: cc.greyFour),
             ),
           ],
         ));

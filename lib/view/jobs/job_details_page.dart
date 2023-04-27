@@ -79,7 +79,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                             children: [
                               OverviewBox(
                                 title: 'Budget',
-                                subtitle: '\$${provider.jobDetails.price}',
+                                subtitle: '\₹${provider.jobDetails.price}',
                               ),
                               const SizedBox(
                                 width: 15,

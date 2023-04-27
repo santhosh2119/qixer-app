@@ -5,7 +5,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 
 //===========================>
 
-String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
+String baseApi = 'https://doorstephub.com/api/v1';
 
 String placeHolderUrl = 'https://i.postimg.cc/rpsKNndW/New-Project.png';
 String userPlaceHolderUrl =

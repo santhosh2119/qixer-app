@@ -155,6 +155,7 @@ class MyApp extends StatelessWidget {
         },
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          fontFamily: "Comfortaa",
         ),
         home: const SplashScreen(),
       ),

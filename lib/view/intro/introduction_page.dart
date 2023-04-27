@@ -64,7 +64,8 @@ class _IntroductionPageState extends State<IntroductionPage> {
                           IntroHelper().geTitle(i),
                           style: TextStyle(
                               color: cc.greyPrimary,
-                              fontSize: 19,
+                              fontFamily: "Comfortaa",
+                              fontSize: 14,
                               fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(

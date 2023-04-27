@@ -287,15 +287,18 @@ class ServiceCardContents extends StatelessWidget {
                   const SizedBox(
                     width: 6,
                   ),
-                  Text(
-                    sellerName ?? '',
-                    textAlign: TextAlign.start,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: cc.greyFour,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+                  SizedBox(
+                    width: 150,
+                    child: Text(
+                      sellerName ?? '',
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: cc.greyFour,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],

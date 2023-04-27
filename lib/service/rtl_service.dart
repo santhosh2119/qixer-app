@@ -8,7 +8,7 @@ class RtlService with ChangeNotifier {
   /// RTL support
   String direction = 'ltr';
 
-  String currency = '\$';
+  String currency = '\₹';
   String currencyDirection = 'left';
 
   bool alreadyCurrencyLoaded = false;

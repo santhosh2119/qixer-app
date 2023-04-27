@@ -14,7 +14,7 @@ import '../home/components/service_card.dart';
 
 class ServicebyCategoryPage extends StatefulWidget {
   const ServicebyCategoryPage(
-      {Key? key, this.categoryName = '', required this.categoryId})
+      {Key? key, this.categoryName = '', required this.categoryId, })
       : super(key: key);
 
   final String categoryName;
@@ -85,6 +85,7 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
             return Future.value(true);
           },
           child: SingleChildScrollView(
+           
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Consumer<ServiceByCategoryService>(

@@ -19,6 +19,8 @@ import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:qixer/view/wallet/wallet_page.dart';
 
+import '../../../app_logo.dart';
+
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
 
@@ -55,6 +57,7 @@ class _MenuPageState extends State<MenuPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        const AppLogo(),
                                         //
                                         const MenuNameImageSection(),
 

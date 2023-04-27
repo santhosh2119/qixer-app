@@ -19,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletService with ChangeNotifier {
   var walletHistory;
-  var walletBalance = '\$0.0';
+  var walletBalance = '\₹0.0';
 
   var walletHistoryId;
 

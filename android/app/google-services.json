@@ -1,48 +1,72 @@
 {
   "project_info": {
-    "project_number": "205042334936",
-    "project_id": "qixer-20a27",
-    "storage_bucket": "qixer-20a27.appspot.com"
+    "project_number": "765532412552",
+    "project_id": "dhub-customer",
+    "storage_bucket": "dhub-customer.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:205042334936:android:84d64efbd3bc34fd4b2bad",
+        "mobilesdk_app_id": "1:765532412552:android:37245dce97d0d36b155d3d",
         "android_client_info": {
-          "package_name": "com.qixer.app"
+          "package_name": "com.doorstephub.customer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "205042334936-va974l9n1n63nv5jjuih7gqmquvith3d.apps.googleusercontent.com",
+          "client_id": "765532412552-3jmonlu55dvv7kcofs9veuk4h4ha83lq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.qixer.app",
-            "certificate_hash": "6bcce48d491e775a0596cc33bba731e29833a5ca"
+            "package_name": "com.doorstephub.customer",
+            "certificate_hash": "9c2d20816c99a61b443f09029e3d43a36ab277f2"
           }
         },
         {
-          "client_id": "205042334936-ap9ippue4v404nvuf5k1slpftbcctmt2.apps.googleusercontent.com",
+          "client_id": "765532412552-e8cgfaa79600aj5sb7ve60gbu39drhct.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doorstephub.customer",
+            "certificate_hash": "fc381c3fa6eec61030449fe915a569431bf37e40"
+          }
+        },
+        {
+          "client_id": "765532412552-jb041jvfp4avrbem9ugsmgq6rvgcel1p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doorstephub.customer",
+            "certificate_hash": "d3195d560412c9941d406f9ed3bad490e0f74f02"
+          }
+        },
+        {
+          "client_id": "765532412552-ocgmekcucedqdku0tbltqvv4515hv1mj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doorstephub.customer",
+            "certificate_hash": "a703b93bb7d7450188603d43ec3eb949938c401a"
+          }
+        },
+        {
+          "client_id": "765532412552-7v0ncn48vg0gt3acpg711tb089261i8v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAd-_-eqI_IR05HuJ1giH14pw-lJSMUYXM"
+          "current_key": "AIzaSyAm18s-J41C2--7xM93L2oiy-YlW9CPvGw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "205042334936-ap9ippue4v404nvuf5k1slpftbcctmt2.apps.googleusercontent.com",
+              "client_id": "765532412552-1r841cg97tjpmjf20sh9rttknpj49ll9.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "205042334936-3ddg5c7d76negb1idlqm1ofcf416bo88.apps.googleusercontent.com",
+              "client_id": "765532412552-rjhbeojecdkq8jj3v5331h0n66r7dpqk.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.qixerios.app"
+                "bundle_id": "com.doorstephub.customer"
               }
             }
           ]

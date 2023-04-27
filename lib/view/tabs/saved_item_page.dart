@@ -8,6 +8,8 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
+import '../../app_logo.dart';
+
 class SavedItemPage extends StatefulWidget {
   const SavedItemPage({Key? key}) : super(key: key);
 
@@ -39,9 +41,7 @@ class _SavedItemPageState extends State<SavedItemPage> {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                          const SizedBox(
-                            height: 25,
-                          ),
+                          const  AppLogo(),
                           CommonHelper().titleCommon('Saved services'),
                           const SizedBox(
                             height: 22,

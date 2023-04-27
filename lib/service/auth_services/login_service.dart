@@ -47,6 +47,7 @@ class LoginService with ChangeNotifier {
 
       if (response.statusCode == 201) {
         if (isFromLoginPage) {
+          print("called");
           OthersHelper()
               .showToast("Login successful", ConstantColors().successColor);
         }
@@ -64,8 +65,8 @@ class LoginService with ChangeNotifier {
           setKeepLoggedInFalseSaveToken(token);
         }
 
-        //start pusher
-        //============>
+        // //start pusher
+        // //============>
         await Provider.of<PushNotificationService>(context, listen: false)
             .fetchPusherCredential();
         var pusherInstance =
@@ -73,11 +74,11 @@ class LoginService with ChangeNotifier {
                 .pusherInstance;
         await PusherBeams.instance.start(pusherInstance);
 
-        //start stripe
-        //============>
-        var publishableKey = await StripeService().getStripeKey();
-        Stripe.publishableKey = publishableKey;
-        Stripe.instance.applySettings();
+        // //start stripe
+        // //============>
+        // var publishableKey = await StripeService().getStripeKey();
+        // Stripe.publishableKey = publishableKey;
+        // Stripe.instance.applySettings();
 
         // =======>
         Navigator.pushReplacement<void, void>(

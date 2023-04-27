@@ -124,6 +124,7 @@ class Steps extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
                 child: CachedNetworkImage(
                   imageUrl: sProvider.serviceImage ?? placeHolderUrl,
+                  alignment: Alignment.centerLeft,
                   placeholder: (context, url) {
                     return Image.asset('assets/images/placeholder.png');
                   },

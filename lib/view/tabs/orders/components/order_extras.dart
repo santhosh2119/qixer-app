@@ -41,7 +41,7 @@ class OrderExtras extends StatelessWidget {
                               fontsize: 15),
                           sizedBoxCustom(5),
                           CommonHelper().paragraphCommon(
-                              'Unit price: \$${provider.orderExtra[i].price.toStringAsFixed(2)}    Quantity: ${provider.orderExtra[i].quantity}    Total: \$${provider.orderExtra[i].total.toStringAsFixed(2)}',
+                              'Unit price: \₹${provider.orderExtra[i].price.toStringAsFixed(2)}    Quantity: ${provider.orderExtra[i].quantity}    Total: \₹${provider.orderExtra[i].total.toStringAsFixed(2)}',
                               TextAlign.left),
                           sizedBoxCustom(12),
 

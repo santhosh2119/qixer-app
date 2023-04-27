@@ -21,7 +21,7 @@ class SliderHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 175,
+      height: 120,
       width: double.infinity,
       child: CarouselSlider.builder(
         itemCount: sliderDetailsList.length,
@@ -47,50 +47,50 @@ class SliderHome extends StatelessWidget {
                 ),
               ),
             ),
-            Consumer<RtlService>(
-              builder: (context, rtlP, child) => Positioned(
-                  left: rtlP.direction == 'ltr' ? 25 : 0,
-                  right: rtlP.direction == 'ltr' ? 0 : 25,
-                  top: 20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        child: Text(
-                          sliderDetailsList[itemIndex]['title'],
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: cc.greyFour,
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 7,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2 - 20,
-                        child: Text(
-                          sliderDetailsList[itemIndex]['subtitle'],
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: cc.greyFour, fontSize: 14, height: 1.3),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 7,
-                      ),
-                      // ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(
-                      //         primary: cc.greyFour, elevation: 0),
-                      //     onPressed: () {},
-                      //     child: const Text('Get now'))
-                    ],
-                  )),
-            )
+            // Consumer<RtlService>(
+            //   builder: (context, rtlP, child) => Positioned(
+            //       left: rtlP.direction == 'ltr' ? 25 : 0,
+            //       right: rtlP.direction == 'ltr' ? 0 : 25,
+            //       top: 20,
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Container(
+            //             width: MediaQuery.of(context).size.width / 2,
+            //             child: Text(
+            //               sliderDetailsList[itemIndex]['title'],
+            //               maxLines: 2,
+            //               overflow: TextOverflow.ellipsis,
+            //               style: TextStyle(
+            //                   color: cc.greyFour,
+            //                   fontSize: 21,
+            //                   fontWeight: FontWeight.bold),
+            //             ),
+            //           ),
+            //           const SizedBox(
+            //             height: 7,
+            //           ),
+            //           Container(
+            //             width: MediaQuery.of(context).size.width / 2 - 20,
+            //             child: Text(
+            //               sliderDetailsList[itemIndex]['subtitle'],
+            //               maxLines: 2,
+            //               overflow: TextOverflow.ellipsis,
+            //               style: TextStyle(
+            //                   color: cc.greyFour, fontSize: 14, height: 1.3),
+            //             ),
+            //           ),
+            //           const SizedBox(
+            //             height: 7,
+            //           ),
+            //           // ElevatedButton(
+            //           //     style: ElevatedButton.styleFrom(
+            //           //         primary: cc.greyFour, elevation: 0),
+            //           //     onPressed: () {},
+            //           //     child: const Text('Get now'))
+            //         ],
+            //       )),
+            // )
           ],
         ),
       ),

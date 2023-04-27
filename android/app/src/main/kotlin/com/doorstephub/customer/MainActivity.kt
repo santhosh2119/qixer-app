@@ -1,4 +1,4 @@
-package com.qixer.app
+package com.doorstephub.customer
 
 import io.flutter.embedding.android.FlutterActivity
 

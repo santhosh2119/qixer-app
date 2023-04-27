@@ -15,6 +15,8 @@ class ServiceByCategoryService with ChangeNotifier {
   bool alreadySaved = false;
   bool hasError = false;
 
+List<ServicebyCategoryModel> services = [];
+
   late int totalPages;
 
   int currentPage = 1;
@@ -39,6 +41,31 @@ class ServiceByCategoryService with ChangeNotifier {
     imageList = [];
     hasError = false;
     notifyListeners();
+  }
+
+
+  getdata(categoryId)async{
+     String apiLink;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var stateId = prefs.getString('state');
+    if (stateId == null) {
+      apiLink =
+          '$baseApi/service-list/search-by-category/$categoryId?page=$currentPage';
+    } else {
+      apiLink =
+          '$baseApi/service-list/search-by-category/$categoryId?page=$currentPage&state_id=$stateId';
+    }
+
+      var response = await http.get(Uri.parse(apiLink));
+
+      print(response.body);
+      print(response.statusCode);
+print(response.body);
+      // var jsonDataServiceList =
+      //     jsonDecode(response.body)['all_services']['data'];
+
+    
+
   }
 
   fetchCategoryService(context, categoryId, {bool isrefresh = false}) async {

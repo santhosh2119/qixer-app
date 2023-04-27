@@ -112,7 +112,7 @@ class FlutterwaveService {
           const TextStyle(color: Colors.black, fontSize: 17, letterSpacing: 2),
       dialogBackgroundColor: Colors.white,
       appBarIcon: const Icon(Icons.arrow_back, color: Colors.white),
-      buttonText: "Pay \$ $amount",
+      buttonText: "Pay \₹$amount",
       appBarTitleTextStyle: const TextStyle(
         color: Colors.white,
         fontSize: 18,

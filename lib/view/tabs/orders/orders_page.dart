@@ -11,6 +11,7 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 
+import '../../../app_logo.dart';
 import 'orders_helper.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -45,9 +46,7 @@ class _OrdersPageState extends State<OrdersPage> {
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                    const SizedBox(
-                                      height: 25,
-                                    ),
+                                  const AppLogo(),
                                     CommonHelper().titleCommon('My Orders'),
                                     const SizedBox(
                                       height: 10,
@@ -69,7 +68,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                               context) =>
                                                           OrderDetailsPage(
                                                               orderId: provider
-                                                                  .myServices[i]
+                                                                  .myServices[provider.myServices.length-1-i]
                                                                   .id),
                                                     ));
                                                 //             );
@@ -96,7 +95,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                               .spaceBetween,
                                                       children: [
                                                         AutoSizeText(
-                                                          '#${provider.myServices[i].id}',
+                                                          '#${provider.myServices[provider.myServices.length-1-i].id}',
                                                           maxLines: 1,
                                                           overflow: TextOverflow
                                                               .ellipsis,
@@ -111,7 +110,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                 OrderDetailsService()
                                                                     .getOrderStatus(provider
                                                                         .myServices[
-                                                                            i]
+                                                                            provider.myServices.length-1-i]
                                                                         .status),
                                                                 cc.greyFour),
 
@@ -136,8 +135,8 @@ class _OrdersPageState extends State<OrdersPage> {
 
                                                                         if (j ==
                                                                                 1 &&
-                                                                            (provider.myServices[i].paymentStatus == 'complete' ||
-                                                                                provider.myServices[i].status != 0)) {
+                                                                            (provider.myServices[provider.myServices.length-1-i].paymentStatus == 'complete' ||
+                                                                                provider.myServices[provider.myServices.length-1-i].status != 0)) {
                                                                           //0 means pending
                                                                           OthersHelper().showToast(
                                                                               'You can not cancel this order',
@@ -149,8 +148,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                             index:
                                                                                 j,
                                                                             serviceId:
-                                                                                provider.myServices[i].serviceId,
-                                                                            orderId: provider.myServices[i].id);
+                                                                                provider.myServices[provider.myServices.length-1-i].serviceId,
+                                                                            orderId: provider.myServices[provider.myServices.length-1-i].id);
                                                                       });
                                                                     },
                                                                     child: Text(

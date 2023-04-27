@@ -47,7 +47,7 @@ class MenuNameImageSection extends StatelessWidget {
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: Image.asset(
-                                  'assets/images/avatar.png',
+                                  'assets/images/avatar.jpg',
                                   height: 62,
                                   width: 62,
                                   fit: BoxFit.cover,

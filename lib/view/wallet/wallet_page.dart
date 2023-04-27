@@ -154,10 +154,11 @@ class _WalletPageState extends State<WalletPage> {
                                                           color:
                                                               cc.primaryColor),
                                                       sizedBoxCustom(5),
-                                                      Row(
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Text(
-                                                            "Gateway: ${removeUnderscore(provider.walletHistory[i].paymentGateway)}",
+                                                          removeUnderscore(provider.walletHistory[i].paymentGateway)=='cash on delivery'?"Payment Mode: Cash":  "Payment Mode:${removeUnderscore(provider.walletHistory[i].paymentGateway)}",
                                                             style: TextStyle(
                                                               color:
                                                                   cc.greyFour,
@@ -169,7 +170,7 @@ class _WalletPageState extends State<WalletPage> {
                                                             width: 19,
                                                           ),
                                                           Text(
-                                                            "Amount: \$${provider.walletHistory[i].amount}",
+                                                            "Amount: \₹${provider.walletHistory[i].amount}",
                                                             style: TextStyle(
                                                               color:
                                                                   cc.greyFour,
