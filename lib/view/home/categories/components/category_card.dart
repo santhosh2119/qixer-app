@@ -25,11 +25,13 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  InkWell(
+    print(id);
+    print(name);
+    return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: () {
-     Navigator.push(
+        Navigator.push(
           context,
           MaterialPageRoute<void>(
             builder: (BuildContext context) => ServicebyCategoryPage(
@@ -42,8 +44,7 @@ class CategoryCard extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: 130,
-       
-         child: Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(

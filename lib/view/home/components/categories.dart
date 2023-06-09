@@ -21,31 +21,29 @@ class Categories extends StatelessWidget {
         return provider.categories != null
             ? provider.categories != 'error'
                 ? GridView(
-          
-                   gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 5,
-                    childAspectRatio: 0.7,
-                    crossAxisSpacing: 7,
-                    mainAxisSpacing: 7,
-                  ),
-                  shrinkWrap: true,
-                  clipBehavior: Clip.none,
-                  children: [
-                    for (int i = 0;
-                        i < provider.categories.category.length;
-                        i++)
-                      CategoryCard(
-                        name: provider.categories.category[i].name,
-                        id: provider.categories.category[i].id,
-                        cc: cc,
-                        index: i,
-                        marginRight: 0.17,
-                        imagelink:
-                            provider.categories.category[i].mobileIcon,
-                      )
-                  ],
-                )
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5,
+                      childAspectRatio: 0.7,
+                      crossAxisSpacing: 7,
+                      mainAxisSpacing: 7,
+                    ),
+                    shrinkWrap: true,
+                    clipBehavior: Clip.none,
+                    children: [
+                      for (int i = 0;
+                          i < provider.categories.category.length;
+                          i++)
+                        CategoryCard(
+                          name: provider.categories.category[i].name,
+                          id: provider.categories.category[i].id,
+                          cc: cc,
+                          index: i,
+                          marginRight: 0.17,
+                          imagelink: provider.categories.category[i].mobileIcon,
+                        )
+                    ],
+                  )
                 : Text(asProvider.getString('Something went wrong'))
             : OthersHelper().showLoading(cc.primaryColor);
       },

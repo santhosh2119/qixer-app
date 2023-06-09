@@ -13,9 +13,11 @@ import 'package:qixer/view/utils/responsive.dart';
 import '../home/components/service_card.dart';
 
 class ServicebyCategoryPage extends StatefulWidget {
-  const ServicebyCategoryPage(
-      {Key? key, this.categoryName = '', required this.categoryId, })
-      : super(key: key);
+  const ServicebyCategoryPage({
+    Key? key,
+    this.categoryName = '',
+    required this.categoryId,
+  }) : super(key: key);
 
   final String categoryName;
   final categoryId;
@@ -85,7 +87,6 @@ class _ServicebyCategoryPageState extends State<ServicebyCategoryPage> {
             return Future.value(true);
           },
           child: SingleChildScrollView(
-           
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Consumer<ServiceByCategoryService>(

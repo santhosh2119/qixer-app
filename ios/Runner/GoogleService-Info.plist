@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>205042334936-3ddg5c7d76negb1idlqm1ofcf416bo88.apps.googleusercontent.com</string>
+	<string>765532412552-rjhbeojecdkq8jj3v5331h0n66r7dpqk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.205042334936-3ddg5c7d76negb1idlqm1ofcf416bo88</string>
+	<string>com.googleusercontent.apps.765532412552-rjhbeojecdkq8jj3v5331h0n66r7dpqk</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>205042334936-23oen9nnok5bmdo128n899suv43iqrm8.apps.googleusercontent.com</string>
+	<string>765532412552-3jmonlu55dvv7kcofs9veuk4h4ha83lq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCDVHXs8jC3xleNaKlMErnnabiasNZBGMs</string>
+	<string>AIzaSyB100HQQw03MCNemEQGbedaZrVNa0n_VJU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>205042334936</string>
+	<string>765532412552</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.qixerios.app</string>
+	<string>com.doorstephub.customer</string>
 	<key>PROJECT_ID</key>
-	<string>qixer-20a27</string>
+	<string>dhub-customer</string>
 	<key>STORAGE_BUCKET</key>
-	<string>qixer-20a27.appspot.com</string>
+	<string>dhub-customer.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:205042334936:ios:bbf393df2496de184b2bad</string>
+	<string>1:765532412552:ios:733c78ad85fd9e2e155d3d</string>
 </dict>
 </plist>

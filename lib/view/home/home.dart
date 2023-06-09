@@ -1,31 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:pusher_channels_flutter/pusher-js/core/transports/url_schemes.dart';
-import 'package:qixer/model/search_bar_with_dropdown_service_model.dart';
+import 'package:qixer/model/serviceby_category_model.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/common_service.dart';
-import 'package:qixer/service/home_services/services.dart';
 import 'package:qixer/service/home_services/slider_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/home/categories/all_categories_page.dart';
 import 'package:qixer/view/home/components/categories.dart';
-import 'package:qixer/view/home/components/recent_jobs.dart';
 import 'package:qixer/view/home/components/recent_services.dart';
 import 'package:qixer/view/search/search_bar_page_with_dropdown.dart';
 import 'package:qixer/view/home/components/slider_home.dart';
 import 'package:qixer/view/home/components/top_rated_services.dart';
-import 'package:qixer/view/home/homepage_helper.dart';
 import 'package:qixer/view/tabs/settings/profile_edit.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_logo.dart';
+import '../services/multi_brand_home.dart';
 import '../services/service_by_category_page.dart';
 import '../utils/constant_styles.dart';
-import '../utils/others_helper.dart';
 import 'components/section_title.dart';
 
 class Homepage extends StatefulWidget {
@@ -36,7 +30,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   @override
   void initState() {
     super.initState();
@@ -55,54 +48,65 @@ class _HomepageState extends State<Homepage> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
+       
         body: SafeArea(
           child: SingleChildScrollView(
-      
-          
             physics: physicsCommon,
             child: Consumer<AppStringService>(
               builder: (context, asProvider, child) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                       Padding(
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        
                         children: [
                           const AppLogo(),
                           const Spacer(),
-                          IconButton(onPressed: (){
-                             Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: SearchBarPageWithDropdown(
-                                        cc: cc,
-                                      )));
-                          }, icon: const Icon(Icons.search)),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: SearchBarPageWithDropdown(
+                                          cc: cc,
+                                        )));
+                              },
+                              icon: const Icon(Icons.search)),
                           Consumer<ProfileService>(
-                        builder: (context, profileProvider, child) =>
-                            profileProvider.profileDetails != null
-                                ? profileProvider.profileDetails != 'error'
-                                    ? InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  const ProfileEditPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: ClipRRect(
-                                             borderRadius: BorderRadius.circular(8),
-                                          child:profileProvider. profileImage!=null? Image.network(profileProvider. profileImage,height: 40,): Image.asset('assets/images/smily.jpg', height: 40,))
-
-                                      )
-                                    : Text(asProvider.getString(
-                                        'Could not load user profile info'))
-                                : Container(),
-                      ),
+                            builder: (context, profileProvider, child) =>
+                                profileProvider.profileDetails != null
+                                    ? profileProvider.profileDetails != 'error'
+                                        ? InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      const ProfileEditPage(),
+                                                ),
+                                              );
+                                            },
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: profileProvider
+                                                            .profileImage !=
+                                                        null
+                                                    ? Image.network(
+                                                        profileProvider
+                                                            .profileImage,
+                                                        height: 40,
+                                                      )
+                                                    : Image.asset(
+                                                        'assets/images/smily.jpg',
+                                                        height: 40,
+                                                      )))
+                                        : Text(asProvider.getString(
+                                            'Could not load user profile info'))
+                                    : Container(),
+                          ),
                         ],
                       ),
                     ),
@@ -234,7 +238,8 @@ class _HomepageState extends State<Homepage> {
 
                           SectionTitle(
                             cc: cc,
-                            title: asProvider.getString('On Demand Home Services'),
+                            title:
+                                asProvider.getString('On Demand Home Services'),
                             pressed: () {
                               Navigator.push(
                                 context,
@@ -269,9 +274,37 @@ class _HomepageState extends State<Homepage> {
                             cc: cc,
                             asProvider: asProvider,
                           ),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          SectionTitle(
+                            cc: cc,
+                            title: asProvider.getString('We Deal Top Brands'),
+                            pressed: () {
+                              //when user clicks on recent see all. set sort by dropdown to latest
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const ServicebyCategoryPage(
+                                    categoryId: "19",
+                                    categoryName: "Multi Brand Service",
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: 200,
+                            child: const MultiCategoryPage(
+                              categoryId: "19",
+                              categoryName: "Multi Brand Service",
+                            ),
+                          ),
 
                           //Discount images
-                          const RecentJobs(),
+                          // const RecentJobs(),
 // SizedBox(height: 240,child: HomeServicesTop(categoryId:8 ,categoryName:"Computer Repair Services" ,)),
 // HomeTopRatedServices(cc: cc, asProvider: 8),
                           // sizedBoxCustom(30),

@@ -120,9 +120,9 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                           fontWeight: FontWeight.normal),
                                       controller: _tabController,
                                       tabs: [
-                                        Tab(
-                                            text: asProvider
-                                                .getString('Overview')),
+                                        // Tab(
+                                        //     text: asProvider
+                                        //         .getString('Overview')),
                                         Tab(
                                             text: asProvider
                                                 .getString('About seller')),
@@ -133,9 +133,9 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                     ),
                                     Container(
                                       child: [
-                                        OverviewTab(
-                                          provider: provider,
-                                        ),
+                                        // OverviewTab(
+                                        //   provider: provider,
+                                        // ),
                                         AboutSellerTab(
                                           provider: provider,
                                         ),
